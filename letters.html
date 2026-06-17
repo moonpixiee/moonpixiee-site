@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Letters | Moonpixiee</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:     #0a0806;
+    --ink:       #1a1410;
+    --dust:      #2e2520;
+    --parchment: #f0ebe3;
+    --cream:     #faf7f2;
+    --rose:      #D4829A;
+    --gold:      #c9a96e;
+    --muted:     #8a7a70;
+    --serif:     'Cormorant Garamond', Georgia, serif;
+    --sans:      'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--parchment);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 2.5rem;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(10,8,6,0.85) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-style: italic;
+    font-size: 1.1rem; letter-spacing: 0.08em;
+    color: var(--parchment); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans); font-size: 0.7rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--rose); }
+
+  .page-hero {
+    min-height: 60vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 10rem 2rem 5rem;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 80%, rgba(212,130,154,0.08) 0%, transparent 70%),
+      var(--black);
+  }
+  .page-eyebrow {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.5rem; opacity: 0.8;
+  }
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 300; line-height: 1.05;
+    color: var(--cream); margin-bottom: 1.2rem;
+  }
+  .page-title em { font-style: italic; color: var(--rose); }
+  .page-sub {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted); max-width: 460px; line-height: 1.9;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+    margin-top: 2rem;
+  }
+  .back-link:hover { color: var(--rose); }
+
+  .divider {
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--rose), transparent);
+    margin: 0 auto;
+  }
+
+  section { padding: 6rem 2rem; }
+  .section-inner { max-width: 900px; margin: 0 auto; }
+
+  .poem-strip {
+    padding: 5rem 2rem;
+    background: var(--ink);
+    text-align: center;
+  }
+  .poem-text {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    line-height: 2.2; color: var(--parchment);
+    max-width: 600px; margin: 0 auto; opacity: 0.9;
+  }
+  .poem-text span { color: var(--rose); }
+
+  .letters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: rgba(240,235,227,0.06);
+    margin-top: 3rem;
+  }
+  .letter-card {
+    background: var(--black); padding: 2.4rem 2rem;
+    transition: background 0.3s;
+  }
+  .letter-card:hover { background: var(--dust); }
+  .letter-meta {
+    font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1rem; display: block;
+  }
+  .letter-title {
+    font-family: var(--serif); font-size: 1.3rem;
+    color: var(--cream); line-height: 1.3; margin-bottom: 0.8rem;
+  }
+  .letter-excerpt {
+    font-family: var(--serif); font-style: italic;
+    font-size: 0.88rem; color: var(--muted); line-height: 1.8;
+    margin-bottom: 1.4rem;
+  }
+  .letter-link {
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--rose); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.3s;
+  }
+  .letter-link:hover { border-color: var(--rose); }
+
+  .email-section {
+    background: var(--dust); text-align: center; padding: 6rem 2rem;
+  }
+  .email-label {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.2rem; display: block;
+  }
+  .email-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300; color: var(--cream);
+    margin-bottom: 0.8rem; line-height: 1.2;
+  }
+  .email-sub {
+    font-size: 0.82rem; color: var(--muted);
+    max-width: 420px; margin: 0 auto 2.5rem; line-height: 1.8;
+  }
+  .email-form {
+    display: flex; max-width: 440px; margin: 0 auto;
+    flex-wrap: wrap; justify-content: center; gap: 0.75rem;
+  }
+  .email-input {
+    flex: 1; min-width: 240px; padding: 0.9rem 1.2rem;
+    background: rgba(240,235,227,0.05);
+    border: 1px solid rgba(240,235,227,0.15);
+    color: var(--parchment); font-family: var(--sans);
+    font-size: 0.82rem; outline: none; transition: border-color 0.3s;
+  }
+  .email-input::placeholder { color: var(--muted); }
+  .email-input:focus { border-color: var(--rose); }
+  .email-btn {
+    padding: 0.9rem 1.8rem; background: var(--rose); color: var(--black);
+    font-family: var(--sans); font-size: 0.7rem; font-weight: 400;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    border: none; cursor: pointer; transition: opacity 0.3s;
+  }
+  .email-btn:hover { opacity: 0.85; }
+  .email-note { font-size: 0.65rem; color: var(--muted); margin-top: 1rem; }
+
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(240,235,227,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-style: italic;
+    font-size: 1rem; color: var(--muted); text-decoration: none;
+  }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--rose); }
+  .footer-copy {
+    font-size: 0.62rem; color: rgba(138,122,112,0.5); width: 100%;
+    text-align: center; padding-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">moonpixiee</a>
+  <ul class="nav-links">
+    <li><a href="library.html">Library</a></li>
+    <li><a href="work.html">Work With Me</a></li>
+    <li><a href="letters.html" class="active">Letters</a></li>
+    <li><a href="becoming.html">Becoming</a></li>
+    <li><a href="tools.html">Tools</a></li>
+    <li><a href="edit.html">The Edit</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <p class="page-eyebrow">Letters from Moonpixiee</p>
+  <h1 class="page-title">Poems, confessions &<br/><em>things left unsaid.</em></h1>
+  <p class="page-sub">Where the writing lives. Honest, unfiltered, and probably written at 3am.</p>
+  <a href="index.html" class="back-link">← Back to Home</a>
+</div>
+
+<div class="divider"></div>
+
+<div class="poem-strip">
+  <p class="poem-text">
+    i don't chase…<br/>
+    i <span>appear</span><br/><br/>
+    quiet, but somehow<br/>
+    you still feel me<br/>
+    before you understand me
+  </p>
+</div>
+
+<section>
+  <div class="section-inner">
+    <span style="font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--rose); display: block; margin-bottom: 1rem;">Recent Letters</span>
+    <h2 style="font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; color: var(--cream); line-height: 1.2;">Everything lives on Substack.<br/>This is just the beginning.</h2>
+    <div class="letters-grid">
+      <div class="letter-card">
+        <span class="letter-meta">Poetry · Vol. I</span>
+        <h3 class="letter-title">On Becoming Someone You Don't Recognize Yet</h3>
+        <p class="letter-excerpt">"There's a version of you that already knows how this ends. She's waiting for you to catch up."</p>
+        <a href="https://substack.com/@moonpixiee" class="letter-link" target="_blank" rel="noopener">Read on Substack →</a>
+      </div>
+      <div class="letter-card">
+        <span class="letter-meta">Confession · Vol. II</span>
+        <h3 class="letter-title">Lately I've Been Placing Dreams in the One-Day Pile</h3>
+        <p class="letter-excerpt">"I wonder how many things I've accidentally filed under 'later' that deserved to be filed under 'now'."</p>
+        <a href="https://substack.com/@moonpixiee" class="letter-link" target="_blank" rel="noopener">Read on Substack →</a>
+      </div>
+      <div class="letter-card">
+        <span class="letter-meta">Coming Soon · Poetry Collection</span>
+        <h3 class="letter-title">Letters From Moonpixiee — The Book</h3>
+        <p class="letter-excerpt">A four-part collection built from raw journal entries and 3am voice memos. Join the waitlist to be first.</p>
+        <a href="#subscribe" class="letter-link">Join the Waitlist →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="email-section" id="subscribe">
+  <span class="email-label">Stay close</span>
+  <h2 class="email-title">Letters from<br/><em style="font-family: var(--serif); font-style: italic;">Moonpixiee</em></h2>
+  <p class="email-sub">Weekly notes on becoming, healing, reinvention, and the strange beauty of starting over. For the ones who get it.</p>
+  <div class="email-form">
+    <input type="email" class="email-input" placeholder="your@email.com" />
+    <button class="email-btn">Subscribe</button>
+  </div>
+  <p class="email-note">No spam. Unsubscribe whenever. Only letters worth keeping.</p>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">moonpixiee</a>
+  <div class="footer-links">
+    <a href="https://instagram.com/moonpixiee">Instagram</a>
+    <a href="https://substack.com/@moonpixiee">Substack</a>
+    <a href="edit.html">The Edit</a>
+  </div>
+  <p class="footer-copy">© 2026 Moonpixiee · House of Luna · All rights reserved.</p>
+</footer>
+
+</body>
+</html>

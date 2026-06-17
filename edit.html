@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Edit | Moonpixiee</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:     #0a0806;
+    --ink:       #1a1410;
+    --dust:      #2e2520;
+    --parchment: #f0ebe3;
+    --cream:     #faf7f2;
+    --rose:      #D4829A;
+    --gold:      #c9a96e;
+    --muted:     #8a7a70;
+    --serif:     'Cormorant Garamond', Georgia, serif;
+    --sans:      'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--parchment);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.6;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 2.5rem; z-index: 100;
+    background: linear-gradient(to bottom, rgba(10,8,6,0.85) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-style: italic;
+    font-size: 1.1rem; letter-spacing: 0.08em;
+    color: var(--parchment); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans); font-size: 0.7rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--rose); }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    min-height: 55vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 10rem 2rem 5rem;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 80%, rgba(212,130,154,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 20% 20%, rgba(201,169,110,0.04) 0%, transparent 60%),
+      var(--black);
+  }
+  .page-eyebrow {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.5rem; opacity: 0.8;
+  }
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 300; line-height: 1.05;
+    color: var(--cream); margin-bottom: 1.2rem;
+  }
+  .page-title em { font-style: italic; color: var(--rose); }
+  .page-sub {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted); max-width: 440px; line-height: 1.9;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+    margin-top: 2rem;
+  }
+  .back-link:hover { color: var(--rose); }
+
+  .divider {
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--rose), transparent);
+    margin: 0 auto;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .category-label {
+    font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 0.6rem; display: block;
+  }
+  .category-title {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 300; color: var(--cream);
+    line-height: 1.2; margin-bottom: 0.5rem;
+  }
+  .category-sub {
+    font-family: var(--serif); font-style: italic;
+    font-size: 0.92rem; color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── PRODUCT CARDS ── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: rgba(240,235,227,0.06);
+  }
+  .product-card {
+    background: var(--black);
+    padding: 0 0 2rem;
+    display: flex; flex-direction: column;
+    transition: background 0.3s;
+  }
+  .product-card:hover { background: var(--dust); }
+  .product-img-wrap {
+    width: 100%;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.8rem 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+  .product-img {
+    width: 100%; max-height: 180px;
+    object-fit: contain; display: block;
+  }
+  .product-card .product-name,
+  .product-card .product-price,
+  .product-card .btn-shop {
+    padding-left: 1.6rem; padding-right: 1.6rem;
+  }
+  .product-name {
+    font-family: var(--serif);
+    font-size: 1.15rem; color: var(--cream);
+    line-height: 1.3; margin-bottom: 0.5rem;
+    flex: 1;
+  }
+  .product-price {
+    font-family: var(--serif); font-size: 1.3rem;
+    color: var(--parchment); margin-bottom: 1.2rem;
+  }
+  .product-price span {
+    font-size: 0.7rem; font-family: var(--sans);
+    color: var(--muted); margin-right: 0.1rem;
+  }
+  .btn-shop {
+    display: inline-block;
+    padding: 0.7rem 1.4rem;
+    background: var(--rose); color: var(--black);
+    font-family: var(--sans); font-size: 0.62rem;
+    font-weight: 400; letter-spacing: 0.2em;
+    text-transform: uppercase; text-decoration: none;
+    transition: opacity 0.3s; align-self: flex-start;
+  }
+  .btn-shop:hover { opacity: 0.85; }
+
+  /* ── CATEGORY LINK CARDS (full-category links) ── */
+  .cat-card {
+    display: block; text-decoration: none;
+    background: var(--dust);
+    padding: 2.2rem 2rem;
+    border: 1px solid rgba(240,235,227,0.06);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .cat-card:hover { border-color: rgba(212,130,154,0.35); background: #332620; }
+  .cat-card-eyebrow {
+    font-size: 0.58rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 0.8rem; display: block;
+  }
+  .cat-card-name {
+    font-family: var(--serif); font-size: 1.3rem;
+    color: var(--cream); margin-bottom: 0.5rem; line-height: 1.3;
+  }
+  .cat-card-desc {
+    font-family: var(--serif); font-style: italic;
+    font-size: 0.88rem; color: var(--muted);
+    line-height: 1.7; margin-bottom: 1.2rem;
+  }
+  .cat-card-cta {
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--rose); border-bottom: 1px solid transparent;
+    transition: border-color 0.3s; display: inline-block;
+  }
+  .cat-card:hover .cat-card-cta { border-color: var(--rose); }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ── SECTION ALTERNATING BG ── */
+  .section-alt { background: var(--ink); }
+
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(240,235,227,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-style: italic;
+    font-size: 1rem; color: var(--muted); text-decoration: none;
+  }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--rose); }
+  .footer-copy {
+    font-size: 0.62rem; color: rgba(138,122,112,0.5); width: 100%;
+    text-align: center; padding-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">moonpixiee</a>
+  <ul class="nav-links">
+    <li><a href="library.html">Library</a></li>
+    <li><a href="work.html">Work With Me</a></li>
+    <li><a href="letters.html">Letters</a></li>
+    <li><a href="becoming.html">Becoming</a></li>
+    <li><a href="tools.html">Tools</a></li>
+    <li><a href="edit.html" class="active">The Edit</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <p class="page-eyebrow">Curated by Luna</p>
+  <h1 class="page-title">What I wear,<br/><em>use & actually love.</em></h1>
+  <p class="page-sub">No fluff. Everything here is something I've tried, tested, and keep coming back to.</p>
+  <a href="index.html" class="back-link">← Back to Home</a>
+</div>
+
+<div class="divider"></div>
+
+<!-- SKIN FIRST -->
+<section>
+  <div class="section-inner">
+    <span class="category-label">Category 01</span>
+    <h2 class="category-title">Skin First</h2>
+    <p class="category-sub">Everything starts here. The routine that actually changed my skin.</p>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="product-cleanser.jpeg" alt="Gentle Cleanser" class="product-img"/></div>
+        <p class="product-name">Gentle Cleanser</p>
+        <p class="product-price"><span>$</span>29</p>
+        <a href="https://amzn.to/4vZal1H" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="product-toner.jpeg" alt="Korean Milky Toner" class="product-img"/></div>
+        <p class="product-name">Korean Milky Toner</p>
+        <p class="product-price"><span>$</span>36</p>
+        <a href="https://amzn.to/4vgWyU0" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="product-serum.jpeg" alt="Hydration Serum" class="product-img"/></div>
+        <p class="product-name">Hydration Serum</p>
+        <p class="product-price"><span>$</span>9.90</p>
+        <a href="https://amzn.to/3SdGDr9" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="product-moisturizer.jpeg" alt="The Best Moisturizer" class="product-img"/></div>
+        <p class="product-name">The Best Moisturizer</p>
+        <p class="product-price"><span>$</span>74</p>
+        <a href="https://amzn.to/3SdGK63" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="product-spf.jpeg" alt="BLK Baddie SPF 30" class="product-img"/></div>
+        <p class="product-name">BLK Baddie SPF 30</p>
+        <p class="product-price"><span>$</span>9.99</p>
+        <a href="https://amzn.to/4oyvc9z" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="glow-dove.jpg" alt="Dove Antibacterial Body Wash" class="product-img"/></div>
+        <p class="product-name">Dove Antibacterial Body Wash</p>
+        <p class="product-price"><span>$</span>10.97</p>
+        <a href="https://amzn.to/4vikyX2" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="glow-vagisil.jpg" alt="Vagisil Odor Block Intimate Wash" class="product-img"/></div>
+        <p class="product-name">Vagisil Odor Block Intimate Wash</p>
+        <p class="product-price"><span>$</span>5.69</p>
+        <a href="https://amzn.to/3QjsckJ" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="glow-kojic.jpg" alt="Medicube Kojic Acid Body Wash" class="product-img"/></div>
+        <p class="product-name">Medicube Kojic Acid Body Wash</p>
+        <p class="product-price"><span>$</span>21.80</p>
+        <a href="https://amzn.to/4a4Jfh2" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="glow-bodypeel.jpg" alt="Medicube Body Peel Shot" class="product-img"/></div>
+        <p class="product-name">Medicube Body Peel Shot</p>
+        <p class="product-price"><span>$</span>26.90</p>
+        <a href="https://amzn.to/4xxYtFf" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="glow-eos.jpg" alt="EOS Vanilla Cashmere Body Wash" class="product-img"/></div>
+        <p class="product-name">EOS Vanilla Cashmere Body Wash</p>
+        <p class="product-price"><span>$</span>11.99</p>
+        <a href="https://amzn.to/4xAmITn" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="glow-nivea.jpg" alt="Nivea Essentially Enriched Lotion" class="product-img"/></div>
+        <p class="product-name">Nivea Essentially Enriched Lotion</p>
+        <p class="product-price"><span>$</span>7.68</p>
+        <a href="https://amzn.to/4aNHEfJ" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="glow-johnsons.jpg" alt="Johnson's Baby Lotion" class="product-img"/></div>
+        <p class="product-name">Johnson's Baby Lotion</p>
+        <p class="product-price"><span>$</span>7.68</p>
+        <a href="https://amzn.to/4xAcSRl" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- THE GLOW -->
+<section class="section-alt">
+  <div class="section-inner">
+    <span class="category-label">Category 02</span>
+    <h2 class="category-title">The Glow</h2>
+    <p class="category-sub">You see it before you understand it. Everything I use to get that lit-from-within look.</p>
+    <div class="cat-grid">
+      <a href="https://links.moonpixiee.com/glow" class="cat-card" target="_blank" rel="noopener">
+        <span class="cat-card-eyebrow">Category · Makeup</span>
+        <p class="cat-card-name">The Glow</p>
+        <p class="cat-card-desc">The full collection — every product that gives me that look.</p>
+        <span class="cat-card-cta">Shop the Glow →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- LIP COMBO -->
+<section>
+  <div class="section-inner">
+    <span class="category-label">Category 03</span>
+    <h2 class="category-title">Lip Combo</h2>
+    <p class="category-sub">This never misses. The exact combination I wear more than anything else.</p>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="lip-fenty.jpg" alt="Fenty Beauty Gloss Bomb Heat" class="product-img"/></div>
+        <p class="product-name">Fenty Beauty Gloss Bomb Heat</p>
+        <p class="product-price"><span>$</span>5.97</p>
+        <a href="https://amzn.to/3Qp71ha" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="lip-nyx-liner.jpg" alt="NYX Brown Lip Liner" class="product-img"/></div>
+        <p class="product-name">NYX Brown Lip Liner</p>
+        <p class="product-price"><span>$</span>5.97</p>
+        <a href="https://amzn.to/4viepKt" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap"><img src="lip-nyx-gloss.jpg" alt="NYX Butter Gloss" class="product-img"/></div>
+        <p class="product-name">NYX Butter Gloss</p>
+        <p class="product-price"><span>$</span>24.66</p>
+        <a href="https://amzn.to/4ouSlJM" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FULL COLLECTIONS -->
+<section>
+  <div class="section-inner">
+    <span class="category-label">The Full Edit</span>
+    <h2 class="category-title">Everything else</h2>
+    <p class="category-sub">From what I wear to what's on my vanity — the complete picture.</p>
+    <div class="cat-grid">
+
+      <a href="https://links.moonpixiee.com/shopwhatiwear" class="cat-card" target="_blank" rel="noopener">
+        <span class="cat-card-eyebrow">Style · Affiliate</span>
+        <p class="cat-card-name">Shop What I Wear</p>
+        <p class="cat-card-desc">Every piece you've seen me in. Linked, organized, and ready to shop.</p>
+        <span class="cat-card-cta">Browse the Edit →</span>
+      </a>
+
+      <a href="https://links.moonpixiee.com/mybeautyroutine" class="cat-card" target="_blank" rel="noopener">
+        <span class="cat-card-eyebrow">Beauty · Affiliate</span>
+        <p class="cat-card-name">My Beauty Routine</p>
+        <p class="cat-card-desc">Morning to night, the full routine — every product, in order.</p>
+        <span class="cat-card-cta">See the Routine →</span>
+      </a>
+
+      <a href="https://links.moonpixiee.com/myfaves+extras" class="cat-card" target="_blank" rel="noopener">
+        <span class="cat-card-eyebrow">Lifestyle · Affiliate</span>
+        <p class="cat-card-name">My Favorites + Extras</p>
+        <p class="cat-card-desc">The things I keep repurchasing, gifting, and genuinely can't stop recommending.</p>
+        <span class="cat-card-cta">Explore Favorites →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">moonpixiee</a>
+  <div class="footer-links">
+    <a href="https://instagram.com/moonpixiee">Instagram</a>
+    <a href="https://substack.com/@moonpixiee">Substack</a>
+    <a href="edit.html">The Edit</a>
+  </div>
+  <p class="footer-copy">© 2026 Moonpixiee · House of Luna · All rights reserved.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Library | Moonpixiee</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:     #0a0806;
+    --ink:       #1a1410;
+    --dust:      #2e2520;
+    --parchment: #f0ebe3;
+    --cream:     #faf7f2;
+    --rose:      #D4829A;
+    --gold:      #c9a96e;
+    --muted:     #8a7a70;
+    --serif:     'Cormorant Garamond', Georgia, serif;
+    --sans:      'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--parchment);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 2.5rem;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(10,8,6,0.85) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    color: var(--parchment);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--rose); }
+
+  .page-hero {
+    min-height: 55vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 10rem 2rem 5rem;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 80%, rgba(212,130,154,0.08) 0%, transparent 70%),
+      var(--black);
+  }
+  .page-eyebrow {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.5rem; opacity: 0.8;
+  }
+  .page-title {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.2rem;
+  }
+  .page-title em { font-style: italic; color: var(--rose); }
+  .page-sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--muted);
+    max-width: 420px;
+    line-height: 1.9;
+  }
+
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.3s;
+    margin-top: 2rem;
+  }
+  .back-link:hover { color: var(--rose); }
+
+  .divider {
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--rose), transparent);
+    margin: 0 auto;
+  }
+
+  section { padding: 6rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+
+  .products-label {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem; display: block;
+  }
+  .products-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300; font-style: italic;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .products-sub {
+    font-size: 0.82rem; color: var(--muted); margin-bottom: 3.5rem;
+    max-width: 400px;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .product-card {
+    background: var(--dust);
+    padding: 2.2rem;
+    border: 1px solid rgba(240,235,227,0.06);
+    transition: border-color 0.3s;
+  }
+  .product-card:hover { border-color: rgba(212,130,154,0.3); }
+  .product-tag {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem; display: block;
+  }
+  .product-name {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+  }
+  .product-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .product-footer {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .product-price {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--parchment);
+  }
+  .product-price span {
+    font-size: 0.7rem; font-family: var(--sans);
+    color: var(--muted); margin-right: 0.2rem;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.85rem 2.2rem;
+    background: var(--rose);
+    color: var(--black);
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-ghost {
+    display: inline-block;
+    padding: 0.85rem 2.2rem;
+    border: 1px solid rgba(240,235,227,0.25);
+    color: var(--parchment);
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--rose); color: var(--rose); }
+
+  .quote-section {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: var(--ink);
+  }
+  .quote-mark {
+    font-family: var(--serif);
+    font-size: 5rem;
+    color: var(--rose);
+    opacity: 0.25;
+    line-height: 0.5;
+    margin-bottom: 2rem;
+    display: block;
+  }
+  .quote-text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 3vw, 1.9rem);
+    color: var(--cream);
+    max-width: 650px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+  .quote-attr {
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  footer {
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(240,235,227,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .footer-logo {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--rose); }
+  .footer-copy {
+    font-size: 0.62rem; color: rgba(138,122,112,0.5); width: 100%;
+    text-align: center; padding-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">moonpixiee</a>
+  <ul class="nav-links">
+    <li><a href="library.html" class="active">Library</a></li>
+    <li><a href="work.html">Work With Me</a></li>
+    <li><a href="letters.html">Letters</a></li>
+    <li><a href="becoming.html">Becoming</a></li>
+    <li><a href="tools.html">Tools</a></li>
+    <li><a href="edit.html">The Edit</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <p class="page-eyebrow">The Library</p>
+  <h1 class="page-title">For the ones who stopped<br/><em>explaining themselves.</em></h1>
+  <p class="page-sub">Digital guides for reclaiming your power, mystery, and sense of self.</p>
+  <a href="index.html" class="back-link">← Back to Home</a>
+</div>
+
+<div class="divider"></div>
+
+<section style="background: var(--ink);">
+  <div class="section-inner">
+    <span class="products-label">Digital Books & Guides</span>
+    <h2 class="products-title">Everything I made<br/>for the version of you that's ready.</h2>
+    <p class="products-sub">No fluff. No filler. Just the real work, packaged for people who are serious about evolution.</p>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <span class="product-tag">Bestseller · Ebook</span>
+        <h3 class="product-name">Mastering Your Dark Feminine Energy</h3>
+        <p class="product-desc">A guide to reclaiming your power, mystery & self-love. For the ones who know they're magnetic — they just forgot how to be still enough to let it work.</p>
+        <div class="product-footer">
+          <p class="product-price"><span>$</span>37</p>
+          <a href="https://moonpixie.gumroad.com/l/darkfem" class="btn-primary" style="font-size:0.62rem; padding:0.7rem 1.4rem;">Get the Guide</a>
+        </div>
+      </div>
+
+<div class="product-card" style="border: 1px solid rgba(201,169,110,0.2);">
+        <span class="product-tag" style="color: var(--muted);">Coming Soon · Poetry Collection</span>
+        <h3 class="product-name">Letters From Moonpixiee</h3>
+        <p class="product-desc">Poems, confessions & things I probably should've kept to myself. A four-part collection built from raw journal entries and 3am voice memos.</p>
+        <div class="product-footer">
+          <p class="product-price" style="font-size:1rem; color: var(--muted);">Notify me</p>
+          <a href="letters.html" class="btn-ghost" style="font-size:0.62rem; padding:0.7rem 1.4rem;">Join Waitlist</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="quote-section">
+  <span class="quote-mark">"</span>
+  <p class="quote-text">Knowledge without action is just decoration.</p>
+  <p class="quote-attr">— moonpixiee</p>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">moonpixiee</a>
+  <div class="footer-links">
+    <a href="https://instagram.com/moonpixiee">Instagram</a>
+    <a href="https://substack.com/@moonpixiee">Substack</a>
+    <a href="edit.html">The Edit</a>
+  </div>
+  <p class="footer-copy">© 2026 Moonpixiee · House of Luna · All rights reserved.</p>
+</footer>
+
+</body>
+</html>
