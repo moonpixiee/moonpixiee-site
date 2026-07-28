@@ -2,7 +2,7 @@
 
 Static HTML → Astro, at 1:1 fidelity
 Version 1.0
-Status: **Phase P ported and VERIFIED — 28 July 2026. Awaiting scheduled cutover (PR #1, DO NOT MERGE).**
+Status: **Phase P CUT OVER to production — 28 July 2026** (merge `c5be19d`, deploy `6a688ca2…`). Post-deploy checks green. 24h monitoring + 2-week `_legacy/` retention in progress. Milestone 1 begins only after the port is confirmed stable.
 
 Governed by HOUSE_ARCHITECTURE.md §13 (ratified doctrine) and §13.1a (acceptance test).
 
@@ -335,11 +335,13 @@ Verify: **✅ COMPLETE — 28 July 2026**
 
 **Carry-forward caveats:** (1) the §6.1 rollback test remains unexercised (accepted risk; first real use at cutover); (2) behavioral sign-off rests on byte-identical preservation + prod ≡ preview equivalence rather than a separate live Substack submission.
 
-Cutover:
-- [ ] Merge to `main`
-- [ ] Post-deploy automated re-check
-- [ ] 24h monitoring window clean
-- [ ] Two-week `_legacy/` retention clock started
+Cutover: **IN PROGRESS — cut over 28 July 2026**
+- [x] Merge to `main` — PR #1, merge commit `c5be19d`
+- [x] Post-deploy automated re-check — production deploy `6a688ca2dbc6340008879a58`; all 7 routes 200/301/200, 15/15 Edit images 200, DR-001 intact, Substack endpoint present, production-served ≡ verified preview on all 7 pages
+- [ ] 24h monitoring window clean — **started 28 July 2026**; watch Netlify deploy log + 404 panel
+- [ ] Two-week `_legacy/` retention clock — **started 28 July 2026**; `_legacy/` stays in the repo, referenced by nothing, until ~11 Aug 2026
+
+**Rollback (if a regression surfaces during monitoring):** Netlify → Deploys → publish deploy `6a68756ae12dd0000808542a` (pre-cutover `main`, tag `pre-port-baseline`). One click; the §6.1 test was never exercised, so the first real use is here.
 
 Then, and only then: **Milestone 1.**
 
