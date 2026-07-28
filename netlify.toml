@@ -13,11 +13,6 @@
   status = 301
 
 [[redirects]]
-  from = "/index.html"
-  to = "/index"
-  status = 301
-
-[[redirects]]
   from = "/letters.html"
   to = "/letters"
   status = 301
