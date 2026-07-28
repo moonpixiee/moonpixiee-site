@@ -115,10 +115,10 @@ Also stable: any favicon or webmanifest reference found in the `<head>` inspecti
 
 | What | Where | Rule |
 |---|---|---|
-| Substack subscribe POST | `index.astro` | **Preserved byte-for-byte during Phase P.** 🚩 **Flagged for post-Phase-P replacement** — it targets `moonpixiee.substack.com/api/v1/free`, an unsupported internal Substack endpoint that can break without notice. Tracked as a Milestone 2/3 work item: replace with Substack's official embed or a server-side proxy. |
-| `mailto:moonpixiee.work@gmail.com` | `index.astro`, `work.astro` | Preserved exactly. Branded-address change is a later copy/operations decision, not port work. |
-| Amazon affiliate links via `links.moonpixiee.com` | `edit.astro` | Preserved with **exact query strings** — parameters are revenue |
-| Gumroad link | `library.astro` | Preserved (retirement is M5.5, not Phase P) |
+| Substack subscribe POST | `index.html` | **Preserved byte-for-byte during Phase P.** 🚩 **Flagged for post-Phase-P replacement** — it targets `moonpixiee.substack.com/api/v1/free`, an unsupported internal Substack endpoint that can break without notice. Tracked as a Milestone 2/3 work item: replace with Substack's official embed or a server-side proxy. |
+| `mailto:moonpixiee.work@gmail.com` | `index.html`, `work.html` | Preserved exactly. Branded-address change is a later copy/operations decision, not port work. |
+| Amazon affiliate links via `links.moonpixiee.com` | `edit.html` | Preserved with **exact query strings** — parameters are revenue |
+| Gumroad link | `library.html` | Preserved (retirement is M5.5, not Phase P) |
 | Substack / Instagram links | various | Preserved |
 
 ---
