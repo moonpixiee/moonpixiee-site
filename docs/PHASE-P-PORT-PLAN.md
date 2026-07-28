@@ -63,13 +63,13 @@ moonpixiee-site/
 │   └── product-toner.jpeg
 ├── src/
 │   └── pages/
-│       ├── index.astro
-│       ├── library.astro
-│       ├── edit.astro
-│       ├── becoming.astro
-│       ├── letters.astro
-│       ├── tools.astro
-│       └── work.astro
+│       ├── index.html
+│       ├── library.html
+│       ├── edit.html
+│       ├── becoming.html
+│       ├── letters.html
+│       ├── tools.html
+│       └── work.html
 └── _legacy/                      ← the seven original HTML files, untouched,
                                      referenced by nothing (§13 step 7)
 ```
@@ -78,21 +78,21 @@ moonpixiee-site/
 
 1. **Each page's inline `<style>` block moves with that page.** No consolidation, no shared stylesheet, no components. The June and July pages are different dialects (HOUSE_ARCHITECTURE.md §1.4.1) and each is ported faithful to itself. Reconciliation is M1's job.
 2. **No layout extraction.** The duplicated header/footer stays duplicated seven times. Componentizing is Phase-2 work; doing it now would silently normalize the June/July divergence and break the fidelity oracle.
-3. **No Astro features.** No `<Layout>`, no content collections, no image optimization, no `astro:assets`. `.astro` files used purely as HTML carriers.
+3. **No Astro features.** No `<Layout>`, no content collections, no image optimization, no `astro:assets`. Pages are plain `.html` files in `src/pages/`, which Astro serves **unprocessed** — `.astro` carriers were rejected because Astro processes them (scoped styles, extracted/hashed CSS, minification), breaking byte-identity. See AM-001 (§9).
 4. **`<head>` copied verbatim per page** — title, meta description, OG tags, Twitter card, viewport, favicon references, any CDN links. Diffed against the original after build (§6).
 5. **`compressHTML: false`** in `astro.config.mjs` during Phase P, so built output can be near-textually diffed against the originals. Turn it on later.
 
-## 2.3 Route map — every existing route and its `.astro` equivalent
+## 2.3 Route map — every existing route and its `.html` equivalent
 
-| Live URL (must not change) | Currently served from | Astro source | Built output |
+| Live URL (must not change) | Currently served from | Source (`src/pages/`) | Built output |
 |---|---|---|---|
-| `/` | `index.html` | `src/pages/index.astro` | `dist/index.html` |
-| `/library` | `library.html` via pretty-URLs | `src/pages/library.astro` | `dist/library/index.html` |
-| `/edit` | `edit.html` | `src/pages/edit.astro` | `dist/edit/index.html` |
-| `/becoming` | `becoming.html` | `src/pages/becoming.astro` | `dist/becoming/index.html` |
-| `/letters` | `letters.html` | `src/pages/letters.astro` | `dist/letters/index.html` |
-| `/tools` | `tools.html` | `src/pages/tools.astro` | `dist/tools/index.html` |
-| `/work` | `work.html` | `src/pages/work.astro` | `dist/work/index.html` |
+| `/` | `index.html` | `src/pages/index.html` | `dist/index.html` |
+| `/library` | `library.html` via pretty-URLs | `src/pages/library.html` | `dist/library/index.html` |
+| `/edit` | `edit.html` | `src/pages/edit.html` | `dist/edit/index.html` |
+| `/becoming` | `becoming.html` | `src/pages/becoming.html` | `dist/becoming/index.html` |
+| `/letters` | `letters.html` | `src/pages/letters.html` | `dist/letters/index.html` |
+| `/tools` | `tools.html` | `src/pages/tools.html` | `dist/tools/index.html` |
+| `/work` | `work.html` | `src/pages/work.html` | `dist/work/index.html` |
 
 **The subtlety worth knowing:** today Netlify serves `/library` from a flat `library.html`; after the port it's served from `library/index.html`. Same URL, different mechanism. Two consequences to verify:
 
@@ -355,3 +355,9 @@ Cutover:
 - [ ] Two-week `_legacy/` retention clock started
 
 Then, and only then: **Milestone 1.**
+
+---
+
+# 9. Amendments
+
+**AM-001 (28 July 2026):** §2's `.astro` carrier prescription failed the §13.1a byte-identity oracle (Astro processes `.astro` files: scoped styles, extracted CSS, minification). Pages ported as `.html` in `src/pages/`, which Astro serves unprocessed. `.astro` conversion deferred to M1, where processing is acceptable because fidelity to the old design is no longer the goal.
