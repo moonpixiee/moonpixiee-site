@@ -2,32 +2,8 @@
   command = "npm run build"
   publish = "dist"
 
-[[redirects]]
-  from = "/becoming.html"
-  to = "/becoming"
-  status = 301
-
-[[redirects]]
-  from = "/edit.html"
-  to = "/edit"
-  status = 301
-
-[[redirects]]
-  from = "/letters.html"
-  to = "/letters"
-  status = 301
-
-[[redirects]]
-  from = "/library.html"
-  to = "/library"
-  status = 301
-
-[[redirects]]
-  from = "/tools.html"
-  to = "/tools"
-  status = 301
-
-[[redirects]]
-  from = "/work.html"
-  to = "/work"
-  status = 301
+# No redirects: with build.format 'file', dist/<page>.html serves at both
+# /<page> and /<page>.html (Netlify pretty URLs), and /<page>/ 301s to
+# /<page> — identical to the current production static site. The earlier
+# /{page}.html -> /{page} 301s were inert under this layout and are removed
+# so the config reflects production's actual behavior. See AM-002.

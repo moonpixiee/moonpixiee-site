@@ -87,17 +87,17 @@ moonpixiee-site/
 | Live URL (must not change) | Currently served from | Source (`src/pages/`) | Built output |
 |---|---|---|---|
 | `/` | `index.html` | `src/pages/index.html` | `dist/index.html` |
-| `/library` | `library.html` via pretty-URLs | `src/pages/library.html` | `dist/library/index.html` |
-| `/edit` | `edit.html` | `src/pages/edit.html` | `dist/edit/index.html` |
-| `/becoming` | `becoming.html` | `src/pages/becoming.html` | `dist/becoming/index.html` |
-| `/letters` | `letters.html` | `src/pages/letters.html` | `dist/letters/index.html` |
-| `/tools` | `tools.html` | `src/pages/tools.html` | `dist/tools/index.html` |
-| `/work` | `work.html` | `src/pages/work.html` | `dist/work/index.html` |
+| `/library` | `library.html` via pretty-URLs | `src/pages/library.html` | `dist/library.html` |
+| `/edit` | `edit.html` | `src/pages/edit.html` | `dist/edit.html` |
+| `/becoming` | `becoming.html` | `src/pages/becoming.html` | `dist/becoming.html` |
+| `/letters` | `letters.html` | `src/pages/letters.html` | `dist/letters.html` |
+| `/tools` | `tools.html` | `src/pages/tools.html` | `dist/tools.html` |
+| `/work` | `work.html` | `src/pages/work.html` | `dist/work.html` |
 
-**The subtlety worth knowing:** today Netlify serves `/library` from a flat `library.html`; after the port it's served from `library/index.html`. Same URL, different mechanism. Two consequences to verify:
+**The subtlety worth knowing:** with `build.format: 'file'` (AM-002), the port emits a **flat** `dist/<page>.html` — the same file layout the production static site has now — so Netlify's pretty-URL behavior is byte-for-byte the same as production:
 
-- **`/library.html` currently also resolves** (the file exists at root). After the port it 404s unless redirected. Almost certainly nothing links to the `.html` forms — but "almost certainly" is checked, not assumed: `netlify.toml` gets seven `/{page}.html → /{page}` 301s. Costs nothing, closes the hole.
-- **Trailing slashes.** `/library` and `/library/` must both resolve without a redirect loop. Netlify handles directory indexes natively; verified in §6 anyway.
+- **No-slash canonical.** `/library` serves 200; `/library/` 301s to `/library`. Production behaves identically. (Astro's default *directory* format inverted this — `/library` 301'd to `/library/` — which broke `/edit`'s bare-relative image `src` on the canonical slashed URL. That is why AM-002 exists.)
+- **`/library.html` serves 200** (the file exists), exactly as production does today. No `.html → extensionless` redirects are needed or wanted; production never redirected them.
 
 ## 2.4 Asset paths — every root-level asset that must remain stable
 
@@ -161,37 +161,9 @@ Full dev/staging environment architecture (HOUSE_ARCHITECTURE.md §3.3) is **not
 [build]
   command = "npm run build"
   publish = "dist"
-
-# Close the .html hole (§2.3)
-[[redirects]]
-  from = "/index.html"
-  to = "/"
-  status = 301
-[[redirects]]
-  from = "/library.html"
-  to = "/library"
-  status = 301
-[[redirects]]
-  from = "/edit.html"
-  to = "/edit"
-  status = 301
-[[redirects]]
-  from = "/becoming.html"
-  to = "/becoming"
-  status = 301
-[[redirects]]
-  from = "/letters.html"
-  to = "/letters"
-  status = 301
-[[redirects]]
-  from = "/tools.html"
-  to = "/tools"
-  status = 301
-[[redirects]]
-  from = "/work.html"
-  to = "/work"
-  status = 301
 ```
+
+No `[[redirects]]`. With `build.format: 'file'` (§5.2, AM-002) the flat `dist/<page>.html` output reproduces production's layout, so Netlify already serves `/<page>`, `/<page>.html`, and 301s `/<page>/ → /<page>` natively — the same as production. The earlier `/{page}.html → /{page}` 301s were inert under this layout (an unforced redirect never fires against an existing file) and are removed so the config states production's real behavior rather than a no-op. The `/index.html` rule was already dropped in an earlier ruling.
 
 ## 5.2 `astro.config.mjs`
 
@@ -202,6 +174,7 @@ export default defineConfig({
   site: 'https://housesofluna.com',
   compressHTML: false,          // Phase P only — keeps output diffable
   trailingSlash: 'ignore',
+  build: { format: 'file' },    // flat dist/<page>.html; no-slash canonical (AM-002)
 });
 ```
 
@@ -361,3 +334,5 @@ Then, and only then: **Milestone 1.**
 # 9. Amendments
 
 **AM-001 (28 July 2026):** §2's `.astro` carrier prescription failed the §13.1a byte-identity oracle (Astro processes `.astro` files: scoped styles, extracted CSS, minification). Pages ported as `.html` in `src/pages/`, which Astro serves unprocessed. `.astro` conversion deferred to M1, where processing is acceptable because fidelity to the old design is no longer the goal.
+
+**AM-002 (28 July 2026):** §2.3's *directory* build output (`dist/<page>/index.html`) failed the §13.1a "same routes / same behavior" test. It inverted trailing-slash canonicalization — production is no-slash canonical (`/edit` → 200, `/edit/` → 301 → `/edit`), but the directory build made `/edit/` canonical and 301'd `/edit` to it. On the slashed canonical URL, `edit.html`'s bare-relative image `src` (`product-cleanser.jpeg`) resolved to `/edit/product-cleanser.jpeg` → 404, breaking all 15 Edit product images. Caught on the PR #1 deploy preview during §6.2. Fix: `build.format: 'file'` in `astro.config.mjs` → flat `dist/<page>.html`, reproducing production's pretty-URL layout exactly. Consequently the six `/{page}.html → /{page}` 301s became inert and were removed (§5.1). No page content changed; all seven pages remain byte-identical.
