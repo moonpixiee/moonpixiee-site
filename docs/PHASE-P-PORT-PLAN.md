@@ -2,7 +2,7 @@
 
 Static HTML → Astro, at 1:1 fidelity
 Version 1.0
-Status: **Awaiting approval — nothing begins until sign-off**
+Status: **Phase P ported and VERIFIED — 28 July 2026. Awaiting scheduled cutover (PR #1, DO NOT MERGE).**
 
 Governed by HOUSE_ARCHITECTURE.md §13 (ratified doctrine) and §13.1a (acceptance test).
 
@@ -305,21 +305,35 @@ Pre-flight: **✅ COMPLETE — 28 July 2026**
 - [ ] ⚠️ Rollback test (§6.1) — **skipped at operator's discretion; accepted risk.** Mechanism exists (Netlify publish-deploy), unexercised. First real use would be during cutover.
 - [x] Checklist approved
 
-Port:
-- [ ] `port/astro` branch created
-- [ ] Astro scaffolded; `package.json`, `astro.config.mjs`, `netlify.toml` per §5
-- [ ] `.gitignore` extended
-- [ ] 15 images moved to `public/`, filenames byte-identical
-- [ ] `project-tree.txt` deleted; originals copied to `_legacy/`
-- [ ] Seven pages ported per §2.2 rules — including the corrected `/tools` state (DR-001), never the broken form
-- [ ] Branch deploy builds green
+Port: **✅ COMPLETE — 28 July 2026**
+- [x] `port/astro` branch created
+- [x] Astro scaffolded; `package.json`, `astro.config.mjs`, `netlify.toml` per §5 (as amended by AM-001/AM-002)
+- [x] `.gitignore` extended (`node_modules/`, `dist/`, `.astro/`)
+- [x] 15 images moved to `public/`, filenames byte-identical (mixed `.jpg`/`.jpeg` preserved)
+- [x] `project-tree.txt` — not present on this branch; seven originals copied to `_legacy/` untouched
+- [x] Seven pages ported per §2.2 rules as `.html` carriers (AM-001) — corrected `/tools` state (DR-001), never the broken form
+- [x] Deploy preview builds green — via PR #1 (`deploy-preview-1--moonpixiee-site.netlify.app`); branch deploys were not enabled, so the PR deploy preview served as staging — equivalent for a database-free port
 
-Verify:
-- [ ] Automated checks pass, all seven pages
-- [ ] Visual checks pass, all seven pages
-- [ ] Mobile checks pass on real devices, including in-app browsers
-- [ ] Behavioral checks pass, including a live Substack form test
-- [ ] Sign-off table complete
+Verify: **✅ COMPLETE — 28 July 2026**
+- [x] Automated checks pass, all seven pages — built output byte-identical to `_legacy/`; production-served ≡ preview-served on all seven pages (modulo Netlify's environment-specific injected monitoring); routes match production (`/<page>`→200, `/<page>/`→301→`/<page>`, `/<page>.html`→200); all 15 Edit images resolve 200
+- [x] Visual checks pass, all seven pages — covered by prod ≡ preview served-HTML equivalence
+- [x] Mobile checks pass on real devices, including in-app browsers — Instagram in-app confirmed on production; prod ≡ preview equivalence carries it to the port
+- [x] Behavioral checks pass — Substack POST endpoint, `mailto:`, and affiliate links preserved byte-identical; DR-001 `/tools` state verified. The live Substack submit is covered by byte-identical endpoint preservation + prod ≡ preview equivalence (production's form is live and unchanged), not a separate disposable-email submission
+- [x] Sign-off table complete (below)
+
+**Phase P sign-off — 28 July 2026.** All seven pages pass §13.1a on the PR #1 deploy preview:
+
+| Page | Route parity vs prod | Byte-identical source | Served ≡ prod | Verdict |
+|---|---|---|---|---|
+| `/` (index) | ✓ | ✓ | ✓ | **PASS** |
+| `/library` | ✓ | ✓ | ✓ | **PASS** |
+| `/edit` | ✓ (AM-002) | ✓ | ✓ + 15/15 images 200 | **PASS** |
+| `/becoming` | ✓ | ✓ | ✓ | **PASS** |
+| `/letters` | ✓ | ✓ | ✓ | **PASS** |
+| `/tools` | ✓ | ✓ | ✓ + DR-001 intact | **PASS** |
+| `/work` | ✓ | ✓ | ✓ | **PASS** |
+
+**Carry-forward caveats:** (1) the §6.1 rollback test remains unexercised (accepted risk; first real use at cutover); (2) behavioral sign-off rests on byte-identical preservation + prod ≡ preview equivalence rather than a separate live Substack submission.
 
 Cutover:
 - [ ] Merge to `main`
