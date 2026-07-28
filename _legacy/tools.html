@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Machine Room | Moonpixiee</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK53SYTZRQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VK53SYTZRQ');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --obsidian:      #0F090F;
+    --black-plum:    #1B0D18;
+    --velvet-wine:   #2B1222;
+    --persian-plum:  #710C21;
+    --hyper-fuchsia: #E6007A;
+    --digital-bloom: #FF00A8;
+    --orchid-veil:   #F877C8;
+    --silk-glow:     #FFE6F6;
+    --mauve-smoke:   #A88A9E;
+    --system-cyan:   #27A5D3;
+
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans:  'Jost', sans-serif;
+    --mono:  'IBM Plex Mono', 'Courier New', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--obsidian);
+    color: var(--silk-glow);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+  img, svg { display: block; max-width: 100%; }
+
+  /* ── ACCESSIBILITY: FOCUS + MOTION ── */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  input:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--system-cyan);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 1rem;
+    background: var(--velvet-wine); color: var(--silk-glow);
+    padding: 0.8rem 1.2rem; z-index: 1000;
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em;
+    text-decoration: none; border: 1px solid rgba(248,119,200,0.3);
+    transition: top 0.2s ease;
+  }
+  .skip-link:focus { top: 1rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.55;
+  }
+
+  /* ── BLURRED BOTANICAL / LIQUID FORMS ── */
+  .bloom {
+    position: absolute; border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+    filter: blur(90px); pointer-events: none; z-index: 0;
+  }
+
+  /* ── SCROLL TARGETS: keep anchored sections clear of the fixed nav ──
+     bumped +28px from the prior pass for extra header/content separation */
+  #machine-room, #early-access { scroll-margin-top: 124px; }
+
+  /* ── NAV (structure/routes preserved site-wide) ──
+     opaque + blurred so no panel text can ever read as "tangled" with it,
+     even on a manual scroll that bypasses the anchor's scroll-margin */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 2.5rem; z-index: 200;
+    background: linear-gradient(to bottom, rgba(15,9,15,0.97) 0%, rgba(15,9,15,0.88) 65%, transparent 100%);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-style: italic;
+    font-size: 1.1rem; letter-spacing: 0.08em;
+    color: var(--silk-glow); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--sans); font-size: 0.7rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mauve-smoke); text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--orchid-veil); }
+
+  /* ── ENTRY LAYER ── */
+  .entry {
+    position: relative;
+    min-height: 100svh; min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 9rem 2rem 5rem;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 65% 55% at 50% 85%, rgba(230,0,122,0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 35% at 20% 15%, rgba(39,165,211,0.05) 0%, transparent 60%),
+      linear-gradient(180deg, var(--obsidian) 0%, var(--black-plum) 100%);
+  }
+  .entry .bloom-a { width: 480px; height: 480px; top: -140px; right: -120px; background: radial-gradient(circle, var(--persian-plum) 0%, transparent 70%); opacity: 0.35; }
+  .entry .bloom-b { width: 380px; height: 380px; bottom: -100px; left: -100px; background: radial-gradient(circle, var(--velvet-wine) 0%, transparent 70%); opacity: 0.5; }
+
+  .entry > * { position: relative; z-index: 1; }
+
+  .entry-sweep {
+    position: absolute; left: 0; right: 0; top: 50%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--hyper-fuchsia), transparent);
+    transform: scaleX(0); opacity: 0; pointer-events: none; z-index: 1;
+  }
+  .entry.is-exiting .entry-sweep { animation: sweep-expand 0.7s ease-out forwards; }
+  @keyframes sweep-expand {
+    0%   { transform: scaleX(0); opacity: 0; }
+    45%  { transform: scaleX(1); opacity: 1; }
+    100% { transform: scaleX(1); opacity: 0; }
+  }
+
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .entry-eyebrow, .entry-title, .entry-sub, .entry-cta, .entry-meta, .exit-link {
+    animation: rise-in 1s ease-out both;
+  }
+  .entry-eyebrow { animation-delay: 0.05s; }
+  .entry-title   { animation-delay: 0.15s; }
+  .entry-sub     { animation-delay: 0.3s; }
+  .entry-cta     { animation-delay: 0.45s; }
+  .entry-meta    { animation-delay: 0.6s; }
+  .exit-link     { animation-delay: 0.7s; }
+
+  /* on activation, fade the entry copy out (kept snappy: ~450ms) */
+  .entry.is-exiting .entry-eyebrow,
+  .entry.is-exiting .entry-title,
+  .entry.is-exiting .entry-sub,
+  .entry.is-exiting .entry-meta,
+  .entry.is-exiting .exit-link {
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  .entry-eyebrow {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--orchid-veil); margin-bottom: 1.8rem;
+  }
+  .entry-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(3rem, 10vw, 7.5rem); line-height: 0.98;
+    letter-spacing: 0.01em; color: var(--silk-glow);
+    text-shadow: 0 0 60px rgba(255,0,168,0.18);
+    margin-bottom: 1.6rem;
+  }
+  .entry-sub {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    color: var(--mauve-smoke); max-width: 480px; margin-bottom: 3rem;
+  }
+
+  /* restrained resting state: dark glass + magenta border + quiet bloom.
+     hover/focus swaps to a solid fill — contrast verified for both states. */
+  .btn-primary {
+    display: inline-block; font-family: var(--mono); font-size: 0.72rem;
+    font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--silk-glow);
+    background: rgba(43,18,34,0.55);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 1.05rem 2.6rem; text-decoration: none;
+    border: 1px solid var(--hyper-fuchsia);
+    box-shadow: 0 0 34px -10px rgba(230,0,122,0.4);
+    transition: transform 0.2s ease, box-shadow 0.35s ease, background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+  }
+  .btn-primary:hover, .btn-primary:focus-visible {
+    background: var(--digital-bloom); border-color: var(--digital-bloom);
+    color: var(--obsidian);
+    box-shadow: 0 10px 48px -10px rgba(255,0,168,0.6);
+    transform: translateY(-2px);
+  }
+  .btn-primary.is-activating { transform: scale(0.95); }
+
+  .entry-cta { margin-bottom: 3.2rem; }
+
+  .entry-meta {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--mauve-smoke);
+    display: inline-flex; align-items: center; gap: 0.6rem;
+  }
+  .dot-cyan {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--system-cyan);
+    box-shadow: 0 0 0 0 rgba(39,165,211,0.55);
+    animation: pulse-cyan 2.6s ease-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse-cyan {
+    0%   { box-shadow: 0 0 0 0 rgba(39,165,211,0.55); }
+    70%  { box-shadow: 0 0 0 9px rgba(39,165,211,0); }
+    100% { box-shadow: 0 0 0 0 rgba(39,165,211,0); }
+  }
+
+  .exit-link {
+    margin-top: 2.6rem;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--mauve-smoke);
+    text-decoration: none; border-bottom: 1px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .exit-link:hover { color: var(--orchid-veil); border-color: rgba(248,119,200,0.4); }
+
+  .scroll-cue {
+    position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%);
+    width: 1px; height: 46px;
+    background: linear-gradient(to bottom, transparent, var(--hyper-fuchsia), transparent);
+  }
+
+  /* ── MACHINE ROOM HEADER ── */
+  .mr-header {
+    position: relative; z-index: 1;
+    padding: 6rem 2rem 3.5rem;
+    max-width: 1200px; margin: 0 auto;
+    border-top: 1px solid rgba(248,119,200,0.08);
+  }
+  .mr-label {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--orchid-veil);
+    display: block; margin-bottom: 1.4rem;
+  }
+  .mr-title {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(2.2rem, 5.5vw, 4rem); line-height: 1.05;
+    color: var(--silk-glow); margin-bottom: 1.3rem;
+  }
+  .mr-copy {
+    font-size: 0.92rem; color: var(--mauve-smoke);
+    max-width: 520px; line-height: 1.9; margin-bottom: 1.6rem;
+  }
+  .mr-summary {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--mauve-smoke);
+    padding-top: 1.2rem; border-top: 1px solid rgba(248,119,200,0.08);
+    display: inline-block;
+  }
+  .mr-summary strong { color: var(--orchid-veil); font-weight: 500; }
+
+  /* single restrained marker in the header's empty right side — decorative
+     only, extremely low contrast, no text/content implication */
+  .mr-rule {
+    position: absolute; top: 0.5rem; bottom: 0.5rem; right: 2rem;
+    width: 1px; pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(230,0,122,0.2), transparent);
+  }
+
+  /* ── SYSTEM DIRECTORY (asymmetrical grid) ── */
+  .directory {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 2rem 7rem;
+  }
+  .directory-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.4rem;
+  }
+  .sys-01 { grid-column: 1 / 9; grid-row: 1 / 3; }
+  .sys-02 { grid-column: 9 / 13; grid-row: 1 / 3; }
+  /* lower row: intentionally asymmetrical — Brand Engine wider,
+     Creator OS narrower, taller, and staggered upward so it reads as
+     deliberate rhythm rather than a panel left hanging below the section */
+  .sys-03 { grid-column: 1 / 8; grid-row: 3; }
+  .sys-04 { grid-column: 8 / 13; grid-row: 3; margin-top: -1.2rem; min-height: 380px; }
+
+  /* stagger the directory into view on activation; default state is always
+     fully visible so the page works with no JS / no click path at all */
+  .system-panel { opacity: 1; }
+  .directory-grid.revealing .system-panel { animation: panel-in 0.5s ease-out both; }
+  .directory-grid.revealing .sys-01 { animation-delay: 0s; }
+  .directory-grid.revealing .sys-02 { animation-delay: 0.09s; }
+  .directory-grid.revealing .sys-03 { animation-delay: 0.16s; }
+  .directory-grid.revealing .sys-04 { animation-delay: 0.22s; }
+  @keyframes panel-in {
+    from { opacity: 0.35; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .system-panel {
+    position: relative; overflow: hidden;
+    padding: 2.8rem 2.4rem 2.6rem;
+    min-height: 300px;
+    background: linear-gradient(160deg, rgba(43,18,34,0.55) 0%, rgba(27,13,24,0.7) 100%);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(248,119,200,0.10);
+    box-shadow: 0 24px 60px -30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+  }
+  .sys-01 { min-height: 100%; }
+  .sys-02 { min-height: 100%; }
+
+  .system-panel::after {
+    content: '';
+    position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(255,0,168,0.13), transparent);
+    transform: skewX(-15deg) translateX(0%);
+    transition: transform 1.15s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .system-panel:hover, .system-panel:focus-within {
+    border-color: rgba(230,0,122,0.45);
+    box-shadow: 0 24px 70px -25px rgba(255,0,168,0.28), inset 0 1px 0 rgba(255,255,255,0.05);
+    transform: translateY(-3px);
+  }
+  .system-panel:hover::after, .system-panel:focus-within::after {
+    transform: skewX(-15deg) translateX(360%);
+  }
+
+  .status-online { border-color: rgba(39,165,211,0.22); }
+  .status-alpha  { border-color: rgba(248,119,200,0.16); }
+  .status-dev    { opacity: 0.92; }
+
+  /* content sits above the decorative artifact layer */
+  .panel-content { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; }
+  /* shifted up ~9% from dead-center so the CTA/caption/ghost elements don't
+     crowd the bottom edge, while keeping generous editorial breathing room */
+  .sys-01 .panel-content { justify-content: center; transform: translateY(-9%); }
+
+  /* decorative, aria-hidden atmosphere unique to each system */
+  .panel-art { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+
+  .panel-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.6rem;
+  }
+  .sys-index {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.15em;
+    color: var(--mauve-smoke);
+  }
+  .sys-status {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--mauve-smoke);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.35rem 0.7rem; border: 1px solid rgba(168,138,158,0.25);
+  }
+  .status-online .sys-status { color: var(--system-cyan); border-color: rgba(39,165,211,0.35); }
+  .status-alpha .sys-status  { color: var(--orchid-veil); border-color: rgba(248,119,200,0.3); }
+
+  .sys-category {
+    font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--orchid-veil); opacity: 0.85;
+    display: block; margin-bottom: 0.8rem;
+  }
+  .sys-name {
+    font-family: var(--serif); font-weight: 400;
+    color: var(--silk-glow); margin-bottom: 1rem; line-height: 1.1;
+  }
+  .sys-01 .sys-name { font-size: clamp(2.1rem, 4vw, 3rem); }
+  .sys-02 .sys-name { font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
+  .sys-03 .sys-name, .sys-04 .sys-name { font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
+
+  .sys-desc {
+    font-size: 0.85rem; color: var(--mauve-smoke); line-height: 1.85;
+    max-width: 420px; margin-bottom: 1.8rem; flex-grow: 1;
+  }
+
+  /* same resting/hover language as .btn-primary: dark translucent glass +
+     magenta border at rest, solid magenta fill only on hover/focus. Shared
+     by all four system CTAs so height, padding and letter-spacing match. */
+  .sys-cta {
+    align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--silk-glow);
+    text-decoration: none; background: rgba(43,18,34,0.55);
+    border: 1px solid var(--hyper-fuchsia);
+    padding: 0.85rem 1.5rem; cursor: pointer;
+    transition: border-color 0.3s, background 0.3s, color 0.3s;
+  }
+  .sys-cta:hover, .sys-cta:focus-visible {
+    border-color: var(--digital-bloom); background: var(--digital-bloom);
+    color: var(--obsidian);
+  }
+
+  .cta-caption {
+    margin-top: 0.9rem; font-family: var(--sans); font-size: 0.74rem;
+    color: var(--mauve-smoke); max-width: 300px; line-height: 1.6;
+  }
+
+  /* ── SYS.01 · AI LUNA atmosphere ── */
+  /* pulled in from its prior offset so ~30% more of the numeral reads —
+     an intentional oversized mark rather than an accidental sliver.
+     Stays in .panel-art (z-index:0), so it can never sit over text/controls. */
+  .ghost-number {
+    position: absolute; right: -0.3rem; bottom: -1.6rem;
+    font-family: var(--serif); font-weight: 300; font-size: min(20rem, 34vw);
+    line-height: 1; color: var(--silk-glow); opacity: 0.032; letter-spacing: -0.02em;
+  }
+  .ghost-phrase {
+    position: absolute; left: 2.6rem; bottom: 1.7rem;
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--mauve-smoke); opacity: 0.4;
+  }
+  .panel-glow-01a {
+    width: 340px; height: 340px; top: -80px; right: -60px;
+    background: radial-gradient(circle, var(--persian-plum) 0%, transparent 70%); opacity: 0.4;
+  }
+  .panel-glow-01b {
+    width: 260px; height: 260px; left: 8%; bottom: -90px;
+    background: radial-gradient(circle, var(--digital-bloom) 0%, transparent 70%); opacity: 0.16;
+  }
+
+  /* ── SYS.02 · MUSE atmosphere: identity-lab frames + crop marks ── */
+  .id-frame { position: absolute; border: 1px solid rgba(248,119,200,0.14); }
+  .id-frame-a { width: 62%; height: 46%; top: 16%; right: 6%; transform: rotate(-3deg); }
+  .id-frame-b { width: 42%; height: 58%; bottom: 8%; left: 4%; transform: rotate(2deg); border-color: rgba(168,138,158,0.18); }
+  .id-crosshair { position: absolute; background: rgba(248,119,200,0.1); }
+  .id-crosshair-h { left: 10%; right: 10%; top: 50%; height: 1px; }
+  .id-crosshair-v { top: 12%; bottom: 12%; left: 50%; width: 1px; }
+  .id-corner { position: absolute; width: 13px; height: 13px; border-top: 1px solid rgba(255,230,246,0.2); border-left: 1px solid rgba(255,230,246,0.2); }
+  .id-corner-tl { top: 1.5rem; left: 1.5rem; }
+  .id-corner-br { bottom: 1.5rem; right: 1.5rem; transform: rotate(180deg); }
+
+  /* ── SYS.03 · BRAND ENGINE atmosphere: palette strip + type sample + ticks ── */
+  .ghost-glyph {
+    position: absolute; right: 1.4rem; top: -1.6rem;
+    font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 8.5rem;
+    color: var(--silk-glow); opacity: 0.05; line-height: 1;
+  }
+  .palette-strip { position: absolute; left: 2.4rem; bottom: 2.8rem; display: flex; gap: 6px; opacity: 0.4; }
+  .palette-strip span { width: 13px; height: 13px; border-radius: 2px; display: block; }
+  .tick-row {
+    position: absolute; left: 2.4rem; right: 2.4rem; bottom: 1.8rem; height: 1px;
+    background-image: repeating-linear-gradient(90deg, rgba(255,230,246,0.16) 0 1px, transparent 1px 14px);
+  }
+
+  /* ── SYS.04 · CREATOR OS atmosphere: connected node graph ── */
+  .node-graph { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.8; }
+
+  /* ── EARLY ACCESS ── */
+  .access-section {
+    position: relative; z-index: 1;
+    background: var(--black-plum);
+    text-align: center; padding: 6.5rem 2rem;
+    border-top: 1px solid rgba(248,119,200,0.08);
+  }
+  .access-label {
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--orchid-veil); margin-bottom: 1.3rem; display: block;
+  }
+  .access-title {
+    font-family: var(--serif); font-size: clamp(2rem, 5vw, 3rem); font-weight: 300;
+    color: var(--silk-glow); margin-bottom: 0.9rem; line-height: 1.2;
+  }
+  .access-sub {
+    font-size: 0.85rem; color: var(--mauve-smoke);
+    max-width: 440px; margin: 0 auto 2.6rem; line-height: 1.85;
+  }
+  .access-note { font-size: 0.68rem; color: var(--mauve-smoke); margin-top: 1.1rem; font-family: var(--mono); letter-spacing: 0.04em; }
+
+  .partner-line {
+    margin-top: 3rem; font-family: var(--mono); font-size: 0.64rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .partner-line a { color: var(--mauve-smoke); text-decoration: none; border-bottom: 1px solid rgba(168,138,158,0.3); padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
+  .partner-line a:hover { color: var(--orchid-veil); border-color: var(--orchid-veil); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    padding: 3rem 2rem;
+    background: var(--obsidian);
+    border-top: 1px solid rgba(248,119,200,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .footer-logo {
+    font-family: var(--serif); font-style: italic;
+    font-size: 1rem; color: var(--mauve-smoke); text-decoration: none;
+  }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--mauve-smoke); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--orchid-veil); }
+  .footer-copy {
+    font-size: 0.62rem; color: rgba(168,138,158,0.5); width: 100%;
+    text-align: center; padding-top: 1rem; font-family: var(--mono);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .directory-grid { grid-template-columns: 1fr; }
+    .sys-01, .sys-02, .sys-03, .sys-04 { grid-column: 1 / -1; grid-row: auto; }
+    .sys-01, .sys-02 { min-height: auto; }
+    .sys-03, .sys-04 { margin-top: 0; min-height: auto; }
+    .mr-header { padding: 5rem 1.5rem 2.5rem; }
+    .directory { padding: 0 1.5rem 5rem; }
+    .mr-rule { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .entry { padding: 8rem 1.5rem 4rem; }
+    /* ~13% smaller than the 3rem desktop-clamp floor so heading, subtitle,
+       CTA, and the systems-status line all comfortably fit the first viewport
+       while keeping the two-line editorial wrap */
+    .entry-title { font-size: clamp(2.3rem, 10.5vw, 3rem); }
+    .system-panel { padding: 2.4rem 1.6rem 2.1rem; }
+    /* keep the AI Luna panel content readable at full width without the
+       centering offset, and hide the ghosted phrase so it can't crowd the
+       oversized "01" now that both share less vertical room */
+    .sys-01 .panel-content { transform: none; }
+    .ghost-phrase { display: none; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#machine-room" class="skip-link">Skip to system directory</a>
+
+<nav>
+  <a href="index.html" class="nav-logo">moonpixiee</a>
+  <ul class="nav-links">
+    <li><a href="library.html">Library</a></li>
+    <li><a href="work.html">Work With Me</a></li>
+    <li><a href="letters.html">Letters</a></li>
+    <li><a href="becoming.html">Becoming</a></li>
+    <li><a href="tools.html" class="active">Tools</a></li>
+    <li><a href="edit.html">The Edit</a></li>
+  </ul>
+</nav>
+
+<!-- ENTRY LAYER: lives inline in normal page flow (not a blocking overlay),
+     so it never traps keyboard/scroll users and never re-blocks return visits. -->
+<section class="entry" id="entry">
+  <div class="bloom bloom-a" aria-hidden="true"></div>
+  <div class="bloom bloom-b" aria-hidden="true"></div>
+  <div class="entry-sweep" aria-hidden="true"></div>
+
+  <p class="entry-eyebrow">Velvet//Ctrl Presents</p>
+  <h1 class="entry-title">The Machine Room</h1>
+  <p class="entry-sub">Infrastructure for impossible ideas.</p>
+
+  <a href="#machine-room" class="btn-primary entry-cta" id="enter-system">Enter The System</a>
+
+  <p class="entry-meta"><span class="dot-cyan" aria-hidden="true"></span>04 Systems Detected / 01 Online</p>
+
+  <a href="index.html" class="exit-link">&larr; Back to Home</a>
+
+  <div class="scroll-cue" aria-hidden="true"></div>
+</section>
+
+<!-- MACHINE ROOM HEADER -->
+<header class="mr-header" id="machine-room">
+  <span class="mr-rule" aria-hidden="true"></span>
+  <span class="mr-label">House of Luna / Velvet//Ctrl</span>
+  <h2 class="mr-title">The Machine Room</h2>
+  <p class="mr-copy">Choose a system to enter. Each room was built for a different part of the creative process.</p>
+  <p class="mr-summary"><strong>01</strong> Online / <strong>03</strong> Developing</p>
+</header>
+
+<!-- SYSTEM DIRECTORY -->
+<section class="directory" aria-label="System directory">
+  <div class="directory-grid" id="directory-grid">
+
+    <article class="system-panel status-online sys-01">
+      <div class="panel-art" aria-hidden="true">
+        <div class="bloom panel-glow-01a"></div>
+        <div class="bloom panel-glow-01b"></div>
+        <span class="ghost-number">01</span>
+        <span class="ghost-phrase">Creative Intelligence Active</span>
+      </div>
+      <div class="panel-content">
+        <div class="panel-meta">
+          <span class="sys-index">SYS.01</span>
+          <span class="sys-status"><span class="dot-cyan" aria-hidden="true"></span>Online</span>
+        </div>
+        <span class="sys-category">Creative Intelligence</span>
+        <h3 class="sys-name">AI Luna</h3>
+        <p class="sys-desc">Your strategic and creative co-pilot&mdash;trained to think inside the Moonpixiee universe.</p>
+
+        <!--
+          AI LUNA production route:
+          The previous CTA pointed to https://moonpixiee.com (the marketing site itself,
+          formerly routed through a Beacons link-in-bio page). That link has been removed
+          per instructions — it did not lead to a working AI Luna application.
+
+          Current copy intentionally reads as a request/waitlist step (not "Enter"),
+          since no public product route exists yet.
+
+          TODO(prod): once the AI Luna application is deployed, change the CTA text back
+          to "Enter AI Luna" and point it at the production URL, e.g.:
+            <a href="https://app.moonpixiee.com" class="sys-cta">Enter AI Luna &rarr;</a>
+          Do NOT relink this CTA to the old Beacons page.
+        -->
+        <a href="#early-access" class="sys-cta">Request AI Luna Access &rarr;</a>
+        <p class="cta-caption">Private access opens in phases.</p>
+      </div>
+    </article>
+
+    <article class="system-panel status-alpha sys-02">
+      <div class="panel-art" aria-hidden="true">
+        <span class="id-frame id-frame-a"></span>
+        <span class="id-frame id-frame-b"></span>
+        <span class="id-crosshair id-crosshair-h"></span>
+        <span class="id-crosshair id-crosshair-v"></span>
+        <span class="id-corner id-corner-tl"></span>
+        <span class="id-corner id-corner-br"></span>
+      </div>
+      <div class="panel-content">
+        <div class="panel-meta">
+          <span class="sys-index">SYS.02</span>
+          <span class="sys-status">Private Alpha</span>
+        </div>
+        <span class="sys-category">Identity Laboratory</span>
+        <h3 class="sys-name">Muse</h3>
+        <p class="sys-desc">Build and preserve a visual identity across images, characters, campaigns, and entire worlds.</p>
+        <a href="#early-access" class="sys-cta">Request Access &rarr;</a>
+      </div>
+    </article>
+
+    <article class="system-panel status-dev sys-03">
+      <div class="panel-art" aria-hidden="true">
+        <span class="ghost-glyph">Aa</span>
+        <div class="palette-strip">
+          <span style="background:var(--persian-plum)"></span>
+          <span style="background:var(--hyper-fuchsia)"></span>
+          <span style="background:var(--orchid-veil)"></span>
+          <span style="background:var(--system-cyan)"></span>
+          <span style="background:var(--silk-glow)"></span>
+        </div>
+        <div class="tick-row"></div>
+      </div>
+      <div class="panel-content">
+        <div class="panel-meta">
+          <span class="sys-index">SYS.03</span>
+          <span class="sys-status">In Development</span>
+        </div>
+        <span class="sys-category">Visual Identity System</span>
+        <h3 class="sys-name">Brand Engine</h3>
+        <p class="sys-desc">Turn an idea into a complete creative direction&mdash;palette, typography, imagery, language, and atmosphere.</p>
+        <a href="#early-access" class="sys-cta">Join The Waitlist &rarr;</a>
+      </div>
+    </article>
+
+    <article class="system-panel status-dev sys-04">
+      <div class="panel-art" aria-hidden="true">
+        <svg class="node-graph" viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice">
+          <path d="M20,190 C80,150 90,90 150,80 S250,50 282,22" fill="none" stroke="rgba(248,119,200,0.16)" stroke-width="1"/>
+          <circle cx="20" cy="190" r="4" fill="rgba(255,230,246,0.26)"/>
+          <circle cx="150" cy="80" r="4" fill="rgba(255,230,246,0.26)"/>
+          <circle cx="282" cy="22" r="4" fill="rgba(255,230,246,0.26)"/>
+          <circle cx="92" cy="128" r="3" fill="rgba(168,138,158,0.3)"/>
+          <circle cx="220" cy="52" r="3" fill="rgba(168,138,158,0.3)"/>
+        </svg>
+      </div>
+      <div class="panel-content">
+        <div class="panel-meta">
+          <span class="sys-index">SYS.04</span>
+          <span class="sys-status">In Development</span>
+        </div>
+        <span class="sys-category">Content Infrastructure</span>
+        <h3 class="sys-name">Creator OS</h3>
+        <p class="sys-desc">Plan, create, repurpose, organize, and publish without flattening your voice into generic content.</p>
+        <a href="#early-access" class="sys-cta">Join The Waitlist &rarr;</a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- EARLY ACCESS / WAITLIST (shared target for Muse, Brand Engine, Creator OS CTAs) -->
+<section class="access-section" id="early-access">
+  <span class="access-label">Request Access</span>
+  <h2 class="access-title">Get inside the<br/>Machine Room.</h2>
+  <p class="access-sub">Muse is in private alpha. Brand Engine and Creator OS are in development. Join the list &mdash; early builds go to the ones already inside.</p>
+  <p class="entry-meta">ACCESS &mdash; NOT YET OPEN</p>
+  <p class="access-note">These systems are in development. Doors will open when they are ready.</p>
+  <p class="access-note">No spam. Just early access and the occasional update.</p>
+  <p class="partner-line">Building something bigger? <a href="work.html">Inquire about partnerships &rarr;</a></p>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo">moonpixiee</a>
+  <div class="footer-links">
+    <a href="https://instagram.com/moonpixiee">Instagram</a>
+    <a href="https://substack.com/@moonpixiee">Substack</a>
+    <a href="edit.html">The Edit</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Moonpixiee &middot; House of Luna &middot; All rights reserved.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var enterBtn = document.getElementById('enter-system');
+  var entry = document.getElementById('entry');
+  var grid = document.getElementById('directory-grid');
+  if (!enterBtn || !entry || !grid) return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  enterBtn.addEventListener('click', function (e) {
+    // Reduced motion: let the native anchor jump happen instantly — the
+    // directory is already visible by default, nothing to reveal.
+    if (reduceMotion) return;
+
+    e.preventDefault();
+    enterBtn.classList.add('is-activating');
+    entry.classList.add('is-exiting');
+    grid.classList.add('revealing');
+
+    window.setTimeout(function () {
+      var target = document.getElementById('machine-room');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 260);
+
+    window.setTimeout(function () {
+      enterBtn.classList.remove('is-activating');
+      entry.classList.remove('is-exiting');
+      grid.classList.remove('revealing');
+    }, 950);
+  });
+})();
+</script>
+
+</body>
+</html>

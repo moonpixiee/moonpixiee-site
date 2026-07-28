@@ -1,0 +1,38 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/becoming.html"
+  to = "/becoming"
+  status = 301
+
+[[redirects]]
+  from = "/edit.html"
+  to = "/edit"
+  status = 301
+
+[[redirects]]
+  from = "/index.html"
+  to = "/index"
+  status = 301
+
+[[redirects]]
+  from = "/letters.html"
+  to = "/letters"
+  status = 301
+
+[[redirects]]
+  from = "/library.html"
+  to = "/library"
+  status = 301
+
+[[redirects]]
+  from = "/tools.html"
+  to = "/tools"
+  status = 301
+
+[[redirects]]
+  from = "/work.html"
+  to = "/work"
+  status = 301
