@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House of Luna — Reading by Daylight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Cormorant+SC:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Jost:wght@400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --house-black: #1A1720;
+    --house-paper: #EFE7D8;
+    --house-red: #6A2436;
+    --house-red-voice: #B26578;
+    --house-brass: #A9884F;
+    --house-stone: #8A8375;
+    --stone-text-a: #5C564B;
+    --stone-text-b: #665F53;
+    --brass-text-a: #6E5830;
+    --brass-text-b: #7A6234;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background: var(--house-paper);
+    color: var(--house-black);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.65;
+  }
+  .wrap{ max-width: 700px; margin: 0 auto; padding: 44px 24px 90px; }
+  header{ text-align:center; padding: 44px 0 6px; }
+  .arch{ font-family:'Cormorant SC','Cormorant Garamond',serif; letter-spacing:.22em;
+    font-size:14px; color: var(--brass-text-a); }
+  h1{ font-family:'Cormorant Garamond',serif; font-weight:500; font-size:34px; margin-top:14px; }
+  header .note{ font-size:15px; margin-top:12px; color: var(--stone-text-a); }
+  hr.brass{ border:0; height:1px; margin: 40px auto; max-width:320px;
+    background: linear-gradient(90deg,transparent,var(--house-brass),transparent); }
+  h2{ font-family:'Cormorant SC','Cormorant Garamond',serif; font-weight:500;
+    font-size:17px; letter-spacing:.18em; margin-bottom:14px; }
+  .pair{ display:grid; gap:14px; margin-bottom: 8px; }
+  .card{ background: rgba(26,23,32,.035); border:1px solid rgba(26,23,32,.12);
+    border-radius:3px; padding:20px 22px; }
+  .tag{ font-family: Jost, sans-serif; font-size:12.5px; letter-spacing:.05em;
+    margin-bottom:10px; }
+  .a-tag{ color: var(--stone-text-a); } .b-tag{ color: var(--stone-text-b); }
+  .card p{ font-size: 16px; }
+
+  .fail{ border-color: rgba(106,36,54,.35); }
+  .fail .tag{ color: var(--house-red); }
+
+  .plates{ display:flex; flex-wrap:wrap; gap:12px; }
+  .plate{ font-family:'Cormorant SC','Cormorant Garamond',serif; font-weight:500;
+    letter-spacing:.2em; font-size:15px; border-radius:2px; padding:11px 20px;
+    border:1px solid var(--house-brass); }
+  .meta{ font-family: Jost, sans-serif; font-weight:400; font-size:13.5px;
+    display:flex; flex-wrap:wrap; gap:8px 18px; }
+  .meta span::before{ content:"· "; color: var(--house-stone); }
+  .meta span:first-child::before{ content:""; }
+
+  .redrow{ display:grid; gap:14px; }
+  a.gar{ color: var(--house-red); font-size:16px; text-decoration:none;
+    border-bottom:1px solid currentColor; padding-bottom:1px; width:max-content; }
+  .voice-demo{ color: var(--house-red-voice); font-size:16px; }
+  .voice-large{ color: var(--house-red-voice); font-family:'Cormorant Garamond',serif;
+    font-size:28px; font-weight:500; }
+
+  .machine{ background:#FBF6EC; border:1px solid rgba(110,88,48,.35); border-radius:3px;
+    padding:18px 22px; font-family:'IBM Plex Mono',monospace; font-size:13.5px;
+    color: var(--stone-text-a); line-height:2; }
+  .machine .ok{ color: var(--brass-text-a); }
+  .machine .state{ color: var(--house-black); }
+
+  .lawline{ text-align:center; padding: 56px 12px 4px; font-family:'Cormorant Garamond',serif;
+    font-style: italic; font-size: 22px; color: var(--house-black); }
+  .lawwho{ text-align:center; font-family:'Cormorant SC',serif; letter-spacing:.16em;
+    font-size:12.5px; color: var(--brass-text-a); margin-top:12px; }
+  footer{ text-align:center; font-family: Jost,sans-serif; font-size:12.5px;
+    color: var(--stone-text-a); padding-top: 44px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="arch">HOUSE OF LUNA · DAYLIGHT LEGIBILITY</div>
+    <h1>Reading by Daylight</h1>
+    <p class="note">The House is light-first — so every voice must also carry on Old Page. Two candidates per token. Check this on your phone especially; that's where the last board strained.</p>
+  </header>
+
+  <hr class="brass">
+
+  <section>
+    <h2 style="color: var(--brass-text-a)">SECONDARY TEXT — STONE, DEEPENED</h2>
+    <div class="pair">
+      <div class="card">
+        <div class="tag a-tag">Candidate A — stone-text #5C564B (≈5.6:1)</div>
+        <p style="color: var(--stone-text-a)">Explanatory sentences like this one carry most of the House's guidance. They should recede from the Narrator's black without ever asking to be squinted at — quieter, not fainter.</p>
+      </div>
+      <div class="card">
+        <div class="tag b-tag">Candidate B — stone-text #665F53 (≈4.6:1)</div>
+        <p style="color: var(--stone-text-b)">Explanatory sentences like this one carry most of the House's guidance. They should recede from the Narrator's black without ever asking to be squinted at — quieter, not fainter.</p>
+      </div>
+      <div class="card fail">
+        <div class="tag">For reference — the current raw stone #8A8375 (≈2.8:1, fails)</div>
+        <p style="color: var(--house-stone)">Explanatory sentences like this one carry most of the House's guidance. This is the strain you caught on mobile.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2 style="color: var(--brass-text-a)">CEREMONIAL LABELS — BRASS, DEEPENED</h2>
+    <p style="font-size:15px; color: var(--stone-text-a); margin-bottom:14px;">Raw brass keeps the hairlines and short large ceremony. At reading sizes on Paper, the Architect engraves in brass-text.</p>
+    <div class="pair">
+      <div class="card">
+        <div class="tag a-tag">Candidate A — brass-text #6E5830 (≈5.0:1)</div>
+        <div class="plates">
+          <div class="plate" style="color: var(--brass-text-a)">LIBRARY</div>
+          <div class="plate" style="color: var(--brass-text-a)">THE EDIT</div>
+          <div class="plate" style="color: var(--brass-text-a)">MACHINE ROOM</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tag b-tag">Candidate B — brass-text #7A6234 (≈4.4:1)</div>
+        <div class="plates">
+          <div class="plate" style="color: var(--brass-text-b)">LIBRARY</div>
+          <div class="plate" style="color: var(--brass-text-b)">THE EDIT</div>
+          <div class="plate" style="color: var(--brass-text-b)">MACHINE ROOM</div>
+        </div>
+      </div>
+      <div class="card fail">
+        <div class="tag">For reference — raw brass #A9884F (≈2.5:1, fails as text)</div>
+        <div class="plates">
+          <div class="plate" style="color: var(--house-brass)">LIBRARY</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2 style="color: var(--brass-text-a)">THE LIBRARIAN, BY DAY</h2>
+    <div class="pair">
+      <div class="card">
+        <div class="tag a-tag">stone-text A, Jost 400, 13.5px</div>
+        <div class="meta" style="color: var(--stone-text-a)">
+          <span>Updated today</span><span>4 manifestations</span><span>Canon</span><span>Chapter II</span><span>7 entries</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tag b-tag">stone-text B, Jost 400, 13.5px</div>
+        <div class="meta" style="color: var(--stone-text-b)">
+          <span>Updated today</span><span>4 manifestations</span><span>Canon</span><span>Chapter II</span><span>7 entries</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2 style="color: var(--brass-text-a)">VOICE ON VELVET, GARNET ON PAPER</h2>
+    <p style="font-size:15px; color: var(--stone-text-a); margin-bottom:14px;">On Paper, House Red itself speaks (≈9:1). Red Voice belongs to dark grounds; here it survives only at ceremony size, if at all.</p>
+    <div class="redrow">
+      <div class="card">
+        <div class="tag a-tag">Garnet as the spoken link on Paper — correct</div>
+        <a class="gar" href="#" onclick="return false">Enter the House</a>
+      </div>
+      <div class="card fail">
+        <div class="tag">Red Voice at body size on Paper (≈3.3:1) — fails; shown for the record</div>
+        <p class="voice-demo">Enter the House</p>
+      </div>
+      <div class="card">
+        <div class="tag a-tag">Red Voice at ceremony size on Paper — permissible large-only, if ever</div>
+        <p class="voice-large">A home for becoming.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2 style="color: var(--brass-text-a)">THE MACHINE, BY DAY</h2>
+    <div class="machine">
+      <div>compiling prompt <span class="ok">— done</span></div>
+      <div class="state">manifestation complete.</div>
+      <div>model: gemini · provider: higgs</div>
+    </div>
+  </section>
+
+  <div class="lawline">"Whispering may reduce emphasis, never legibility."</div>
+  <div class="lawwho">LEGIBILITY COROLLARY · RATIFIED</div>
+
+  <footer>Estimates only — O-4b computes every pair precisely at cross-check. Choose A or B per token; mixed verdicts welcome.</footer>
+
+</div>
+</body>
+</html>

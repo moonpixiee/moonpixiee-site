@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House of Luna — The House Reads Aloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,400&family=Cormorant+SC:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Jost:wght@300;400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --house-black: #1A1720;
+    --house-black-soft: #252031;
+    --house-paper: #EFE7D8;
+    --house-paper-dim: #C9C0AE;
+    --house-red: #6A2436;
+    --house-red-voice: #B26578;
+    --house-brass: #A9884F;
+    --house-stone: #8A8375;
+    --house-amber: #E3A34A;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background: var(--house-black);
+    color: var(--house-paper);
+    font-family: 'Source Serif 4','Iowan Old Style',Georgia,serif;
+    line-height: 1.65;
+  }
+  .wrap{ max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+  header{ text-align: center; padding: 48px 0 8px; }
+  .arch{
+    font-family: 'Cormorant SC','Cormorant',serif;
+    letter-spacing: .22em; font-size: 14px; color: var(--house-brass);
+  }
+  h1{
+    font-family: 'Cormorant',serif; font-weight: 400;
+    font-size: 34px; margin-top: 16px; letter-spacing: .01em;
+  }
+  header .note{ color: var(--house-paper-dim); font-size: 14.5px; margin-top: 12px; }
+  hr.brass{ border:0; height:1px; margin: 44px auto; max-width: 320px;
+    background: linear-gradient(90deg, transparent, var(--house-brass), transparent); opacity:.5; }
+  h2{
+    font-family: 'Cormorant SC','Cormorant',serif; font-weight: 500;
+    font-size: 17px; letter-spacing: .18em; color: var(--house-paper); margin-bottom: 4px;
+  }
+  .roledesc{ color: var(--house-paper-dim); font-size: 14.5px; margin-bottom: 22px; }
+
+  /* Narrator duel */
+  .duel{ display:grid; gap: 18px; }
+  .candidate{
+    background: var(--house-black-soft); border: 1px solid rgba(169,136,79,.28);
+    border-radius: 3px; padding: 24px 26px;
+  }
+  .candidate .tag{
+    font-family: Jost, sans-serif; font-weight: 400; font-size: 12.5px;
+    color: var(--house-stone); letter-spacing: .06em; margin-bottom: 14px;
+  }
+  .ss4{ font-family: 'Source Serif 4',Georgia,serif; }
+  .ebg{ font-family: 'EB Garamond',Georgia,serif; }
+  .candidate p{ font-size: 17px; }
+  .candidate p + p{ margin-top: 12px; }
+  .candidate .display{
+    font-size: 26px; margin-bottom: 14px; font-weight: 400;
+  }
+  .verdict{ color: var(--house-stone); font-size: 13.5px; margin-top: 14px;
+    font-family: Jost, sans-serif; }
+
+  /* Architect */
+  .plates{ display:flex; flex-wrap:wrap; gap: 12px; }
+  .plate{
+    font-family: 'Cormorant SC','Cormorant',serif; font-weight: 500;
+    letter-spacing: .2em; font-size: 15px; color: var(--house-paper);
+    border: 1px solid var(--house-brass); border-radius: 2px;
+    padding: 12px 22px; background: rgba(169,136,79,.06);
+  }
+  .plate.red{ color: var(--house-red-voice); border-color: var(--house-red-voice); background: rgba(178,101,120,.06); }
+
+  /* Librarian */
+  .meta{
+    font-family: Jost, sans-serif; font-weight: 300; font-size: 13.5px;
+    color: var(--house-paper-dim); display:flex; flex-wrap:wrap; gap: 8px 18px;
+  }
+  .meta span::before{ content:"· "; color: var(--house-stone); }
+  .meta span:first-child::before{ content:""; }
+
+  /* Machine */
+  .machine{
+    background: #14111A; border: 1px solid rgba(227,163,74,.25); border-radius: 3px;
+    padding: 20px 24px; font-family: 'IBM Plex Mono',monospace; font-size: 13.5px;
+    color: var(--house-paper-dim); line-height: 2;
+  }
+  .machine .ok{ color: var(--house-amber); }
+  .machine .state{ color: var(--house-paper); }
+
+  /* Accents demo */
+  .accents{ display:grid; gap: 18px; }
+  .accent-card{ background: var(--house-black-soft); border-radius: 3px; padding: 24px 26px;
+    border: 1px solid rgba(138,131,117,.22); }
+  .accent-card .tag{ font-family: Jost,sans-serif; font-size: 12.5px; color: var(--house-stone);
+    letter-spacing:.06em; margin-bottom: 12px; }
+  .accent-library p{
+    font-family: 'Source Serif 4',Georgia,serif; font-size: 17px;
+    line-height: 1.85; max-width: 58ch; letter-spacing: .005em;
+  }
+  .accent-machine p{
+    font-family: 'Source Serif 4',Georgia,serif; font-size: 15.5px;
+    line-height: 1.5; max-width: 42ch; letter-spacing: .01em;
+  }
+  .accent-machine p + p{ margin-top: 10px; }
+
+  .lawline{
+    text-align:center; padding: 64px 12px 8px; font-family:'Cormorant',serif;
+    font-style: italic; font-size: 22px; color: var(--house-paper);
+  }
+  .lawwho{ text-align:center; font-family:'Cormorant SC',serif; letter-spacing:.16em;
+    font-size: 12.5px; color: var(--house-brass); margin-top: 14px; }
+  footer{ text-align:center; color: var(--house-stone); font-size: 12.5px;
+    font-family: Jost,sans-serif; padding-top: 48px; }
+  @media (min-width: 640px){ .duel{ grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="arch">HOUSE OF LUNA · SPEAKING PARTS</div>
+    <h1>The House Reads Aloud</h1>
+    <p class="note">Four voices, one House. Open in your browser so the true faces load. One decision lives here: the Narrator's face.</p>
+  </header>
+
+  <hr class="brass">
+
+  <section>
+    <h2>THE NARRATOR</h2>
+    <p class="roledesc">Literary, warm, timeless, human. The voice that speaks to visitors. Read both aloud in your head — one of them is the House.</p>
+    <div class="duel">
+      <div class="candidate ss4">
+        <div class="tag">Candidate A — Source Serif 4</div>
+        <div class="display">The House was built the way letters are written: one room at a time, for someone.</div>
+        <p>You have not been here before, and yet the lamp in the Library is already lit. The chairs remember a posture. The shelves hold what was kept on purpose. Nothing in this House was placed to impress you; everything was placed to receive you.</p>
+        <p>Stay as long as the reading takes.</p>
+        <div class="verdict">Sturdier at reading size · optical range from caption to display · hospitality through clarity</div>
+      </div>
+      <div class="candidate ebg">
+        <div class="tag">Candidate B — EB Garamond</div>
+        <div class="display">The House was built the way letters are written: one room at a time, for someone.</div>
+        <p>You have not been here before, and yet the lamp in the Library is already lit. The chairs remember a posture. The shelves hold what was kept on purpose. Nothing in this House was placed to impress you; everything was placed to receive you.</p>
+        <p>Stay as long as the reading takes.</p>
+        <div class="verdict">More antique blood · finer, quieter color on the page · asks slightly more of small screens</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2>THE ARCHITECT</h2>
+    <p class="roledesc">The engraving voice. Measured, intentional, never emotional. Cormorant small caps — the F-1 jurisdiction. It names; it does not describe.</p>
+    <div class="plates">
+      <div class="plate">LIBRARY</div>
+      <div class="plate">THE EDIT</div>
+      <div class="plate">MACHINE ROOM</div>
+      <div class="plate">WORK WITH LUNA</div>
+      <div class="plate red">ENTER THE HOUSE</div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2>THE LIBRARIAN</h2>
+    <p class="roledesc">Quiet metadata in Jost — sentence case, never caps, never competing. It counts; it does not name.</p>
+    <div class="meta">
+      <span>Updated today</span><span>4 manifestations</span><span>Canon</span><span>Chapter II</span><span>7 entries</span><span>Kept since June</span>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2>THE MACHINE</h2>
+    <p class="roledesc">Precise. Another civilization living politely inside the House — IBM Plex Mono wearing House colors, never terminal green. A role, not a room: it speaks wherever machinery speaks.</p>
+    <div class="machine">
+      <div>compiling prompt <span class="ok">— done</span></div>
+      <div>indexing memory <span class="ok">— done</span></div>
+      <div class="state">manifestation complete.</div>
+      <div>model: gemini · provider: higgs</div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2>ACCENTS, NOT TYPEFACES</h2>
+    <p class="roledesc">The same Narrator, the same face — different rooms, different acoustics. This is LAW 8 working: rhythm changes, the family never does.</p>
+    <div class="accents">
+      <div class="accent-card accent-library">
+        <div class="tag">Library accent — long measure, generous leading, unhurried sentences</div>
+        <p>The letters were kept in the order they arrived, which is not the order in which they mattered, and the difference between those two orders is very nearly the whole story of the person who kept them.</p>
+      </div>
+      <div class="accent-card accent-machine">
+        <div class="tag">Machine Room accent — short measure, tight leading, clipped sentences</div>
+        <p>The letters were kept. Arrival order, not importance.</p>
+        <p>The difference is the story.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="lawline">“The House speaks with one voice.<br>Its residents have accents.”</div>
+  <div class="lawwho">PROPOSED LAW 8 · AWAITING RATIFICATION</div>
+
+  <footer>Set on Charcoal Velvet · Old Page voice · brass in the hairlines · amber only where the Machine earns it</footer>
+
+</div>
+</body>
+</html>

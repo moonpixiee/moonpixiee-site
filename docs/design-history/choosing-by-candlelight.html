@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House of Luna — Choosing by Candlelight</title>
+<style>
+  :root{
+    --black: #1A1720;
+    --paper: #EFE7D8;
+    --paper-dim: #C9C0AE;
+    --brass: #A9884F;
+    --stone: #8A8375;
+    --amber: #E3A34A;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background: var(--black);
+    color: var(--paper);
+    font-family: 'Iowan Old Style','Palatino Linotype','Book Antiqua',Georgia,serif;
+    line-height: 1.65;
+    transition: background 600ms ease;
+    min-height: 100vh;
+  }
+  .wrap{ max-width: 680px; margin: 0 auto; padding: 48px 24px 96px; }
+  header{ text-align:center; padding: 56px 0 40px; }
+  header .eyebrow{
+    font-variant: small-caps; letter-spacing: .18em; font-size: 13px;
+    color: var(--brass); margin-bottom: 18px;
+  }
+  h1{ font-weight: 400; font-size: 30px; letter-spacing: .01em; }
+  header p.sub{ color: var(--paper-dim); margin-top: 14px; font-size: 16px; }
+  hr.brass{
+    border: 0; height: 1px; margin: 44px auto;
+    background: linear-gradient(90deg, transparent, var(--brass), transparent);
+    opacity: .5; max-width: 320px;
+  }
+  h2{
+    font-weight: 400; font-size: 20px; margin-bottom: 6px;
+    font-variant: small-caps; letter-spacing: .12em; color: var(--paper);
+  }
+  .law{ color: var(--paper-dim); font-size: 15px; margin-bottom: 26px; }
+
+  /* ---- House Black candidates ---- */
+  .blacks{ display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 10px; }
+  @media (min-width: 560px){ .blacks{ grid-template-columns: repeat(3, 1fr); } }
+  .black-card{
+    border: 1px solid rgba(169,136,79,.35);
+    border-radius: 3px; padding: 22px 16px 16px; cursor: pointer;
+    text-align: center; transition: border-color 300ms ease;
+  }
+  .black-card:hover, .black-card:focus-visible{ border-color: var(--brass); }
+  .black-card:focus-visible{ outline: 2px solid var(--amber); outline-offset: 3px; box-shadow: 0 0 0 5px rgba(239,231,216,.55); }
+  .black-card .name{ font-size: 15px; }
+  .black-card .whisper{ font-size: 12.5px; color: var(--paper-dim); margin-top: 4px; font-style: italic; }
+  .black-card .hex{ font-size: 11px; color: var(--stone); margin-top: 10px; letter-spacing: .08em; opacity: 0; transition: opacity 300ms; }
+  .black-card:hover .hex, .black-card.active .hex{ opacity: .8; }
+  .black-card.active{ border-color: var(--brass); box-shadow: inset 0 0 0 1px rgba(169,136,79,.3); }
+  .hint{ font-size: 12.5px; color: var(--stone); text-align:center; margin-top: 10px; }
+
+  /* ---- House Red candidates ---- */
+  .reds{ display: grid; gap: 26px; margin-top: 26px; }
+  .red-card{
+    display: grid; grid-template-columns: 92px 1fr; gap: 20px; align-items: center;
+    padding: 18px; border: 1px solid rgba(138,131,117,.22); border-radius: 3px;
+  }
+  .seal{
+    width: 84px; height: 84px; border-radius: 50%;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.45), inset 0 -2px 4px rgba(255,255,255,.06), 0 1px 3px rgba(0,0,0,.5);
+    display:flex; align-items:center; justify-content:center;
+    color: rgba(239,231,216,.85); font-size: 26px; font-style: italic;
+  }
+  .red-card .name{ font-size: 17px; }
+  .red-card .whisper{ font-size: 13.5px; color: var(--paper-dim); font-style: italic; margin-top: 2px; }
+  .red-demo{ margin-top: 12px; display:flex; flex-wrap:wrap; gap: 14px; align-items:center; }
+  .red-link{ font-size: 15px; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+  .red-btn{
+    font-family: inherit; font-size: 14px; font-variant: small-caps; letter-spacing: .14em;
+    background: transparent; border: 1px solid currentColor; border-radius: 2px;
+    padding: 9px 20px; cursor: pointer; transition: background 300ms ease, color 300ms ease;
+  }
+  .red-card .hex{ font-size: 11px; color: var(--stone); letter-spacing:.08em; margin-top: 10px; opacity: 0; transition: opacity 300ms; }
+  .red-card:hover .hex{ opacity: .8; }
+
+  /* ---- Paper candidates ---- */
+  .papers{ display: grid; gap: 14px; }
+  .paper-card{ padding: 20px 22px; border-radius: 3px; color: #221E22; border: 1px solid rgba(0,0,0,.2); }
+  .paper-card .name{ font-variant: small-caps; letter-spacing: .1em; font-size: 13px; opacity:.75; }
+  .paper-card .sample{ font-size: 17px; margin-top: 6px; }
+  .paper-card .hex{ font-size: 11px; opacity: 0; transition: opacity 300ms; letter-spacing:.08em; margin-top: 8px; }
+  .paper-card:hover .hex{ opacity: .6; }
+
+  /* ---- The sentence ---- */
+  .sentence{
+    text-align: center; padding: 72px 12px; font-size: 21px; font-style: italic; color: var(--paper);
+  }
+  .sentence .who{ display:block; margin-top: 18px; font-size: 13px; font-style: normal;
+    font-variant: small-caps; letter-spacing:.16em; color: var(--brass); }
+
+  footer{ text-align:center; color: var(--stone); font-size: 12.5px; padding-bottom: 40px; }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">House of Luna · Token Ratification</div>
+    <h1>Choosing by Candlelight</h1>
+    <p class="sub">Not by hex. By personality. Hover a swatch if you must know its number.</p>
+  </header>
+
+  <hr class="brass">
+
+  <section>
+    <h2>House Black</h2>
+    <p class="law">Darkness is a material, not an absence. Choose the ground — the whole page changes beneath you.</p>
+    <div class="blacks">
+      <button class="black-card active" data-bg="#1A1720" style="background:#1A1720">
+        <div class="name">Charcoal Velvet</div>
+        <div class="whisper">blue hiding inside</div>
+        <div class="hex">#1A1720</div>
+      </button>
+      <button class="black-card" data-bg="#1B1613" style="background:#1B1613">
+        <div class="name">Old Wood</div>
+        <div class="whisper">brown hiding inside</div>
+        <div class="hex">#1B1613</div>
+      </button>
+      <button class="black-card" data-bg="#19161B" style="background:#19161B">
+        <div class="name">Smoke</div>
+        <div class="whisper">both, breathing</div>
+        <div class="hex">#19161B</div>
+      </button>
+    </div>
+    <p class="hint">Tap each and sit with it. The right one feels touchable.</p>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2>House Red</h2>
+    <p class="law">Red is sacred: invitation, focus, importance, love, transformation. Each candidate shown as seal wax, as a spoken link, as a quiet door action.</p>
+    <div class="reds">
+
+      <div class="red-card">
+        <div class="seal" style="background:#7E4A4F">L</div>
+        <div>
+          <div class="name">Dried Rose</div>
+          <div class="whisper">a flower kept in a book for years</div>
+          <div class="red-demo">
+            <a class="red-link" href="#" style="color:#B87F84" onclick="return false">Return to the House</a>
+            <button class="red-btn" style="color:#C08A8F">Enter the House</button>
+          </div>
+          <div class="hex">#7E4A4F · link #B87F84</div>
+        </div>
+      </div>
+
+      <div class="red-card">
+        <div class="seal" style="background:#4E2027">L</div>
+        <div>
+          <div class="name">Oxblood</div>
+          <div class="whisper">leather armchair, decades of evenings</div>
+          <div class="red-demo">
+            <a class="red-link" href="#" style="color:#A9646E" onclick="return false">Return to the House</a>
+            <button class="red-btn" style="color:#B06E78">Enter the House</button>
+          </div>
+          <div class="hex">#4E2027 · link #A9646E</div>
+        </div>
+      </div>
+
+      <div class="red-card">
+        <div class="seal" style="background:#6A2436">L</div>
+        <div>
+          <div class="name">Garnet</div>
+          <div class="whisper">a stone that holds light without flashing it</div>
+          <div class="red-demo">
+            <a class="red-link" href="#" style="color:#B26578" onclick="return false">Return to the House</a>
+            <button class="red-btn" style="color:#BA6F81">Enter the House</button>
+          </div>
+          <div class="hex">#6A2436 · link #B26578</div>
+        </div>
+      </div>
+
+      <div class="red-card">
+        <div class="seal" style="background:#7C2F2A">L</div>
+        <div>
+          <div class="name">Library Seal Wax</div>
+          <div class="whisper">pressed warm, holding a letter shut</div>
+          <div class="red-demo">
+            <a class="red-link" href="#" style="color:#C0736C" onclick="return false">Return to the House</a>
+            <button class="red-btn" style="color:#C67D76">Enter the House</button>
+          </div>
+          <div class="hex">#7C2F2A · link #C0736C</div>
+        </div>
+      </div>
+
+      <div class="red-card">
+        <div class="seal" style="background:#5E2C35">L</div>
+        <div>
+          <div class="name">Rosewood</div>
+          <div class="whisper">between the rose and the wood it became</div>
+          <div class="red-demo">
+            <a class="red-link" href="#" style="color:#B06B7B" onclick="return false">Return to the House</a>
+            <button class="red-btn" style="color:#B87584">Enter the House</button>
+          </div>
+          <div class="hex">#5E2C35 · link #B06B7B</div>
+        </div>
+      </div>
+
+    </div>
+    <p class="hint">The deep value is the sacrament (seals, thresholds); the lifted value is its voice on dark ground (links, actions). They ratify as a pair.</p>
+  </section>
+
+  <hr class="brass">
+
+  <section>
+    <h2>House Paper</h2>
+    <p class="law">Not white. Old book pages. Moonlight on linen.</p>
+    <div class="papers">
+      <div class="paper-card" style="background:#EFE7D8">
+        <div class="name">Old Page</div>
+        <div class="sample">The House was quiet, and the lamp had been left on for someone.</div>
+        <div class="hex">#EFE7D8</div>
+      </div>
+      <div class="paper-card" style="background:#E9E6DE">
+        <div class="name">Moonlight on Linen</div>
+        <div class="sample">The House was quiet, and the lamp had been left on for someone.</div>
+        <div class="hex">#E9E6DE</div>
+      </div>
+      <div class="paper-card" style="background:#F0E5CF">
+        <div class="name">Candlelit</div>
+        <div class="sample">The House was quiet, and the lamp had been left on for someone.</div>
+        <div class="hex">#F0E5CF</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="brass">
+
+  <div class="sentence">
+    “…I’ve never been here before…<br>but it feels like this place has been waiting for me.”
+    <span class="who">the only review that counts</span>
+  </div>
+
+  <footer>
+    Brass stays in the hairlines. The amber ring appears only when the keyboard asks where it is.<br>
+    View this on your phone too — the House arrives by Instagram.
+  </footer>
+
+</div>
+<script>
+  document.querySelectorAll('.black-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      document.body.style.background = card.dataset.bg;
+      document.querySelectorAll('.black-card').forEach(function(c){ c.classList.remove('active'); });
+      card.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
