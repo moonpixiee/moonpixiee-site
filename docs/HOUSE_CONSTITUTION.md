@@ -1,10 +1,10 @@
 # HOUSE_CONSTITUTION.md
 
 House of Luna
-Version 4.0
+Version 4.1
 Status: Ratified
 
-Supersedes v3.0
+Supersedes v4.0
 
 ---
 
@@ -199,6 +199,10 @@ House Red is never chosen by emotion alone.
 A red that fails on Paper is not House Red, however beautiful.
 
 Pink is retired.
+
+**Amendment (v4.1 — Luna, 28 July 2026 — companion to §26 The Aesthetic Laws):**
+
+Retired colors are never replaced by hue. They are re-tokenized by role. Decorative and structural uses resolve through the Four Voices into the appropriate House token. Invitation-class uses alone become House Red. Retired values remain documented in design history and have no active token in the current version.
 
 ---
 
@@ -937,7 +941,75 @@ The House learns slowly, and one day the room is simply full.
 
 ---
 
-# 26. Amendment Log
+# 26. The Aesthetic Laws
+
+*Ratified — Luna, 28 July 2026. Folded from PHASE-R-AESTHETIC-LAWS.md (with LAW 1 amendment and LAW 2 clarification). Colors may evolve; these laws are immutable. Token values are governed by PHASE-R-TOKEN-PROPOSAL.md; retirements are preserved in `docs/design-history/`.*
+
+## The Experience Test (governing acceptance criterion)
+
+Every visual review answers to one sentence. A first-time visitor should think:
+
+> *"…I've never been here before… but it feels like this place has been waiting for me."*
+
+Not "that's pretty." Not "nice website." If a design decision moves the House toward this sentence, it is right; if it moves away, it is wrong, whatever else recommends it.
+
+## LAW 1 — The House is illuminated, never brightly lit.
+
+No harsh white UI. No sterile interfaces. Light always has a source: candles, lamps, windows, moonlight, daylight, or glowing machinery. Even the House's lightest spaces feel warm, dimensional, and inhabited.
+
+*(Amended at ratification: the House's established visual direction is light-first. Evening remains an available atmosphere, not a global mandate.)*
+
+## LAW 2 — Whenever darkness appears, it is a material, not an absence.
+
+Black is not empty. It has texture: stone, velvet, old wood, paper, smoke. Every dark surface should feel touchable.
+
+## LAW 3 — Red is sacred.
+
+If everything is red, nothing is. House Red means invitation, focus, importance, love, transformation — never decoration.
+
+**Corollary:** *House Red does not narrate. It invites.* House Red is a material before it is a text color. On dark grounds it speaks as Voice; on Paper it works as link and as ceremony, and it declines body copy — not as limitation, but as identity.
+
+## LAW 4 — Gold whispers.
+
+Never shiny, never luxury-for-luxury's-sake. Gold appears as worn brass, old frames, page edges, tiny details. If visitors consciously notice the gold, there is probably too much.
+
+## LAW 5 — Rooms own color. The House owns light.
+
+The hallway does not turn green because Moss & Moon exists. The Hall stays House. Each room's personality begins past its threshold. This is what keeps the House unified.
+
+## LAW 6 — Nothing snaps into existence.
+
+Not slow. Not floaty. Things settle, appear, breathe.
+
+**Reduced-motion corollary:** the settled state is complete in itself; breathing is atmosphere, never information.
+
+## LAW 7 — The House never shouts.
+
+No ALL-CAPS navigation, no loud marketing typography. The largest heading feels like someone speaking across a quiet room.
+
+**Italic corollary:** the soft italic voice is reserved for the Experience Test, brief emotional whispers, and occasional quotations. Instructional and explanatory sentences are set in the regular serif.
+
+## LAW 8 — The House speaks with one voice. Its residents have accents.
+
+**Corollary:** the House maintains one shared typographic cast. Rooms may alter rhythm, measure, spacing, hierarchy density, and sentence cadence, but they do not replace the cast at the threshold.
+
+**Legibility corollary:** whispering may reduce emphasis, never legibility.
+
+**The cast:** Narrator — Source Serif 4 · Architect — Cormorant Garamond · Librarian — Jost · Machine — IBM Plex Mono.
+
+**Role boundary:** the Architect names. The Librarian counts and annotates. The Narrator receives and guides. The Machine reports.
+
+---
+
+# 27. Amendment Log
+
+v4.1 — Luna, 28 July 2026
+
+Added §26 The Aesthetic Laws — the Experience Test plus LAWS 1–8 with corollaries — folded from the ratified PHASE-R-AESTHETIC-LAWS.md.
+
+Amended §5: retired colors are re-tokenized by role, not replaced by hue (companion to §26; resolves through the Four Voices; invitation-class uses alone become House Red).
+
+Amendment Log renumbered from §26 to §27.
 
 v4.0
 
