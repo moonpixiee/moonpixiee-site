@@ -67,3 +67,17 @@ Cormorant, EB Garamond, and Source Serif 4 are all SIL Open Font License (self-h
 - §8.3 glow ruling ← O-3 (as-built cyan vs proposed warm)
 - Focus treatment (O-4 failure) ← recommend dual-ring, House-wide
 - §8.4 reserved values remain provisional
+
+---
+
+## O-4b · Precise contrast on both ratified grounds (run at implementation, 29 Jul 2026)
+
+Recomputed against the *ratified* grounds — Charcoal Velvet `#1A1720` and Old Page `#EFE7D8` — before any page consumes the token layer.
+
+**Dark ground `#1A1720`:** paper 14.40:1 ✓ · paper-dim 9.80:1 ✓ · amber (non-text) 8.09:1 ✓ · brass 5.32:1 ✓ · stone 4.70:1 ✓. Garnet-as-text 1.62:1 (fails *by design* — on dark, Red speaks as Voice).
+
+**Light ground `#EFE7D8`:** black/Narrator 14.40:1 ✓ · Garnet (link/ceremony) 8.91:1 ✓ · stone-text 5.92:1 ✓ · brass-text 5.51:1 ✓ · red-voice (large only) 3.40:1 ✓. Documented failures preserved as evidence: raw stone 3.06 · raw brass 2.70 · amber 1.78 — which is *why* the `-text` tokens exist.
+
+**Dual-ring focus (§8.5):** on each ground one ring carries ≥3:1 while the other melts by design — dark: amber 8.09:1 (velvet melts 1.00:1); light: velvet 14.40:1 (amber edge-glow 1.78:1); rings mutually distinct 8.09:1. Verified on both grounds.
+
+**⚠ One finding — Red Voice is under AA body on dark, by a hair.** `--house-red-voice #B26578` on Charcoal Velvet = **4.23:1** — passes AA large (3:1) but sits below AA body (4.5:1). It's ratified for "links, quiet actions" on dark grounds, and normal-size links would land at 4.23:1. (O-4 missed this: it was computed against the older, darker `#12151C`; the ratified `#1A1720` is lighter, dropping contrast ~0.3.) → **Luna's call:** either scope Red Voice on dark to large/semibold text (≥3:1, already satisfied) or lighten the value ~2–3% to reach 4.5. The value is ratified; **not changed here.**
