@@ -21,6 +21,21 @@ Governs: visual navigation concept. **No visual implementation is authorized unt
 | Visual grammar | Ratified (§2.6) | 28 Jul 2026 |
 | Room-leak motif | Ratified, one primary leak per door | 28 Jul 2026 |
 | Reference assignments | Ratified (§2.5) | 28 Jul 2026 |
+| Seven door briefs + primary leaks | Ratified (PHASE-R-DOOR-BRIEFS.md) | 28 Jul 2026 |
+
+**Amendment AM-R-001 (28 Jul 2026, post-ratification):** as-built door→route mapping recorded from repository + production verification; discrepancy between ratified Hall roster and as-built routes discovered; RQ-7 and RQ-8 opened; P-FIX-1 logged.
+
+**Amendment AM-R-003 (30 Jul 2026, ratified by Luna):** threshold copy amended — greeting "The House has been expecting you." + open invitation "Wander if you like" + primary action "Wander" replacing "Enter the House"; tagline relocated off the threshold; protection clause ratified. Full record: PHASE-R-THRESHOLD-COPY.md.
+
+**Amendment AM-R-002 (28 Jul 2026, ratified by Luna):** RQ-7 resolved — option (a) for all three routeless doors; Phase R Hall launches with four live doors. RQ-8 resolved — `/becoming` and `/letters` classified as **Passages** in the House Map. `docs/ROUTE-MAP.md` approved as canonical route reference. P-FIX-1 approved. Governing rationale, ratified: *"The repository is the source of truth. A visual concept does not outrank the as-built House. A door enters the Hall only when its room genuinely exists. The Hall becomes a visible record of what has truly been built — not a roadmap disguised as a finished home."*
+
+**Resolved questions:**
+
+| # | Ruling | Date |
+|---|---|---|
+| RQ-7 | **Option (a), all three.** Luna's Room, Moss & Moon, VELVET//CTRL are absent from the Phase R Hall. No substitute mappings: `/becoming` is NOT Luna's Room; `/letters` is NOT Luna's Room; the VELVET//CTRL eyebrow on `/tools` is not a destination; Moss & Moon has no substitute route. The Not Yet vocabulary is NOT expanded to nonexistent rooms. Each later appearance is a **House event**: the Hall visibly gains a door when its room is built and published | 28 Jul 2026 |
+| RQ-8 | `/becoming` and `/letters` remain live, unchanged, reachable via the House Map under a distinct **Passages** grouping. **Label verified and ratified 28 Jul 2026:** "Passages" is unused in HOUSE_CONSTITUTION.md (sole repo occurrence is an incidental common-noun "book passages" in AI_LUNA.md); per Luna's conditional ratification, "Passages" stands and the fallback "Elsewhere in the House" is retired. Temporary navigational classification only: not a new room type, route, or restructuring. The Becoming stays at `/becoming` until M5 folds it into the Library; no inline migration. Letters stays at `/letters`, discoverable, not absorbed into Luna's Room, no ceremonial door merely because a route exists; permanent ownership logged as a later architectural decision. Existing contextual links to Letters may remain, provided no hierarchy restructuring | 28 Jul 2026 |
+| P-FIX-1 | **Approved.** `/work` page `<title>`: "Work With Me" → "Work With Luna" | 28 Jul 2026 |
 
 ---
 
@@ -55,7 +70,7 @@ The threshold is a reward for arriving at the House itself, not a toll on every 
 ```
         [ existing landing route — no /hall, no URL change ]
 Threshold state
-      ↓  Enter the House          (client-side state transition)
+      ↓  Wander                   (client-side state transition; AM-R-003)
 Grand Hall state
       ↓  Choose a Room
 The Room                          (existing room routes)
@@ -66,39 +81,52 @@ Deep links bypass the entrance entirely and open their destination directly. Thi
 ### 2.2 The Threshold (exterior)
 
 - Emotional anchor: reference R1 — dark Gothic front door, growth overtaking severity, warm light from within, the sense that the House is old, alive, and inhabited.
-- On-screen content, in full:
+- On-screen content, in full (**as amended by AM-R-003**, 30 Jul 2026 — full spec in PHASE-R-THRESHOLD-COPY.md):
   - **House of Luna**
-  - *A home for becoming.*
-  - Primary action: **Enter the House**
+  - *The House has been expecting you.* (period)
+  - *Wander if you like* (no terminal period, deliberate)
+  - Primary action: **Wander** (one verb; Garnet invitation — the first House Red a visitor sees)
+  - Retired from the threshold: "Enter the House" (to design history) · *"A home for becoming."* (relocated — discovered, not told; placement decided in shell/House Map work)
+  - Protection clause in force: no A/B testing, optimization, SEO language, or explanation beneath these lines
 - Cinematic but fast. Atmosphere may continue loading after the page is interactive; the Enter action is never blocked by decoration.
 - References are mood and atmosphere only; no image is a literal design and none is copied. At least one reference is AI-generated and watermarked; all are treated as mood boards, never as assets.
 
-### 2.3 The Grand Hall — door roster (RQ-2 ratified)
+### 2.3 The Grand Hall — Phase R launch roster (RQ-2 + AM-R-002 ratified)
 
 **Primary doors (full ceremonial scale):**
-Luna's Room · Library · The Edit · Moss & Moon · Machine Room · VELVET//CTRL
+Library → `/library` · The Edit → `/edit` · Machine Room → `/tools`
 
 **Secondary standalone door (visible and intentional, quieter scale):**
-Work With Luna — a genuine standalone door per prior Constitutional ratification. Never hidden inside Luna's Room, never reduced to a footer link. Presented as a private office / atelier door within the Hall's composition, not competing with the principal rooms.
+Work With Luna → `/work` — a genuine standalone door per prior Constitutional ratification. Never hidden inside Luna's Room, never reduced to a footer link. Presented as a private office / atelier door within the Hall's composition, not competing with the principal rooms.
+
+**Deferred doors (ratified briefs on file; absent until their rooms exist):**
+Luna's Room · Moss & Moon · VELVET//CTRL — each enters the Hall as a **House event** when its room is built and published. The House may grow without advertising missing construction.
 
 **Not in the Hall during Phase R:**
 Your Room — see PHASE-R-YOUR-ROOM-EXCLUSION.md.
 
-### 2.4 Door → route mapping (ROUTES PENDING REPO VERIFICATION)
+**Composition doctrine (ratified):** the Hall is composed intentionally around the House that actually exists today, with architectural breathing room to accommodate future doors — and it does not look incomplete at four doors. **Prohibited renderings (acceptance-tested):** blank doorframes · covered doorways · locked doors · "coming soon" doors · visual gaps labeled for future rooms.
 
-Displayed door names are presentation. **No existing route is renamed during Phase R.** The repository is the sole source of truth for route strings; nothing below may be inferred.
+### 2.4 Door → route mapping (AS-BUILT — verified from repository `src/pages/` and live production, 28 Jul 2026 21:51 EDT)
 
-| Displayed door | Existing route (fill from repo — do not infer) | Hall status |
-|---|---|---|
-| Luna's Room | `[PENDING REPO VERIFICATION]` | Primary |
-| Library | `[PENDING REPO VERIFICATION]` | Primary |
-| The Edit | `[PENDING REPO VERIFICATION]` | Primary |
-| Moss & Moon | `[PENDING REPO VERIFICATION]` | Primary |
-| Machine Room | `[PENDING REPO VERIFICATION]` — existing AI Luna–associated route; label change only | Primary |
-| VELVET//CTRL | `[PENDING REPO VERIFICATION]` | Primary |
-| Work With Luna | `[PENDING REPO VERIFICATION]` | Secondary standalone |
+Displayed door names are presentation. **No existing route is renamed during Phase R.** All strings below were pulled from the repository by Claude Code and confirmed live (200); none is inferred. Route behavior: `/<route>` canonical (no-slash), `/<route>/` 301s to it, `.html` also resolves; no redirects in netlify.toml (per AM-002).
 
-Gate: this table must be completed against the repository before any implementation begins.
+| Displayed door | As-built route | Hall status | Standing |
+|---|---|---|---|
+| *(Threshold + Grand Hall)* | `/` — `src/pages/index.html` | Landing (both states, RQ-1) | ✅ Verified |
+| Luna's Room | *(none — room unbuilt)* | **Deferred** | RQ-7 ratified: absent from Phase R Hall; debuts as a House event |
+| Library | `/library` — `library.html` | Primary | ✅ Verified |
+| The Edit | `/edit` — `edit.html` | Primary | ✅ Verified |
+| Moss & Moon | *(none — room unbuilt)* | **Deferred** | RQ-7 ratified: absent from Phase R Hall; debuts as a House event |
+| Machine Room | `/tools` — `tools.html` | Primary | ✅ Verified. Label-only change per RQ-2. The M3 rename to `/machine-room` is NOT live; no Phase R artifact may target it |
+| VELVET//CTRL | *(none — eyebrow on `/tools` is not a destination)* | **Deferred** | RQ-7 ratified: absent from Phase R Hall; debuts as a House event |
+| Work With Luna | `/work` — `work.html` | Secondary standalone | ✅ Verified. H1 reads "Work With Luna"; `<title>` still "Work With Me" — copy fix in Phase R scope (P-FIX-1). M3 rename to `/work-with-luna` NOT live; do not target |
+
+**Passages (RQ-8 ratified):** `/becoming` (The Becoming) and `/letters` (Letters from Moonpixiee) remain live and unchanged, reachable via the House Map under the **Passages** grouping (label verified against the Constitution and ratified; fallback retired). M5 later folds both into the Library; nothing migrates inline during Phase R.
+
+**Canonical route reference:** `docs/ROUTE-MAP.md` (approved AM-R-002), distinguishing live resolving routes · current display labels · future milestone targets (non-resolving, never implementation targets) · temporary passages · routes prohibited from inference.
+
+**Gate 2 standing: CLOSED (AM-R-002).** Every displayed door maps to a verified live route; every currently live destination has a truthful navigation path (four doors + two Passages via House Map). No door opens onto a nonexistent route.
 
 ### 2.5 Reference Register (assignments ratified)
 
@@ -136,15 +164,15 @@ The doors must feel related, but never mass-produced.
 
 Each room may let **one** trace of itself escape into the Hall before entry. It suggests the room; it never spills so far that rooms lose their boundaries.
 
-| Door | Ratified leak directions (choose one primary) |
-|---|---|
-| Library | narrow band of warm light · dust · one loose page |
-| Moss & Moon | petals · moss · leaves · damp stone |
-| The Edit | ribbon · perfume-like haze · gilt reflection · fabric edge |
-| Machine Room | low mechanical glow · fine vapor · restrained electrical pulse |
-| Luna's Room | candlelight · handwriting · soft curtain edge · a personal object |
-| VELVET//CTRL | red light · controlled signal distortion · impossible digital shimmer |
-| Work With Luna | warm desk lamp · paper · brass plate · partially visible appointment book |
+| Door | Ratified option set | **Selected primary (Luna, 28 Jul 2026)** |
+|---|---|---|
+| Library | narrow band of warm light · dust · one loose page | **one loose page** |
+| Moss & Moon | petals · moss · leaves · damp stone | **petals** |
+| The Edit | ribbon · perfume-like haze · gilt reflection · fabric edge | **fabric edge** |
+| Machine Room | low mechanical glow · fine vapor · restrained electrical pulse | **low mechanical glow** |
+| Luna's Room | candlelight · handwriting · soft curtain edge · a personal object | **handwriting** |
+| VELVET//CTRL | red light · controlled signal distortion · impossible digital shimmer | **impossible digital shimmer** |
+| Work With Luna | warm desk lamp · paper · brass plate · partially visible appointment book | **warm task light** |
 
 ---
 
@@ -190,9 +218,11 @@ Primary inbound traffic is Instagram and Substack: mobile is the first-class exp
 
 ---
 
-## 7. House Map (RQ-5 ratified)
+## 7. House Map (RQ-5 + AM-R-002 ratified)
 
 An overlay or persistent menu — **not a page, no new route.** It is the efficient navigation layer for keyboard users, screen-reader users, returning visitors, anyone declining ceremony, and all movement between rooms after entry. Available everywhere without passing back through the Grand Hall.
+
+**Contents:** the four Hall doors, the way back to the exterior threshold (§6), and a distinct **Passages** grouping holding The Becoming (`/becoming`) and Letters (`/letters`) — a temporary navigational classification, not a room type. ("Passages" verified unused in HOUSE_CONSTITUTION.md and ratified, 28 Jul 2026; fallback retired.)
 
 ---
 
@@ -239,8 +269,8 @@ These are budgets, not license to degrade the artwork. If an image cannot meet b
 Implementation is authorized only when all of the following exist:
 
 1. ✅ This brief at v1.0 ratified
-2. ⬜ Door→route mapping completed **from the repository** (§2.4)
+2. ✅ Door→route mapping **CLOSED** (AM-R-002): all four displayed doors verified from repository + production; deferred doors absent by ratification; Passages give every live destination a truthful path
 3. ✅ Revised Room Door Design Template (PHASE-R-DOOR-BRIEFS.md §1)
 4. ✅ Performance budget as acceptance criteria (§9)
-5. ⬜ Seven door briefs **ratified by Luna** (drafted in PHASE-R-DOOR-BRIEFS.md)
+5. ✅ Seven door briefs **ratified by Luna, 28 Jul 2026** (PHASE-R-DOOR-BRIEFS.md)
 6. ✅ Your Room exclusion note (PHASE-R-YOUR-ROOM-EXCLUSION.md)
