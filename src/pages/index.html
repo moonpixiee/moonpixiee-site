@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'G-VK53SYTZRQ');
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/styles/fonts.css"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -510,8 +510,164 @@
     #about > div { grid-template-columns: 1fr !important; gap: 3rem !important; }
   }
 </style>
+
+<!-- ============================================================
+     THE THRESHOLD (Phase R · RQ-1 state 1 · AM-R-003 copy)
+     Ratified values mirrored locally: tokens.css stays unconsumed
+     until step 4 (Luna's go, post-AL-002). No colour is inlined that
+     isn't a ratified House token. Atmosphere is pure CSS — no hero
+     asset (references are mood-only), so the 250KB budget is trivially
+     met and Wander is usable the instant the interface paints.
+     ============================================================ -->
+<style id="threshold-styles">
+  .threshold {
+    /* ratified tokens, mirrored (RATIFIED in tokens.css / Aesthetic Laws) */
+    --velvet:      #1A1720;  /* Charcoal Velvet — LAW 2 */
+    --velvet-soft: #252031;  /* raised velvet (provisional-by-eye) */
+    --paper:       #EFE7D8;  /* Old Page */
+    --paper-dim:   #C9C0AE;  /* dimmer paper (provisional-by-eye) */
+    --garnet:      #6A2436;  /* House Red — LAW 3, invitation */
+    --amber:       #E3A34A;  /* the House's light — LAW 1 / focus */
+    --brass:       #A9884F;  /* gold that whispers — LAW 4 */
+    --font-architect:'Cormorant Garamond', Georgia, serif;
+    --font-narrator:'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --door: 400ms;
+    --ease-door: cubic-bezier(0.22, 1, 0.36, 1);
+
+    position: fixed; inset: 0; z-index: 2000;
+    display: grid; place-items: center;
+    padding: clamp(1.5rem, 6vw, 4rem);
+    text-align: center;
+    color: var(--paper);
+    background:
+      /* one controlled sign of life: warm light pooling low, from within */
+      radial-gradient(120% 90% at 50% 118%, rgba(227,163,74,0.20) 0%, rgba(227,163,74,0.06) 26%, transparent 52%),
+      radial-gradient(90% 70% at 50% 128%, rgba(106,36,54,0.34) 0%, transparent 55%),
+      /* the velvet deepens toward the top — evening, LAW 1 available not mandated */
+      radial-gradient(140% 120% at 50% 8%, #15121b 0%, var(--velvet) 46%);
+    overflow: hidden;
+  }
+  /* fine grain — darkness as material, not absence (LAW 2) */
+  .threshold::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+  /* the arched opening — a brass hairline suggesting the door behind the words */
+  .threshold-arch {
+    position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+    width: min(78vw, 30rem); height: min(92vh, 44rem);
+    border: 1px solid rgba(169,136,79,0.22);
+    border-bottom: none;
+    border-radius: 50% 50% 0 0 / 42% 42% 0 0;
+    box-shadow: inset 0 0 90px rgba(227,163,74,0.05);
+    z-index: 0; pointer-events: none;
+  }
+  .threshold-inner { position: relative; z-index: 1; max-width: 34rem; }
+
+  .threshold-wordmark {
+    font-family: var(--font-architect);
+    font-weight: 500;
+    font-size: clamp(2.2rem, 9vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    color: var(--paper);
+    margin: 0 0 clamp(1.6rem, 5vw, 2.4rem);
+    text-shadow: 0 0 40px rgba(227,163,74,0.08);
+  }
+  .threshold-greeting {
+    font-family: var(--font-narrator);
+    font-weight: 400;
+    font-size: clamp(1.3rem, 4.6vw, 1.9rem);
+    line-height: 1.45;
+    color: var(--paper);
+    margin: 0 0 0.9rem;
+  }
+  .threshold-invitation {
+    font-family: var(--font-narrator);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1rem, 3.4vw, 1.2rem);
+    line-height: 1.5;
+    color: var(--paper-dim);
+    margin: 0 0 clamp(2rem, 6vw, 2.8rem);
+  }
+  .threshold-wander {
+    font-family: var(--font-narrator);
+    font-size: clamp(1rem, 3.4vw, 1.12rem);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--paper);
+    background: var(--garnet);
+    border: 1px solid rgba(169,136,79,0.45);
+    border-radius: 3px;
+    padding: 0.82rem 2.6rem;
+    cursor: pointer;
+    transition: background var(--door) var(--ease-door),
+                box-shadow var(--door) var(--ease-door),
+                transform var(--door) var(--ease-door);
+  }
+  .threshold-wander:hover {
+    background: #772a3e;
+    box-shadow: 0 0 0 1px rgba(227,163,74,0.30), 0 8px 30px rgba(106,36,54,0.45);
+    transform: translateY(-1px);
+  }
+  /* dual-ring focus (RATIFIED §8.5): amber inner, Charcoal Velvet outer */
+  .threshold-wander:focus-visible {
+    outline: 2px solid transparent; outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--amber), 0 0 0 4px var(--velvet);
+  }
+
+  /* LAW 6 — nothing snaps: the threshold settles in on arrival */
+  .threshold-inner > * { opacity: 0; transform: translateY(10px); }
+  .threshold.is-ready .threshold-inner > * {
+    opacity: 1; transform: none;
+    transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
+  }
+  .threshold.is-ready .threshold-greeting   { transition-delay: 90ms; }
+  .threshold.is-ready .threshold-invitation { transition-delay: 170ms; }
+  .threshold.is-ready .threshold-wander     { transition-delay: 260ms; }
+
+  /* Wander → the door opens: threshold settles away (LAW 6) */
+  .threshold.is-leaving {
+    opacity: 0; transform: scale(1.015);
+    transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
+    pointer-events: none;
+  }
+
+  /* the interior waits behind the threshold; no scroll until crossed */
+  body.threshold-active { overflow: hidden; }
+
+  /* LAW 6 corollary — reduced motion: the settled state is complete */
+  @media (prefers-reduced-motion: reduce) {
+    .threshold-inner > *,
+    .threshold.is-ready .threshold-inner > * { opacity: 1; transform: none; transition: none; }
+    .threshold-wander { transition: none; }
+    .threshold.is-leaving { transition: none; }
+  }
+</style>
 </head>
 <body>
+
+<!-- ============================================================
+     THE THRESHOLD — state 1 of the one route (RQ-1). Only four things
+     live here (protection clause, AM-R-003): wordmark · greeting ·
+     invitation · Wander. No nav, no SEO, no explanation, no second CTA.
+     ============================================================ -->
+<div class="threshold" id="threshold">
+  <div class="threshold-arch" aria-hidden="true"></div>
+  <div class="threshold-inner">
+    <h1 class="threshold-wordmark">House of Luna</h1>
+    <p class="threshold-greeting">The House has been expecting you.</p>
+    <p class="threshold-invitation">Wander if you like</p>
+    <button type="button" class="threshold-wander" id="wander">Wander</button>
+  </div>
+</div>
+
+<!-- The interior (interim): the existing House, revealed once the
+     threshold is crossed. The composed Grand Hall replaces this in the
+     next phase; nothing here is removed in the threshold pass. -->
+<div id="house-interior">
 
 <!-- NAV -->
 <nav>
@@ -794,6 +950,63 @@
   </div>
   <p class="footer-copy">© 2026 Moonpixiee · House of Luna · All rights reserved.</p>
 </footer>
+
+</div><!-- /#house-interior -->
+
+<!-- ============================================================
+     Two-state transition (RQ-1) + return-visit convenience (RQ-4).
+     The flag is browser convenience, not House memory: clearing site
+     data resets it. Deep links are unaffected — they open destinations
+     directly (this only governs the landing route's entrance state).
+     ============================================================ -->
+<script>
+  (function () {
+    var KEY = 'hol_entered';               // device-level convenience flag (RQ-4)
+    var threshold = document.getElementById('threshold');
+    var interior  = document.getElementById('house-interior');
+    var wander    = document.getElementById('wander');
+    if (!threshold || !interior || !wander) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var DOOR = reduce ? 0 : 400;           // --motion-door
+
+    function sealInterior() {              // interior waits, unreachable, behind the threshold
+      document.body.classList.add('threshold-active');
+      interior.setAttribute('aria-hidden', 'true');
+      interior.setAttribute('inert', '');
+    }
+    function openInterior() {
+      document.body.classList.remove('threshold-active');
+      interior.removeAttribute('aria-hidden');
+      interior.removeAttribute('inert');
+    }
+    function removeThreshold() {
+      if (threshold && threshold.parentNode) threshold.parentNode.removeChild(threshold);
+    }
+
+    // Returning visitor: the threshold has already been crossed on this device.
+    var entered = false;
+    try { entered = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    if (entered) {
+      removeThreshold();
+      openInterior();
+      return;
+    }
+
+    sealInterior();
+    // settle in (LAW 6) — next frame so the transition runs
+    requestAnimationFrame(function () { threshold.classList.add('is-ready'); });
+
+    function wanderIn() {
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      openInterior();                      // interior interactive immediately; motion is atmosphere
+      threshold.classList.add('is-leaving');
+      window.setTimeout(removeThreshold, DOOR);
+    }
+    wander.addEventListener('click', wanderIn);
+  })();
+</script>
 
 </body>
 </html>
