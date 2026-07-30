@@ -1,0 +1,40 @@
+/* ============================================================
+   House of Luna — The Cast (LAW 8): self-hosted @font-face.
+   Canonical font-delivery layer. No third-party font CDN anywhere.
+   Self-hosted WOFF2 subsets (Latin + punctuation); files + OFL license
+   text + subset recipe live in /public/fonts/. font-display: swap on
+   every face — text paints immediately in the fallback stack.
+
+   This file is font DELIVERY only — no colour tokens, no focus rules.
+   It is safe for any page to link now. The token/colour layer
+   (src/styles/tokens.css) is separate and gated (see its header);
+   tokens.css @imports this file so the Cast rides with it once wired.
+   ============================================================ */
+
+/* ---- The ratified Cast (>= 400; the House's standing voices) ---- */
+
+/* Narrator — Source Serif 4 */
+@font-face { font-family:'Source Serif 4'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/source-serif-4-400.woff2') format('woff2'); }
+@font-face { font-family:'Source Serif 4'; font-style:italic; font-weight:400; font-display:swap; src:url('/fonts/source-serif-4-400-italic.woff2') format('woff2'); }
+
+/* Architect — Cormorant Garamond */
+@font-face { font-family:'Cormorant Garamond'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/cormorant-garamond-400.woff2') format('woff2'); }
+@font-face { font-family:'Cormorant Garamond'; font-style:normal; font-weight:500; font-display:swap; src:url('/fonts/cormorant-garamond-500.woff2') format('woff2'); }
+@font-face { font-family:'Cormorant Garamond'; font-style:italic; font-weight:400; font-display:swap; src:url('/fonts/cormorant-garamond-400-italic.woff2') format('woff2'); }
+
+/* Librarian — Jost (min 400 floor per LAW 8 legibility corollary) */
+@font-face { font-family:'Jost'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/jost-400.woff2') format('woff2'); }
+@font-face { font-family:'Jost'; font-style:normal; font-weight:500; font-display:swap; src:url('/fonts/jost-500.woff2') format('woff2'); }
+
+/* Machine — IBM Plex Mono */
+@font-face { font-family:'IBM Plex Mono'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/ibm-plex-mono-400.woff2') format('woff2'); }
+@font-face { font-family:'IBM Plex Mono'; font-style:normal; font-weight:500; font-display:swap; src:url('/fonts/ibm-plex-mono-500.woff2') format('woff2'); }
+
+/* ---- Legacy-support weights (weight 300) ----
+   The pre-Phase-R pages set font-weight:300 on Cormorant/Jost. These faces
+   keep those pages rendering exactly as before now that the Google CDN is
+   gone. They are NOT part of the new cast (which floors at 400). Prune each
+   as its page is restyled to the token layer. */
+@font-face { font-family:'Cormorant Garamond'; font-style:normal; font-weight:300; font-display:swap; src:url('/fonts/cormorant-garamond-300.woff2') format('woff2'); }
+@font-face { font-family:'Cormorant Garamond'; font-style:italic; font-weight:300; font-display:swap; src:url('/fonts/cormorant-garamond-300-italic.woff2') format('woff2'); }
+@font-face { font-family:'Jost'; font-style:normal; font-weight:300; font-display:swap; src:url('/fonts/jost-300.woff2') format('woff2'); }
