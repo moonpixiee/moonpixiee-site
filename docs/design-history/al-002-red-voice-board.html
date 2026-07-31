@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AL-002 · Red Voice — candidates for Luna's eye</title>
+<link rel="stylesheet" href="/styles/fonts.css"/>
+<style>
+  :root{
+    --velvet:#1A1720; --paper:#EFE7D8; --paper-dim:#C9C0AE; --brass:#A9884F; --stone:#8A8375;
+    --narrator:'Source Serif 4', Georgia, serif;
+    --librarian:'Jost', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--velvet); color:var(--paper); font-family:var(--narrator);
+       padding:clamp(1.5rem,5vw,3.5rem); line-height:1.6;}
+  .wrap{max-width:640px; margin:0 auto;}
+  .eyebrow{font-family:var(--librarian); font-size:13px; letter-spacing:0.14em;
+           text-transform:uppercase; color:var(--brass); margin-bottom:0.5rem;}
+  h1{font-family:'Cormorant Garamond',serif; font-weight:500; font-size:2rem; margin-bottom:0.4rem;}
+  .lede{color:var(--paper-dim); font-size:15px; margin-bottom:2rem;}
+  .lede b{color:var(--paper); font-weight:600;}
+  .card{border-top:1px solid rgba(169,136,79,0.22); padding:1.4rem 0 1.5rem;}
+  .meta{font-family:var(--librarian); font-size:13px; color:var(--stone);
+        display:flex; flex-wrap:wrap; gap:0.5rem 1.1rem; align-items:center; margin-bottom:0.7rem;}
+  .swatch{width:15px; height:15px; border-radius:3px; display:inline-block; vertical-align:-2px;}
+  .name{color:var(--paper); letter-spacing:0.04em;}
+  .hex{color:var(--paper-dim);}
+  .pass{color:#8FB98A;}  .fail{color:#C98A93;}
+  /* the sentence is Narrator body at exactly 16px — the real reading size of a House link */
+  .sentence{font-size:16px; line-height:1.65; color:var(--paper);}
+  .sentence a{text-decoration:none; border-bottom:1px solid currentColor; padding-bottom:1px; cursor:default;}
+  .sentence a:hover{border-bottom-width:2px;}
+  .note{font-size:13px; color:var(--stone); font-family:var(--librarian); margin-top:2.4rem;
+        border-top:1px solid rgba(169,136,79,0.22); padding-top:1.2rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">AL-002 · The Red Voice · RESOLVED — 31 Jul 2026</p>
+  <h1>House Red, speaking on Velvet</h1>
+  <p class="lede">The first-ratified Voice <b>#B26578</b> computed <b>4.23:1</b> on Charcoal Velvet —
+     just under the AA floor of 4.5:1 for body-size text. Below: that value (now retired),
+     then the three AA-passing candidates. <b>Luna ruled C1 #B87283</b> — the smallest lift
+     that clears AA while holding the garnet-rose identity. All shown at the real 16px link
+     size, in the Narrator, on Velvet. Preserved as the AL-002 decision record.</p>
+
+  <!-- RATIFIED (reference; fails AA) -->
+  <div class="card">
+    <div class="meta">
+      <span class="swatch" style="background:#B26578"></span>
+      <span class="name">Retired (was first-ratified)</span>
+      <span class="hex">#B26578</span>
+      <span class="fail">4.23:1 · below AA</span>
+    </div>
+    <p class="sentence">The House keeps its letters in
+       <a style="color:#B26578">the Library</a>, and the newest of them are waiting for you there.</p>
+  </div>
+
+  <!-- C1 -->
+  <div class="card">
+    <div class="meta">
+      <span class="swatch" style="background:#B87283"></span>
+      <span class="name">C1 · Nearest · ★ RATIFIED (AL-002)</span>
+      <span class="hex">#B87283</span>
+      <span class="pass">4.86:1 · AA ✓</span>
+    </div>
+    <p class="sentence">The House keeps its letters in
+       <a style="color:#B87283">the Library</a>, and the newest of them are waiting for you there.</p>
+  </div>
+
+  <!-- C2 -->
+  <div class="card">
+    <div class="meta">
+      <span class="swatch" style="background:#B87580"></span>
+      <span class="name">C2 · Warmer (dried-rose)</span>
+      <span class="hex">#B87580</span>
+      <span class="pass">4.96:1 · AA ✓</span>
+    </div>
+    <p class="sentence">The House keeps its letters in
+       <a style="color:#B87580">the Library</a>, and the newest of them are waiting for you there.</p>
+  </div>
+
+  <!-- C3 -->
+  <div class="card">
+    <div class="meta">
+      <span class="swatch" style="background:#B4818D"></span>
+      <span class="name">C3 · Muted (softened)</span>
+      <span class="hex">#B4818D</span>
+      <span class="pass">5.45:1 · AA ✓</span>
+    </div>
+    <p class="sentence">The House keeps its letters in
+       <a style="color:#B4818D">the Library</a>, and the newest of them are waiting for you there.</p>
+  </div>
+
+  <p class="note">Contrast is WCAG 2.x against Charcoal Velvet #1A1720. C1 is the smallest possible
+     lift — the same Voice, only cleared over the line. C2 leans a touch warmer, away from the
+     faint magenta. C3 softens the saturation for a deeper, quieter rose with the most headroom.
+     Garnet #6A2436 (the sacrament / the Wander button) is unaffected — this concerns the Voice
+     that speaks red text on dark grounds only.</p>
+</div>
+</body>
+</html>

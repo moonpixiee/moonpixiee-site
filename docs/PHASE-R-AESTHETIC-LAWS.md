@@ -97,7 +97,9 @@ Values are chosen later, by eye; these personalities govern the choosing.
 ## Ratified Values (Luna, 28 July 2026 — final, ratified from rendered swatches)
 
 - **House Black — Charcoal Velvet: `#1A1720`** *(Amendment AL-001, same night: initial selection Smoke `#19161B` superseded after rendered review — Charcoal Velvet's blue-violet undertone makes Paper luminous, keeps brass visible without glow, keeps Garnet romantic, and connects to Luna's moonlit identity. The rendering proved it; values are ratified by eye, on screen.)*
-- **House Red — Garnet: `#6A2436`** · **House Red Voice: `#B26578`** (the sacrament and its voice on dark ground; ratified as a pair. Garnet behaves like a keystone; the others behaved like supporting colors)
+- **House Red — Garnet: `#6A2436`** · **House Red Voice: `#B87283`** (the sacrament and its voice on dark ground. Garnet behaves like a keystone; the others behaved like supporting colors)
+
+**Amendment AL-002 (31 Jul 2026, ratified by Luna — candidate C1):** House Red Voice lifted from `#B26578` to **`#B87283`**. The originally-ratified `#B26578` computed **4.23:1** on Charcoal Velvet `#1A1720` — below the WCAG AA floor of 4.5:1 for link-size text. C1 is the smallest lift that clears AA (**4.86:1**) while holding the garnet-rose identity, chosen over the warmer C2 `#B87580` and the muted C3 `#B4818D`. This is an accessibility correction, not a redesign; Garnet `#6A2436` (invitation/ceremony) is unaffected. `#B26578` is retired to design history with no active token; the candidate board is preserved at `docs/design-history/al-002-red-voice-board.html`.
 - **House Paper — Old Page: `#EFE7D8`** (paper illuminated by the House, not paper aged for it)
 - **House Brass `#A9884F` · House Stone `#8A8375` · House Amber `#E3A34A`** — ratified as part of Luna's locked `:root` palette
 
