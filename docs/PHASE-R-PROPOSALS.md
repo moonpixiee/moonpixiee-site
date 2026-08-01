@@ -45,3 +45,13 @@ APPROVED in structure and storytelling (1 Aug 2026). A later "patina pass" — t
 perspective, columns, trim, dust, uneven masonry, asymmetry, distance. It gives
 the Hall physical age and depth beyond the approved first composition. Not built
 now; it awaits Luna's dedicated instruction.
+
+**Governed by reference R9** (`design-history/R9-grand-hall-vision.{webp,md}`, mood
+only). Adopted into scope from R9's atmosphere notes: **one continuous space**, the
+**same masonry throughout**, subtle **dust and light rays**, **moss, cracks, worn
+stone**, centuries of age, **no hard dividers** between doors. **Light bleed is
+adopted at LEAK intensity only** — each door pools light at its own threshold;
+between doors the masonry returns to House stone; **no full-wall colour washes**
+(LAW 5). The light progression (Library warm-gold → Machine amber/bronze) is a
+journey of light, not paint. R9's teal (Work) and rose/mauve (Edit) are rejected —
+Work is warm task light, The Edit is burgundy.
