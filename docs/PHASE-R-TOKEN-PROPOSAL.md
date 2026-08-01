@@ -28,7 +28,7 @@ One token file. No raw hex values anywhere downstream. A component that needs a 
 | `--house-paper` | **`#EFE7D8`** (Old Page) | **RATIFIED** | The light-first ground and the voice on dark grounds. Alias: `--house-ivory` |
 | `--house-paper-dim` | `#C9C0AE` | proposed | Secondary text on dark grounds. Alias: `--house-ivory-dim` |
 | `--house-red` | **`#6A2436`** (Garnet) | **RATIFIED** | **Sacred (LAW 3):** invitation, focus, importance, love, transformation. Never decoration. Seals, thresholds, moments |
-| `--house-red-voice` | **`#B26578`** | **RATIFIED** | House Red speaking on dark grounds — links, quiet actions. Ratified as a pair with `--house-red` |
+| `--house-red-voice` | **`#B87283`** | **RATIFIED** (lifted by AL-002, 31 Jul) | House Red speaking on dark grounds — links, quiet actions. Originally ratified `#B26578` (4.23:1 on Velvet, below AA); AL-002 lifted it to `#B87283` (4.86:1). `#B26578` retired to design history |
 | `--house-stone` | `#8A8375` | **RATIFIED** (locked `:root`) | Warm architectural neutral — surrounds, borders, quiet structure |
 | `--house-stone-deep` | `#443F37` | proposed | Deep structure, shadow |
 | `--house-amber` | `#E3A34A` | **RATIFIED** (locked `:root`) | The House's light (LAW 1) — sourced glow, wayfinding, focus (F-3). Not gold; not palette |
@@ -127,7 +127,19 @@ All self-hosted WOFF2, subset, `font-display: swap` — per performance budget. 
 2. **§8.2 type — CLOSED (28 Jul):** LAW 8 + corollaries ratified; cast ratified (Narrator Source Serif 4 · Architect Cormorant Garamond · Librarian Jost · Machine IBM Plex Mono); role boundary ratified; italic corollary and legibility corollary in force. EB Garamond unratified, reserved as possible future scoped accent.
 2b. **Daylight text tokens — CLOSED (28 Jul):** stone-text `#5C564B` and brass-text `#6E5830` ratified from the rendered board; Garnet-on-Paper rule constitutionalized (LAW 3 corollary); Machine paper-terminal treatment ratified.
 3. **§8.3 Machine Room glow — CLOSED (28 Jul):** warm filament ratified; value confirmed by eye at implementation.
-4. **S-1 — CLOSED.** Smoke retired; §5 companion amendment RATIFIED in Luna's final wording (see PHASE-R-AESTHETIC-LAWS.md): retired colors are never replaced by hue; they are re-tokenized by role. Persian-plum retired under the same rule.
+4. **S-1 — Open (reopened 1 Aug 2026):** Smoke remains a named, valueless destination pending Luna's ruling; `--persian-plum #710C21` fate rides with it. (The §5 companion amendment stands — retired colors are re-tokenized by role, not replaced by hue — but Smoke's own value/deferral is not yet settled.)
 5. **§8.5 — CLOSED:** dual-ring ratified, amber inner / Charcoal Velvet outer. O-4b precise recompute executes at implementation.
 6. **§8.6 — CLOSED** by the Stability Declaration: reserved values provisional until assigned; room hues governed by their visual passes.
 7. **§3 room-scope hues — CLOSED** by the Stability Declaration: deferred to each door's visual pass, chosen by eye in situ (LAW 5).
+
+## 9. Two-layer token model (RATIFIED — Luna, 1 August 2026)
+
+**Architecture tokens — frozen, shared, never overridden per-route:**
+stone · arch geometry · shadow curves · spacing · trim · masonry · structural materials
+
+**Atmosphere tokens — room-scoped, sampled by the Hall for gradient bleed:**
+light temperature · material accents · room color · fog · particles
+ambient audio *(reserved — hooks only, no implementation; autoplay & accessibility ruling required before activation)*
+scent *(reserved concept — named channel, no digital implementation planned)*
+
+Rooms may set atmosphere tokens only. Any room stylesheet touching an architecture token is a LAW 9 violation and fails review.

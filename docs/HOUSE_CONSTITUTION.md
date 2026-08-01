@@ -1,10 +1,10 @@
 # HOUSE_CONSTITUTION.md
 
 House of Luna
-Version 4.1
+Version 4.2
 Status: Ratified
 
-Supersedes v4.0
+Supersedes v4.1
 
 ---
 
@@ -132,6 +132,8 @@ Memory is hospitality.
 Memory is never surveillance.
 
 If a memory serves the House more than the visitor, the House does not keep it.
+
+**Corollary (ratified 1 Aug 2026):** The House Remembers operates in two registers. It remembers *people* — identity, keys, returning residents. And it remembers *rooms* — no room exists in isolation; each leaves traces beyond its own walls through light, atmosphere, and material continuity, even when the room itself cannot be seen. Memory in this House is both personal and spatial.
 
 ---
 
@@ -999,9 +1001,23 @@ No ALL-CAPS navigation, no loud marketing typography. The largest heading feels 
 
 **Role boundary:** the Architect names. The Librarian counts and annotates. The Narrator receives and guides. The Machine reports.
 
+## LAW 9 — One House
+
+No room may redefine the architecture of the House. Rooms inherit the House. They do not replace it.
+
+Stone, proportion, shadow, craftsmanship, and structural language belong to the House itself. A room may only change atmosphere.
+
+**No room exists in isolation.** Every room leaves traces beyond its own walls through light, atmosphere, memory, and material continuity. The Hall pre-echoes each room through light bleed and color spill. Transitions never reset the visual language: the visitor is always walking deeper into one building, never navigating between webpages.
+
 ---
 
 # 27. Amendment Log
+
+v4.2 — Luna, 1 August 2026
+
+Added §3 corollary: The House Remembers operates in two registers — people and rooms. Memory is both personal and spatial (companion to LAW 9).
+
+Added §26 LAW 9 — One House: no room may redefine the architecture; rooms inherit the House and change only atmosphere; no room exists in isolation. Mirrored from the ratified PHASE-R-AESTHETIC-LAWS.md.
 
 v4.1 — Luna, 28 July 2026
 

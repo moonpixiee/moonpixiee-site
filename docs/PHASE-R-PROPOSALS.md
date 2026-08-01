@@ -60,3 +60,29 @@ Work is warm task light, The Edit is burgundy.
 beam** — barely visible, motivated by the lamp (they appear only where the door's
 warm light spills), with a **static equivalent under reduced-motion** (LAW 6). Part
 of the patina pass, not built now.
+
+---
+
+# Phase R proposals — logged 1 August 2026 (NOT built; Phase R structure remains frozen)
+
+## P-R1 — The Conservatory Passage (Moss & Moon)
+
+Moss & Moon does not enter the Grand Hall. It is reached: Hall → Courtyard → Glass Conservatory → Moss & Moon. A Victorian glass botanical room you wander into, not pass through — humidity, ivy, fog, filtered green light, birdsong (audio reserved). Requires new routing and spatial structure → structural phase (Phase S candidate flagship). Hall gradient reference is unaffected; the six doors stand. Moss & Moon remains botanical-atmosphere only — no live plant inventory, ever.
+
+## P-R2 — Hidden Passages
+
+Discovered spaces with no map presence and no Hall access. Example: a bookshelf in the Library that opens onto a staircase. "You found something." Vehicle for future seasonal experiences. Never announced, never listed, never a notification.
+
+## P-R3 — Visiting Houses
+
+Belongs to the memory-and-keys milestone. A visitor enters another person's *House*, not a profile: architecture familiar (LAW 9 guarantees orientation — you always know where the Library is), atmosphere entirely theirs — their light, collections, memories. No follower counts, no social metrics. This proposal is a standing argument for the identity infrastructure's priority.
+
+## P-R4 — Living Hall
+
+The Hall is never static. As a resident's House grows, the Hall changes through architecture, not notifications: lanterns relight, books accumulate, plants spread, portraits appear, seasonal decorations, canon artifacts, moonmarks, holiday candles. The Hall itself remembers the journey. **Design constraint for current work:** Phase R's Hall build should avoid choices that would make environmental change hard to retrofit — treat door surrounds, sills, and wall fixtures as future mount points, structurally stable but visually mutable.
+
+## P-R5 — Geography Before UI
+
+Every navigation decision should first be explainable as movement through the House before it is explained as interface design. If a feature cannot be placed somewhere in the House, it probably doesn't belong yet. (Should notifications exist? Where do they live? Should search exist? Where in the House would someone search? Settings — an Archivist's desk, a steward's office, a caretaker's room?) The question is never "where do we put the button" but "where would this exist in the building."
+
+*Note: P-R5 is a design filter, not a structural proposal — candidate for graduation into the aesthetic laws in a future ratification.*

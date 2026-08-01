@@ -235,31 +235,11 @@
   .machine-name { font-family: var(--fa); font-weight: 500; font-size: clamp(1.5rem, 2.6vw, 1.9rem); color: var(--paper); line-height: 1.12; margin-bottom: 0.9rem; }
   .machine-desc { font-family: var(--fn); font-size: 0.9rem; color: var(--paper-dim); line-height: 1.8; max-width: 40ch; margin-bottom: 1.8rem; flex-grow: 1; }
 
-  /* CTA rest state: dark, machined outline in brass. Only the awake machine's
-     action is sealed in Garnet (the single invitation forward, Set Doctrine). */
-  .machine-cta {
-    align-self: flex-start; display: inline-flex; align-items: center; gap: 0.55rem;
-    font-family: var(--fm); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--paper); text-decoration: none; background: transparent;
-    border: 1px solid var(--brass); padding: 0.8rem 1.4rem;
-    transition: border-color 0.3s, background 0.3s, color 0.3s, transform 0.3s;
-  }
-  .machine-cta:hover, .machine-cta:focus-visible { border-color: var(--filament); color: var(--mr-under); background: var(--filament); transform: translateY(-1px); }
-  .cta-garnet { border-color: var(--garnet); background: var(--garnet); color: var(--paper); }
-  .cta-garnet:hover, .cta-garnet:focus-visible { border-color: var(--filament); background: #7C2E44; color: var(--paper); }
-  .cta-caption { margin-top: 0.9rem; font-family: var(--fl); font-size: 0.74rem; color: var(--stone); max-width: 30ch; line-height: 1.6; }
-
-  /* ── EARLY ACCESS ── */
-  .access { position: relative; z-index: 2; text-align: center; padding: clamp(4rem, 8vw, 6rem) 1.5rem; border-top: 1px solid rgba(68,63,55,0.5); background: linear-gradient(180deg, transparent, rgba(16,13,22,0.55)); }
-  #early-access { scroll-margin-top: 96px; }
-  .access-label { font-family: var(--fm); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--filament); margin-bottom: 1.2rem; display: block; }
-  .access-title { font-family: var(--fa); font-weight: 500; font-size: clamp(2rem, 5vw, 3rem); color: var(--paper); margin-bottom: 1rem; line-height: 1.16; }
-  .access-sub { font-family: var(--fn); font-size: 0.95rem; color: var(--paper-dim); max-width: 46ch; margin: 0 auto 2.4rem; line-height: 1.85; }
-  .access-status { font-family: var(--fm); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); }
-  .access-note { font-family: var(--fl); font-size: 0.78rem; color: var(--stone); margin-top: 1rem; line-height: 1.7; }
-  .partner-line { margin-top: 2.8rem; font-family: var(--fn); font-size: 0.95rem; color: var(--paper-dim); }
-  .partner-line a { color: var(--filament); text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px; transition: color 0.3s, border-color 0.3s; }
-  .partner-line a:hover { color: var(--amber); border-color: var(--amber); }
+  /* F-6 (RULING — Luna, 1 Aug 2026): the Machine Room holds no intake affordances.
+     Every card closes on atmosphere — a glowing equipment readout (the Machine
+     reports), never an affordance: no border, no background, no hover, no link.
+     The House never asks visitors to wait outside a room. */
+  .machine-note { align-self: flex-start; margin-top: auto; font-family: var(--fm); font-size: 0.78rem; letter-spacing: 0.03em; color: var(--filament); line-height: 1.6; max-width: 34ch; }
 
   /* ── FOOTER ── */
   footer { position: relative; z-index: 2; padding: 3rem 1.5rem; border-top: 1px solid rgba(68,63,55,0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; }
@@ -289,7 +269,7 @@
 <div class="page-hero" id="machine-room">
   <p class="page-eyebrow">The Machine Room</p>
   <h1 class="page-title">Infrastructure for<br/><em>impossible ideas.</em></h1>
-  <p class="page-sub">The House keeps its machinery down here. Four systems. One of them is already awake.</p>
+  <p class="page-sub">The machines never stop working. Some are not yet ready for visitors.</p>
 
   <!-- MACHINE-PAPER TERMINAL: the Machine reports the manifest in mono -->
   <div class="terminal" role="group" aria-label="System manifest">
@@ -326,21 +306,13 @@
       <p class="machine-desc">Your strategic and creative co-pilot&mdash;trained to think inside the Moonpixiee universe.</p>
 
       <!--
-        AI LUNA production route:
-        The previous CTA pointed to https://moonpixiee.com (the marketing site itself,
-        formerly routed through a Beacons link-in-bio page). That link has been removed
-        per instructions — it did not lead to a working AI Luna application.
-
-        Current copy intentionally reads as a request/waitlist step (not "Enter"),
-        since no public product route exists yet.
-
-        TODO(prod): once the AI Luna application is deployed, change the CTA text back
-        to "Enter AI Luna" and point it at the production URL, e.g.:
-          <a href="https://app.moonpixiee.com" class="machine-cta">Enter AI Luna &rarr;</a>
-        Do NOT relink this CTA to the old Beacons page.
+        F-6 (RULING — Luna, 1 Aug 2026, extended): the Machine Room holds no intake
+        affordances — the "Request AI Luna Access" button was REMOVED, not disabled.
+        The room is an active workshop, not an intake page. AI Luna's invitation
+        returns as a ceremony in its own ratified phase — never as a dormant button,
+        and never relinked to the old Beacons page. What remains is atmosphere only.
       -->
-      <a href="#early-access" class="machine-cta cta-garnet">Request AI Luna Access &rarr;</a>
-      <p class="cta-caption">Private access opens in phases.</p>
+      <p class="machine-note">AI Luna is currently assisting within the House.</p>
     </article>
 
     <article class="machine">
@@ -351,7 +323,7 @@
       <span class="machine-cat">Identity Laboratory</span>
       <h3 class="machine-name">Muse</h3>
       <p class="machine-desc">Build and preserve a visual identity across images, characters, campaigns, and entire worlds.</p>
-      <a href="#early-access" class="machine-cta">Request Access &rarr;</a>
+      <p class="machine-note">The Muse is already at work.</p>
     </article>
 
     <article class="machine">
@@ -362,7 +334,7 @@
       <span class="machine-cat">Visual Identity System</span>
       <h3 class="machine-name">Brand Engine</h3>
       <p class="machine-desc">Turn an idea into a complete creative direction&mdash;palette, typography, imagery, language, and atmosphere.</p>
-      <a href="#early-access" class="machine-cta">Join The Waitlist &rarr;</a>
+      <p class="machine-note">The Brand Engine is quietly being assembled.</p>
     </article>
 
     <article class="machine">
@@ -373,21 +345,10 @@
       <span class="machine-cat">Content Infrastructure</span>
       <h3 class="machine-name">Creator OS</h3>
       <p class="machine-desc">Plan, create, repurpose, organize, and publish without flattening your voice into generic content.</p>
-      <a href="#early-access" class="machine-cta">Join The Waitlist &rarr;</a>
+      <p class="machine-note">Creator OS is still finding its form.</p>
     </article>
 
   </div>
-</section>
-
-<!-- EARLY ACCESS / WAITLIST (shared target for the system CTAs) -->
-<section class="access" id="early-access">
-  <span class="access-label">Request Access</span>
-  <h2 class="access-title">Get inside the<br/>Machine Room.</h2>
-  <p class="access-sub">Muse is in private alpha. Brand Engine and Creator OS are in development. Join the list &mdash; early builds go to the ones already inside.</p>
-  <p class="access-status">Access &mdash; not yet open</p>
-  <p class="access-note">These systems are in development. Doors will open when they are ready.</p>
-  <p class="access-note">No spam. Just early access and the occasional update.</p>
-  <p class="partner-line">Building something bigger? <a href="/work">Inquire about partnerships &rarr;</a></p>
 </section>
 
 <footer>

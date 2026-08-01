@@ -67,6 +67,30 @@ One cast of typographic voices serves the whole House: the Narrator (literary �
 
 Boundary fence: if text *names* a thing, the Architect speaks; if it *describes a thing's state*, the Librarian does.
 
+## LAW 9 — One House *(RATIFIED — Luna, 1 August 2026)*
+
+No room may redefine the architecture of the House.
+
+Rooms inherit the House. They do not replace it.
+
+Stone, proportion, shadow, craftsmanship, and structural language belong to the House itself. A room may only change atmosphere.
+
+**No room exists in isolation.**
+
+*Explanatory note: Every room leaves traces beyond its own walls through light, atmosphere, memory, and material continuity. The Hall pre-echoes each room through light bleed and color spill. Transitions never reset the visual language: the visitor is always walking deeper into one building, never navigating between webpages.*
+
+**Companion reference (recorded beside LAW 9, explicitly NOT law — room order may change):** Hall gradient, left to right / top to bottom on mobile: Library (warm gold) → The Edit (rose/mauve) → Machine Room (amber/bronze) → Work With Luna (teal/atelier) → Luna's Room (silver moonlight) → Your Room (neutral dim). Mobile renders as vertical procession, one door prominent at a time. Mobile behavior remains a primary acceptance check.
+
+### LAW 9 — Corollaries *(ratified 1 Aug 2026)*
+
+1. **The Threshold Exception.** The Threshold is the only space that feels outside the House. Crossing it is the moment the stone becomes familiar. The Threshold is not a room; LAW 9 binds every space beyond it.
+
+2. **The Transition Corollary.** Movement between rooms never resets to black. The architecture persists through the transition while light, sound, and atmosphere change. Entering a room is walking, not loading. (Pairs with the LAW 6 motion rulings; reduced-motion completeness applies.)
+
+3. **The Weathering Clause.** Atmosphere may weather, overgrow, or obscure the architecture — cracked masonry, moss through stone, condensation — but never replace it. The stone beneath the moss is House stone.
+
+4. **The Covering Clause.** A lived-in room may cover the architecture with personality until it nearly disappears — curtains, shelves, letters, objects. The bones beneath are always the House. This clause governs Luna's Room and all User Rooms, and guarantees that any visited House remains recognizably the House.
+
 ---
 
 ## Palette personalities (direction, ratified before value)
@@ -117,7 +141,7 @@ An emergent reading hierarchy, named so contributors know what kind of sentence 
 
 The soft italic voice is reserved for the Experience Test, brief emotional whispers, and occasional quotations. Instructional and explanatory sentences are set in the regular serif. The House can be mysterious without asking people to decipher it.
 
-**S-1 — resolved (28 Jul 2026): Smoke is retired.** It remains documented in design history; no active token exists in v1. Implementation may petition for its revival only on demonstrated need.
+**S-1 — Open (reopened 1 Aug 2026):** Smoke remains a named, valueless destination pending Luna's ruling; `--persian-plum #710C21` fate rides with it.
 
 **§5 companion amendment — RATIFIED (Luna, 28 July 2026):**
 
@@ -132,3 +156,34 @@ Broadened from "pinks" to *colors* at ratification — this is a migration philo
 > *Token Layer v1 is hereby ratified. Reserved values remain provisional until assigned. Room-specific hues are governed by their individual visual passes. Rejected and retired values remain preserved in design history. Future additions extend the House; they do not revise its laws without explicit constitutional amendment.*
 
 **Design-history preservation order:** all specimen boards from the ratification sessions — *Choosing by Candlelight*, *The House Reads Aloud*, *Reading by Daylight* — are committed to the repository as evidence. The failed values become part of the House's memory.
+
+---
+
+## Doctrine: Concept boards define atmosphere. Token values define implementation. *(RATIFIED — Luna, 1 August 2026)*
+
+Concept art establishes texture, composition, lighting, and feeling. It never establishes hex values, measurements, or tokens. Where a concept board's sampled values differ from the ratified `:root`, the `:root` is law and the board is mood reference.
+
+**Filing note:** The Grand Hall concept sheet (1 Aug 2026) is filed as mood reference. Its "Ratified Material DNA" panel (`#252031`, `#C9C0AE`, `#443F37`, `#C98A3E`, `#FBF6EC`) is the renderer's palette, not House law. AL-001 stands: Charcoal Velvet `#1A1720`, Old Page `#EFE7D8`, Garnet `#6A2436` (voice `#B87283`; the handoff's `#B26578` is superseded by AL-002 for AA and is not reintroduced), Brass `#A9884F`, Stone `#8A8375`, Amber `#E3A34A` remain the House's bones.
+
+---
+
+## Ruling F-6 — the Machine Room asks for nothing *(RATIFIED — Luna, 1 August 2026, extended)*
+
+F-6 applies to the entire Machine Room, not only the AI Luna card. Every intake affordance is removed — the AI Luna access button, the Muse and Brand Engine and Creator OS request/waitlist buttons, and the entire early-access section (removed, not replaced with a placeholder). No waitlist, no collection, no signup language anywhere in the room. This is the standing no-collection rule (Constitution §18) and the F-6 ruling applied consistently. Manifest statuses (Online / Private Alpha / In Development) remain — an honest equipment register, not a velvet rope; a museum does not hide restoration work, it labels it honestly. When AI Luna becomes a real public capability, its invitation is introduced as a ceremony in its own ratified phase, never as a dormant button.
+
+**Doctrine:** The House never asks visitors to wait outside a room. If a room is not yet receiving guests, it remains alive without requesting anything from the visitor.
+
+---
+
+## Flag register (updated 1 August 2026)
+
+| Flag | Status |
+|---|---|
+| F-1 | Closed — small-caps engraving exception ratified; see Rulings (28 Jul 2026) |
+| F-2 | Closed — House Red and VELVET//CTRL Signal Red are separate tokens; see Rulings (28 Jul 2026) |
+| F-3 | Closed — amber focus is sourced wayfinding light (LAW 1); see Rulings (28 Jul 2026) |
+| F-4 | Closed — constitutional token names canonical; see Rulings (28 Jul 2026) |
+| F-5 | Closed — AL-001 stands; concept-board doctrine ratified |
+| F-6 | Closed — Machine Room intake removed (extended ruling, 1 Aug 2026); workshop copy ratified |
+| F-7 | Closed as proposal — Moss & Moon → P-R1, Phase S |
+| S-1 | Open — Smoke's value or deferral; `--persian-plum #710C21` fate rides with it |
