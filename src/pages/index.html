@@ -13,8 +13,9 @@
   gtag('config', 'G-VK53SYTZRQ');
 </script>
 <link rel="stylesheet" href="/styles/fonts.css"/>
-<!-- Threshold plaster (Annex texture): preload so it never gates LCP -->
-<link rel="preload" as="image" href="/threshold-plaster.webp" type="image/webp"/>
+<!-- Threshold masonry (Annex texture) lives on a wall pseudo — decorative, off the
+     LCP path — so it is intentionally NOT preloaded (preloading it only competes
+     for first-paint bandwidth). It settles in a beat after the text. -->
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -523,130 +524,127 @@
      ============================================================ -->
 <style id="threshold-styles">
   /* ============================================================
-     INT. THE THRESHOLD — NIGHT  (Set Doctrine · PHASE-R-ENVIRONMENTAL-DESIGN)
-     A single archway carved INTO a charcoal-plaster wall. One lamp burns out
-     of frame, low and warm: it pools on the floor and brushes the inner arch
-     edge. Faint moonlight catches the wall's upper reaches. Through the
-     opening: depth, not darkness. The words live in the room; Garnet appears
-     exactly once, pressed like a seal. No sourceless glow anywhere.
+     THE THRESHOLD — a doorway in black stone (reference R8).
+     One lantern above the entrance, warm amber; every shadow agrees with it.
+     The name is BUILT into the wall — raised, bevelled, catching the lantern.
+     The reveal is thick, smoothed by hands; the steps are worn where feet have
+     crossed; warm light waits within. Not horror, not fantasy UI — an old
+     library with the lamp left on for you. Copy, rulings and spec-guards are
+     ratified; the reference is mood only, interpreted through craft.
      ============================================================ */
   .threshold {
     /* ratified tokens, mirrored (tokens.css stays unconsumed until step 4) */
-    --velvet:    #1A1720;  /* Charcoal Velvet — LAW 2 */
+    --velvet:    #14121A;  /* the black-stone dark */
     --paper:     #EFE7D8;  /* Old Page — greeting, seal label */
-    --bone:      #E4DCCE;  /* moonlit inscription (paper, cooled) */
     --paper-dim: #C9C0AE;  /* the overheard invitation */
     --garnet:    #6A2436;  /* House Red — LAW 3, the one invitation */
-    --amber:     #E3A34A;  /* the House's light — LAW 1 / focus */
+    --amber:     #E3A34A;  /* focus light (color) */
     --brass:     #A9884F;  /* gold that whispers — LAW 4 */
-    --lamp:      224,150,74;   /* warm KEY light (out of frame, low) */
-    --moon:      150,168,205;  /* cool secondary (upper reaches) */
+    --lamp:      232,165,78;   /* the lantern — warm amber KEY, for rgba washes */
     --font-architect:'Cormorant Garamond', Georgia, serif;
     --font-narrator:'Source Serif 4', Georgia, 'Times New Roman', serif;
     --door: 400ms;
     --ease-door: cubic-bezier(0.22, 1, 0.36, 1);
     /* scene geometry */
-    --floor-h: clamp(8.5rem, 21vh, 11.5rem);
+    --floor-h: clamp(6rem, 15vh, 9rem);      /* the worn steps */
     --arch-w:  min(90vw, 31rem);
-    --arch-h:  min(56vh, 30rem);
-    --reveal:  clamp(15px, 3.4vw, 30px);   /* the wall's THICKNESS — the inner return */
+    --arch-h:  min(60vh, 33rem);
+    --order:   clamp(12px, 3vw, 24px);       /* one stone ORDER of the thick reveal */
 
     position: fixed; inset: 0; z-index: 2000;
     overflow: hidden;
     color: var(--paper);
 
-    /* THE WALL FACE — aged charcoal plaster. Value construction + one warm lamp
-       from below + faint moon on the upper reaches + a corner vignette EARNED by
-       the room (corners fall away from the lamp), not applied as a filter. */
+    /* THE WALL — black masonry. Value construction: near-black stone, the lantern
+       (top-centre) washing it warm and everything falling to black at the edges
+       and base. The masonry itself is disclosed by the texture layer below. */
     background:
-      radial-gradient(120% 82% at 50% 122%, rgba(var(--lamp),0.13) 0%, transparent 52%),
-      radial-gradient(120% 60% at 50% -14%, rgba(var(--moon),0.05) 0%, transparent 42%),
-      /* the room falls into dark away from the low lamp — the corners and upper
-         reaches disappear (delta 3). Centred on the lamp, so it is architecture
-         losing the light, not a vignette laid over the frame. */
-      radial-gradient(125% 132% at 50% 100%, transparent 30%, rgba(0,0,0,0.40) 66%, rgba(0,0,0,0.84) 100%),
-      linear-gradient(180deg, #0F0B14 0%, #171220 52%, #1E1825 100%);
+      radial-gradient(52% 34% at 50% 3%, rgba(var(--lamp),0.30) 0%, rgba(var(--lamp),0.08) 26%, transparent 50%),
+      radial-gradient(125% 120% at 50% 6%, transparent 32%, rgba(0,0,0,0.52) 72%, rgba(0,0,0,0.92) 100%),
+      linear-gradient(180deg, #0E0C12 0%, #0B0910 58%, #08070C 100%);
   }
-  /* plaster tooth — fine grain <= 3% (LAW 2: darkness is a material) */
+  /* fine stone tooth — grain <= 3% (LAW 2: darkness is a material) */
   .threshold::before {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   }
-  /* AGE — the one authorized texture layer (Annex invocation). Aged plaster/stone
-     relief, procedurally CRAFTED (not stock; 1500x1100 WebP ~70KB). A value-neutral
-     relief map under overlay + low opacity: it discloses material where the lamp
-     rakes the wall and vanishes into the dark corners (light doing the work of
-     texture — delta 4). Wall only; the opaque interior covers it, so it is NEVER
-     under the text zone. */
+  /* MASONRY — the one authorized texture (Annex): a black-brick/stone relief map,
+     procedurally CRAFTED (tools/threshold-stone.py -> ~51KB WebP). Value-neutral,
+     overlay + low opacity on the WALL (a pseudo, so it never gates LCP): the
+     lantern discloses the courses, the dark conceals them (light doing the work of
+     texture). The opaque doorway covers it, so it is NEVER under the text zone. */
   .threshold::after {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
-    background-image: url('/threshold-plaster.webp');
-    background-size: cover; background-position: center;
-    mix-blend-mode: overlay; opacity: 0.6;
+    background-image: url('/threshold-stone.webp');
+    background-size: 128% auto; background-position: center top;
+    mix-blend-mode: overlay; opacity: 0.55;
   }
 
-  /* THE FLOOR — a ground plane. A horizon where wall meets floor, the lamp's
-     pool landing on it. One step forward is believable (delta 3 + 2). */
-  .floor {
+  /* THE STEPS — worn stone you could step across. Warm light from WITHIN the
+     House spills onto them (someone left the lamp on); a smoothed, lightened path
+     is worn where feet have crossed. This is the 'one step forward, inside' signal. */
+  .steps {
     position: absolute; left: 0; right: 0; bottom: 0; height: var(--floor-h);
-    z-index: 1; pointer-events: none;
+    z-index: 3; pointer-events: none; overflow: hidden;
     background:
-      /* decades of feet — a smoothed, lightened path worn through the lamp's pool,
-         leading in through the arch. The strongest 'inhabited' signal (delta 2). */
-      radial-gradient(19% 120% at 50% -6%, rgba(233,224,208,0.11) 0%, rgba(233,224,208,0.035) 40%, transparent 70%),
-      radial-gradient(56% 150% at 50% -8%, rgba(var(--lamp),0.22) 0%, rgba(var(--lamp),0.07) 32%, transparent 60%),
-      linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 9%, #171120 26%, #100C17 100%);
+      radial-gradient(16% 130% at 50% -12%, rgba(240,228,205,0.13) 0%, transparent 60%),      /* worn path */
+      radial-gradient(46% 150% at 50% -16%, rgba(var(--lamp),0.30) 0%, rgba(var(--lamp),0.08) 34%, transparent 60%), /* warm from within */
+      linear-gradient(180deg, #0A0810 0%, #0C0A11 100%);
+  }
+  /* the treads — a few worn stone courses, disclosed only where the pool reaches */
+  .steps::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(180deg,
+      rgba(255,240,215,0.06) 0, rgba(255,240,215,0.06) 2px,
+      transparent 2px, transparent 24px,
+      rgba(0,0,0,0.45) 24px, rgba(0,0,0,0.45) 28px);
+    -webkit-mask-image: radial-gradient(58% 120% at 50% 0%, #000 0%, rgba(0,0,0,0.5) 45%, transparent 74%);
+    mask-image: radial-gradient(58% 120% at 50% 0%, #000 0%, rgba(0,0,0,0.5) 45%, transparent 74%);
+    opacity: 0.7;
   }
 
-  /* THE ARCH — carved into a wall a foot thick. Three values in the opening:
-     the WALL FACE (behind), this REVEAL (the return — its own value, warm-lit at
-     the base, shadowed under the lintel), and the INTERIOR (a step deeper). */
+  /* THE DOORWAY — carved into stone a foot thick. Two recessed ORDERS of dressed
+     stone frame the opening; the lantern lights the crown and the outer faces, the
+     reveal turns into shadow, the interior recedes to black. A tall round-headed
+     arch (Romanesque, dignified), slightly asymmetric — hand-cut, not stamped. */
   .arch {
     position: absolute; left: 50%; transform: translateX(-50%);
-    bottom: var(--floor-h); width: var(--arch-w); height: var(--arch-h);
+    bottom: calc(var(--floor-h) - 8px);      /* set down into the top step */
+    width: var(--arch-w); height: var(--arch-h);
     z-index: 2;
-    /* asymmetric — hand-built, the two sides do not mirror (delta 1) */
-    border-radius: 49% 47% 0 0 / 43% 41% 0 0;
-    /* the reveal: a return gradient tilted 3deg so the two jambs catch light
-       differently (delta 1). Jamb amber COOLED a touch (Luna's offered option):
-       #402D26 -> #34292A, warm stone not fresh amber. Craft only here — the photo
-       texture stays on the wall (a pseudo) so it never gates LCP; the reveal is a
-       thin band the lamp reads on its own. */
-    background: linear-gradient(177deg, #130F18 0%, #221B1F 50%, #34292A 100%);
-    box-shadow:
-      0 -1px 0 rgba(var(--moon),0.05),        /* a faint moonlit lip on the arris */
-      0 8px 22px -8px rgba(0,0,0,0.6);         /* contact shadow where it meets the floor */
-  }
-  /* ONE settling crack from the upper shoulder + ONE chip at the reveal's base —
-     small enough to find on the second visit; no more than two (delta 5). */
-  .arch::before {
-    content: ''; position: absolute; z-index: 3; pointer-events: none;
-    top: -1%; left: 8%; width: 40px; height: 172px;
-    opacity: 0.28; mix-blend-mode: multiply;
-    background: no-repeat center/contain
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 172'%3E%3Cpath d='M21 0 C23 20 15 30 19 52 C23 74 14 86 20 110 C25 130 17 141 22 172' fill='none' stroke='%23000' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
-  }
-  .arch::after {
-    content: ''; position: absolute; z-index: 3; pointer-events: none;
-    bottom: 2%; right: 10.5%; width: 11px; height: 13px;
-    opacity: 0.4; mix-blend-mode: multiply;
-    background: no-repeat center/contain
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 13'%3E%3Cpath d='M2 13 L1 6 L4 1 L8 3 L6 8 L9 13 Z' fill='%23000'/%3E%3C/svg%3E");
-  }
-  /* THE INTERIOR — the hall beyond, inset by the reveal's depth so the return
-     shows as a band around the opening. A step lighter than the wall; warm pool
-     landing at the threshold; deep shadow under the lintel. */
-  .interior {
-    /* asymmetric inset + radius — the right jamb reads a touch deeper (delta 1) */
-    position: absolute; inset: var(--reveal) calc(var(--reveal) + 4px) 0 var(--reveal);
-    border-radius: 47% 45% 0 0 / 41% 39% 0 0;
+    border-radius: 50% 50% 3% 3% / 39% 39% 0 0;
+    /* the outer stone face — the lantern washes the crown warm, the jambs fall
+       to shadow. Dressed volcanic stone, near-black with a warm cast. */
     background:
-      radial-gradient(92% 56% at 50% 100%, rgba(var(--lamp),0.17) 0%, rgba(var(--lamp),0.05) 34%, transparent 60%),
-      linear-gradient(180deg, #140F1D 0%, #221B2B 58%, #2A2333 100%);
+      linear-gradient(180deg, rgba(var(--lamp),0.14) 0%, transparent 24%),
+      linear-gradient(179deg, #211A17 0%, #171215 44%, #0D0A10 100%);
     box-shadow:
-      inset 0 46px 58px -28px rgba(0,0,0,0.92),          /* the lintel's overhang — beyond, unresolved (delta 3) */
-      inset 0 -22px 40px -22px rgba(var(--lamp),0.14),   /* the lamp arriving at the sill */
-      inset 0 0 36px -6px rgba(0,0,0,0.58);              /* the return casting into the recess */
+      0 -2px 4px rgba(var(--lamp),0.06),       /* a warm lip on the arris */
+      0 12px 30px -12px rgba(0,0,0,0.75);       /* contact shadow into the step */
+  }
+  /* the second order — recessed one step into the wall (the reveal's depth) */
+  .arch-inner {
+    position: absolute; inset: var(--order) var(--order) 0 var(--order);
+    border-radius: 50% 50% 2% 2% / 38% 38% 0 0;
+    background:
+      linear-gradient(180deg, rgba(var(--lamp),0.11) 0%, transparent 22%),
+      linear-gradient(180deg, #191410 0%, #120F13 50%, #0A0810 100%);
+    box-shadow:
+      inset 0 7px 14px -5px rgba(0,0,0,0.8),               /* the outer order overhangs */
+      inset 0 -12px 26px -14px rgba(var(--lamp),0.12);     /* warmth climbing from the sill */
+  }
+  /* THE INTERIOR — the opening: black, receding. Warm light from within rises at
+     the sill; the head is left unresolved (depth suggested, never shown). */
+  .interior {
+    /* asymmetric inset + radius — the right jamb reads a touch deeper (hand-cut) */
+    position: absolute; inset: var(--order) calc(var(--order) + 3px) 0 var(--order);
+    border-radius: 49% 51% 1% 1% / 37% 37% 0 0;
+    background:
+      radial-gradient(86% 46% at 50% 104%, rgba(var(--lamp),0.20) 0%, rgba(var(--lamp),0.05) 34%, transparent 60%),
+      linear-gradient(180deg, #060509 0%, #090710 60%, #0D0913 100%);
+    box-shadow:
+      inset 0 54px 64px -32px rgba(0,0,0,0.95),   /* the head, unresolved in shadow */
+      inset 0 0 42px -6px rgba(0,0,0,0.72);        /* the reveal casting into the dark */
   }
   .stage {
     position: absolute; inset: 0; z-index: 2;
@@ -655,30 +653,57 @@
     padding: clamp(2rem,7vw,3rem) clamp(1rem,4vw,1.5rem) clamp(1.6rem,6vw,2.4rem);
   }
 
-  /* wordmark — SEATED in the architecture: carved into the wall above the arch,
-     not suspended in the opening (delta 5). The cut face catches the low lamp on
-     its lower edge; shadow gathers on the upper edge. No glow. */
-  .t-wordmark {
-    position: absolute; left: 50%; top: clamp(2.4rem, 7.2vh, 4.8rem);
+  /* THE LANTERN — one warm source above the entrance. A small housing and a live
+     flame on a bracket; the wall wash above is ITS light (motivated, LAW 1). */
+  .lantern {
+    position: absolute; left: 50%; top: clamp(0.6rem, 2.4vh, 1.6rem);
     transform: translateX(-50%);
-    z-index: 3; margin: 0;
+    z-index: 4; width: 30px; height: 42px; pointer-events: none;
+  }
+  .lantern::before {  /* the bracket up to the wall's top edge */
+    content: ''; position: absolute; left: 50%; top: -15px; transform: translateX(-50%);
+    width: 2px; height: 16px; background: linear-gradient(#2a2016, #14100a);
+  }
+  .lantern .housing {
+    position: absolute; inset: 0; border-radius: 5px 5px 7px 7px;
+    background: linear-gradient(180deg, #2a2016 0%, #14100a 100%);
+    box-shadow: inset 0 0 0 1px rgba(var(--lamp),0.22), 0 3px 8px rgba(0,0,0,0.6);
+  }
+  .lantern .flame {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: 11px; height: 17px; border-radius: 50% 50% 48% 48%;
+    background: radial-gradient(circle at 50% 42%, rgba(255,228,158,0.98) 0%, rgba(var(--lamp),0.82) 46%, rgba(var(--lamp),0.18) 100%);
+    box-shadow: 0 0 16px 6px rgba(var(--lamp),0.5), 0 0 46px 18px rgba(var(--lamp),0.26);
+  }
+
+  /* THE NAME — built into the wall, below the lantern. Raised letters, bevelled,
+     GILDED by the lantern from above; the Architect (Cormorant) in letter-spaced
+     small caps per F-1. Architecture, not UI. (No sigil — logged as future work.) */
+  .t-wordmark {
+    position: absolute; left: 50%; top: clamp(3.4rem, 12.5vh, 7.4rem);
+    transform: translateX(-50%);
+    z-index: 4; margin: 0; white-space: nowrap;
     font-family: var(--font-architect);
-    font-weight: 500;
-    font-size: clamp(1.7rem, 6.2vw, 2.9rem);
+    font-weight: 600;
+    font-variant: small-caps; font-variant-caps: small-caps;
+    font-size: clamp(1.45rem, 6vw, 2.9rem);
     line-height: 1;
-    letter-spacing: 0.02em;
-    color: #D2C8B6;                 /* stone-lightened inscription, not bright paper */
+    letter-spacing: 0.13em;                  /* F-1 letter-spaced small caps */
+    /* the raised faces catch the lantern at the top and fall to shadow below */
+    background: linear-gradient(180deg, #F2E0B6 0%, #CDAE70 46%, #9A7A44 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
     text-shadow:
-      0 -1px 1px rgba(0,0,0,0.62),
-      0 1px 0 rgba(var(--lamp),0.16),
-      0 2px 4px rgba(0,0,0,0.4);
+      0 1px 0 rgba(0,0,0,0.5),
+      0 2px 3px rgba(0,0,0,0.6),
+      0 3px 7px rgba(0,0,0,0.5);
   }
   /* greeting — lit by the lamp's spill; the primary legible line */
   .t-greeting {
     font-family: var(--font-narrator);
     font-weight: 400;
-    font-size: clamp(1.12rem, 3.9vw, 1.55rem);
-    line-height: 1.4;
+    font-size: clamp(1.05rem, 3.3vw, 1.4rem);
+    line-height: 1.42;
     color: var(--paper);
     margin: 0 0 clamp(1rem, 3.4vw, 1.35rem);
   }
@@ -729,15 +754,11 @@
     box-shadow: 0 0 0 2px var(--amber), 0 0 0 4px var(--velvet);
   }
 
-  /* LAW 6 — nothing snaps: the scene settles in, lamp-first */
+  /* LAW 6 — nothing snaps. The SET is already there (wall, lantern, engraved name
+     built into the stone); only the words within the doorway settle in. */
   .stage > * { opacity: 0; transform: translateY(9px); }
-  .t-wordmark { opacity: 0; transform: translateX(-50%) translateY(10px); }
   .threshold.is-ready .stage > * {
     opacity: 1; transform: none;
-    transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
-  }
-  .threshold.is-ready .t-wordmark {
-    opacity: 1; transform: translateX(-50%);
     transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
   }
   .threshold.is-ready .t-greeting   { transition-delay: 120ms; }
@@ -758,8 +779,6 @@
   @media (prefers-reduced-motion: reduce) {
     .stage > *,
     .threshold.is-ready .stage > * { opacity: 1 !important; transform: none !important; transition: none !important; }
-    .t-wordmark,
-    .threshold.is-ready .t-wordmark { opacity: 1 !important; transform: translateX(-50%) !important; transition: none !important; }
     .t-wander { transition: none; }
     .threshold.is-leaving { transition: none; }
   }
@@ -773,18 +792,21 @@
      invitation · Wander. No nav, no SEO, no explanation, no second CTA.
      ============================================================ -->
 <div class="threshold" id="threshold">
-  <div class="floor" aria-hidden="true"></div>
+  <div class="lantern" aria-hidden="true"><span class="housing"></span><span class="flame"></span></div>
   <h1 class="t-wordmark">House of Luna</h1>
   <div class="arch">
-    <div class="interior">
-      <div class="stage">
-        <!-- R-1 DELIBERATE: "you." is isolated on its own line, an intimate address -->
-        <p class="t-greeting">The House has been expecting<br>you.</p>
-        <p class="t-invitation">Wander if you like</p>
-        <button type="button" class="t-wander" id="wander">Wander</button>
+    <div class="arch-inner">
+      <div class="interior">
+        <div class="stage">
+          <!-- R-1 DELIBERATE: "you." is isolated on its own line, an intimate address -->
+          <p class="t-greeting">The House has been expecting<br>you.</p>
+          <p class="t-invitation">Wander if you like</p>
+          <button type="button" class="t-wander" id="wander">Wander</button>
+        </div>
       </div>
     </div>
   </div>
+  <div class="steps" aria-hidden="true"></div>
 </div>
 
 <!-- The interior (interim): the existing House, revealed once the
