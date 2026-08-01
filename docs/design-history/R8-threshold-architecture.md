@@ -33,6 +33,26 @@ on three lines; the House keeps the **ratified two-line break** ("…expecting" 
 clause in force; text on quiet surfaces (contrast vs. the actual local surface);
 complete still at 380px and in reduced-motion; performance budgets stand.
 
-Origin: Luna's direction of 31 Jul 2026. The reference is treated as a mood board —
-no image is copied; at least the lantern-lit stonework is interpreted through craft
-+ the ratified palette, never lifted.
+## Amendment AM-R-004 (31 Jul 2026, ratified — THRESHOLD ONLY)
+
+The Constraint Annex is **inverted for the threshold screen only**: the approved
+reference image (this R8) becomes the **environmental asset** and HTML is the
+**living layer** over it (greeting, invitation, Wander render as live text). This
+also amends, for this one image only and on the record, the standing rule that
+*references are never assets*. **Scope:** the threshold alone. The Grand Hall's
+medium is NOT decided by this amendment — the Hall must grow doors and is ruled
+separately.
+
+**Provenance of the asset:** the image is **AI-generated** (Luna's generation,
+31 Jul 2026) and is **adopted as the threshold environmental asset under AM-R-004**.
+Original preserved here (`R8-threshold-architecture.webp`); responsive crops
+(mobile portrait + desktop, AVIF+WebP, srcset) are produced from the full-res
+original and served from `/public/`.
+
+**Open rulings recorded at build time (awaiting Luna):** (a) the crescent sigil —
+ADOPTED as the House sigil vs. REMOVED from the asset before use; (b) desktop art —
+Luna supplies wider art vs. extend the portrait's edges into darkened masonry.
+
+Origin: Luna's direction of 31 Jul 2026. Prior to AM-R-004 the reference was mood
+only (interpreted through craft); AM-R-004 elevates this single image to asset for
+the threshold.
