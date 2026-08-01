@@ -21,14 +21,18 @@ As of: 1 August 2026, ~3:00 AM ET. Commit this to docs/; update at each session 
 
 ## OPEN RULINGS (Luna)
 - Grammar sentence: adopt "Every room is built by the same House, but furnished by a different soul." as the visual grammar's governing sentence — [pending her word].
-- Machine Room partnership link: where to reinstate "Inquire about partnerships → /work" — removed as collateral of the early-access section under extended F-6; `/work` still reachable from the Hall — [pending her word].
-- S-1 (reopened): Smoke's value or deferral; `--persian-plum #710C21` fate rides with it — [pending her word].
+
+## RULED AT SESSION CLOSE (1 Aug 2026)
+- **Partnership link (was #3):** do NOT reinstate the partnership CTA in the Machine Room. Partnership inquiry lives in Work With Luna's room. Optional (not built): a plain "Work With Luna" wayfinding line may join the House-wide footer directory — wayfinding, not solicitation.
+- **S-1:** formally DEFERRED, not ratified. Smoke stays a named, valueless destination; value ratified by eye from rendered swatches in a daylight session. Interim: all retired pinks → House Red treatment; `--persian-plum #710C21` → Garnet treatment.
 
 ## STANDING RULES (recent additions)
 - Before any push, state what's stacked on main; confirm the exact commit set when unreviewed work is ahead.
 - Displayed price and charged price must never disagree (verify checkout side before price changes ship).
 - House Map is never restyled into a conventional sidebar/menu. It is a place.
 - Rooms come faster than rulings is fine; nothing pushes past a DR-flag.
+- Partnership inquiry lives in Work With Luna's room; it is never re-solicited inside another room. A plain "Work With Luna" line may appear in the House-wide footer directory as wayfinding only.
+- Interim retired-color routing (until Smoke's value is ratified): retired pinks → House Red treatment; `--persian-plum #710C21` → Garnet treatment.
 
 ## QUEUED MILESTONES (do not execute inline)
 - **Hall Patina Pass** (scoped): R9 atmosphere notes — one continuous space, dust/rays (incl. Library door dust motes, reduced-motion still), moss/cracks/worn stone, centuries, no hard dividers.
@@ -36,6 +40,8 @@ As of: 1 August 2026, ~3:00 AM ET. Commit this to docs/; update at each session 
 - **House sigil** — deliberate design moment, unratified.
 - **Deferred doors** (ratified briefs on file, debut as House events): Moss & Moon, VELVET//CTRL, Luna's Room. **Your Room**: absolute Phase R exclusion; debuts in identity phase.
 - **Phase K** (after Phase R cutover): KQ-1..9 rulings, memory charter, keys, Your Room event, commerce interlock, Room network (visited-not-followed constitution), P-1.
+- **Smoke value ratification (S-1 deferred)**: ratify Smoke's value by eye from rendered swatches in a daylight session; interim routing recorded in STANDING RULES.
+- **Footer wayfinding directory (optional)**: a House-wide footer directory that may carry a plain "Work With Luna" wayfinding line — not built; debut when a footer directory pass is scoped.
 - Gumroad retirement (post-R0) · moonpixiee.com (deferred, post-prepaid).
 
 ## DOCTRINES THAT GOVERN EVERYTHING

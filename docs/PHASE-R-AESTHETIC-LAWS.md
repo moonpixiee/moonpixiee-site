@@ -141,7 +141,7 @@ An emergent reading hierarchy, named so contributors know what kind of sentence 
 
 The soft italic voice is reserved for the Experience Test, brief emotional whispers, and occasional quotations. Instructional and explanatory sentences are set in the regular serif. The House can be mysterious without asking people to decipher it.
 
-**S-1 — Open (reopened 1 Aug 2026):** Smoke remains a named, valueless destination pending Luna's ruling; `--persian-plum #710C21` fate rides with it.
+**S-1 — Deferred (1 Aug 2026, session close):** Smoke remains a named, valueless destination; its value will be ratified by eye from rendered swatches in a daylight session. Interim treatment: all retired pinks route to House Red treatment; `--persian-plum #710C21` retires to Garnet treatment.
 
 **§5 companion amendment — RATIFIED (Luna, 28 July 2026):**
 
@@ -186,4 +186,4 @@ F-6 applies to the entire Machine Room, not only the AI Luna card. Every intake 
 | F-5 | Closed — AL-001 stands; concept-board doctrine ratified |
 | F-6 | Closed — Machine Room intake removed (extended ruling, 1 Aug 2026); workshop copy ratified |
 | F-7 | Closed as proposal — Moss & Moon → P-R1, Phase S |
-| S-1 | Open — Smoke's value or deferral; `--persian-plum #710C21` fate rides with it |
+| S-1 | Deferred (1 Aug 2026) — Smoke stays a named, valueless destination; value ratified by eye in a daylight session. Interim: retired pinks → House Red treatment, `--persian-plum #710C21` → Garnet treatment |
