@@ -7,6 +7,19 @@ from PIL import Image, ImageDraw, ImageFilter
 SCR = '/private/tmp/claude-501/-Users-luna-moonpixiee-site/6ffc61c4-16ac-4821-8a13-cbbcc65114b2/scratchpad'
 im = Image.open(f'{SCR}/R8-source.png').convert('RGB')
 W, H = im.size  # 1023 x 1537
+
+# ---- SIGIL REMOVED (ruling 1): inpaint darkened masonry over the crescent ----
+# Cover the emblem (x~468-562, y~140-280) with right-adjacent lit brick, darkened.
+sx0, sy0, sx1, sy1 = 468, 138, 562, 282
+patch = im.crop((sx0 + 96, sy0, sx1 + 96, sy1))          # brick just to the right
+from PIL import ImageEnhance
+patch = ImageEnhance.Brightness(patch).enhance(0.9)      # 'darkened masonry'
+smask = Image.new('L', (W, H), 0)
+ImageDraw.Draw(smask).rounded_rectangle([sx0, sy0, sx1, sy1], radius=30, fill=255)
+smask = smask.filter(ImageFilter.GaussianBlur(20))
+patch_full = Image.new('RGB', (W, H)); patch_full.paste(patch, (sx0, sy0))
+im = Image.composite(patch_full, im, smask)
+
 px = im.load()
 
 # baked-text region (greeting ~y760-900, invitation ~940, Wander ~1000-1080).

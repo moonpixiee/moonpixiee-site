@@ -49,9 +49,14 @@ Original preserved here (`R8-threshold-architecture.webp`); responsive crops
 (mobile portrait + desktop, AVIF+WebP, srcset) are produced from the full-res
 original and served from `/public/`.
 
-**Open rulings recorded at build time (awaiting Luna):** (a) the crescent sigil —
-ADOPTED as the House sigil vs. REMOVED from the asset before use; (b) desktop art —
-Luna supplies wider art vs. extend the portrait's edges into darkened masonry.
+**Rulings closed (31 Jul 2026):** (a) the crescent sigil is **REMOVED** — inpainted
+with darkened masonry before the asset ships; a "House sigil" is logged as a future
+proposal in `docs/PHASE-R-PROPOSALS.md`. (b) desktop art — the **masonry extension
+is KEPT** (swappable later under AM-R-004's paperwork).
+
+**THRESHOLD: APPROVED (Luna, 31 Jul 2026).** AM-R-004 executed; R8 committed with
+provenance; the superseded CSS renders preserved in this folder as the "before."
+The threshold's final form is the House's architectural language.
 
 Origin: Luna's direction of 31 Jul 2026. Prior to AM-R-004 the reference was mood
 only (interpreted through craft); AM-R-004 elevates this single image to asset for

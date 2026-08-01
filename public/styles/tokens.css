@@ -3,14 +3,11 @@
    Ratified: docs/PHASE-R-TOKEN-PROPOSAL.md (Luna, 28 Jul 2026).
    Governed by HOUSE_CONSTITUTION.md §26 (The Aesthetic Laws).
 
-   NOT YET CONSUMED BY ANY PAGE. This file is intentionally not
-   imported anywhere: pages consume it only after O-4b sign-off and
-   Luna's go. No raw hex downstream — components reference tokens only
-   (a color a component can't name semantically means the layer is
+   WIRED (Luna, 31 Jul 2026): served at /styles/tokens.css and linked as the
+   base layer. All values RATIFIED — the five formerly-provisional values were
+   confirmed as rendered. No raw hex downstream — components reference tokens
+   only (a color a component can't name semantically means the layer is
    incomplete: extend the layer, never inline the value).
-
-   RATIFIED = locked. PROVISIONAL = render for Luna's confirmation
-   during shell work; not final. PENDING = blocked on an input.
    ============================================================ */
 
 /* ---- The Cast — self-hosted WOFF2 subsets (LAW 8) ----
@@ -34,12 +31,12 @@
   --house-stone-text: #5C564B; /* RATIFIED. Stone as readable body/secondary text on Paper (~5.6:1) */
   --house-brass-text: #6E5830; /* RATIFIED. Brass as ceremonial small-caps text on Paper (~5.0:1) */
 
-  /* Provisional-by-eye — render for Luna's confirmation during shell work; NOT final */
-  --house-black-soft: #252031; /* PROVISIONAL — raised surfaces on Charcoal Velvet */
-  --house-paper-dim:  #C9C0AE; /* PROVISIONAL — secondary text on dark grounds */
-  --house-stone-deep: #443F37; /* PROVISIONAL — deep structure, shadow */
-  --machine-glow:     #C98A3E; /* PROVISIONAL — Machine warm filament (temperature ratified; value by eye) */
-  --machine-paper:    #FBF6EC; /* PROVISIONAL — Machine paper-terminal surface */
+  /* RATIFIED (Luna, 31 Jul 2026 — confirmed as rendered in the material board) */
+  --house-black-soft: #252031; /* RATIFIED — raised surfaces on Charcoal Velvet (raised velvet panel) */
+  --house-paper-dim:  #C9C0AE; /* RATIFIED — secondary text on dark grounds (~9.2:1 on Velvet) */
+  --house-stone-deep: #443F37; /* RATIFIED — deep structure/shadow: masonry joints, carved trim, recessed borders, architectural shadow */
+  --machine-glow:     #C98A3E; /* RATIFIED — Machine warm filament (warm per the ratified glow doctrine) */
+  --machine-paper:    #FBF6EC; /* RATIFIED — Machine paper-terminal surface (printed terminal) */
 
   /* Compatibility aliases (F-4) — canonical names above; these persist during migration, removed when no reference survives */
   --house-night:     var(--house-black);

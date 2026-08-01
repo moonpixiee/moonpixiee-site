@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Provisional-by-eye token values — for Luna's confirmation</title>
+<link rel="stylesheet" href="/styles/fonts.css"/>
+<style>
+  :root{
+    --velvet:#1A1720; --paper:#EFE7D8; --paper-dim:#C9C0AE; --brass:#A9884F; --stone-text:#5C564B;
+    --black-soft:#252031; --stone-deep:#443F37; --machine-glow:#C98A3E; --machine-paper:#FBF6EC;
+    --narrator:'Source Serif 4',Georgia,serif; --arch:'Cormorant Garamond',serif;
+    --lib:'Jost',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--velvet);color:var(--paper);font-family:var(--narrator);
+       padding:clamp(1.4rem,5vw,3rem);line-height:1.55}
+  .wrap{max-width:720px;margin:0 auto}
+  .eyebrow{font-family:var(--lib);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);margin-bottom:.4rem}
+  h1{font-family:var(--arch);font-weight:500;font-size:2rem;margin-bottom:.3rem}
+  .lede{color:var(--paper-dim);font-size:14px;margin-bottom:2rem;max-width:60ch}
+  .row{display:grid;grid-template-columns:120px 1fr;gap:1.1rem;align-items:center;
+       border-top:1px solid rgba(169,136,79,.2);padding:1.4rem 0}
+  .chip{height:66px;border-radius:6px;position:relative;overflow:hidden}
+  .meta{font-family:var(--lib);font-size:12.5px;color:var(--stone-text-l,#8A8375);margin-top:.5rem}
+  .name{color:var(--paper);letter-spacing:.03em;font-size:13.5px;font-family:var(--lib)}
+  .hex{color:var(--paper-dim);font-family:var(--mono);font-size:12px}
+  .role{color:#8A8375;font-family:var(--lib);font-size:12.5px;margin-top:.25rem}
+  /* contexts */
+  .ctx{padding:1rem 1.1rem;border-radius:8px}
+  .ctx-soft{background:var(--black-soft);box-shadow:0 8px 24px -12px #000, inset 0 1px 0 rgba(255,255,255,.03)}
+  .ctx-soft b{font-family:var(--arch);font-weight:500;font-size:1.15rem;color:var(--paper)}
+  .ctx-soft p{font-size:13px;color:var(--paper-dim)}
+  .ctx-dim{font-size:15px}
+  .ctx-dim .sec{color:var(--paper-dim)}
+  .ctx-deep{height:66px;border-radius:6px;background:var(--velvet);
+       border:1px solid var(--stone-deep);box-shadow:inset 0 0 0 6px var(--velvet), inset 0 2px 14px var(--stone-deep)}
+  .ctx-mach{background:#0E0C10;border-radius:8px;padding:1rem 1.1rem;position:relative;overflow:hidden}
+  .ctx-mach .fil{height:2px;width:60%;background:linear-gradient(90deg,transparent,var(--machine-glow),transparent);
+       box-shadow:0 0 10px 1px var(--machine-glow);margin:.2rem 0 .8rem}
+  .ctx-mach code{font-family:var(--mono);font-size:12.5px;color:var(--machine-glow)}
+  .ctx-mpaper{background:var(--machine-paper);color:#2b2620;border-radius:6px;padding:.85rem 1rem;font-family:var(--mono);font-size:12.5px}
+  .note{font-size:12.5px;color:#8A8375;font-family:var(--lib);border-top:1px solid rgba(169,136,79,.2);margin-top:1.6rem;padding-top:1.1rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Token Layer v1 · five materials · RATIFIED 31 Jul 2026</p>
+  <h1>Five materials, not five colors</h1>
+  <p class="lede">Each reserved value is a MATERIAL the House is built from, not a swatch:
+     a raised velvet panel, the quiet ink, carved stone, a warm filament, a printed terminal.
+     Rendered on Charcoal Velvet #1A1720 (and a Machine ground for the last two). Confirmed
+     as rendered; the global token layer is wired.</p>
+
+  <div class="row">
+    <div><div class="name">black-soft</div><div class="hex">#252031</div><div class="role">the raised velvet panel</div></div>
+    <div class="ctx ctx-soft"><b>A raised panel</b><p>sits one step off the Charcoal Velvet ground — this surface is #252031.</p></div>
+  </div>
+
+  <div class="row">
+    <div><div class="name">paper-dim</div><div class="hex">#C9C0AE</div><div class="role">the quiet ink — secondary text · 9.2:1</div></div>
+    <div class="ctx ctx-dim">The primary line reads in Old Page.<br><span class="sec">The secondary line, quieter, reads in paper-dim #C9C0AE.</span></div>
+  </div>
+
+  <div class="row">
+    <div><div class="name">stone-deep</div><div class="hex">#443F37</div><div class="role">carved stone · recessed trim</div></div>
+    <div class="ctx-deep"></div>
+  </div>
+
+  <div class="row">
+    <div><div class="name">machine-glow</div><div class="hex">#C98A3E</div><div class="role">the warm filament</div></div>
+    <div class="ctx-mach"><div class="fil"></div><code>&gt; the filament holds warm — #C98A3E</code></div>
+  </div>
+
+  <div class="row">
+    <div><div class="name">machine-paper</div><div class="hex">#FBF6EC</div><div class="role">the printed terminal</div></div>
+    <div class="ctx-mpaper">the Machine's paper-terminal surface — #FBF6EC — dark ink reads on it at full contrast.</div>
+  </div>
+
+  <p class="note">These are the only five values still marked PROVISIONAL in tokens.css. The ratified
+     palette (Charcoal Velvet, Old Page, Garnet, Red Voice #B87283, Stone, Amber, Brass) is unaffected.
+     Confirm the set (or name adjustments) and I wire the token layer into the base styles.</p>
+</div>
+</body>
+</html>
