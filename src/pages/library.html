@@ -103,7 +103,8 @@
   .product-footer{ display:flex; align-items:center; justify-content:space-between; gap:1rem; }
   .product-price{ font-family:var(--fa); font-weight:600; font-size:1.6rem; color:#241D14; }
   .product-price span{ font-family:var(--fl); font-size:0.8rem; color:var(--brass-text); margin-right:0.15rem; }
-  .product-price.soft{ font-family:var(--fl); font-size:0.95rem; color:var(--ink-soft); }
+  .product-price.soft{ font-family:var(--fl); font-size:0.95rem; color:var(--ink-soft); text-decoration:none; transition:color .3s; }
+  a.product-price.soft:hover{ color:var(--garnet); }
 
   /* the acquire action — invitation-class → House Red (Garnet on Paper) */
   .btn-primary{ display:inline-block; font-family:var(--fn); font-size:0.9rem; letter-spacing:0.03em;
@@ -174,9 +175,11 @@
         <span class="product-tag">Coming Soon · Poetry Collection</span>
         <h3 class="product-name">Letters From Moonpixiee</h3>
         <p class="product-desc">Poems, confessions &amp; things I probably should've kept to myself. A four-part collection built from raw journal entries and 3am voice memos.</p>
+        <!-- DR-002 resolved (b): both controls route to the Substack — the honest
+             destination for the Letters, an existing channel, no new dependency. -->
         <div class="product-footer">
-          <p class="product-price soft">Notify me</p>
-          <a href="/letters" class="btn-ghost">Join Waitlist</a>
+          <a href="https://moonpixiee.substack.com" class="product-price soft" target="_blank" rel="noopener">Notify me</a>
+          <a href="https://moonpixiee.substack.com" class="btn-ghost" target="_blank" rel="noopener">Join Waitlist</a>
         </div>
       </div>
 
