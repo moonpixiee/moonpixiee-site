@@ -13,6 +13,8 @@
   gtag('config', 'G-VK53SYTZRQ');
 </script>
 <link rel="stylesheet" href="/styles/fonts.css"/>
+<!-- Threshold plaster (Annex texture): preload so it never gates LCP -->
+<link rel="preload" as="image" href="/threshold-plaster.webp" type="image/webp"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -558,22 +560,29 @@
        the room (corners fall away from the lamp), not applied as a filter. */
     background:
       radial-gradient(120% 82% at 50% 122%, rgba(var(--lamp),0.13) 0%, transparent 52%),
-      radial-gradient(120% 60% at 50% -14%, rgba(var(--moon),0.045) 0%, transparent 44%),
-      radial-gradient(126% 112% at 50% 44%, transparent 44%, rgba(0,0,0,0.30) 78%, rgba(0,0,0,0.55) 100%),
-      linear-gradient(180deg, #15111A 0%, #191420 55%, #1E1825 100%);
+      radial-gradient(120% 60% at 50% -14%, rgba(var(--moon),0.05) 0%, transparent 42%),
+      /* the room falls into dark away from the low lamp — the corners and upper
+         reaches disappear (delta 3). Centred on the lamp, so it is architecture
+         losing the light, not a vignette laid over the frame. */
+      radial-gradient(125% 132% at 50% 100%, transparent 30%, rgba(0,0,0,0.40) 66%, rgba(0,0,0,0.84) 100%),
+      linear-gradient(180deg, #0F0B14 0%, #171220 52%, #1E1825 100%);
   }
   /* plaster tooth — fine grain <= 3% (LAW 2: darkness is a material) */
   .threshold::before {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   }
-  /* AGE — coarse plaster mottling: the memory of hands, faint irregular value
-     (not tooth, not a filter). Soft-light so it lifts and sinks the surface. */
+  /* AGE — the one authorized texture layer (Annex invocation). Aged plaster/stone
+     relief, procedurally CRAFTED (not stock; 1500x1100 WebP ~70KB). A value-neutral
+     relief map under overlay + low opacity: it discloses material where the lamp
+     rakes the wall and vanishes into the dark corners (light doing the work of
+     texture — delta 4). Wall only; the opaque interior covers it, so it is NEVER
+     under the text zone. */
   .threshold::after {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
-    opacity: 0.06; mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='2' seed='7'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
-    background-size: cover;
+    background-image: url('/threshold-plaster.webp');
+    background-size: cover; background-position: center;
+    mix-blend-mode: overlay; opacity: 0.6;
   }
 
   /* THE FLOOR — a ground plane. A horizon where wall meets floor, the lamp's
@@ -582,6 +591,9 @@
     position: absolute; left: 0; right: 0; bottom: 0; height: var(--floor-h);
     z-index: 1; pointer-events: none;
     background:
+      /* decades of feet — a smoothed, lightened path worn through the lamp's pool,
+         leading in through the arch. The strongest 'inhabited' signal (delta 2). */
+      radial-gradient(19% 120% at 50% -6%, rgba(233,224,208,0.11) 0%, rgba(233,224,208,0.035) 40%, transparent 70%),
       radial-gradient(56% 150% at 50% -8%, rgba(var(--lamp),0.22) 0%, rgba(var(--lamp),0.07) 32%, transparent 60%),
       linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 9%, #171120 26%, #100C17 100%);
   }
@@ -593,27 +605,48 @@
     position: absolute; left: 50%; transform: translateX(-50%);
     bottom: var(--floor-h); width: var(--arch-w); height: var(--arch-h);
     z-index: 2;
-    border-radius: 48% 48% 0 0 / 42% 42% 0 0;
-    /* the reveal surface: the low lamp rakes the return — dark soffit up top,
-       warm stone at the base where the light arrives. */
-    background: linear-gradient(180deg, #130F18 0%, #241A20 50%, #402D26 100%);
+    /* asymmetric — hand-built, the two sides do not mirror (delta 1) */
+    border-radius: 49% 47% 0 0 / 43% 41% 0 0;
+    /* the reveal: a return gradient tilted 3deg so the two jambs catch light
+       differently (delta 1). Jamb amber COOLED a touch (Luna's offered option):
+       #402D26 -> #34292A, warm stone not fresh amber. Craft only here — the photo
+       texture stays on the wall (a pseudo) so it never gates LCP; the reveal is a
+       thin band the lamp reads on its own. */
+    background: linear-gradient(177deg, #130F18 0%, #221B1F 50%, #34292A 100%);
     box-shadow:
       0 -1px 0 rgba(var(--moon),0.05),        /* a faint moonlit lip on the arris */
       0 8px 22px -8px rgba(0,0,0,0.6);         /* contact shadow where it meets the floor */
+  }
+  /* ONE settling crack from the upper shoulder + ONE chip at the reveal's base —
+     small enough to find on the second visit; no more than two (delta 5). */
+  .arch::before {
+    content: ''; position: absolute; z-index: 3; pointer-events: none;
+    top: -1%; left: 8%; width: 40px; height: 172px;
+    opacity: 0.28; mix-blend-mode: multiply;
+    background: no-repeat center/contain
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 172'%3E%3Cpath d='M21 0 C23 20 15 30 19 52 C23 74 14 86 20 110 C25 130 17 141 22 172' fill='none' stroke='%23000' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+  .arch::after {
+    content: ''; position: absolute; z-index: 3; pointer-events: none;
+    bottom: 2%; right: 10.5%; width: 11px; height: 13px;
+    opacity: 0.4; mix-blend-mode: multiply;
+    background: no-repeat center/contain
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 13'%3E%3Cpath d='M2 13 L1 6 L4 1 L8 3 L6 8 L9 13 Z' fill='%23000'/%3E%3C/svg%3E");
   }
   /* THE INTERIOR — the hall beyond, inset by the reveal's depth so the return
      shows as a band around the opening. A step lighter than the wall; warm pool
      landing at the threshold; deep shadow under the lintel. */
   .interior {
-    position: absolute; inset: var(--reveal) var(--reveal) 0 var(--reveal);
-    border-radius: 46% 46% 0 0 / 40% 40% 0 0;
+    /* asymmetric inset + radius — the right jamb reads a touch deeper (delta 1) */
+    position: absolute; inset: var(--reveal) calc(var(--reveal) + 4px) 0 var(--reveal);
+    border-radius: 47% 45% 0 0 / 41% 39% 0 0;
     background:
       radial-gradient(92% 56% at 50% 100%, rgba(var(--lamp),0.17) 0%, rgba(var(--lamp),0.05) 34%, transparent 60%),
-      linear-gradient(180deg, #1B1626 0%, #241E2E 60%, #2A2333 100%);
+      linear-gradient(180deg, #140F1D 0%, #221B2B 58%, #2A2333 100%);
     box-shadow:
-      inset 0 38px 48px -26px rgba(0,0,0,0.85),          /* the lintel's overhang */
+      inset 0 46px 58px -28px rgba(0,0,0,0.92),          /* the lintel's overhang — beyond, unresolved (delta 3) */
       inset 0 -22px 40px -22px rgba(var(--lamp),0.14),   /* the lamp arriving at the sill */
-      inset 0 0 34px -6px rgba(0,0,0,0.55);              /* the return casting into the recess */
+      inset 0 0 36px -6px rgba(0,0,0,0.58);              /* the return casting into the recess */
   }
   .stage {
     position: absolute; inset: 0; z-index: 2;
