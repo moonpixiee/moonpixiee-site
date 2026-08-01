@@ -520,117 +520,153 @@
      met and Wander is usable the instant the interface paints.
      ============================================================ -->
 <style id="threshold-styles">
+  /* ============================================================
+     INT. THE THRESHOLD — NIGHT  (Set Doctrine · PHASE-R-ENVIRONMENTAL-DESIGN)
+     A single archway carved INTO a charcoal-plaster wall. One lamp burns out
+     of frame, low and warm: it pools on the floor and brushes the inner arch
+     edge. Faint moonlight catches the wall's upper reaches. Through the
+     opening: depth, not darkness. The words live in the room; Garnet appears
+     exactly once, pressed like a seal. No sourceless glow anywhere.
+     ============================================================ */
   .threshold {
-    /* ratified tokens, mirrored (RATIFIED in tokens.css / Aesthetic Laws) */
-    --velvet:      #1A1720;  /* Charcoal Velvet — LAW 2 */
-    --velvet-soft: #252031;  /* raised velvet (provisional-by-eye) */
-    --paper:       #EFE7D8;  /* Old Page */
-    --paper-dim:   #C9C0AE;  /* dimmer paper (provisional-by-eye) */
-    --garnet:      #6A2436;  /* House Red — LAW 3, invitation */
-    --amber:       #E3A34A;  /* the House's light — LAW 1 / focus */
-    --brass:       #A9884F;  /* gold that whispers — LAW 4 */
+    /* ratified tokens, mirrored (tokens.css stays unconsumed until step 4) */
+    --velvet:    #1A1720;  /* Charcoal Velvet — LAW 2 */
+    --paper:     #EFE7D8;  /* Old Page — greeting, seal label */
+    --bone:      #E4DCCE;  /* moonlit inscription (paper, cooled) */
+    --paper-dim: #C9C0AE;  /* the overheard invitation */
+    --garnet:    #6A2436;  /* House Red — LAW 3, the one invitation */
+    --amber:     #E3A34A;  /* the House's light — LAW 1 / focus */
+    --brass:     #A9884F;  /* gold that whispers — LAW 4 */
+    --lamp:      224,150,74;   /* warm KEY light (out of frame, low) */
+    --moon:      150,168,205;  /* cool secondary (upper reaches) */
     --font-architect:'Cormorant Garamond', Georgia, serif;
     --font-narrator:'Source Serif 4', Georgia, 'Times New Roman', serif;
     --door: 400ms;
     --ease-door: cubic-bezier(0.22, 1, 0.36, 1);
 
     position: fixed; inset: 0; z-index: 2000;
-    display: grid; place-items: center;
-    padding: clamp(1.5rem, 6vw, 4rem);
-    text-align: center;
-    color: var(--paper);
-    background:
-      /* one controlled sign of life: warm light pooling low, from within */
-      radial-gradient(120% 90% at 50% 118%, rgba(227,163,74,0.20) 0%, rgba(227,163,74,0.06) 26%, transparent 52%),
-      radial-gradient(90% 70% at 50% 128%, rgba(106,36,54,0.34) 0%, transparent 55%),
-      /* the velvet deepens toward the top — evening, LAW 1 available not mandated */
-      radial-gradient(140% 120% at 50% 8%, #15121b 0%, var(--velvet) 46%);
+    display: grid; place-items: end center;   /* the floor is at the bottom */
     overflow: hidden;
+    color: var(--paper);
+
+    /* THE WALL — value construction + exactly two motivated lights (LAW 1+2):
+       a warm lamp rising from below, faint moonlight on the upper reaches. */
+    background:
+      radial-gradient(122% 78% at 50% 116%, rgba(var(--lamp),0.20) 0%, rgba(var(--lamp),0.06) 32%, transparent 62%),
+      radial-gradient(120% 66% at 50% -12%, rgba(var(--moon),0.05) 0%, transparent 46%),
+      linear-gradient(180deg, #16121B 0%, #1B1621 56%, #211A27 100%);
   }
-  /* fine grain — darkness as material, not absence (LAW 2) */
+  /* plaster tooth — grain <= 3% opacity (LAW 2: darkness is a material) */
   .threshold::before {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   }
-  /* the arched opening — a brass hairline suggesting the door behind the words */
-  .threshold-arch {
-    position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
-    width: min(78vw, 30rem); height: min(92vh, 44rem);
-    border: 1px solid rgba(169,136,79,0.22);
-    border-bottom: none;
-    border-radius: 50% 50% 0 0 / 42% 42% 0 0;
-    box-shadow: inset 0 0 90px rgba(227,163,74,0.05);
-    z-index: 0; pointer-events: none;
-  }
-  .threshold-inner { position: relative; z-index: 1; max-width: 34rem; }
 
-  .threshold-wordmark {
+  /* THE APERTURE — the arch carved INTO the wall. Its edge is read by value
+     (interior a step lighter) + a carved reveal shadow, never a floating line. */
+  .aperture {
+    position: relative; z-index: 1;
+    width: min(90vw, 32rem);
+    height: min(94vh, 46rem);
+    height: min(94svh, 46rem);
+    border-radius: 47% 47% 0 0 / 40% 40% 0 0;
+    /* interior recess: a step lighter than the wall, warm hall-light pooling up
+       from the threshold; darker at the crown where the lintel overhangs. */
+    background:
+      radial-gradient(94% 58% at 50% 100%, rgba(var(--lamp),0.16) 0%, rgba(var(--lamp),0.05) 34%, transparent 62%),
+      linear-gradient(180deg, #201A27 0%, #271F2E 62%, #2B2333 100%);
+    /* the carved reveal: deep shadow under the lintel (top-inner), a warm lamp
+       rim on the lower inner edge, a faint moonlit lip along the arch. */
+    box-shadow:
+      inset 0 44px 66px -34px rgba(0,0,0,0.72),
+      inset 0 -34px 52px -30px rgba(var(--lamp),0.12),
+      0 -1px 0 0 rgba(var(--moon),0.06);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: clamp(2.2rem,7vw,3.6rem) clamp(1.2rem,5vw,2rem) clamp(2rem,7vw,3.2rem);
+  }
+  .stage { position: relative; z-index: 2; text-align: center; max-width: 27rem; }
+
+  /* wordmark — the Architect engraves; it does not hover. Moonlit inscription
+     with a carved edge, no glow. */
+  .t-wordmark {
     font-family: var(--font-architect);
     font-weight: 500;
-    font-size: clamp(2.2rem, 9vw, 4rem);
-    line-height: 1.05;
-    letter-spacing: 0.01em;
-    color: var(--paper);
-    margin: 0 0 clamp(1.6rem, 5vw, 2.4rem);
-    text-shadow: 0 0 40px rgba(227,163,74,0.08);
+    font-size: clamp(2rem, 8.4vw, 3.5rem);
+    line-height: 1.04;
+    letter-spacing: 0.015em;
+    color: var(--bone);
+    margin: 0 0 clamp(1.3rem, 4.6vw, 2rem);
+    text-shadow: 0 1px 0 rgba(238,231,216,0.10), 0 -1px 2px rgba(0,0,0,0.55);
   }
-  .threshold-greeting {
+  /* greeting — lit by the lamp's spill; the primary legible line */
+  .t-greeting {
     font-family: var(--font-narrator);
     font-weight: 400;
-    font-size: clamp(1.3rem, 4.6vw, 1.9rem);
-    line-height: 1.45;
+    font-size: clamp(1.15rem, 4.2vw, 1.7rem);
+    line-height: 1.38;
     color: var(--paper);
-    margin: 0 0 0.9rem;
+    margin: 0 0 clamp(1rem, 3.4vw, 1.35rem);
   }
-  .threshold-invitation {
+  /* invitation — overheard from beyond the doorway (R-2 italic): lighter than
+     the heading, a quieter light. Legible, never a headline. */
+  .t-invitation {
     font-family: var(--font-narrator);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(1rem, 3.4vw, 1.2rem);
+    font-size: clamp(0.95rem, 3vw, 1.08rem);
     line-height: 1.5;
+    letter-spacing: 0.03em;
     color: var(--paper-dim);
-    margin: 0 0 clamp(2rem, 6vw, 2.8rem);
+    opacity: 0.92;
+    margin: 0 0 clamp(1.9rem, 6vw, 2.6rem);
   }
-  .threshold-wander {
+  /* Wander — pressed like a seal: warm, small, certain. Garnet, exactly once. */
+  .t-wander {
     font-family: var(--font-narrator);
-    font-size: clamp(1rem, 3.4vw, 1.12rem);
+    font-size: clamp(0.98rem, 3vw, 1.08rem);
     font-weight: 400;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     color: var(--paper);
-    background: var(--garnet);
-    border: 1px solid rgba(169,136,79,0.45);
-    border-radius: 3px;
-    padding: 0.82rem 2.6rem;
+    background: radial-gradient(120% 140% at 50% 0%, #7A2A40 0%, var(--garnet) 60%);
+    border: 1px solid rgba(169,136,79,0.42);
+    border-radius: 4px;
+    padding: 0.72rem 2.3rem;
     cursor: pointer;
+    box-shadow:
+      inset 0 1px 0 rgba(238,231,216,0.10),
+      inset 0 -2px 6px rgba(0,0,0,0.35),
+      0 6px 18px -6px rgba(0,0,0,0.5);
     transition: background var(--door) var(--ease-door),
                 box-shadow var(--door) var(--ease-door),
                 transform var(--door) var(--ease-door);
   }
-  .threshold-wander:hover {
-    background: #772a3e;
-    box-shadow: 0 0 0 1px rgba(227,163,74,0.30), 0 8px 30px rgba(106,36,54,0.45);
+  .t-wander:hover {
+    background: radial-gradient(120% 140% at 50% 0%, #86304A 0%, #742A3F 60%);
+    box-shadow:
+      inset 0 1px 0 rgba(238,231,216,0.14),
+      0 0 0 1px rgba(var(--lamp),0.28),
+      0 10px 26px -8px rgba(106,36,54,0.5);
     transform: translateY(-1px);
   }
   /* dual-ring focus (RATIFIED §8.5): amber inner, Charcoal Velvet outer */
-  .threshold-wander:focus-visible {
+  .t-wander:focus-visible {
     outline: 2px solid transparent; outline-offset: 2px;
     box-shadow: 0 0 0 2px var(--amber), 0 0 0 4px var(--velvet);
   }
 
-  /* LAW 6 — nothing snaps: the threshold settles in on arrival */
-  .threshold-inner > * { opacity: 0; transform: translateY(10px); }
-  .threshold.is-ready .threshold-inner > * {
+  /* LAW 6 — nothing snaps: the scene settles in, lamp-first */
+  .stage > * { opacity: 0; transform: translateY(9px); }
+  .threshold.is-ready .stage > * {
     opacity: 1; transform: none;
     transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
   }
-  .threshold.is-ready .threshold-greeting   { transition-delay: 90ms; }
-  .threshold.is-ready .threshold-invitation { transition-delay: 170ms; }
-  .threshold.is-ready .threshold-wander     { transition-delay: 260ms; }
+  .threshold.is-ready .t-greeting   { transition-delay: 90ms; }
+  .threshold.is-ready .t-invitation { transition-delay: 170ms; }
+  .threshold.is-ready .t-wander     { transition-delay: 260ms; }
 
-  /* Wander → the door opens: threshold settles away (LAW 6) */
+  /* Wander → the door opens: the scene settles away (LAW 6) */
   .threshold.is-leaving {
-    opacity: 0; transform: scale(1.015);
+    opacity: 0; transform: scale(1.012);
     transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
     pointer-events: none;
   }
@@ -638,11 +674,11 @@
   /* the interior waits behind the threshold; no scroll until crossed */
   body.threshold-active { overflow: hidden; }
 
-  /* LAW 6 corollary — reduced motion: the settled state is complete */
+  /* LAW 6 corollary — reduced motion: the settled still is the complete room */
   @media (prefers-reduced-motion: reduce) {
-    .threshold-inner > *,
-    .threshold.is-ready .threshold-inner > * { opacity: 1; transform: none; transition: none; }
-    .threshold-wander { transition: none; }
+    .stage > *,
+    .threshold.is-ready .stage > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .t-wander { transition: none; }
     .threshold.is-leaving { transition: none; }
   }
 </style>
@@ -655,12 +691,14 @@
      invitation · Wander. No nav, no SEO, no explanation, no second CTA.
      ============================================================ -->
 <div class="threshold" id="threshold">
-  <div class="threshold-arch" aria-hidden="true"></div>
-  <div class="threshold-inner">
-    <h1 class="threshold-wordmark">House of Luna</h1>
-    <p class="threshold-greeting">The House has been expecting you.</p>
-    <p class="threshold-invitation">Wander if you like</p>
-    <button type="button" class="threshold-wander" id="wander">Wander</button>
+  <div class="aperture">
+    <div class="stage">
+      <h1 class="t-wordmark">House of Luna</h1>
+      <!-- R-1 DELIBERATE: "you." is isolated on its own line, an intimate address -->
+      <p class="t-greeting">The House has been expecting<br>you.</p>
+      <p class="t-invitation">Wander if you like</p>
+      <button type="button" class="t-wander" id="wander">Wander</button>
+    </div>
   </div>
 </div>
 
