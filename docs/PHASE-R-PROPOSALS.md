@@ -55,3 +55,8 @@ between doors the masonry returns to House stone; **no full-wall colour washes**
 (LAW 5). The light progression (Library warm-gold → Machine amber/bronze) is a
 journey of light, not paint. R9's teal (Work) and rose/mauve (Edit) are rejected —
 Work is warm task light, The Edit is burgundy.
+
+**Specific note (1 Aug 2026):** **dust motes drifting in the Library door's light
+beam** — barely visible, motivated by the lamp (they appear only where the door's
+warm light spills), with a **static equivalent under reduced-motion** (LAW 6). Part
+of the patina pass, not built now.

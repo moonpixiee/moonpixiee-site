@@ -39,6 +39,12 @@ Never shiny, never luxury-for-luxury's-sake. Gold appears as worn brass, old fra
 
 The hallway does not turn green because Moss & Moon exists. The Hall stays House. Each room's personality begins past its threshold. This is what keeps the House unified.
 
+**Governing sentence of the visual grammar — PROPOSED, pending Luna's word (§2.6 + LAW 5 companion):**
+
+> *Every room is built by the same House, but furnished by a different soul.*
+
+The same architecture, Cast, tokens, and light-doctrine build every room (the House); each room's hues, material, ornament and rhythm are chosen in situ and belong to it (the soul). Once ratified, this would govern every visual pass: shared bones, distinct furnishing. (Open ruling — see PHASE-R-STATE.md.)
+
 ## LAW 6 — Nothing snaps into existence.
 
 Not slow. Not floaty. Things settle, appear, breathe. (Reduced-motion corollary: the settled state is complete in itself; breathing is atmosphere, never information.)

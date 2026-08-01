@@ -47,3 +47,13 @@ member Rooms someday without rebuilding the Hall — nothing more.
 
 See also: `PHASE-K-KEYS-QUESTION-REGISTER.md` (KQ-9 Room network constitution; P-1
 ambient state-change proposal).
+
+## House Map — protection note (ratified, 1 Aug 2026)
+
+The House Map is **never** restyled into a conventional sidebar, hamburger menu,
+mega-menu, or nav drawer. **It is a place** — a quiet room-within-the-House you open
+to see the doors, the Passages, and the way back to the threshold. It stays
+overlay-based, instant, atmospheric, and House-material (stone, brass, the Cast).
+Convention never outranks atmosphere here; a "standard nav pattern" is a
+regression, not an improvement.
+
