@@ -69,6 +69,14 @@ Every auth system's true character shows in its errors. The full state inventory
 
 Privacy policy, consent, data-processing reality behind the velvet: Supabase region, retention periods, lawful basis. The House's mythology must sit *on top of* plain legal truth, never in place of it. Deliverable: a plain-language privacy page whose contents match the KQ-2 charter exactly — one document in two voices.
 
+### KQ-9 — The Room network (added 31 Jul 2026, from Luna's future vision)
+
+Long-term: the same Room architecture that powers Your Room may let members publish visitable rooms of their own. **Directional constitution, Luna's words, to be formally ratified in Phase K:** rooms are *visited*, never followed · no public follower counts, like totals, or popularity rankings · no algorithmic discovery feed · personal analytics visible only to the room owner · public / private / key-only visibility all possible · discovery is intentional only — direct room address (e.g. `/@handle`), shared key or invitation, guestbook cards, opt-in curated directory, exact search, owner-curated doors to rooms they return to. A Room is a place someone built, not a profile. Schema consequence when Phase K builds: room identity + ownership model from day one (owner, stable handle, visibility, atmosphere, published objects, guestbook permissions, directory opt-in) and **no follower-count, popularity, or ranking fields — their absence is constitutional, not an omission.** Phase R consequence: none visible — the ratified exclusions stand absolutely; only the Hall's component generality (rooms as a reusable structure, not one-offs) preserves this future, documented in architecture notes.
+
+### Logged proposal P-1 — Ambient state-change (the House never notifies)
+
+Future concept, Luna 31 Jul 2026: when something changes for a keyholder — a new guide owned, a letter arrived — no toast, no badge, no pop-up. Instead the House lets it be *discovered*: the Library door glows a touch warmer; a distant page turns. State change as atmosphere. Depends on entitlement memory (KQ-2) and introduces sound as a new medium (needs its own ruling: default-silent, opt-in). Parked until Phase K.
+
 ---
 
 ## What this register is not

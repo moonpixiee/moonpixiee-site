@@ -173,14 +173,14 @@
   @media (min-width:860px){
     .doors{ display:grid; grid-template-columns:repeat(3,1fr); align-items:end;
       gap:clamp(2.4rem,4vw,4rem) clamp(2rem,3.5vw,3.4rem); width:min(94vw,66rem); }
-    .door--work{ grid-column:2; }   /* the secondary door sits apart, below the three principals */
+    .doors li:last-child{ grid-column:2; }   /* the secondary door sits apart, below the three principals */
   }
 
   /* ---- a DOOR: real, activatable; <a> works with or without JS ---- */
   .door{ display:flex; flex-direction:column; align-items:center; gap:.9rem;
     text-decoration:none; color:inherit; width:min(80vw,20rem); position:relative; cursor:pointer;
     -webkit-tap-highlight-color:transparent; }
-  .door--work{ width:min(64vw,15rem); }   /* quieter scale (secondary standalone) */
+  .door[data-tier="secondary"]{ width:min(64vw,15rem); }   /* quieter scale (secondary standalone) */
 
   /* the PORTAL — a recessed stone doorway with depth (trim + reveal + shadow) */
   .portal{ position:relative; width:100%; aspect-ratio:.72;
@@ -215,28 +215,28 @@
   /* ---- the room's LEAK — one trace escaping before entry (ratified motif) ---- */
   .leak{ position:absolute; z-index:2; pointer-events:none; }
   /* Library — one loose page slipped under the door */
-  .door--library .leak{ left:50%; bottom:-6px; width:34%; height:5%;
+  .door[data-leak="page"] .leak{ left:50%; bottom:-6px; width:34%; height:5%;
     transform:translateX(-52%) rotate(-4deg);
     background:linear-gradient(180deg,#EFE7D8,#CFC4AC); border-radius:1px;
     box-shadow:0 3px 8px rgba(0,0,0,.55), 0 0 10px rgba(239,231,216,.10); }
   /* The Edit — a fabric edge caught at the threshold */
-  .door--edit .leak{ left:56%; bottom:-4px; width:26%; height:12%;
+  .door[data-leak="fabric"] .leak{ left:56%; bottom:-4px; width:26%; height:12%;
     background:linear-gradient(160deg, color-mix(in srgb,var(--room) 78%,#000) 0%, color-mix(in srgb,var(--room) 40%,#000) 100%);
     border-radius:0 0 40% 8% / 0 0 100% 30%; transform:rotate(3deg);
     box-shadow:0 4px 12px rgba(0,0,0,.5); }
   /* Machine Room — a low mechanical glow under the door */
-  .door--machine .leak{ left:50%; bottom:1px; width:52%; height:2px; transform:translateX(-50%);
+  .door[data-leak="glow"] .leak{ left:50%; bottom:1px; width:52%; height:2px; transform:translateX(-50%);
     background:linear-gradient(90deg,transparent,var(--room),transparent);
     box-shadow:0 0 12px 1px var(--room), 0 0 26px 5px color-mix(in srgb,var(--room) 45%,transparent); }
   /* Work With Luna — warm task light pooling at the sill */
-  .door--work .leak{ left:50%; bottom:-8px; width:60%; height:16%; transform:translateX(-50%);
+  .door[data-leak="task"] .leak{ left:50%; bottom:-8px; width:60%; height:16%; transform:translateX(-50%);
     background:radial-gradient(60% 100% at 50% 0%, color-mix(in srgb,var(--room) 55%,transparent) 0%, transparent 72%); }
 
   /* ---- the NAMEPLATE — the Architect names the room ---- */
   .plate{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:.11em;
     font-size:clamp(1.05rem,3.4vw,1.35rem); line-height:1; text-align:center;
     color:#CBB488; text-shadow:0 1px 0 rgba(0,0,0,.55), 0 2px 4px rgba(0,0,0,.5); }
-  .door--work .plate{ font-size:clamp(.95rem,3vw,1.15rem); color:#B7A47A; }
+  .door[data-tier="secondary"] .plate{ font-size:clamp(.95rem,3vw,1.15rem); color:#B7A47A; }
   .plate small{ display:block; font-variant:normal; font-family:var(--fn); font-style:italic;
     font-size:.7em; letter-spacing:0; color:rgba(233,224,208,.5); margin-top:.35rem; }
 
@@ -341,19 +341,19 @@
       <p class="hall-sub">You are inside. Choose a room.</p>
     </div>
     <ul class="doors">
-      <li><a class="door door--library" href="/library" style="--room:#C79A4A">
+      <li><a class="door" data-leak="page" data-tier="primary" href="/library" style="--room:#C79A4A">
         <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
         <span class="plate">The Library</span>
       </a></li>
-      <li><a class="door door--edit" href="/edit" style="--room:#7E3547">
+      <li><a class="door" data-leak="fabric" data-tier="primary" href="/edit" style="--room:#6E2A34">
         <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
         <span class="plate">The Edit</span>
       </a></li>
-      <li><a class="door door--machine" href="/tools" style="--room:#C98A3E">
+      <li><a class="door" data-leak="glow" data-tier="primary" href="/tools" style="--room:#C98A3E">
         <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
         <span class="plate">The Machine Room</span>
       </a></li>
-      <li><a class="door door--work" href="/work" style="--room:#C9A05A">
+      <li><a class="door" data-leak="task" data-tier="secondary" href="/work" style="--room:#C9A05A">
         <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
         <span class="plate">Work With Luna<small>the atelier — by appointment</small></span>
       </a></li>
@@ -365,17 +365,21 @@
   <div class="hall-map" id="houseMap" role="dialog" aria-modal="true" aria-label="House Map">
     <div class="map-panel">
       <h2>House Map</h2>
-      <ul class="map-list">
-        <li><a href="/library">The Library</a></li>
-        <li><a href="/edit">The Edit</a></li>
-        <li><a href="/tools">The Machine Room</a></li>
-        <li><a href="/work">Work With Luna</a></li>
-      </ul>
-      <p class="map-group">Passages</p>
-      <ul class="map-list">
-        <li><a href="/becoming">The Becoming</a></li>
-        <li><a href="/letters">Letters from Moonpixiee</a></li>
-      </ul>
+      <!-- Rendered from the ROOMS/PASSAGES data (single source); static content is
+           the no-JS fallback and is replaced on load. -->
+      <div id="mapLinks">
+        <ul class="map-list">
+          <li><a href="/library">The Library</a></li>
+          <li><a href="/edit">The Edit</a></li>
+          <li><a href="/tools">The Machine Room</a></li>
+          <li><a href="/work">Work With Luna</a></li>
+        </ul>
+        <p class="map-group">Passages</p>
+        <ul class="map-list">
+          <li><a href="/becoming">The Becoming</a></li>
+          <li><a href="/letters">Letters from Moonpixiee</a></li>
+        </ul>
+      </div>
       <button class="map-threshold" id="mapThreshold" type="button">Return to the threshold</button>
       <div><button class="map-close" id="mapClose" type="button">Close the map</button></div>
     </div>
@@ -438,21 +442,54 @@
 </script>
 
 <script>
-  /* Grand Hall — doors are real (activate = open, then the room); House Map overlay. */
+  /* Grand Hall — doors are real (activate = open, then the room); House Map overlay.
+     A room is a TYPE, not a one-off: the Hall doors and the map are generated from
+     the ROOMS/PASSAGES data below, so future rooms extend the system without
+     rebuilding the Hall. Leak motifs are a vocabulary (page/fabric/glow/task/…);
+     tiers are primary|secondary. Reservation only — no auth/profiles/network (Phase R).
+     The static markup above is the no-JS/crawler fallback, replaced on load. */
   (function () {
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var DOOR = reduce ? 0 : 420;   // 300-500ms door transition
 
-    // Doors: <a> navigates on its own; with JS, opening the door precedes the room.
-    Array.prototype.forEach.call(document.querySelectorAll('a.door'), function (d) {
-      d.addEventListener('click', function (e) {
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return; // let new-tab pass
-        e.preventDefault();
-        if (d.classList.contains('is-opening')) return;
-        d.classList.add('is-opening');
-        var href = d.getAttribute('href');
-        window.setTimeout(function () { window.location.href = href; }, DOOR);
-      });
+    // ---- the Room network (Phase R live roster). Future rooms append here. ----
+    var ROOMS = [
+      { id:'library', name:'The Library',      route:'/library', leak:'page',   hue:'#C79A4A', tier:'primary' },
+      { id:'edit',    name:'The Edit',         route:'/edit',    leak:'fabric', hue:'#6E2A34', tier:'primary' },
+      { id:'machine', name:'The Machine Room', route:'/tools',   leak:'glow',   hue:'#C98A3E', tier:'primary' },
+      { id:'work',    name:'Work With Luna',   route:'/work',    leak:'task',   hue:'#C9A05A', tier:'secondary',
+        note:'the atelier — by appointment' }
+    ];
+    var PASSAGES = [
+      { name:'The Becoming', route:'/becoming' },
+      { name:'Letters from Moonpixiee', route:'/letters' }
+    ];
+
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    // the reusable DOOR component
+    function doorHTML(r){
+      return '<li><a class="door" data-room="'+r.id+'" data-leak="'+r.leak+'" data-tier="'+r.tier+'"'
+        + ' href="'+r.route+'" style="--room:'+r.hue+'">'
+        + '<span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>'
+        + '<span class="plate">'+esc(r.name)+(r.note?'<small>'+esc(r.note)+'</small>':'')+'</span></a></li>';
+    }
+    function listHTML(items){ return '<ul class="map-list">'+items.map(function(i){return '<li><a href="'+i.route+'">'+esc(i.name)+'</a></li>';}).join('')+'</ul>'; }
+
+    var doorsEl = document.querySelector('.doors');
+    if (doorsEl) doorsEl.innerHTML = ROOMS.map(doorHTML).join('');
+    var mapLinks = document.getElementById('mapLinks');
+    if (mapLinks) mapLinks.innerHTML = listHTML(ROOMS) + '<p class="map-group">Passages</p>' + listHTML(PASSAGES);
+
+    // Doors are real: <a> navigates on its own; with JS, the door opens first.
+    // Delegation, so it survives the data-driven render.
+    if (doorsEl) doorsEl.addEventListener('click', function (e) {
+      var d = e.target.closest && e.target.closest('a.door'); if (!d) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return; // let new-tab pass
+      e.preventDefault();
+      if (d.classList.contains('is-opening')) return;
+      d.classList.add('is-opening');
+      var href = d.getAttribute('href');
+      window.setTimeout(function () { window.location.href = href; }, DOOR);
     });
 
     // House Map — a quiet overlay, not a route. Instant, no ceremony.

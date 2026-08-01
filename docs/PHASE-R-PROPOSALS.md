@@ -34,3 +34,14 @@ the frozen-architecture boundary.)*
 
 Both proposals rename ratified rooms and therefore require explicit constitutional
 ratification before any use.
+
+---
+
+## Hall Patina Pass (scoped future milestone — DO NOT execute without instruction)
+
+**Status: milestone logged, awaiting its own instruction.** The Grand Hall is
+APPROVED in structure and storytelling (1 Aug 2026). A later "patina pass" — the
+200-year pass, same shape as the threshold's patina iteration — will add: deeper
+perspective, columns, trim, dust, uneven masonry, asymmetry, distance. It gives
+the Hall physical age and depth beyond the approved first composition. Not built
+now; it awaits Luna's dedicated instruction.
