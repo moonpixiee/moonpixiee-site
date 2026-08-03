@@ -109,6 +109,18 @@ Delivery triggers **MUST be metadata-only** — page counts, revisit events, abs
 
 ---
 
+## Ratified privacy constraints — schema-shaping (3 Aug 2026)
+
+Ratified constraints that MUST shape the Phase K schema, not be added later. They bind KQ-2 (the memory charter), K-USE-1, and K-USE-2.
+
+1. **K-USE-1 — Becoming pages are sealed.** Private to their key-holder, **not readable by the operator.** Evaluate encryption-at-rest options where operator-sealing is technically meaningful, and **document honestly what "sealed" can and cannot guarantee at each layer** — client, transport, at-rest, backups, logs, DB/operator admin. The seal's real guarantees *and* its real limits are both written down; no hand-wave.
+
+2. **K-USE-2 — Letters delivery triggers are metadata-only.** Counts, dates, revisit events, absence duration, volume/threshold reached. The schema must make **content-based triggering structurally unavailable, not merely unused** — sealed-page content is not a column, join, index, or function input the delivery path can reach, even in principle. (Reinforces the K-USE-2 governance ruling.)
+
+3. **Repo / Supabase audit — Phase K discovery (PENDING Luna's go; touches infra outside this repo).** Confirm the `velvet-muse-studio` repo's actual name and location, and flag any other repos touching the same Supabase project. **Note:** `moonpixiee-site` contains no Supabase config or auth (verified 3 Aug — static Astro site); `velvet-muse-studio` is not in this working directory. This audit is Phase K discovery against a separate ecosystem, to run only when authorized — and per §0 the dependency map has Phase K schema/user-facing work waiting on Phase R cutover (the Phase R stamp is still pending the Gate 2 re-walk). If a live Supabase project already exists and is shared across repos, the "no Supabase project configuration yet" framing below needs reconciling — flagged for Luna.
+
+---
+
 ## What this register is not
 
 No schema, no code, no Supabase project configuration, no UI. Those begin only after these rulings exist, a Phase K brief is ratified, and Phase R has cut over (for anything user-facing). The questions are ordered so KQ-1 and KQ-2 unlock the most: mechanism and memory charter are the constitution of this phase; everything else furnishes them.
