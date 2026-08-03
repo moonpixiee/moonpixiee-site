@@ -1,9 +1,29 @@
 # PHASE-R-STATE.md
 
 **House of Luna — Phase R State of the Build**
-As of: 2 August 2026 (evening). Commit this to docs/; update at each session seam.
+As of: 3 August 2026. **PHASE R IS STAMPED — CLOSED (Luna, 3 August 2026).** Both gates green. Commit this to docs/; update at each session seam.
 
-## LIVE on origin/main (→ Phase R acceptance · Gate 1 passed)
+---
+
+## ✦ PHASE R — STAMPED & CLOSED (Luna, 3 August 2026)
+
+Both gates passed; the stamp is pressed by Luna. Phase R is history.
+
+- **Gate 1** — Claude Code acceptance sweep (2 Aug): PASS. Findings F-ACC-1 (Passages appearance) + F-ACC-2 (title suffix) cleared.
+- **Gate 2** — Luna's real-device phone re-walk (3 Aug): all four DR-G2 fixes hold on device. PASS.
+
+**Closing state — the whole House live and lawful:**
+- All four launch rooms (Library · The Edit · The Machine Room · Work With Luna) + the **Grand Hall** + the **Threshold** are live, in-room passes complete, and pass the House's laws end to end.
+- **LAW 9 "One House"** + its four corollaries (Threshold Exception · Transition · Weathering · Covering) ratified. Constitution at **v4.3** — domain ruling **"One House. One Address."**: one root `housesofluna.com` forever, wings as subdomains, session cookie scoped to `*.housesofluna.com`.
+- **Flag register fully resolved:** F-1..F-7 Closed; **S-1 formally DEFERRED** (Smoke a named, valueless destination; interim retired-color routing in force).
+- **Proposals P-R1 → P-R8 logged** (not built): Conservatory Passage · Hidden Passages · Visiting Houses · Living Hall · Geography Before UI · The Passages' Place · The Trading Room (Observatory) · The Restricted Collection.
+- **Phase K register** carries the flagship pair **K-USE-1** (The Becoming as a Living Book) + **K-USE-2** (Letters in the Walls) and the ratified **privacy constraints** (sealed pages · metadata-only delivery · one-address session scoping).
+
+**Next session: Phase K discovery opens — starting with the identity audit, pointed at `velvet-muse-studio`.** A shared, already-live Supabase project remains an unverified assumption until the audit replaces it with truth.
+
+---
+
+## LIVE on origin/main (→ Phase R STAMPED, 3 Aug 2026 · 373dbc5)
 - **Threshold** — approved final form under AM-R-004 (reference-fidelity asset R8, sigil removed, live HTML copy layer). Ratified copy: "The House has been expecting you." / "Wander if you like" (no period) / **Wander**. Protection clause in force.
 - **The Grand Hall** — engraved title only ("The Grand Hall", sub-line cut, ratified). Four doors: The Library `/library`, The Edit `/edit`, The Machine Room `/tools`, Work With Luna `/work` (secondary, quieter). Leak motifs per briefs. House Map overlay with Passages (The Becoming, Letters). All R9 corrections native.
 - **The Library** — approved. DR-002 resolved (b): Letters card controls route to Substack. Italic "explaining themselves": PASS (whisper family). "Get the ebook" / **$20** — verified matching Gumroad checkout.
@@ -12,25 +32,23 @@ As of: 2 August 2026 (evening). Commit this to docs/; update at each session sea
 - **Work With Luna** — in-room pass LIVE (commit fd0ed30). Atelier / private office (door brief §2.7): dark walnut walls, aged brass, an **engraved brass nameplate** as the room's one ornament, warm task light (`--task #C9A05A`, matched to the Hall door's task leak). Retired rose re-tokenized (decorative → brass; the single invitation "Send an Inquiry" → Garnet). Partnership inquiry lives here (1 Aug ruling). DR-WL-1 (hero copy: "The Atelier" / "Let's make something that belongs here.") approved; P-FIX-1 resolved (no "Work With Me" string remains). AA verified; holds at 380px. **All four launch rooms now carry their in-room passes.**
 - **Token Layer v1** — fully ratified and wired. Cast: Source Serif 4 / Cormorant Garamond / Jost / IBM Plex Mono. All five formerly-provisional values confirmed. Voice token = `#B87283` (AL-002); token-proposal §2 canonical value corrected this session.
 - **Ratification handoff (1 Aug, 67baf50)** — LAW 9 "One House" + four corollaries (Threshold Exception, Transition, Weathering, Covering); §3 two-register spatial-memory corollary; concept-board doctrine (:root is law); two-layer token model (architecture frozen / atmosphere room-scoped); P-R1–P-R5 logged (not built); flag register F-1..F-7 **Closed**, **S-1 reopened Open**. Constitution bumped v4.1 → v4.2 (§26 now LAWS 1–9).
-- **Governance in docs/**: Constitution v4.2 + §26 Aesthetic Laws (1–9 incl. LAW 9 + corollaries + §5 re-tokenization amendment), ROUTE-MAP.md (canonical), all Phase R docs, design-history (three specimen boards, R8, R9, before-renders, token materials board).
+- **Governance in docs/**: Constitution **v4.3** (§26 Aesthetic Laws 1–9 incl. LAW 9 + corollaries; §5 re-tokenization amendment; §3 spatial-memory corollary; **v4.3 domain ruling "One House. One Address."**), HOUSE_ARCHITECTURE.md (subdomain/session model, path model superseded), ROUTE-MAP.md (canonical), Phase K register (KQ-1..9, P-1, K-USE-1/2, privacy constraints), all Phase R docs, design-history (three specimen boards, R8, R9, before-renders, token materials board).
 
-## PHASE R ACCEPTANCE — Gate 1 PASSED (Claude Code, 2 Aug 2026)
-Room-by-room sweep across Threshold · Grand Hall · Library · The Edit · The Machine Room · Work With Luna: all PASS. Console-clean; reduced-motion complete; zero retired colors; no font CDN; **zero Your Room elements**; no prohibited renderings; performance budget green (worst-case phone LCP ~64 KB, far under the 250 KB hero budget); AA on real surfaces everywhere. Two findings, both cleared this session:
-- **F-ACC-1 (cleared)** — Passages (Becoming, Letters) were off-House (retired rose + legacy top-nav). Given an appearance-only pass: rose → House brass, top-nav → Hall-return carrier, titles → `| House of Luna`. Structural question (their place in the geography) + residuals (Letters' dead subscribe form / waitlist language, Becoming's emoji icons) deferred to **P-R6**.
+## PHASE R ACCEPTANCE — BOTH GATES PASSED
+**Gate 1** (Claude Code sweep, 2 Aug) + **Gate 2** (Luna's real-device re-walk, 3 Aug) both PASS. Room-by-room across Threshold · Grand Hall · Library · The Edit · The Machine Room · Work With Luna: all PASS. Console-clean; reduced-motion complete; zero retired colors; no font CDN; **zero Your Room elements**; no prohibited renderings; performance budget green (worst-case phone LCP ~64 KB, far under the 250 KB hero budget); AA on real surfaces everywhere. Findings cleared:
+- **F-ACC-1 (cleared)** — Passages (Becoming, Letters) were off-House (retired rose + legacy top-nav). Appearance-only pass: rose → House brass, top-nav → Hall-return carrier, titles → `| House of Luna`. Structural question (their place in the geography) + residuals (Letters' dead subscribe form / waitlist language, Becoming's emoji icons) deferred to **P-R6**.
 - **F-ACC-2 (cleared)** — title suffix normalized to `| House of Luna` house-wide (front door is `House of Luna`); Moonpixiee signs works, not window titles.
+- **DR-G2-1..4 (cleared, 3 Aug, commit 5c9abc8)** — Gate 2 walk findings, all re-walked green on device: Hall masonry warmed/scaled to read as the same warm aged stone as the Threshold (a pixel-identical shared stone asset remains a possible patina-pass item); The Edit nav made opaque+blurred (no wordmark tangle on scroll); Lip Combo demoted from Category 03 to a Makeup sub-collection; Machine Room footer given a full-bleed opaque band (filament bleed can't cover chrome).
 
-**The Phase R stamp waits on Gate 2 only — and the stamp is Luna's to press.**
+**PHASE R STAMPED (Luna, 3 August 2026).**
 
-## PENDING (next session's work)
-1. **Gate 2 — Luna's real-device phone pass** (the stamp) — walk complete (2 Aug); **four findings fixed (batch, 3 Aug)**, now **awaiting Luna's re-walk of the four fixed locations + the Phase R stamp.** The stamp is Luna's to press once the re-walk is green.
-   - **DR-G2-1** — Hall masonry no longer a different material at the Threshold→Hall seam: the cool machine-brick is warmed and scaled to read as the same warm aged stone as the Threshold; per-door mood stays a light-only wash. (CSS-level unification; a pixel-identical shared stone asset remains a possible patina-pass item.)
-   - **DR-G2-2** — The Edit fixed nav made opaque + blurred so a heading scrolling under it never tangles with the House of Luna wordmark.
-   - **DR-G2-3** — Lip Combo demoted from standalone Category 03 to a named **Makeup sub-collection** within The Glow (intro + products kept; no routes touched).
-   - **DR-G2-4** — Machine Room footer given a full-bleed opaque band so the warm filament bleed can never wash over the wordmark / footer links (atmosphere never obscures chrome).
+## NEXT — PHASE K DISCOVERY (opens next session)
+Phase R has cut over; the §0 dependency gate is met. Phase K discovery opens.
+1. **Identity audit — pointed at `velvet-muse-studio`** (PENDING Luna's go, in/at that repo): confirm its actual name/location; flag any other repos touching the same Supabase project; `list_organizations` / `list_projects` via the Supabase MCP. A shared, already-live Supabase project is an **unverified assumption** until this audit replaces it with truth.
+2. **KQ-1 / KQ-2 first** — the register orders these as the constitution of the phase (key mechanism + memory charter), now bound by the ratified **privacy constraints** (sealed pages · metadata-only delivery) and the **"One House. One Address."** session-scope rule (session token domain-scoped across `*.housesofluna.com`).
+3. Then: keys, the Your Room debut event (KQ-5), commerce interlock (KQ-6), the Room network (KQ-9), P-1.
 
-**Resolved this session:**
-- PHASE-K-KEYS-QUESTION-REGISTER.md verified committed — carries KQ-1..9, P-1, and now the **flagship pair K-USE-1 (The Becoming as a Living Book) + K-USE-2 (Letters in the Walls)**. K-USE-2 carries a GOVERNANCE RULING REQUIRED: delivery triggers must be **metadata-only**, never content-based, or the K-USE-1 seal breaks. Standing argument for Phase K priority.
-- `moonpixiee.work@gmail.com` inquiry inbox **confirmed monitored** (Luna) — the Work With Luna door opens onto someone home.
+**Recorded (Phase K register):** flagship pair K-USE-1 + K-USE-2 (K-USE-2's GOVERNANCE RULING: metadata-only triggers, or the K-USE-1 seal breaks); privacy constraints; the "One House. One Address." domain/session ruling. `moonpixiee.work@gmail.com` inquiry inbox confirmed monitored.
 
 ## OPEN RULINGS (Luna)
 - Grammar sentence: adopt "Every room is built by the same House, but furnished by a different soul." as the visual grammar's governing sentence — [pending her word].
