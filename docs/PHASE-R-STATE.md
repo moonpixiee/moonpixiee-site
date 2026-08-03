@@ -1,9 +1,9 @@
 # PHASE-R-STATE.md
 
 **House of Luna — Phase R State of the Build**
-As of: 2 August 2026. Commit this to docs/; update at each session seam.
+As of: 2 August 2026 (evening). Commit this to docs/; update at each session seam.
 
-## LIVE on origin/main (→ fd0ed30)
+## LIVE on origin/main (→ Phase R acceptance · Gate 1 passed)
 - **Threshold** — approved final form under AM-R-004 (reference-fidelity asset R8, sigil removed, live HTML copy layer). Ratified copy: "The House has been expecting you." / "Wander if you like" (no period) / **Wander**. Protection clause in force.
 - **The Grand Hall** — engraved title only ("The Grand Hall", sub-line cut, ratified). Four doors: The Library `/library`, The Edit `/edit`, The Machine Room `/tools`, Work With Luna `/work` (secondary, quieter). Leak motifs per briefs. House Map overlay with Passages (The Becoming, Letters). All R9 corrections native.
 - **The Library** — approved. DR-002 resolved (b): Letters card controls route to Substack. Italic "explaining themselves": PASS (whisper family). "Get the ebook" / **$20** — verified matching Gumroad checkout.
@@ -14,11 +14,17 @@ As of: 2 August 2026. Commit this to docs/; update at each session seam.
 - **Ratification handoff (1 Aug, 67baf50)** — LAW 9 "One House" + four corollaries (Threshold Exception, Transition, Weathering, Covering); §3 two-register spatial-memory corollary; concept-board doctrine (:root is law); two-layer token model (architecture frozen / atmosphere room-scoped); P-R1–P-R5 logged (not built); flag register F-1..F-7 **Closed**, **S-1 reopened Open**. Constitution bumped v4.1 → v4.2 (§26 now LAWS 1–9).
 - **Governance in docs/**: Constitution v4.2 + §26 Aesthetic Laws (1–9 incl. LAW 9 + corollaries + §5 re-tokenization amendment), ROUTE-MAP.md (canonical), all Phase R docs, design-history (three specimen boards, R8, R9, before-renders, token materials board).
 
+## PHASE R ACCEPTANCE — Gate 1 PASSED (Claude Code, 2 Aug 2026)
+Room-by-room sweep across Threshold · Grand Hall · Library · The Edit · The Machine Room · Work With Luna: all PASS. Console-clean; reduced-motion complete; zero retired colors; no font CDN; **zero Your Room elements**; no prohibited renderings; performance budget green (worst-case phone LCP ~64 KB, far under the 250 KB hero budget); AA on real surfaces everywhere. Two findings, both cleared this session:
+- **F-ACC-1 (cleared)** — Passages (Becoming, Letters) were off-House (retired rose + legacy top-nav). Given an appearance-only pass: rose → House brass, top-nav → Hall-return carrier, titles → `| House of Luna`. Structural question (their place in the geography) + residuals (Letters' dead subscribe form / waitlist language, Becoming's emoji icons) deferred to **P-R6**.
+- **F-ACC-2 (cleared)** — title suffix normalized to `| House of Luna` house-wide (front door is `House of Luna`); Moonpixiee signs works, not window titles.
+
+**The Phase R stamp waits on Gate 2 only — and the stamp is Luna's to press.**
+
 ## PENDING (next session's work)
-All four launch rooms now carry their in-room passes (Library · The Edit · The Machine Room · Work With Luna). Next: the acceptance run over the whole House.
-1. **Phase R acceptance run** — performance budgets pass/fail, prohibited-renderings check, ZERO Your Room elements check, reduced-motion completeness, Experience Test. Run across all four rooms + Hall + Threshold.
+1. **Gate 2 — Luna's real-device phone pass** (the stamp): walk Threshold → Wander → Hall → all four rooms → the procession on a real phone over the deployed Netlify URL. Simulated 380px cannot feel tap targets, scroll momentum, on-device font rendering, or the address-bar collapse. Phase R is stamped only after this gate is green.
 2. **Verify committed**: PHASE-K-KEYS-QUESTION-REGISTER.md (with KQ-9 Room-network constitution + P-1 ambient state-change) in docs/.
-3. **Luna's real-device phone pass** — the perpetually outstanding check.
+3. **Confirm** the `moonpixiee.work@gmail.com` inquiry inbox is monitored (Luna) — the Work With Luna door opens onto it.
 
 ## OPEN RULINGS (Luna)
 - Grammar sentence: adopt "Every room is built by the same House, but furnished by a different soul." as the visual grammar's governing sentence — [pending her word].

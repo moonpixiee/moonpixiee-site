@@ -86,3 +86,16 @@ The Hall is never static. As a resident's House grows, the Hall changes through 
 Every navigation decision should first be explainable as movement through the House before it is explained as interface design. If a feature cannot be placed somewhere in the House, it probably doesn't belong yet. (Should notifications exist? Where do they live? Should search exist? Where in the House would someone search? Settings — an Archivist's desk, a steward's office, a caretaker's room?) The question is never "where do we put the button" but "where would this exist in the building."
 
 *Note: P-R5 is a design filter, not a structural proposal — candidate for graduation into the aesthetic laws in a future ratification.*
+
+## P-R6 — The Passages' Place *(logged 2 Aug 2026, deferred to a structural session)*
+
+**The Becoming** and **Letters from Moonpixiee** are Passages, not rooms (Constitution §8: The Becoming is a book; §10: Letters is the Library's periodical, Substack the subscription layer). They are reachable from the House Map's *Passages* group but have never been given a place in the House's geography. Per P-R5 (Geography Before UI), the question is not "how do these pages look" but **"where in the building do they live?"** — inside the Library (Letters as its periodical shelf, The Becoming as its first interactive book)? A landing off the Hall? A corridor?
+
+**Interim state (2 Aug):** both received an **appearance-only** consistency pass under F-ACC-1 — retired rose re-tokenized to House brass, legacy top-nav replaced by the Hall-return carrier, titles normalized to `| House of Luna`. This makes them House-consistent *in appearance* only.
+
+**Structural residuals deliberately NOT addressed by the appearance pass (belong to this proposal):**
+- **Letters** carries an inline **email-capture form** ("Subscribe" + "your@email.com") with no backend, and a **"Join the Waitlist →"** card. This is intake/collection language of exactly the kind F-6 removed from the Machine Room, and a DR-001 ghost (a form with no door behind it). Its home should route to the ratified subscription layer (Substack), not a dead inline form.
+- **The Becoming** uses **emoji icons** (🌑 🪞 ✨) in its shadow-block interface — a Constitution §23 violation (no emoji in interface).
+- Both use the retired-era generic section/card structure rather than an in-room material world.
+
+These resolve when the Passages are given their place — not before.
