@@ -239,4 +239,6 @@ This is genuinely your call; it's a judgment about your business as much as the 
 
 **The domain is plural.** `housesofluna.com` — *houses*. The brand is House of Luna, singular, and §0's entire metaphor is *a* house. Worth deciding whether to acquire the singular domain and redirect, or accept the plural as a permanent quirk. Not urgent, not free, but it gets more expensive to change the longer the URL is in circulation.
 
+> **RULED (Luna, 3 Aug 2026 — Constitution v4.3):** the plural stays. **One root domain forever: `housesofluna.com`.** All wings are subdomains (`velvet.`, future `moss.…`); no second root domain is purchased for the platform. `houseofluna.com` (singular) may later be acquired as a **redirect only**, pre-launch, if reasonably priced.
+
 **Route naming.** Your notes said `/luna`; I've specced `/lunas-room`. `/luna` is shorter but ambiguous with the person; `/lunas-room` matches §15's place-vocabulary. Easy to change — just needs a decision before M3 sets the redirects.

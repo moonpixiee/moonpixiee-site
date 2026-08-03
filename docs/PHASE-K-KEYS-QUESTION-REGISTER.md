@@ -31,6 +31,8 @@ The vocabulary is ratified; the mechanism is not. Options, non-exclusive:
 
 Sub-question: is "Lost Your Key?" recovery email-anchored regardless of mechanism? (Probably yes; ratify explicitly.)
 
+**Session-scope constraint (RULING — Luna, 3 Aug 2026; Constitution v4.3):** one key must hold across the whole House and all its wings, which are **subdomains** (`velvet.housesofluna.com`, future `moss.…`). Sessions must therefore work across `*.housesofluna.com` via cookie **domain scoping** (cookie domain `.housesofluna.com`). Whatever KQ-1 mechanism is chosen, its session token must be domain-scoped, not host-only — a schema/mechanism constraint, not a later toggle. (See HOUSE_ARCHITECTURE.md §7; supersedes the earlier path-based wing model.)
+
 ### KQ-2 — What does the House remember — and what does it refuse to remember?
 
 §3 needs a **memory charter**: an explicit enumerated list, because "the House remembers" without boundaries is surveillance wearing velvet. Proposed memory classes to rule on individually:

@@ -387,9 +387,9 @@ Rooms call this. Rooms never touch memory tables directly. When VELVET//CTRL arr
 | Share authentication? | **Yes.** One key to the House. §16. |
 | Share Supabase? | **Yes, one project, separate schemas.** §4.1 |
 | Share deployment? | **Not necessarily.** See below. |
-| Share domain? | **Yes, as a path.** `housesofluna.com/machine-room/velvet` |
+| Share domain? | **One root forever; wings are subdomains.** e.g. `velvet.housesofluna.com`, future `moss.…` (RULING — Luna, 3 Aug 2026; supersedes the earlier path model `housesofluna.com/machine-room/velvet`). Sessions must work across `*.housesofluna.com` via cookie **domain scoping** (cookie domain `.housesofluna.com`). No second root domain is purchased for the platform; `houseofluna.com` (singular) may later be acquired as a **redirect only**, pre-launch, if reasonably priced. |
 
-**On deployment:** the Machine Room is a room in the House, so its *entrance* is part of the House. But VELVET//CTRL as a working product may want its own release cadence — you shouldn't have to redeploy the Library to ship a fix to Velvet. Reasonable pattern: the House is one deploy; Velvet's application is a separate deploy mounted at a path, sharing auth via Supabase session.
+**On deployment:** the Machine Room is a room in the House, so its *entrance* is part of the House. But VELVET//CTRL as a working product may want its own release cadence — you shouldn't have to redeploy the Library to ship a fix to Velvet. Reasonable pattern: the House is one deploy; Velvet's application is a separate deploy served on its own subdomain (`velvet.housesofluna.com`), sharing auth via a Supabase session on a cookie scoped to `.housesofluna.com` (per the 3 Aug domain ruling — subdomains, not paths).
 
 **Do not design VELVET//CTRL's data model now.** It's paused, its scope is undefined, and AI_LUNA.md has nine open questions. Designing a schema for it today means designing against guesses.
 

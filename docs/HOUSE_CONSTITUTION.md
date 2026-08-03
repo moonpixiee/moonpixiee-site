@@ -1,10 +1,10 @@
 # HOUSE_CONSTITUTION.md
 
 House of Luna
-Version 4.2
+Version 4.3
 Status: Ratified
 
-Supersedes v4.1
+Supersedes v4.2
 
 ---
 
@@ -1012,6 +1012,10 @@ Stone, proportion, shadow, craftsmanship, and structural language belong to the 
 ---
 
 # 27. Amendment Log
+
+v4.3 — Luna, 3 August 2026
+
+Domain ruling (permanent). One root domain forever: **housesofluna.com** (the plural stays; strengthens v4.0's "ratified as permanent"). All wings are **subdomains** — `velvet.housesofluna.com`, future `moss.…` — never separate roots and never sold as paths. Sessions must work across `*.housesofluna.com` via cookie **domain scoping** (cookie domain `.housesofluna.com`). **No second root domain is purchased for the platform;** `houseofluna.com` (singular) may eventually be acquired as a **redirect only**, pre-launch, if reasonably priced. Resolves the singular-vs-plural domain question raised in `docs/01-HOUSE-ARCHITECTURE-AUDIT.md`; supersedes the earlier path-based wing model in `docs/HOUSE_ARCHITECTURE.md` §7.
 
 v4.2 — Luna, 1 August 2026
 
