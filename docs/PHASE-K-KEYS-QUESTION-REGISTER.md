@@ -79,6 +79,25 @@ Future concept, Luna 31 Jul 2026: when something changes for a keyholder — a n
 
 ---
 
+## Flagship use case
+
+### K-USE-1 — The Becoming as a Living Book *(logged 2 Aug 2026)*
+
+The Becoming's prompts are not static cards; they are **pages waiting to be written in.** Key-holders answer prompts; the House stores the response with **Written** and **Last revisited** dates. Answered pages show quiet evidence — a worn edge, a seal — **never a badge or notification** (the P-R4 principle at page scale). Prompts evolve as they are answered; **the book is never complete.**
+
+**Privacy ruling required before build:** pages are **private by default**, visible only to their key-holder, **never to visitors** (including under P-R3 Visiting Houses), with an explicit ruling on **operator access** (recommended: **sealed** — the House holds the writing but does not read it, per §17).
+
+**Requires:** identity (KQ-1), entitlements (KQ-2 contribution memory), storage. **This use case is the standing argument for Phase K's priority.**
+
+**Interaction notes (from the 2 Aug design session — direction, not yet built):**
+- **Hover** — candlelight catching the page.
+- **Click** — the page unfolds (a *close-the-book* gesture, **not a modal**).
+- **Resting state** — inactive prompts read as **aged paper recessed into the wall**; the active one **catches the lamplight** — pulling a page from a folio.
+
+Interlocks: KQ-2 (contribution memory + encryption posture), KQ-1 (mechanism), P-R3 (the visibility boundary this use case hardens), P-R4 (quiet evidence over notification).
+
+---
+
 ## What this register is not
 
 No schema, no code, no Supabase project configuration, no UI. Those begin only after these rulings exist, a Phase K brief is ratified, and Phase R has cut over (for anything user-facing). The questions are ordered so KQ-1 and KQ-2 unlock the most: mechanism and memory charter are the constitution of this phase; everything else furnishes them.

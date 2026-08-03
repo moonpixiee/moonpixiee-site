@@ -22,9 +22,11 @@ Room-by-room sweep across Threshold · Grand Hall · Library · The Edit · The 
 **The Phase R stamp waits on Gate 2 only — and the stamp is Luna's to press.**
 
 ## PENDING (next session's work)
-1. **Gate 2 — Luna's real-device phone pass** (the stamp): walk Threshold → Wander → Hall → all four rooms → the procession on a real phone over the deployed Netlify URL. Simulated 380px cannot feel tap targets, scroll momentum, on-device font rendering, or the address-bar collapse. Phase R is stamped only after this gate is green.
-2. **Verify committed**: PHASE-K-KEYS-QUESTION-REGISTER.md (with KQ-9 Room-network constitution + P-1 ambient state-change) in docs/.
-3. **Confirm** the `moonpixiee.work@gmail.com` inquiry inbox is monitored (Luna) — the Work With Luna door opens onto it.
+1. **Gate 2 — Luna's real-device phone pass** (the stamp) — **IN PROGRESS** (Luna walking the House, 2 Aug evening): Threshold → Wander → Hall → all four rooms → the procession, on a real phone over the deployed Netlify URL. Phase R is stamped only after this gate is green. On report-back: clear anything the thumb flags.
+
+**Resolved this session:**
+- PHASE-K-KEYS-QUESTION-REGISTER.md verified committed — carries KQ-1..9, P-1, and now **K-USE-1 (The Becoming as a Living Book)**, the milestone's flagship use case and standing argument for Phase K priority.
+- `moonpixiee.work@gmail.com` inquiry inbox **confirmed monitored** (Luna) — the Work With Luna door opens onto someone home.
 
 ## OPEN RULINGS (Luna)
 - Grammar sentence: adopt "Every room is built by the same House, but furnished by a different soul." as the visual grammar's governing sentence — [pending her word].
