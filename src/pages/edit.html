@@ -47,8 +47,12 @@
   :where(a,button):focus-visible{ outline:2px solid transparent; outline-offset:2px;
     box-shadow:0 0 0 2px var(--amber), 0 0 0 4px var(--edit-0); border-radius:2px; }
 
+  /* DR-G2-2: opaque + blurred chrome so a heading scrolling under the fixed nav
+     never reads as tangled with the House of Luna wordmark (esp. mobile scroll) */
   nav{ position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify-content:space-between; align-items:center;
-    padding:1.1rem clamp(1.2rem,4vw,2.6rem); background:linear-gradient(to bottom, rgba(22,11,16,0.92) 0%, transparent 100%); }
+    padding:1.1rem clamp(1.2rem,4vw,2.6rem);
+    background:linear-gradient(to bottom, rgba(22,11,16,0.98) 0%, rgba(22,11,16,0.88) 60%, rgba(22,11,16,0.55) 88%, transparent 100%);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
   .nav-logo{ font-family:var(--fa); font-variant:small-caps; letter-spacing:0.07em; font-size:1.15rem; color:var(--paper); text-decoration:none; }
   .nav-back{ font-family:var(--fn); font-size:0.92rem; color:var(--gilt); text-decoration:none; }
   .nav-back:hover{ color:var(--amber); }
@@ -69,6 +73,11 @@
   .category-label{ font-family:var(--fl); font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gilt); margin-bottom:0.6rem; display:block; }
   .category-title{ font-family:var(--fa); font-weight:500; font-size:clamp(1.7rem,4vw,2.5rem); color:var(--paper); line-height:1.18; margin-bottom:0.4rem; }
   .category-sub{ font-family:var(--fn); font-style:italic; font-size:0.98rem; color:var(--paper-dim); margin-bottom:2.4rem; max-width:48ch; }
+  /* DR-G2-3: Lip Combo is a named sub-collection within Makeup, not its own category */
+  .subcollection{ margin-top:3.4rem; padding-top:2.4rem; border-top:1px solid rgba(201,169,110,0.18); }
+  .subcollection-label{ font-family:var(--fl); font-size:0.66rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gilt); margin-bottom:0.5rem; display:block; }
+  .subcollection-title{ font-family:var(--fa); font-weight:600; font-size:clamp(1.35rem,3.2vw,1.9rem); color:var(--paper); line-height:1.22; margin-bottom:0.4rem; }
+  .subcollection-sub{ font-family:var(--fn); font-style:italic; font-size:0.95rem; color:var(--paper-dim); margin-bottom:2rem; max-width:48ch; }
 
   .products-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(44vw,220px),1fr)); gap:1.4rem; }
   /* THE PIECE — displayed on a lit surface, framed in gilt (reflected brass) */
@@ -224,7 +233,7 @@
   </div>
 </section>
 
-<!-- THE GLOW -->
+<!-- THE GLOW (Makeup) — Category 02, with Lip Combo folded in as a named sub-collection (DR-G2-3) -->
 <section class="section-alt">
   <div class="section-inner">
     <span class="category-label">Category 02</span>
@@ -238,38 +247,36 @@
         <span class="cat-card-cta">Shop the Glow →</span>
       </a>
     </div>
-  </div>
-</section>
 
-<!-- LIP COMBO -->
-<section>
-  <div class="section-inner">
-    <span class="category-label">Category 03</span>
-    <h2 class="category-title">Lip Combo</h2>
-    <p class="category-sub">This never misses. The exact combination I wear more than anything else.</p>
-    <div class="products-grid">
+    <!-- Lip Combo — a named sub-collection within Makeup (was standalone Category 03; DR-G2-3, Luna 2 Aug) -->
+    <div class="subcollection">
+      <span class="subcollection-label">Makeup · Sub-collection</span>
+      <h3 class="subcollection-title">Lip Combo</h3>
+      <p class="subcollection-sub">This never misses. The exact combination I wear more than anything else.</p>
+      <div class="products-grid">
 
-      <div class="product-card">
-        <div class="product-img-wrap"><img src="lip-fenty.jpg" alt="Fenty Beauty Gloss Bomb Heat" class="product-img"/></div>
-        <p class="product-name">Fenty Beauty Gloss Bomb Heat</p>
-        <p class="product-price"><span>$</span>24.66</p>
-        <a href="https://amzn.to/3Qp71ha" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+        <div class="product-card">
+          <div class="product-img-wrap"><img src="lip-fenty.jpg" alt="Fenty Beauty Gloss Bomb Heat" class="product-img"/></div>
+          <p class="product-name">Fenty Beauty Gloss Bomb Heat</p>
+          <p class="product-price"><span>$</span>24.66</p>
+          <a href="https://amzn.to/3Qp71ha" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap"><img src="lip-nyx-liner.jpg" alt="NYX Brown Lip Liner" class="product-img"/></div>
+          <p class="product-name">NYX Brown Lip Liner</p>
+          <p class="product-price"><span>$</span>5.97</p>
+          <a href="https://amzn.to/4viepKt" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-img-wrap"><img src="lip-nyx-gloss.jpg" alt="NYX Butter Gloss" class="product-img"/></div>
+          <p class="product-name">NYX Butter Gloss</p>
+          <p class="product-price"><span>$</span>5.97</p>
+          <a href="https://amzn.to/4ouSlJM" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
+        </div>
+
       </div>
-
-      <div class="product-card">
-        <div class="product-img-wrap"><img src="lip-nyx-liner.jpg" alt="NYX Brown Lip Liner" class="product-img"/></div>
-        <p class="product-name">NYX Brown Lip Liner</p>
-        <p class="product-price"><span>$</span>5.97</p>
-        <a href="https://amzn.to/4viepKt" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
-      </div>
-
-      <div class="product-card">
-        <div class="product-img-wrap"><img src="lip-nyx-gloss.jpg" alt="NYX Butter Gloss" class="product-img"/></div>
-        <p class="product-name">NYX Butter Gloss</p>
-        <p class="product-price"><span>$</span>5.97</p>
-        <a href="https://amzn.to/4ouSlJM" class="btn-shop" target="_blank" rel="noopener">Shop Now</a>
-      </div>
-
     </div>
   </div>
 </section>

@@ -71,7 +71,7 @@
     /* Lighting plot: filament pools low (from beneath the machinery) and a
        faint warm wash catches the wall's upper reach. No sourceless glow. */
     background:
-      radial-gradient(70% 44% at 50% 108%, rgba(201,138,62,0.14) 0%, transparent 58%),   /* filament pools from below */
+      radial-gradient(70% 34% at 50% 106%, rgba(201,138,62,0.14) 0%, transparent 58%),   /* filament pools from below (contained: never floods the footer) */
       radial-gradient(58% 30% at 50% -4%, rgba(201,138,62,0.05) 0%, transparent 60%),      /* faint wash high on the wall */
       linear-gradient(180deg, var(--mr-wall) 0%, #16121C 62%, var(--mr-under) 100%);
     background-attachment: fixed;
@@ -242,7 +242,11 @@
   .machine-note { align-self: flex-start; margin-top: auto; font-family: var(--fm); font-size: 0.78rem; letter-spacing: 0.03em; color: var(--filament); line-height: 1.6; max-width: 34ch; }
 
   /* ── FOOTER ── */
-  footer { position: relative; z-index: 2; padding: 3rem 1.5rem; border-top: 1px solid rgba(68,63,55,0.4); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; }
+  /* DR-G2-4: opaque ground so the warm filament bleed can never wash over the
+     wordmark / footer links (atmosphere must never obscure House chrome). The
+     full-bleed dark band sits behind the centered footer content. */
+  #mr-foot { position: relative; z-index: 2; background: var(--mr-under); border-top: 1px solid rgba(68,63,55,0.4); }
+  footer { position: relative; z-index: 2; padding: 3rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; }
   .footer-logo { font-family: var(--fa); font-variant: small-caps; font-size: 1.05rem; color: var(--filament); text-decoration: none; }
   .footer-links { display: flex; gap: 1.4rem; }
   .footer-links a { font-family: var(--fl); font-size: 0.78rem; color: var(--paper-dim); text-decoration: none; transition: color 0.3s; }
@@ -351,6 +355,7 @@
   </div>
 </section>
 
+<div id="mr-foot">
 <footer>
   <a href="/" class="footer-logo">House of Luna</a>
   <div class="footer-links">
@@ -360,6 +365,7 @@
   </div>
   <p class="footer-copy">&copy; 2026 Moonpixiee &middot; House of Luna &middot; All rights reserved.</p>
 </footer>
+</div>
 
 </body>
 </html>

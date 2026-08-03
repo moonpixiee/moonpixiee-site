@@ -151,10 +151,16 @@
     padding: clamp(3rem,10vw,6rem) 0 clamp(4.5rem,14vw,9rem);
     overflow:hidden;
   }
-  .hall::before {   /* the masonry — craft texture, disclosed by the warm light */
+  /* DR-G2-1: the Hall wears the SAME warm aged stone as the Threshold — no
+     material change at the seam. The masonry texture is warmed off its cool gray
+     and scaled up toward the Threshold's block size; per-door mood stays a
+     light-only wash over this one stone. */
+  .hall::before {   /* the House masonry — warm aged stone, disclosed by the warm light */
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background-image:url('/threshold-stone.webp'); background-size:118% auto; background-position:center top;
-    mix-blend-mode:overlay; opacity:0.42;
+    background-image:url('/threshold-stone.webp'); background-size:200% auto; background-position:center top;
+    mix-blend-mode:soft-light;
+    filter:sepia(0.55) saturate(1.7) brightness(0.7) contrast(0.9) hue-rotate(-8deg);
+    opacity:0.5;
   }
   .hall::after {    /* the floor — warm light gathers where the visitor stands */
     content:''; position:absolute; left:0; right:0; bottom:0; height:38%; z-index:0; pointer-events:none;

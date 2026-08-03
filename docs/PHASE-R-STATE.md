@@ -22,7 +22,11 @@ Room-by-room sweep across Threshold · Grand Hall · Library · The Edit · The 
 **The Phase R stamp waits on Gate 2 only — and the stamp is Luna's to press.**
 
 ## PENDING (next session's work)
-1. **Gate 2 — Luna's real-device phone pass** (the stamp) — **IN PROGRESS** (Luna walking the House, 2 Aug evening): Threshold → Wander → Hall → all four rooms → the procession, on a real phone over the deployed Netlify URL. Phase R is stamped only after this gate is green. On report-back: clear anything the thumb flags.
+1. **Gate 2 — Luna's real-device phone pass** (the stamp) — walk complete (2 Aug); **four findings fixed (batch, 3 Aug)**, now **awaiting Luna's re-walk of the four fixed locations + the Phase R stamp.** The stamp is Luna's to press once the re-walk is green.
+   - **DR-G2-1** — Hall masonry no longer a different material at the Threshold→Hall seam: the cool machine-brick is warmed and scaled to read as the same warm aged stone as the Threshold; per-door mood stays a light-only wash. (CSS-level unification; a pixel-identical shared stone asset remains a possible patina-pass item.)
+   - **DR-G2-2** — The Edit fixed nav made opaque + blurred so a heading scrolling under it never tangles with the House of Luna wordmark.
+   - **DR-G2-3** — Lip Combo demoted from standalone Category 03 to a named **Makeup sub-collection** within The Glow (intro + products kept; no routes touched).
+   - **DR-G2-4** — Machine Room footer given a full-bleed opaque band so the warm filament bleed can never wash over the wordmark / footer links (atmosphere never obscures chrome).
 
 **Resolved this session:**
 - PHASE-K-KEYS-QUESTION-REGISTER.md verified committed — carries KQ-1..9, P-1, and now the **flagship pair K-USE-1 (The Becoming as a Living Book) + K-USE-2 (Letters in the Walls)**. K-USE-2 carries a GOVERNANCE RULING REQUIRED: delivery triggers must be **metadata-only**, never content-based, or the K-USE-1 seal breaks. Standing argument for Phase K priority.
