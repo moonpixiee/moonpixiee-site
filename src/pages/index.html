@@ -136,6 +136,10 @@
      motivated warm light — so the Hall can GROW doors. Four doorways; each door
      is real (activating opens it, then the room). Depth before decoration.
      ============================================================ */
+  /* DR-PS-3: kill the browser's default 8px body margin and transparent ground —
+     it was letting white/grey show as a frame (worst at the page's end, behind the
+     Work With Luna arch). The House ground is unbroken black to the last pixel. */
+  html, body { margin:0; background:#0A0807; }
   #house-interior { background:#0E0B0A; }
   .hall {
     --stone-0:#0C0A09; --stone-1:#17110E; --stone-2:#241A14;   /* warm masonry values */
@@ -145,26 +149,36 @@
     --fn:'Source Serif 4', Georgia, 'Times New Roman', serif;
     --dms:420ms; --ease:cubic-bezier(0.22,1,0.36,1);
     position:relative; min-height:100vh; color:var(--paper);
-    background:
-      radial-gradient(120% 52% at 50% -4%, rgba(var(--warm),0.16) 0%, rgba(var(--warm),0.04) 30%, transparent 58%),
-      linear-gradient(180deg, var(--stone-1) 0%, var(--stone-0) 72%, #0A0807 100%);
+    /* the deep ground — masonry sits on House black; the far end is darkness */
+    background:linear-gradient(180deg, #141010 0%, #0E0B0A 60%, #0A0807 100%);
     padding: clamp(3rem,10vw,6rem) 0 clamp(4.5rem,14vw,9rem);
     overflow:hidden;
   }
-  /* DR-G2-1: the Hall wears the SAME warm aged stone as the Threshold — no
-     material change at the seam. The masonry texture is warmed off its cool gray
-     and scaled up toward the Threshold's block size; per-door mood stays a
-     light-only wash over this one stone. */
-  .hall::before {   /* the House masonry — warm aged stone, disclosed by the warm light */
+  /* DR-PS-1: the Hall wears the Threshold's ACTUAL masonry — hall-stone.webp is
+     cut from the R8 photograph itself (the lit brick beside the arch), lifted to
+     interior light and wrap-blended seamless (tools/hall-stone.py). No procedural
+     brick, no material change at the seam: the same wall, learning warmer light.
+     Per-door moods stay light-only washes over this one stone (see .opening). */
+  .hall::before {   /* the House masonry — real weathered brick, the wall itself */
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background-image:url('/threshold-stone.webp'); background-size:200% auto; background-position:center top;
-    mix-blend-mode:soft-light;
-    filter:sepia(0.55) saturate(1.7) brightness(0.7) contrast(0.9) hue-rotate(-8deg);
-    opacity:0.5;
+    background-image:url('/hall-stone.webp');
+    background-size:32% auto; background-position:center -1.5%; background-repeat:repeat;
+    opacity:0.74;
+    /* the stone dissolves into House black before the page ends — the procession
+       continues into darkness, it never fades to grey (DR-PS-3 companion) */
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 56%,transparent 88%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 56%,transparent 88%);
   }
-  .hall::after {    /* the floor — warm light gathers where the visitor stands */
-    content:''; position:absolute; left:0; right:0; bottom:0; height:38%; z-index:0; pointer-events:none;
-    background:radial-gradient(62% 130% at 50% 102%, rgba(var(--warm),0.13) 0%, transparent 66%);
+  .hall::after {    /* the interior light laid OVER the masonry — the unseen lantern
+                       discloses the wall high; a warm pool gathers at the feet */
+    content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      /* the lantern high on the wall — warm light disclosing the masonry */
+      radial-gradient(115% 46% at 50% -6%, rgba(var(--warm),0.16) 0%, rgba(var(--warm),0.045) 30%, transparent 58%),
+      /* a warm pool gathers at the feet */
+      radial-gradient(62% 128% at 50% 104%, rgba(var(--warm),0.13) 0%, transparent 64%),
+      /* vignette — light pools centrally, the corners fall into shadow (mood) */
+      radial-gradient(130% 96% at 50% 42%, transparent 44%, rgba(6,4,3,0.42) 82%, rgba(6,4,3,0.62) 100%);
   }
   .hall-head{ position:relative; z-index:2; text-align:center; margin-bottom:clamp(2.4rem,8vw,4rem); padding:0 1.5rem; }
   .hall-name{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:0.15em;
@@ -220,11 +234,21 @@
 
   /* ---- the room's LEAK — one trace escaping before entry (ratified motif) ---- */
   .leak{ position:absolute; z-index:2; pointer-events:none; }
-  /* Library — one loose page slipped under the door */
-  .door[data-leak="page"] .leak{ left:50%; bottom:-6px; width:34%; height:5%;
-    transform:translateX(-52%) rotate(-4deg);
-    background:linear-gradient(180deg,#EFE7D8,#CFC4AC); border-radius:1px;
-    box-shadow:0 3px 8px rgba(0,0,0,.55), 0 0 10px rgba(239,231,216,.10); }
+  /* Library — one loose page slipped under the door.
+     DR-PS-2: Old Page in the Library's warm gold light — paper grain, a lit top
+     edge and a shaded underside so it reads as a real sheet, never a pure-white
+     sliver. Nothing in the House renders pure white. */
+  .door[data-leak="page"] .leak{ left:50%; bottom:-7px; width:33%; height:6.2%;
+    transform:translateX(-52%) rotate(-4deg); border-radius:1px 2px 1px 1px;
+    background:
+      repeating-linear-gradient(94deg, rgba(92,70,36,0.10) 0 1.5px, rgba(255,244,222,0.05) 1.5px 3px),
+      linear-gradient(168deg, #E7D8B4 0%, #D8C49B 52%, #BFAB80 100%);
+    background-blend-mode:overlay, normal;
+    box-shadow:
+      0 4px 9px rgba(0,0,0,.55),               /* cast on the sill */
+      0 0 13px rgba(199,154,74,.22),           /* caught in the gold light */
+      inset 0 1px 0 rgba(255,248,232,.40),     /* the lit top edge */
+      inset 0 -3px 5px rgba(120,92,48,.30); }  /* the shaded underside */
   /* The Edit — a fabric edge caught at the threshold */
   .door[data-leak="fabric"] .leak{ left:56%; bottom:-4px; width:26%; height:12%;
     background:linear-gradient(160deg, color-mix(in srgb,var(--room) 78%,#000) 0%, color-mix(in srgb,var(--room) 40%,#000) 100%);
