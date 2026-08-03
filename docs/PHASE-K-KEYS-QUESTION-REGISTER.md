@@ -79,7 +79,7 @@ Future concept, Luna 31 Jul 2026: when something changes for a keyholder — a n
 
 ---
 
-## Flagship use case
+## Flagship use cases
 
 ### K-USE-1 — The Becoming as a Living Book *(logged 2 Aug 2026)*
 
@@ -95,6 +95,17 @@ The Becoming's prompts are not static cards; they are **pages waiting to be writ
 - **Resting state** — inactive prompts read as **aged paper recessed into the wall**; the active one **catches the lamplight** — pulling a page from a folio.
 
 Interlocks: KQ-2 (contribution memory + encryption posture), KQ-1 (mechanism), P-R3 (the visibility boundary this use case hardens), P-R4 (quiet evidence over notification).
+
+### K-USE-2 — Letters in the Walls *(logged 2 Aug 2026)*
+
+A vault of writings Luna leaves in the House — **"Leave in the House"** as a sibling action to publishing. The House delivers them **privately, one resident at a time**, based on **where that resident is in their journey.** Delivery is quiet — a moon seal on a page, a letter in a room — **never a notification, feed, or broadcast** (P-R4 principle). Deliveries are private: **no resident ever sees another's letters**, and there is **no public record of who received what.** Letters **persist indefinitely** — a resident joining years later can still receive something written years before.
+
+**GOVERNANCE RULING REQUIRED — conflict with the K-USE-1 seal (flagged 2 Aug 2026):**
+Delivery triggers **MUST be metadata-only** — page counts, revisit events, absence duration, volume/threshold reached, calendar/moon dates. The House **MUST NOT parse, classify, or act on the CONTENT of sealed pages** to select letters — **content-based delivery breaks the K-USE-1 seal even with no human reader.** Any future content-aware delivery would require an **explicit, revocable, resident-held opt-in**, ratified as its own constitutional amendment. **Recommended standing rule: metadata-only.**
+
+**Requires:** identity (KQ-1), entitlement/presence memory (KQ-2 — the metadata the triggers read), storage, delivery model. Interlocks: KQ-2 (the metadata boundary above is a memory-charter ruling), K-USE-1 (the seal this must not break), P-R4 (ambient delivery over notification), P-1 (state-change as atmosphere).
+
+**The flagship pair.** K-USE-1 and K-USE-2 are Phase K's flagship pair: the House **remembers what you wrote** (sealed), and the House **gives you what Luna left** (addressed to your milestones, not your secrets). The seal is the hinge between them — K-USE-2's metadata-only rule is what keeps K-USE-1's promise true.
 
 ---
 

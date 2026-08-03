@@ -25,7 +25,7 @@ Room-by-room sweep across Threshold · Grand Hall · Library · The Edit · The 
 1. **Gate 2 — Luna's real-device phone pass** (the stamp) — **IN PROGRESS** (Luna walking the House, 2 Aug evening): Threshold → Wander → Hall → all four rooms → the procession, on a real phone over the deployed Netlify URL. Phase R is stamped only after this gate is green. On report-back: clear anything the thumb flags.
 
 **Resolved this session:**
-- PHASE-K-KEYS-QUESTION-REGISTER.md verified committed — carries KQ-1..9, P-1, and now **K-USE-1 (The Becoming as a Living Book)**, the milestone's flagship use case and standing argument for Phase K priority.
+- PHASE-K-KEYS-QUESTION-REGISTER.md verified committed — carries KQ-1..9, P-1, and now the **flagship pair K-USE-1 (The Becoming as a Living Book) + K-USE-2 (Letters in the Walls)**. K-USE-2 carries a GOVERNANCE RULING REQUIRED: delivery triggers must be **metadata-only**, never content-based, or the K-USE-1 seal breaks. Standing argument for Phase K priority.
 - `moonpixiee.work@gmail.com` inquiry inbox **confirmed monitored** (Luna) — the Work With Luna door opens onto someone home.
 
 ## OPEN RULINGS (Luna)
