@@ -14,207 +14,232 @@
 </script>
 <link rel="stylesheet" href="/styles/tokens.css"/>
 <style>
+  /* ============================================================
+     WORK WITH LUNA — in-room visual pass (Stability Declaration: hues in situ).
+     Direction (RATIFIED, door brief §2.7): a private ATELIER / creative office
+     inside the House. Dark wood and lacquer, aged brass hardware, a small
+     ENGRAVED NAMEPLATE (the nameplate is the ornament), warm TASK LIGHT beneath
+     the frame. Access to Luna's work without commercially displaying Luna
+     herself. Secondary standalone — quieter, non-ceremonial scale.
+
+     Light plot (LAW 1, one key light): a warm desk/task light, low and out of
+     frame, pools on the wood and catches the brass. The room glow matches the
+     Hall door's leak (--task #C9A05A). Walls (LAW 2): dark walnut built from
+     value + grain — touchable wood, never void. The retired rose is
+     re-tokenized by role per the §5 amendment + the 1 Aug interim ruling:
+     decorative/ceremonial → brass; the one invitation forward → Garnet.
+     ============================================================ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --black:     #0a0806;
-    --ink:       #1a1410;
-    --dust:      #2e2520;
-    --parchment: #f0ebe3;
-    --cream:     #faf7f2;
-    --rose:      #D4829A;
-    --gold:      #c9a96e;
-    --muted:     #8a7a70;
-    --serif:     'Cormorant Garamond', Georgia, serif;
-    --sans:      'Jost', sans-serif;
+    /* Wood room — value construction (LAW 2) */
+    --wood-under: #140F0A;                              /* deepest — shadow under the desk (below the fold) */
+    --wood-wall:  #221913;                              /* dark walnut wall face */
+    --wood-panel: #2C2118;                              /* raised wood / desk surface */
+    --lacquer:    #191108;                              /* lacquered wood, darkest trim */
+    --joint:      #3A2C20;                              /* seams, recessed trim, drawer lines */
+
+    /* The one key light (LAW 1) — warm task light, matched to the Hall leak */
+    --task:       #C9A05A;                              /* warm task light / desk lamp */
+
+    /* House constants (LAW 5 — House owns light; brass whispers; red is sacred) */
+    --brass:      var(--house-brass, #A9884F);
+    --paper:      var(--house-paper, #EFE7D8);
+    --paper-dim:  var(--house-paper-dim, #C9C0AE);
+    --stone:      var(--house-stone, #8A8375);
+    --garnet:     var(--house-red, #6A2436);            /* the single invitation forward */
+    --amber:      var(--house-amber, #E3A34A);          /* focus wayfinding (F-3) */
+
+    /* nameplate — aged brass with dark incised engraving */
+    --plate:      #9A7C44;
+    --plate-hi:   #C3A468;
+    --engrave:    #1B1308;                              /* incised letter fill — AA on aged brass plate */
+
+    /* The Cast (LAW 8) — atelier speaks Architect/Narrator/Librarian; no Machine here */
+    --fa: var(--font-architect, 'Cormorant Garamond', Georgia, serif);
+    --fn: var(--font-narrator, 'Source Serif 4', Georgia, 'Times New Roman', serif);
+    --fl: var(--font-librarian, 'Jost', system-ui, sans-serif);
+    --ease: var(--ease-door, cubic-bezier(0.22, 1, 0.36, 1));
   }
 
-  html { scroll-behavior: smooth; }
-
+  html { scroll-behavior: smooth; background: var(--wood-under); }
   body {
-    background: var(--black);
-    color: var(--parchment);
-    font-family: var(--sans);
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.6;
-  }
-
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.4rem 2.5rem;
-    z-index: 100;
-    background: linear-gradient(to bottom, rgba(10,8,6,0.85) 0%, transparent 100%);
-  }
-  .nav-logo {
-    font-family: var(--serif); font-style: italic;
-    font-size: 1.1rem; letter-spacing: 0.08em;
-    color: var(--parchment); text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-family: var(--sans); font-size: 0.7rem;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; transition: color 0.3s;
-  }
-  .nav-links a:hover, .nav-links a.active { color: var(--rose); }
-
-  .page-hero {
-    min-height: 55vh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    text-align: center;
-    padding: 10rem 2rem 5rem;
+    color: var(--paper); font-family: var(--fn); font-weight: 400;
+    line-height: 1.7; overflow-x: hidden; min-height: 100vh;
+    /* Lighting plot: task light pools low and warm, a faint spill catches the
+       upper wall. No sourceless glow. */
     background:
-      radial-gradient(ellipse 60% 50% at 50% 80%, rgba(212,130,154,0.08) 0%, transparent 70%),
-      var(--black);
+      radial-gradient(62% 40% at 50% 92%, rgba(201,160,90,0.16) 0%, transparent 60%),   /* task light pools low */
+      radial-gradient(50% 26% at 50% 2%, rgba(201,160,90,0.05) 0%, transparent 60%),      /* faint spill high */
+      linear-gradient(180deg, var(--wood-wall) 0%, #1B140E 60%, var(--wood-under) 100%);
+    background-attachment: fixed;
   }
+  /* Wood tooth — grain overlay ≤3% (Constraint Annex) */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  a { color: inherit; }
+  img, svg { display: block; max-width: 100%; }
+
+  /* Focus — dual-ring (tokens §8.5): amber inner, wood outer */
+  :where(a, button, summary, [tabindex]):focus-visible {
+    outline: 2px solid transparent; outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--amber), 0 0 0 4px var(--wood-under); border-radius: 2px;
+  }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 1rem; z-index: 1000;
+    background: var(--wood-panel); color: var(--paper);
+    padding: 0.8rem 1.2rem; font-family: var(--fl); font-size: 0.75rem; letter-spacing: 0.05em;
+    text-decoration: none; border: 1px solid var(--joint); transition: top 0.2s ease;
+  }
+  .skip-link:focus { top: 1rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ── NAV (Hall-return, ratified in-room convention) ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem clamp(1.2rem, 4vw, 2.6rem);
+    background: linear-gradient(to bottom, rgba(20,15,10,0.94) 0%, transparent 100%);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .nav-logo { font-family: var(--fa); font-variant: small-caps; letter-spacing: 0.07em; font-size: 1.15rem; color: var(--paper); text-decoration: none; }
+  .nav-back { font-family: var(--fn); font-size: 0.92rem; color: var(--task); text-decoration: none; transition: color 0.3s; }
+  .nav-back:hover { color: var(--amber); }
+
+  /* ── THE ROOM (hero) — a quiet office at lamp-light ── */
+  #atelier { scroll-margin-top: 88px; }
+  .page-hero {
+    min-height: 74vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 8.5rem 1.5rem 3.5rem; position: relative; z-index: 2;
+  }
+
+  /* THE NAMEPLATE — the room's one ornament: aged brass, incised engraving,
+     mounted with corner screws, lit from below by the task light. */
+  .nameplate {
+    position: relative; margin-bottom: 2.4rem; padding: 0.75rem 2.4rem;
+    background: linear-gradient(168deg, var(--plate-hi) 0%, var(--plate) 46%, #7C6234 100%);
+    border: 1px solid rgba(40,28,14,0.55);
+    border-radius: 2px;
+    box-shadow: 0 16px 40px -18px rgba(0,0,0,0.8), 0 0 34px -14px rgba(201,160,90,0.5), inset 0 1px 0 rgba(255,244,214,0.35);
+  }
+  .nameplate span {
+    font-family: var(--fa); font-variant: small-caps; font-weight: 600;
+    font-size: clamp(1.15rem, 3.2vw, 1.7rem); letter-spacing: 0.16em;
+    color: var(--engrave);
+    text-shadow: 0 1px 0 rgba(255,244,214,0.28);   /* the incised edge catching light */
+  }
+  .nameplate::before, .nameplate::after {
+    content: ''; position: absolute; top: 50%; width: 5px; height: 5px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #E8D3A0, #6E5527);
+    transform: translateY(-50%);
+  }
+  .nameplate::before { left: 0.7rem; }
+  .nameplate::after  { right: 0.7rem; }
+
   .page-eyebrow {
-    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--rose); margin-bottom: 1.5rem; opacity: 0.8;
+    font-family: var(--fl); font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--task); margin-bottom: 1.4rem;
   }
   .page-title {
-    font-family: var(--serif);
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
-    font-weight: 300; line-height: 1.05;
-    color: var(--cream); margin-bottom: 1.2rem;
+    font-family: var(--fa); font-weight: 500; font-size: clamp(2.2rem, 6vw, 4.2rem);
+    line-height: 1.08; color: var(--paper); margin-bottom: 1.2rem; max-width: 18ch;
   }
-  .page-title em { font-style: italic; color: var(--rose); }
+  .page-title em { font-style: italic; color: #E4C48A; }   /* task light catching the letters */
   .page-sub {
-    font-family: var(--serif); font-style: italic;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    color: var(--muted); max-width: 460px; line-height: 1.9;
+    font-family: var(--fn); font-style: italic; font-size: clamp(1rem, 2.2vw, 1.18rem);
+    color: var(--paper-dim); max-width: 44ch; line-height: 1.8;
   }
-  .back-link {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; transition: color 0.3s;
-    margin-top: 2rem;
-  }
-  .back-link:hover { color: var(--rose); }
+  .back-link { display: inline-block; margin-top: 2rem; font-family: var(--fn); font-size: 0.95rem; color: var(--task); text-decoration: none; }
+  .back-link:hover { color: var(--amber); }
 
-  .divider {
-    width: 1px; height: 80px;
-    background: linear-gradient(to bottom, transparent, var(--rose), transparent);
-    margin: 0 auto;
-  }
+  /* task-light seam — a warm line spilling under the door/frame */
+  .seam { width: min(58vw, 210px); height: 1px; margin: 0 auto; background: linear-gradient(to right, transparent, var(--task), transparent); opacity: 0.5; }
 
-  section { padding: 6rem 2rem; }
-  .section-inner { max-width: 1100px; margin: 0 auto; }
+  section { padding: clamp(3.5rem, 7vw, 5.5rem) 1.5rem; position: relative; z-index: 2; }
+  .section-inner { max-width: 1000px; margin: 0 auto; }
+  .section-label { font-family: var(--fl); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--task); display: block; margin-bottom: 0.8rem; }
+  .section-title { font-family: var(--fa); font-weight: 500; font-size: clamp(1.8rem, 4.4vw, 2.9rem); color: var(--paper); line-height: 1.18; margin-bottom: 1rem; }
+  .section-lede { font-family: var(--fn); font-size: 0.98rem; color: var(--paper-dim); max-width: 52ch; line-height: 1.9; margin-bottom: 2.8rem; }
 
-  .btn-primary {
-    display: inline-block; padding: 0.85rem 2.2rem;
-    background: var(--rose); color: var(--black);
-    font-family: var(--sans); font-size: 0.7rem; font-weight: 400;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    text-decoration: none; transition: opacity 0.3s;
-  }
-  .btn-primary:hover { opacity: 0.85; }
-
-  .collab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1px;
-    background: rgba(240,235,227,0.05);
-    margin-bottom: 3.5rem;
-  }
+  /* ── WHAT WE CAN BUILD — brass-cornered index cards on the desk ── */
+  .build { background: linear-gradient(180deg, rgba(44,33,24,0.5), rgba(25,17,8,0.5)); border-top: 1px solid var(--joint); border-bottom: 1px solid var(--joint); }
+  .collab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(88vw, 240px), 1fr)); gap: 1.3rem; margin-bottom: 3rem; }
   .collab-cell {
-    background: var(--dust); padding: 1.8rem 1.5rem;
+    position: relative; background: var(--wood-panel); border: 1px solid var(--joint);
+    padding: 1.9rem 1.7rem; transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
   }
-  .collab-label {
-    font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 0.8rem; display: block;
-  }
-  .collab-text {
-    font-size: 0.78rem; color: var(--muted); line-height: 1.8;
-  }
+  .collab-cell:hover { border-color: rgba(201,160,90,0.45); transform: translateY(-2px); box-shadow: 0 18px 40px -22px rgba(0,0,0,0.7), 0 0 30px -18px rgba(201,160,90,0.35); }
+  .collab-label { font-family: var(--fl); font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); margin-bottom: 0.9rem; display: block; }
+  .collab-text { font-family: var(--fn); font-size: 0.9rem; color: var(--paper-dim); line-height: 1.9; }
 
-  .process-section { background: var(--ink); }
-  .process-steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+  /* the inquiry — the room's single Garnet invitation, framed in brass */
+  .inquiry { display: flex; align-items: center; gap: 1.6rem; flex-wrap: wrap; }
+  .btn-inquiry {
+    display: inline-block; font-family: var(--fl); font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper);
+    background: var(--garnet); border: 1px solid var(--brass);
+    padding: 0.95rem 2.2rem; text-decoration: none;
+    transition: background 0.3s, transform 0.3s, border-color 0.3s;
   }
-  .process-step { padding: 2rem; border-left: 2px solid var(--rose); }
-  .step-num {
-    font-family: var(--serif); font-size: 3rem; font-weight: 300;
-    color: var(--rose); opacity: 0.3; line-height: 1; margin-bottom: 1rem;
-    display: block;
-  }
-  .step-title {
-    font-family: var(--serif); font-size: 1.2rem;
-    color: var(--cream); margin-bottom: 0.6rem;
-  }
-  .step-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+  .btn-inquiry:hover { background: #7C2E44; border-color: var(--task); transform: translateY(-1px); }
+  .inquiry-addr { font-family: var(--fl); font-size: 0.8rem; letter-spacing: 0.02em; color: var(--stone); }
 
-  footer {
-    padding: 3rem 2rem;
-    border-top: 1px solid rgba(240,235,227,0.06);
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 1rem;
-    max-width: 1100px; margin: 0 auto;
-  }
-  .footer-logo {
-    font-family: var(--serif); font-style: italic;
-    font-size: 1rem; color: var(--muted); text-decoration: none;
-  }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a {
-    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--muted); text-decoration: none; transition: color 0.3s;
-  }
-  .footer-links a:hover { color: var(--rose); }
-  .footer-copy {
-    font-size: 0.62rem; color: rgba(138,122,112,0.5); width: 100%;
-    text-align: center; padding-top: 1rem;
-  }
+  /* ── HOW IT WORKS — steps marked by a brass rule + ghost numeral ── */
+  .process { background: linear-gradient(180deg, transparent, rgba(20,15,10,0.5)); }
+  .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(88vw, 220px), 1fr)); gap: 1.8rem; margin-top: 2.6rem; }
+  .process-step { position: relative; padding: 1.8rem 1.8rem 1.8rem 1.9rem; border-left: 2px solid var(--brass); }
+  .step-num { font-family: var(--fa); font-size: 2.8rem; font-weight: 300; color: var(--task); opacity: 0.28; line-height: 1; margin-bottom: 0.8rem; display: block; }
+  .step-title { font-family: var(--fa); font-weight: 600; font-size: 1.25rem; color: var(--paper); margin-bottom: 0.5rem; }
+  .step-desc { font-family: var(--fn); font-size: 0.9rem; color: var(--paper-dim); line-height: 1.8; }
+
+  /* ── FOOTER ── */
+  footer { position: relative; z-index: 2; padding: 3rem 1.5rem; border-top: 1px solid var(--joint); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1000px; margin: 0 auto; }
+  .footer-logo { font-family: var(--fa); font-variant: small-caps; font-size: 1.05rem; color: var(--task); text-decoration: none; }
+  .footer-links { display: flex; gap: 1.4rem; }
+  .footer-links a { font-family: var(--fl); font-size: 0.78rem; color: var(--paper-dim); text-decoration: none; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--task); }
+  .footer-copy { font-family: var(--fl); font-size: 0.7rem; color: rgba(138,131,117,0.55); width: 100%; text-align: center; padding-top: 1rem; }
 
   @media (max-width: 640px) {
-    nav { padding: 1.2rem 1.5rem; }
-    .nav-links { display: none; }
+    .page-hero { min-height: auto; padding: 8rem 1.3rem 3rem; }
     footer { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
+<a href="#atelier" class="skip-link">Skip to the atelier</a>
+
 <nav>
-  <a href="index.html" class="nav-logo">moonpixiee</a>
-  <ul class="nav-links">
-    <li><a href="library.html">Library</a></li>
-    <li><a href="work.html" class="active">Work With Me</a></li>
-    <li><a href="letters.html">Letters</a></li>
-    <li><a href="becoming.html">Becoming</a></li>
-    <li><a href="tools.html">Tools</a></li>
-    <li><a href="edit.html">The Edit</a></li>
-  </ul>
+  <a href="/" class="nav-logo">House of Luna</a>
+  <a href="/" class="nav-back">&larr; The Hall</a>
 </nav>
 
-<div class="page-hero">
-  <p class="page-eyebrow">Collaborations</p>
-  <h1 class="page-title">Work With<br/><em>Luna.</em></h1>
-  <p class="page-sub">Open to partnerships that align with the Moonpixiee universe — beauty, fashion, lifestyle, technology, and digital culture.</p>
-  <a href="index.html" class="back-link">← Back to Home</a>
+<!-- THE ROOM: a private atelier, the desk lamp still warm -->
+<div class="page-hero" id="atelier">
+  <div class="nameplate"><span>Work With Luna</span></div>
+  <p class="page-eyebrow">The Atelier</p>
+  <h1 class="page-title">Let's make something<br/><em>that belongs here.</em></h1>
+  <p class="page-sub">Open to partnerships that align with the Moonpixiee universe &mdash; beauty, fashion, lifestyle, technology, and digital culture.</p>
+  <a href="/" class="back-link">&larr; Return to the Hall</a>
 </div>
 
-<div class="divider"></div>
+<div class="seam" aria-hidden="true"></div>
 
-<section style="background: var(--dust);">
+<!-- WHAT WE CAN BUILD -->
+<section class="build">
   <div class="section-inner">
-    <span style="font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--rose); display: block; margin-bottom: 1rem;">What We Can Build</span>
-    <h2 style="font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; color: var(--cream); margin-bottom: 1rem; line-height: 1.2;">If it belongs in the world<br/>I'm building, let's talk.</h2>
-    <p style="font-size: 0.82rem; color: var(--muted); max-width: 500px; line-height: 1.9; margin-bottom: 3.5rem;">I create at the intersection of beauty, technology, and storytelling. Every partnership I take on becomes part of the Moonpixiee universe — curated, intentional, and always authentic.</p>
+    <span class="section-label">What We Can Build</span>
+    <h2 class="section-title">If it belongs in the world<br/>I'm building, let's talk.</h2>
+    <p class="section-lede">I create at the intersection of beauty, technology, and storytelling. Every partnership I take on becomes part of the Moonpixiee universe &mdash; curated, intentional, and always authentic.</p>
 
     <div class="collab-grid">
       <div class="collab-cell">
@@ -231,17 +256,18 @@
       </div>
     </div>
 
-    <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
-      <a href="mailto:moonpixiee.work@gmail.com" class="btn-primary">Send an Inquiry</a>
-      <p style="font-size: 0.72rem; color: var(--muted);">moonpixiee.work@gmail.com</p>
+    <div class="inquiry">
+      <a href="mailto:moonpixiee.work@gmail.com" class="btn-inquiry">Send an Inquiry</a>
+      <p class="inquiry-addr">moonpixiee.work@gmail.com</p>
     </div>
   </div>
 </section>
 
-<section class="process-section">
+<!-- HOW IT WORKS -->
+<section class="process">
   <div class="section-inner">
-    <span style="font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--rose); display: block; margin-bottom: 1rem;">How It Works</span>
-    <h2 style="font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; color: var(--cream); line-height: 1.2;">Simple. Intentional. Aligned.</h2>
+    <span class="section-label">How It Works</span>
+    <h2 class="section-title">Simple. Intentional. Aligned.</h2>
     <div class="process-steps">
       <div class="process-step">
         <span class="step-num">01</span>
@@ -256,7 +282,7 @@
       <div class="process-step">
         <span class="step-num">03</span>
         <p class="step-title">Creation</p>
-        <p class="step-desc">I create content that fits seamlessly into the Moonpixiee world — beautiful, honest, and built to convert.</p>
+        <p class="step-desc">I create content that fits seamlessly into the Moonpixiee world &mdash; beautiful, honest, and built to convert.</p>
       </div>
       <div class="process-step">
         <span class="step-num">04</span>
@@ -268,13 +294,13 @@
 </section>
 
 <footer>
-  <a href="index.html" class="footer-logo">moonpixiee</a>
+  <a href="/" class="footer-logo">House of Luna</a>
   <div class="footer-links">
     <a href="https://instagram.com/moonpixiee">Instagram</a>
     <a href="https://substack.com/@moonpixiee">Substack</a>
-    <a href="edit.html">The Edit</a>
+    <a href="/edit">The Edit</a>
   </div>
-  <p class="footer-copy">© 2026 Moonpixiee · House of Luna · All rights reserved.</p>
+  <p class="footer-copy">&copy; 2026 Moonpixiee &middot; House of Luna &middot; All rights reserved.</p>
 </footer>
 
 </body>
