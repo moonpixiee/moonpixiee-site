@@ -99,3 +99,17 @@ Every navigation decision should first be explainable as movement through the Ho
 - Both use the retired-era generic section/card structure rather than an in-room material world.
 
 These resolve when the Passages are given their place — not before.
+
+## P-R7 — The Trading Room (The Observatory) *(logged 2 Aug 2026, structural phase)*
+
+A room for **pattern recognition, probability, psychology, and patience** — rendered as an **old observatory**: star charts, merchant ledgers, hand-drawn market structure. Atmosphere per LAW 9 (one House; the observatory is a mood over the same architecture); structural phase required.
+
+**Standing rule (guardrail):** the room shares **Luna's craft and study — never trade signals or financial advice to residents.** It teaches how she looks, not what to buy; it never becomes an advisory or signal service.
+
+## P-R8 — The Restricted Collection *(logged 2 Aug 2026, structural phase; Phase K–dependent)*
+
+A **gated wing at the back of the Library**: **public-domain and legally available texts only** — grimoires, hermetica, classical philosophy — presented with **Luna's annotations** ("The Librarian has left notes in the margins"), reading paths, and historical context. **No unauthorized copies, ever.** Access is **sequenced, not sold**:
+
+> *"Some books are not hidden because they are forbidden; they are waiting until the reader is ready to meet them."*
+
+**Requires Phase K entitlements** — the **third standing argument for Phase K's priority**, alongside K-USE-1 (The Becoming as a Living Book) and K-USE-2 (Letters in the Walls). The gate is a sequencing mechanism (readiness / reading path), not a paywall.
