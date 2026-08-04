@@ -39,9 +39,12 @@ ratification before any use.
 
 ## Hall Patina Pass — DRESSING LAYER BUILT (3 Aug 2026) · depth layer still logged
 
-**Status: the DRESSING layer is EXECUTED and approved.** Commit `feat(phase-r):
-Hall dressing pass`; Luna approved on the dev-preview walk; deployed; **real-device
-phone re-walk pending.** Phase R stays closed (appearance-only). The heavier
+**Status: the DRESSING layer is EXECUTED, approved, and CLOSED.** Commit `feat(phase-r):
+Hall dressing pass` + refinement knobs `fix(phase-r): Hall dressing knobs`; Luna
+approved on the dev-preview walk and **confirmed on the real-device phone re-walk
+(3 Aug 2026)** — gear reads as a gear, frame and lamps land right, journey of light
+and motes hold, reduced-motion twins verified. Phase R stays closed (appearance-only).
+The heavier
 **architectural-depth layer of this milestone remains logged and unbuilt** —
 deeper perspective, columns, trim, uneven masonry, asymmetry, distance — deliberately
 held out of this pass so it did not balloon; it awaits its own instruction.
