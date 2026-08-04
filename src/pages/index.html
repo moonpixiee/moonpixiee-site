@@ -177,6 +177,9 @@
       radial-gradient(115% 46% at 50% -6%, rgba(var(--warm),0.16) 0%, rgba(var(--warm),0.045) 30%, transparent 58%),
       /* a warm pool gathers at the feet */
       radial-gradient(62% 128% at 50% 104%, rgba(var(--warm),0.13) 0%, transparent 64%),
+      /* distance — the arcade dissolves into shadow at the sides (the hall continues
+         past the frame; no phantom bays, just darkness — R9) */
+      linear-gradient(90deg, rgba(6,4,3,0.52) 0%, rgba(6,4,3,0.14) 9%, transparent 15%, transparent 85%, rgba(6,4,3,0.14) 91%, rgba(6,4,3,0.52) 100%),
       /* vignette — light pools centrally, the corners fall into shadow (mood) */
       radial-gradient(130% 96% at 50% 42%, transparent 44%, rgba(6,4,3,0.42) 82%, rgba(6,4,3,0.62) 100%);
   }
@@ -401,6 +404,93 @@
     background-size:160px 160px;
     -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); }
 
+  /* ============================================================
+     HALL DEPTH LAYER (Hall Patina Pass, architectural-depth layer, R9-governed).
+     Appearance-only; Phase R stays closed. Frontal arcade + receding floor
+     (ratified): the doors stay frontal and equal; depth comes from the ground
+     they stand on, deep reveals, piers/trim, and the space falling into shadow.
+     ============================================================ */
+  /* --- STEP 1 · THE FLOOR — the Hall gains a ground. The same masonry, thrown
+     into perspective and sunk into shadow, so the arcade stands ON something
+     (the Threshold's lit stone floor, continued inside). --- */
+  .hall-floor{ position:absolute; left:0; right:0; bottom:0; height:58%; z-index:1; pointer-events:none; overflow:hidden;
+    -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 16%, #000 100%);
+    mask-image:linear-gradient(180deg, transparent 0, #000 16%, #000 100%); }
+  .hall-floor::before{ content:''; position:absolute; left:-45%; right:-45%; top:2%; bottom:-60%;
+    background-image:url('/hall-stone.webp'); background-size:auto 26%; background-repeat:repeat; background-position:center top;
+    transform:perspective(560px) rotateX(66deg); transform-origin:center top;
+    opacity:.46; filter:brightness(.64) saturate(1.05); }
+  .hall-floor::after{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(70% 62% at 50% 2%, rgba(var(--warm),.15) 0%, transparent 62%),          /* light pools where the arcade stands */
+      radial-gradient(130% 120% at 50% -6%, transparent 26%, rgba(6,4,3,.55) 76%, rgba(6,4,3,.82) 100%),  /* sinks to shadow front + sides */
+      linear-gradient(180deg, transparent 44%, #0A0807 100%); }                                 /* the foreground edge is darkness */
+
+  /* --- STEP 1b · PER-DOOR GROUND — each door stands on its own patch of the ONE
+     ground plane: same tilt + tone as .hall-floor so they read continuous (Work's
+     apron meets the foreground floor). A lit plinth/base course sits at the
+     wall-floor junction, the room's light pooling on the stone (journey of light). --- */
+  .apron{ position:absolute; z-index:0; left:50%; bottom:-9%; width:158%; height:30%;
+    transform:translateX(-50%) perspective(420px) rotateX(66deg); transform-origin:center top; pointer-events:none;
+    background-image:url('/hall-stone.webp'); background-size:auto 60%; background-repeat:repeat; background-position:center top;
+    opacity:.5; filter:brightness(.62) saturate(1.05);
+    -webkit-mask-image:radial-gradient(78% 106% at 50% 0%, #000 44%, transparent 90%);
+    mask-image:radial-gradient(78% 106% at 50% 0%, #000 44%, transparent 90%); }
+  .apron::before{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(56% 84% at 50% 3%, color-mix(in srgb, var(--room) 26%, rgb(var(--warm))) 0%,
+      color-mix(in srgb, var(--room) 12%, transparent) 42%, transparent 74%); opacity:.5; }   /* light on the ground */
+  .apron::after{ content:''; position:absolute; left:7%; right:7%; top:-2px; height:4px; pointer-events:none;
+    border-radius:2px;
+    background:linear-gradient(180deg, rgba(var(--warm),.34) 0%, rgba(120,92,48,.22) 55%, rgba(0,0,0,.28) 100%);
+    box-shadow:0 1px 2px rgba(0,0,0,.5); }                                                     /* the plinth — an aged base course */
+
+  /* --- STEP 2 · PIERS + TRIM — the flat wall becomes an ARCADE. Each bay is
+     flanked by projecting stone piers (defined by a lit edge, a shadowed reveal,
+     and a cast shadow — relief, not a different material) and capped by a cornice.
+     The piers stand on the plinth; the wall stone is their face (same masonry). --- */
+  .frame{ position:absolute; z-index:0; inset:-7% -16% 0 -16%; pointer-events:none; }
+  .frame::before{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      /* LEFT pier: cast shadow · lit edge · warm shaft face · turn · deep reveal */
+      linear-gradient(90deg,
+        rgba(0,0,0,.64) 0 1%,
+        rgba(140,112,68,.42) 1.8% 3.4%,
+        rgba(84,64,38,.48) 3.4% 7.6%,
+        rgba(44,32,19,.5) 7.6% 9.8%,
+        rgba(0,0,0,.7) 9.8% 12.4%,
+        transparent 13%),
+      linear-gradient(270deg,
+        rgba(0,0,0,.64) 0 1%,
+        rgba(140,112,68,.42) 1.8% 3.4%,
+        rgba(84,64,38,.48) 3.4% 7.6%,
+        rgba(44,32,19,.5) 7.6% 9.8%,
+        rgba(0,0,0,.7) 9.8% 12.4%,
+        transparent 13%); }
+  .frame::after{ content:''; position:absolute; left:0; right:0; top:0; height:5.5%; pointer-events:none;
+    /* the CORNICE — an entablature band capping the bay, lit along its top edge */
+    background:linear-gradient(180deg, rgba(146,116,70,.4) 0%, rgba(66,50,29,.56) 42%, rgba(12,8,5,.64) 100%);
+    box-shadow:0 6px 10px -3px rgba(0,0,0,.64), inset 0 1px 0 rgba(var(--warm),.22); border-radius:2px 2px 0 0; }
+  /* narrow the piers on mobile — in the vertical procession the DOOR dominates the
+     viewport; the frame serves the door (mobile is the primary acceptance criterion) */
+  @media (max-width:859px){ .frame{ inset:-4% -5% 0 -5%; } .frame::before{ opacity:.82; } }
+
+  /* subtle ASYMMETRY — materials only, whisper-level; never door geometry or spacing.
+     Each bay ages a hair differently so the arcade reads hand-built, not stamped. */
+  .doors li:nth-child(2) .ivy{ opacity:.7; }
+  .doors li:nth-child(3) .ivy{ opacity:.96; }
+  .doors li:nth-child(4) .ivy{ opacity:.64; }
+  .doors li:nth-child(2) .frame::before{ filter:brightness(.94); }
+  .doors li:nth-child(3) .frame::before{ filter:brightness(1.05); }
+  .doors li:nth-child(4) .frame::before{ filter:brightness(.9); }
+  .doors li:nth-child(3) .apron{ filter:brightness(.6) saturate(1.05) hue-rotate(-3deg); }
+
+  /* deepen the REVEAL — the arch is a real opening you look into, not a shallow recess */
+  .opening{ box-shadow:
+      inset 0 0 24px 2px color-mix(in srgb,var(--room) 24%, transparent),
+      inset 0 44px 52px -22px rgba(0,0,0,.94),                /* the head falls deep into shadow */
+      inset 14px 0 26px -14px rgba(0,0,0,.8),                 /* left jamb depth */
+      inset -14px 0 26px -14px rgba(0,0,0,.8); }              /* right jamb depth */
+
   /* --- LAW 6: the lantern flame breathes; frozen under reduced-motion --- */
   @media (prefers-reduced-motion:no-preference){
     .lantern > i{ animation:hol-flame 3.8s var(--ease) infinite; }
@@ -499,6 +589,7 @@
        ============================================================ -->
   <main class="hall" aria-label="The Grand Hall of the House of Luna">
     <div class="hall-age" aria-hidden="true"></div>
+    <div class="hall-floor" aria-hidden="true"></div>
     <div class="hall-head">
       <!-- TITLE ONLY (ratified): the engraved name + four nameplated doors say it;
            the House never over-explains. Protection-clause treatment applies. -->
@@ -507,22 +598,22 @@
     <ul class="doors">
       <li><a class="door" data-leak="page" data-tier="primary" href="/library" style="--room:#C79A4A">
         <span class="lantern" aria-hidden="true"><i></i></span>
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
         <span class="plate">The Library</span>
       </a></li>
       <li><a class="door" data-leak="fabric" data-tier="primary" href="/edit" style="--room:#6E2A34">
         <span class="lantern" aria-hidden="true"><i></i></span>
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
         <span class="plate">The Edit</span>
       </a></li>
       <li><a class="door" data-leak="glow" data-tier="primary" href="/tools" style="--room:#C98A3E">
         <span class="lantern" aria-hidden="true"><i></i></span>
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
         <span class="plate">The Machine Room</span>
       </a></li>
       <li><a class="door" data-leak="task" data-tier="secondary" href="/work" style="--room:#C9A05A">
         <span class="lantern" aria-hidden="true"><i></i></span>
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
         <span class="plate">Work With Luna<small>the atelier — by appointment</small></span>
       </a></li>
     </ul>
@@ -639,7 +730,7 @@
       return '<li><a class="door" data-room="'+r.id+'" data-leak="'+r.leak+'" data-tier="'+r.tier+'"'
         + ' href="'+r.route+'" style="--room:'+r.hue+'">'
         + '<span class="lantern" aria-hidden="true"><i></i></span>'
-        + '<span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>'
+        + '<span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>'
         + '<span class="plate">'+esc(r.name)+(r.note?'<small>'+esc(r.note)+'</small>':'')+'</span></a></li>';
     }
     function listHTML(items){ return '<ul class="map-list">'+items.map(function(i){return '<li><a href="'+i.route+'">'+esc(i.name)+'</a></li>';}).join('')+'</ul>'; }

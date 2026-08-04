@@ -37,17 +37,19 @@ ratification before any use.
 
 ---
 
-## Hall Patina Pass — DRESSING LAYER BUILT (3 Aug 2026) · depth layer still logged
+## Hall Patina Pass — BOTH LAYERS BUILT (3 Aug 2026)
 
 **Status: the DRESSING layer is EXECUTED, approved, and CLOSED.** Commit `feat(phase-r):
 Hall dressing pass` + refinement knobs `fix(phase-r): Hall dressing knobs`; Luna
 approved on the dev-preview walk and **confirmed on the real-device phone re-walk
 (3 Aug 2026)** — gear reads as a gear, frame and lamps land right, journey of light
 and motes hold, reduced-motion twins verified. Phase R stays closed (appearance-only).
-The heavier
-**architectural-depth layer of this milestone remains logged and unbuilt** —
-deeper perspective, columns, trim, uneven masonry, asymmetry, distance — deliberately
-held out of this pass so it did not balloon; it awaits its own instruction.
+
+**Status: the ARCHITECTURAL-DEPTH layer is EXECUTED and approved on the dev-preview
+walk** (commit `feat(phase-r): Hall depth pass`); **real-device phone re-walk pending.**
+Built in staged milestones with Luna's eye between each (A floor · B piers/trim ·
+C distance/asymmetry). The dressing pass matched the Threshold's material and light;
+this pass matches its **space**. See the executed record below.
 
 ### Executed in the dressing layer (Luna's instruction, 3 Aug 2026)
 1. **Lanterns** — a wall-mounted lantern over each door (House-warm flame — the
@@ -87,6 +89,29 @@ All three ruled on device and turned (`fix(phase-r): Hall dressing knobs`):
   portrait hint — P-R4 may fill it someday).
 - **(3) Lanterns** — became **hanging lamps with a visible silhouette** (roof cap +
   bracket + metal-ribbed glass body), echoing the Threshold's lamp.
+
+### Executed in the depth layer (Luna's instruction, 3 Aug 2026) — frontal arcade + receding floor
+Ratified model (Luna): **frontal arcade + receding floor** (doors stay frontal and
+equal — tap-target/mobile/LAW-9 safe); **keep the light-rising-in-the-opening motif**,
+just deepen the reveal; **subtle asymmetry, materials only**; **staged cadence** with
+Luna's eye between each milestone. Out of scope (ruled): full vanishing-point corridor,
+literal per-room door leaves, phantom/blank bays (R9 forbids blank spaces).
+1. **The floor (A)** — a receding stone plane (same masonry, perspective + shadow) is
+   the Hall's ground; **per-door aprons** so every door stands on it (holds in the
+   mobile procession); an aged **plinth/base course** at each wall-floor junction.
+   Work's apron meets the desktop foreground floor on one agreed ground plane.
+2. **Piers + trim (B)** — the flat wall becomes an **arcade**: projecting stone piers
+   flank each bay (relief — lit edge, shaft face, shadowed reveal; same stone), a
+   **cornice** caps them, and the **reveals are deepened** (jamb/soffit shadow). Work
+   With Luna became a framed doorway. Piers aged down from a too-clean first pass.
+3. **Distance + asymmetry (C)** — the arcade **dissolves into shadow at the sides**
+   (the hall continues past the frame; no phantom bays); **whisper-level asymmetry,
+   materials only** (per-bay ivy / pier weathering / apron tone — never geometry or
+   spacing). **Mobile piers narrowed + softened** so the door dominates the viewport
+   (mobile is the primary acceptance criterion).
+
+All dressing elements carried onto the new architecture; holds desktop + mobile (375px)
++ reduced-motion still-frame; console-clean; tap targets unchanged; no copy added.
 
 **Governed by reference R9** (`design-history/R9-grand-hall-vision.{webp,md}`, mood
 only). Adopted into scope from R9's atmosphere notes: **one continuous space**, the
