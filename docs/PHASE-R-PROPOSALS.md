@@ -37,19 +37,23 @@ ratification before any use.
 
 ---
 
-## Hall Patina Pass — BOTH LAYERS BUILT (3 Aug 2026)
+## Hall Patina Pass — COMPLETE, BOTH LAYERS BUILT & CONFIRMED ON DEVICE (3 Aug 2026)
+
+**The milestone is done.** With this pass, **R9's visual requirements are fully met on
+production — stone, dressing, and space.** Phase R stays closed (appearance-only).
 
 **Status: the DRESSING layer is EXECUTED, approved, and CLOSED.** Commit `feat(phase-r):
 Hall dressing pass` + refinement knobs `fix(phase-r): Hall dressing knobs`; Luna
 approved on the dev-preview walk and **confirmed on the real-device phone re-walk
 (3 Aug 2026)** — gear reads as a gear, frame and lamps land right, journey of light
-and motes hold, reduced-motion twins verified. Phase R stays closed (appearance-only).
+and motes hold, reduced-motion twins verified.
 
-**Status: the ARCHITECTURAL-DEPTH layer is EXECUTED and approved on the dev-preview
-walk** (commit `feat(phase-r): Hall depth pass`); **real-device phone re-walk pending.**
-Built in staged milestones with Luna's eye between each (A floor · B piers/trim ·
-C distance/asymmetry). The dressing pass matched the Threshold's material and light;
-this pass matches its **space**. See the executed record below.
+**Status: the ARCHITECTURAL-DEPTH layer is EXECUTED, approved, and CLOSED.** Commit
+`feat(phase-r): Hall depth pass`; approved on the dev-preview walk and **confirmed on
+the real-device phone re-walk (3 Aug 2026)** — the depth holds on device; Milestone C
+closed. Built in staged milestones with Luna's eye between each (A floor · B piers/trim
+· C distance/asymmetry). The dressing pass matched the Threshold's material and light;
+this pass matched its **space**. See the executed record below.
 
 ### Executed in the dressing layer (Luna's instruction, 3 Aug 2026)
 1. **Lanterns** — a wall-mounted lantern over each door (House-warm flame — the
