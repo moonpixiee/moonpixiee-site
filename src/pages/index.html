@@ -316,20 +316,26 @@
     opacity:.42; filter:blur(3px); }
 
   /* --- the LANTERN fixture over the door (mounted on the wall above) --- */
+  /* a hanging LAMP with a visible silhouette — a caged carriage lantern echoing the
+     Threshold's lamp: roof cap + bracket, a metal-ribbed glass body, warm light
+     within. (Knob #3, Luna: hanging lamps with a visible silhouette.) */
   .lantern{ position:relative; z-index:3; align-self:center;
-    width:clamp(22px,8%,32px); height:clamp(30px,11%,44px); margin-bottom:clamp(1px,.6%,5px);
-    border-radius:44% 44% 28% 28%/38% 38% 12% 12%;
-    background:linear-gradient(180deg,#2a1f16,#160f0a); border:1px solid rgba(120,92,48,.55);
-    box-shadow:inset 0 1px 0 rgba(var(--warm),.30), inset 0 -5px 7px rgba(0,0,0,.65), 0 2px 5px rgba(0,0,0,.6); }
-  .lantern::before{ content:''; position:absolute; left:50%; top:-9px; width:2px; height:10px; transform:translateX(-50%);
-    background:linear-gradient(180deg,#3a2c1c,#160f0a); border-radius:1px; }   /* the hook to the wall */
-  .lantern > i{ position:absolute; left:50%; top:47%; transform:translate(-50%,-50%);
-    width:42%; height:46%; border-radius:50% 50% 46% 46%;
-    background:radial-gradient(circle at 50% 42%, #FFE9B8 0%, #F4B655 44%, #C9822E 78%, transparent 100%);
-    box-shadow:0 0 9px 2px rgba(244,182,85,.75), 0 0 20px 7px rgba(var(--warm),.34); }   /* the flame */
-  .lantern::after{ content:''; position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:-1;
-    width:360%; height:210%; border-radius:50%; pointer-events:none;
-    background:radial-gradient(closest-side, rgba(var(--warm),.22) 0%, rgba(var(--warm),.07) 46%, transparent 74%); }
+    width:clamp(20px,7.5%,30px); height:clamp(34px,13%,50px); margin-bottom:clamp(3px,1.4%,8px);
+    border-radius:34% 34% 22% 22% / 26% 26% 14% 14%; border:1.5px solid #16100a; border-top:0;
+    background:
+      linear-gradient(90deg, transparent 28%, rgba(15,10,6,.92) 30% 33%, transparent 35% 65%, rgba(15,10,6,.92) 67% 70%, transparent 72%), /* two metal ribs */
+      radial-gradient(60% 62% at 50% 62%, rgba(var(--warm),.42), rgba(46,34,20,.5) 72%);   /* warm glass */
+    box-shadow:inset 0 1px 0 rgba(var(--warm),.28), inset 0 -4px 6px rgba(0,0,0,.6), 0 2px 5px rgba(0,0,0,.6); }
+  .lantern::before{ content:''; position:absolute; left:50%; top:-10px; transform:translateX(-50%);
+    width:150%; height:8px; background:#16100a; clip-path:polygon(0 100%, 100% 100%, 76% 0, 24% 0);   /* the roof cap */
+    box-shadow:0 -5px 0 -2.5px #16100a; }                                                              /* a finial + bracket above */
+  .lantern > i{ position:absolute; left:50%; top:52%; transform:translate(-50%,-50%);
+    width:46%; height:52%; border-radius:46%;
+    background:radial-gradient(circle at 50% 42%, #FFE9B8 0%, #F4B655 46%, #C9822E 80%, transparent 100%);
+    box-shadow:0 0 9px 2px rgba(244,182,85,.70), 0 0 20px 7px rgba(var(--warm),.32); }   /* the warm glass/flame */
+  .lantern::after{ content:''; position:absolute; left:50%; top:34%; transform:translateX(-50%); z-index:-1;
+    width:340%; height:200%; border-radius:50%; pointer-events:none;
+    background:radial-gradient(closest-side, rgba(var(--warm),.20) 0%, rgba(var(--warm),.07) 46%, transparent 74%); }
 
   /* --- fuller SILL still-lifes: the ratified leak stays the primary trace;
          .sill adds the room's belongings, sitting in the door's own light --- */
@@ -349,16 +355,29 @@
     border-radius:50%; background:radial-gradient(circle at 40% 32%, #EAC97E 0%, #A9884F 62%, #6b5326 100%);
     box-shadow:0 0 4px rgba(234,201,126,.5), inset 0 -1px 1px rgba(0,0,0,.4); }   /* a gilt button caught in the drape */
   /* Machine Room — a brass gear at the sill + its lit hub (amber under-seam glow) */
-  .door[data-leak="glow"] .sill::before{ content:''; position:absolute; left:22%; bottom:2%; width:20%; height:0; padding-bottom:20%;
-    border-radius:50%; background:radial-gradient(circle at 42% 36%, #5f4a2a, #241a10 72%);
-    box-shadow:0 0 0 2px rgba(120,92,48,.5), inset 0 0 5px #000, 0 0 10px 1px color-mix(in srgb,var(--room) 60%, transparent); }
-  .door[data-leak="glow"] .sill::after{ content:''; position:absolute; left:28%; bottom:8%; width:8%; height:0; padding-bottom:8%;
-    border-radius:50%; background:radial-gradient(circle, color-mix(in srgb,var(--room) 85%,#E3A34A), #3a2a16 72%);
+  /* a brass GEAR — solid body + a chunky high-contrast toothed rim + small hub
+     (reads as a gear, not a target: teeth are the loudest feature) */
+  .door[data-leak="glow"] .sill::before{ content:''; position:absolute; left:21%; bottom:2%; width:23%; height:0; padding-bottom:23%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 50% 50%, #2a2013 0 11%, transparent 12%),                          /* hub hole */
+      radial-gradient(circle at 44% 40%, #6a5330 0 30%, #46361d 30% 52%, transparent 53%),         /* solid body */
+      repeating-conic-gradient(from 8deg, #927133 0deg 12deg, #201709 12deg 24deg);                /* 15 chunky teeth */
+    box-shadow:0 0 11px 1px color-mix(in srgb,var(--room) 55%, transparent), inset 0 0 6px rgba(0,0,0,.55);
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
+  /* a small second cog, amber-lit, meshing beside it */
+  .door[data-leak="glow"] .sill::after{ content:''; position:absolute; left:41%; bottom:0; width:12%; height:0; padding-bottom:12%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle, #38290f 0 38%, transparent 39%),
+      repeating-conic-gradient(from 12deg, color-mix(in srgb,var(--room) 72%,#E3A34A) 0deg 12deg, #2a2013 12deg 24deg);
     box-shadow:0 0 8px 1px color-mix(in srgb,var(--room) 55%, transparent); }
   /* Work With Luna — a small framed piece leaning at the jamb + a low floor candle */
   .door[data-leak="task"] .sill::before{ content:''; position:absolute; left:9%; bottom:0; width:19%; height:74%;
-    background:linear-gradient(180deg,#3a2c1c,#241812); border:1.5px solid rgba(169,136,79,.6); border-radius:1px;
-    transform:rotate(-6deg); transform-origin:bottom left; box-shadow:0 4px 8px rgba(0,0,0,.55), inset 0 0 6px rgba(0,0,0,.6); }
+    background:linear-gradient(180deg,#241a12,#160f09); border:2px solid transparent; border-radius:1px;
+    border-image:linear-gradient(150deg,#CBA86A 0%,#9A7C44 52%,#6f5730 100%) 1;   /* brass edge only — the frame stays empty (P-R4 may fill it someday) */
+    transform:rotate(-6deg); transform-origin:bottom left;
+    box-shadow:0 4px 8px rgba(0,0,0,.55), inset 0 0 6px rgba(0,0,0,.75); }
   .door[data-leak="task"] .sill::after{ content:''; position:absolute; right:17%; bottom:0; width:6%; height:28%;
     background:linear-gradient(180deg,#E7D8B4,#B7A276); border-radius:1px 1px 0 0;
     box-shadow:0 0 10px 3px rgba(227,163,74,.5), 0 -7px 11px 2px rgba(244,182,85,.42); }

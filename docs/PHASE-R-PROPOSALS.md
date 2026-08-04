@@ -76,11 +76,14 @@ held out of this pass so it did not balloon; it awaits its own instruction.
   stone's own weathering + moss/ivy + dust. **If a crack is ever wanted, it is CUT
   from R8 — never drawn.**
 
-### OPEN NOTE — three refinement knobs (Luna to judge on the phone re-walk)
-Carried unresolved by Luna's instruction; she will flag any that bother her eye on
-device: **(1)** the Machine Room gear reads a touch target-like; **(2)** the Work
-With Luna leaning frame is too plain; **(3)** the lanterns are small. All are quick
-tunes if flagged.
+### Refinement knobs — RESOLVED (Luna's phone re-walk, 3 Aug 2026)
+All three ruled on device and turned (`fix(phase-r): Hall dressing knobs`):
+- **(1) Machine Room gear** — recut with a toothed rim + hub + a small meshing cog;
+  it reads as a gear, not a target.
+- **(2) Work With Luna frame** — a **brass edge only**; the frame stays **empty** (no
+  portrait hint — P-R4 may fill it someday).
+- **(3) Lanterns** — became **hanging lamps with a visible silhouette** (roof cap +
+  bracket + metal-ribbed glass body), echoing the Threshold's lamp.
 
 **Governed by reference R9** (`design-history/R9-grand-hall-vision.{webp,md}`, mood
 only). Adopted into scope from R9's atmosphere notes: **one continuous space**, the
