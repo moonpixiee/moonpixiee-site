@@ -282,6 +282,119 @@
   .door.is-opening .opening::before{ opacity:0; transform:perspective(600px) rotateY(-78deg); }
   .door.is-opening .opening{ box-shadow:inset 0 20px 40px -22px rgba(0,0,0,.6), inset 0 -10px 60px 0 color-mix(in srgb,var(--room) 95%,transparent); }
 
+  /* ============================================================
+     HALL DRESSING PASS — the Hall Patina Pass milestone (R9-governed,
+     appearance-only; Phase R stays closed). Adds the set dressing:
+       1. a LANTERN over each door (LAW 1 — one sourced key light; it
+          pools and falls, it does not float);
+       2. fuller SILL still-lifes (R9; Luna's ruling — fuller than the
+          one-leak brief), each sitting in that door's light;
+       3. AGE — ivy/growth cut from the R8 photograph, moss, dust
+          (LAW 9 Weathering — the stone beneath stays House stone);
+       4. the JOURNEY OF LIGHT — each door's floor pool tinted to its
+          --room at LEAK intensity; the wall BETWEEN doors stays House
+          stone (LAW 5 / R9.md — light, not paint).
+     The lantern flame is House-warm for every door (the House owns
+     light); only the threshold takes the room's colour (the room owns
+     colour). Holds as a still at 380px and under reduced-motion.
+     ============================================================ */
+  .door{ isolation:isolate; }   /* keep the door's washes local to itself */
+  .portal{ z-index:1; }
+  .plate{ position:relative; z-index:2; }
+
+  /* --- the lantern's warm wash on the wall behind the door (House light) --- */
+  .door::before{ content:''; position:absolute; z-index:0; left:50%; top:-3%; transform:translateX(-50%);
+    width:150%; height:116%; pointer-events:none; border-radius:50% 50% 44% 44%/58% 58% 30% 30%;
+    background:radial-gradient(60% 58% at 50% 3%, rgba(var(--warm),.13) 0%, rgba(var(--warm),.045) 42%, transparent 72%); }
+  /* --- the pooled light on the floor at the sill, tinted to --room (the journey
+         of light — leak intensity; between doors the stone is untinted House) --- */
+  .door::after{ content:''; position:absolute; z-index:0; left:50%; bottom:-2%; transform:translateX(-50%);
+    width:118%; height:24%; pointer-events:none; border-radius:50%;
+    background:radial-gradient(58% 100% at 50% 0%,
+      color-mix(in srgb, var(--room) 34%, rgb(var(--warm))) 0%,
+      color-mix(in srgb, var(--room) 16%, transparent) 44%, transparent 74%);
+    opacity:.42; filter:blur(3px); }
+
+  /* --- the LANTERN fixture over the door (mounted on the wall above) --- */
+  .lantern{ position:relative; z-index:3; align-self:center;
+    width:clamp(22px,8%,32px); height:clamp(30px,11%,44px); margin-bottom:clamp(1px,.6%,5px);
+    border-radius:44% 44% 28% 28%/38% 38% 12% 12%;
+    background:linear-gradient(180deg,#2a1f16,#160f0a); border:1px solid rgba(120,92,48,.55);
+    box-shadow:inset 0 1px 0 rgba(var(--warm),.30), inset 0 -5px 7px rgba(0,0,0,.65), 0 2px 5px rgba(0,0,0,.6); }
+  .lantern::before{ content:''; position:absolute; left:50%; top:-9px; width:2px; height:10px; transform:translateX(-50%);
+    background:linear-gradient(180deg,#3a2c1c,#160f0a); border-radius:1px; }   /* the hook to the wall */
+  .lantern > i{ position:absolute; left:50%; top:47%; transform:translate(-50%,-50%);
+    width:42%; height:46%; border-radius:50% 50% 46% 46%;
+    background:radial-gradient(circle at 50% 42%, #FFE9B8 0%, #F4B655 44%, #C9822E 78%, transparent 100%);
+    box-shadow:0 0 9px 2px rgba(244,182,85,.75), 0 0 20px 7px rgba(var(--warm),.34); }   /* the flame */
+  .lantern::after{ content:''; position:absolute; left:50%; top:30%; transform:translateX(-50%); z-index:-1;
+    width:360%; height:210%; border-radius:50%; pointer-events:none;
+    background:radial-gradient(closest-side, rgba(var(--warm),.22) 0%, rgba(var(--warm),.07) 46%, transparent 74%); }
+
+  /* --- fuller SILL still-lifes: the ratified leak stays the primary trace;
+         .sill adds the room's belongings, sitting in the door's own light --- */
+  .sill{ position:absolute; z-index:2; left:0; right:0; bottom:0; height:22%; pointer-events:none; }
+  /* Library — a closed book (leather board + fore-edge) beside the loose page */
+  .door[data-leak="page"] .sill::before{ content:''; position:absolute; left:39%; bottom:5%; width:30%; height:24%;
+    background:linear-gradient(176deg,#6d4c2f,#4a3220); border-radius:2px 3px 2px 1px; transform:rotate(-3deg);
+    box-shadow:0 3px 7px rgba(0,0,0,.55), inset 0 1px 0 rgba(var(--warm),.28), inset 0 -2px 3px rgba(0,0,0,.5); }
+  .door[data-leak="page"] .sill::after{ content:''; position:absolute; left:40%; bottom:24%; width:28%; height:5.5%;
+    background:linear-gradient(180deg,#E7D8B4,#C9B98F); border-radius:1px; transform:rotate(-3deg);
+    box-shadow:0 1px 2px rgba(0,0,0,.4); }
+  /* The Edit — a soft fold on the drape + a single gilt bead catching the light */
+  .door[data-leak="fabric"] .sill::before{ content:''; position:absolute; left:50%; bottom:9%; width:30%; height:13%;
+    background:linear-gradient(160deg, color-mix(in srgb,var(--room) 55%,#B87283) 0%, transparent 82%);
+    border-radius:0 0 60% 20%; filter:blur(1px); opacity:.7; transform:rotate(3deg); }
+  .door[data-leak="fabric"] .sill::after{ content:''; position:absolute; left:64%; bottom:9%; width:3.4%; height:0; padding-bottom:3.4%;
+    border-radius:50%; background:radial-gradient(circle at 40% 32%, #EAC97E 0%, #A9884F 62%, #6b5326 100%);
+    box-shadow:0 0 4px rgba(234,201,126,.5), inset 0 -1px 1px rgba(0,0,0,.4); }   /* a gilt button caught in the drape */
+  /* Machine Room — a brass gear at the sill + its lit hub (amber under-seam glow) */
+  .door[data-leak="glow"] .sill::before{ content:''; position:absolute; left:22%; bottom:2%; width:20%; height:0; padding-bottom:20%;
+    border-radius:50%; background:radial-gradient(circle at 42% 36%, #5f4a2a, #241a10 72%);
+    box-shadow:0 0 0 2px rgba(120,92,48,.5), inset 0 0 5px #000, 0 0 10px 1px color-mix(in srgb,var(--room) 60%, transparent); }
+  .door[data-leak="glow"] .sill::after{ content:''; position:absolute; left:28%; bottom:8%; width:8%; height:0; padding-bottom:8%;
+    border-radius:50%; background:radial-gradient(circle, color-mix(in srgb,var(--room) 85%,#E3A34A), #3a2a16 72%);
+    box-shadow:0 0 8px 1px color-mix(in srgb,var(--room) 55%, transparent); }
+  /* Work With Luna — a small framed piece leaning at the jamb + a low floor candle */
+  .door[data-leak="task"] .sill::before{ content:''; position:absolute; left:9%; bottom:0; width:19%; height:74%;
+    background:linear-gradient(180deg,#3a2c1c,#241812); border:1.5px solid rgba(169,136,79,.6); border-radius:1px;
+    transform:rotate(-6deg); transform-origin:bottom left; box-shadow:0 4px 8px rgba(0,0,0,.55), inset 0 0 6px rgba(0,0,0,.6); }
+  .door[data-leak="task"] .sill::after{ content:''; position:absolute; right:17%; bottom:0; width:6%; height:28%;
+    background:linear-gradient(180deg,#E7D8B4,#B7A276); border-radius:1px 1px 0 0;
+    box-shadow:0 0 10px 3px rgba(227,163,74,.5), 0 -7px 11px 2px rgba(244,182,85,.42); }
+
+  /* --- AGE: ivy/growth cut from the R8 photograph (dark, not green — the Hall
+         never turns green; that is Moss & Moon's, unbuilt), clinging to a jamb --- */
+  .ivy{ position:absolute; z-index:3; top:-2%; left:-7%; width:26%; height:52%; pointer-events:none;
+    background:url('/hall-ivy.webp') center top / 100% auto no-repeat;
+    opacity:.85; filter:brightness(1.28) contrast(1.05); }
+  .doors li:nth-child(2n) .ivy{ left:auto; right:-7%; transform:scaleX(-1); }   /* alternate the jamb */
+  .door[data-tier="secondary"] .ivy{ width:22%; }
+
+  /* --- hall-wide age: dust tooth only. Drawn cracks/rays read as seams and
+         wires against real masonry (tried, rejected) — the age lives in the
+         photographic weathering of the stone itself, the moss/ivy at the jambs,
+         and this faint grain. Grain kept ≤ the annex budget (≤3%), masked into
+         the dark ground so the far end stays black. --- */
+  .hall-age{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  .hall-age::after{ content:''; position:absolute; inset:0; pointer-events:none; opacity:.03; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:160px 160px;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); }
+
+  /* --- LAW 6: the lantern flame breathes; frozen under reduced-motion --- */
+  @media (prefers-reduced-motion:no-preference){
+    .lantern > i{ animation:hol-flame 3.8s var(--ease) infinite; }
+    @keyframes hol-flame{ 0%,100%{ opacity:1; } 46%{ opacity:.9; filter:brightness(1.07); } 72%{ opacity:.97; } }
+    .mote{ animation:hol-mote var(--md,7s) linear infinite; }
+    @keyframes hol-mote{ 0%{ transform:translateY(0) translateX(0); opacity:0; }
+      12%{ opacity:.7; } 88%{ opacity:.6; } 100%{ transform:translateY(-120%) translateX(var(--mx,4px)); opacity:0; } }
+  }
+  /* dust motes in the Library door's light beam (built by JS; static twins here) */
+  .mote{ position:absolute; z-index:2; width:2px; height:2px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,240,208,.9), rgba(255,240,208,0));
+    pointer-events:none; }
+
   /* House Map — quiet overlay, not a route */
   .hall-map-btn{ position:fixed; z-index:60; top:clamp(.8rem,3vw,1.4rem); right:clamp(.8rem,3vw,1.4rem);
     font-family:var(--fn); font-size:.85rem; letter-spacing:.04em; color:#D9C7A0;
@@ -366,6 +479,7 @@
        Room engraved with the article; The Edit / Work With Luna unchanged.
        ============================================================ -->
   <main class="hall" aria-label="The Grand Hall of the House of Luna">
+    <div class="hall-age" aria-hidden="true"></div>
     <div class="hall-head">
       <!-- TITLE ONLY (ratified): the engraved name + four nameplated doors say it;
            the House never over-explains. Protection-clause treatment applies. -->
@@ -373,19 +487,23 @@
     </div>
     <ul class="doors">
       <li><a class="door" data-leak="page" data-tier="primary" href="/library" style="--room:#C79A4A">
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
         <span class="plate">The Library</span>
       </a></li>
       <li><a class="door" data-leak="fabric" data-tier="primary" href="/edit" style="--room:#6E2A34">
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
         <span class="plate">The Edit</span>
       </a></li>
       <li><a class="door" data-leak="glow" data-tier="primary" href="/tools" style="--room:#C98A3E">
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
         <span class="plate">The Machine Room</span>
       </a></li>
       <li><a class="door" data-leak="task" data-tier="secondary" href="/work" style="--room:#C9A05A">
-        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>
         <span class="plate">Work With Luna<small>the atelier — by appointment</small></span>
       </a></li>
     </ul>
@@ -501,13 +619,36 @@
     function doorHTML(r){
       return '<li><a class="door" data-room="'+r.id+'" data-leak="'+r.leak+'" data-tier="'+r.tier+'"'
         + ' href="'+r.route+'" style="--room:'+r.hue+'">'
-        + '<span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span></span>'
+        + '<span class="lantern" aria-hidden="true"><i></i></span>'
+        + '<span class="portal" aria-hidden="true"><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span></span>'
         + '<span class="plate">'+esc(r.name)+(r.note?'<small>'+esc(r.note)+'</small>':'')+'</span></a></li>';
     }
     function listHTML(items){ return '<ul class="map-list">'+items.map(function(i){return '<li><a href="'+i.route+'">'+esc(i.name)+'</a></li>';}).join('')+'</ul>'; }
 
     var doorsEl = document.querySelector('.doors');
     if (doorsEl) doorsEl.innerHTML = ROOMS.map(doorHTML).join('');
+
+    // Dust motes drifting in the Library door's warm beam (R9 note). LAW 6:
+    // animated when motion is welcome; a few static motes otherwise.
+    (function () {
+      var lib = doorsEl && doorsEl.querySelector('.door[data-room="library"]');
+      if (!lib) return;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var n = still ? 3 : 7;
+      for (var i = 0; i < n; i++) {
+        var m = document.createElement('span'); m.className = 'mote';
+        m.style.left = (34 + Math.random() * 32).toFixed(1) + '%';
+        m.style.bottom = (18 + Math.random() * 30).toFixed(1) + '%';
+        if (still) { m.style.opacity = '0.5'; }
+        else {
+          m.style.setProperty('--md', (5.5 + Math.random() * 4).toFixed(1) + 's');
+          m.style.setProperty('--mx', (Math.random() * 10 - 5).toFixed(0) + 'px');
+          m.style.animationDelay = (-Math.random() * 7).toFixed(1) + 's';
+        }
+        lib.appendChild(m);
+      }
+    })();
+
     var mapLinks = document.getElementById('mapLinks');
     if (mapLinks) mapLinks.innerHTML = listHTML(ROOMS) + '<p class="map-group">Passages</p>' + listHTML(PASSAGES);
 

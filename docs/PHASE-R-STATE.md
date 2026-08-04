@@ -50,6 +50,10 @@ Batched from Luna's post-walk defect list after the stamp; **Phase R stays close
 
 **Pruned in the same commit** (the R8 photograph pipeline replaced them): `public/threshold-stone.webp` (the procedural clean-grey brick) + `tools/threshold-stone.py` (its generator). `tools/hall-stone.py` is the successor — the House's masonry is now cut from the Threshold photograph, not synthesized.
 
+## POST-STAMP — HALL DRESSING PASS (Hall Patina Pass, dressing layer, 3 August 2026)
+The logged **Hall Patina Pass** milestone received its instruction; its **dressing layer** is built and approved on Luna's dev-preview walk. Appearance-only; **Phase R stays closed**; **real-device phone re-walk pending**. Committed `feat(phase-r): Hall dressing pass`. Full record + governance under the milestone in `PHASE-R-PROPOSALS.md`. In brief: per-door **lanterns** + pooled light (LAW 1); **fuller sill still-lifes** (§2.7 one-leak relaxed by ruling); **dark ivy cut from R8** (`tools/hall-ivy.py`, LAW 5 — the Hall never turns green); **journey of light** at leak intensity, House stone between doors (LAW 5); **dust motes + breathing flame** with a complete reduced-motion still-frame (LAW 6). Ratified with the build: fuller still-lifes · dark-not-green ivy · **no drawn cracks** (if ever wanted, cut from R8, never drawn). The milestone's heavier **architectural-depth layer** (perspective, columns, trim, distance, asymmetry) remains logged and unbuilt.
+- **OPEN NOTE — 3 refinement knobs (Luna judges on the phone walk):** (1) Machine Room gear reads touch-target-like; (2) Work With Luna leaning frame too plain; (3) lanterns small. She will flag any that bother her eye.
+
 ## NEXT — PHASE K DISCOVERY (opens next session)
 Phase R has cut over; the §0 dependency gate is met. Phase K discovery opens.
 1. **Identity audit — pointed at `velvet-muse-studio`** (PENDING Luna's go, in/at that repo): confirm its actual name/location; flag any other repos touching the same Supabase project; `list_organizations` / `list_projects` via the Supabase MCP. A shared, already-live Supabase project is an **unverified assumption** until this audit replaces it with truth.

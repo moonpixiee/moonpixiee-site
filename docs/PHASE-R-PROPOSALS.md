@@ -37,14 +37,50 @@ ratification before any use.
 
 ---
 
-## Hall Patina Pass (scoped future milestone — DO NOT execute without instruction)
+## Hall Patina Pass — DRESSING LAYER BUILT (3 Aug 2026) · depth layer still logged
 
-**Status: milestone logged, awaiting its own instruction.** The Grand Hall is
-APPROVED in structure and storytelling (1 Aug 2026). A later "patina pass" — the
-200-year pass, same shape as the threshold's patina iteration — will add: deeper
-perspective, columns, trim, dust, uneven masonry, asymmetry, distance. It gives
-the Hall physical age and depth beyond the approved first composition. Not built
-now; it awaits Luna's dedicated instruction.
+**Status: the DRESSING layer is EXECUTED and approved.** Commit `feat(phase-r):
+Hall dressing pass`; Luna approved on the dev-preview walk; deployed; **real-device
+phone re-walk pending.** Phase R stays closed (appearance-only). The heavier
+**architectural-depth layer of this milestone remains logged and unbuilt** —
+deeper perspective, columns, trim, uneven masonry, asymmetry, distance — deliberately
+held out of this pass so it did not balloon; it awaits its own instruction.
+
+### Executed in the dressing layer (Luna's instruction, 3 Aug 2026)
+1. **Lanterns** — a wall-mounted lantern over each door (House-warm flame — the
+   House owns light), a warm wash on the wall above + a pooled glow below (LAW 1:
+   sourced key light that pools and falls).
+2. **Fuller sill still-lifes** — each door's ratified leak stays the primary trace,
+   joined by its belongings in the door's own light: Library page **+ closed book**;
+   Edit drape **+ gilt button**; Machine glow **+ brass gear/hub**; Work task-pool
+   **+ leaning framed piece + floor candle**.
+3. **Age** — ivy/growth **cut from the R8 photograph** (`tools/hall-ivy.py` →
+   `public/hall-ivy.webp`) clinging at alternating jambs, + a faint dust tooth.
+4. **Journey of light** — each threshold pools its `--room` hue (gold → burgundy →
+   amber → brass) at LEAK intensity; between doors the masonry returns to House
+   stone (LAW 5 held — light, not paint).
+5. **Motion** — dust motes in the Library beam + a breathing flame, both gated
+   behind `prefers-reduced-motion: no-preference` with a complete static still-frame
+   (3 static motes + steady flame) (LAW 6).
+
+### Ratified with the build (Luna, 3 Aug 2026)
+- **Fuller still-lifes over the one-leak brief** — the ratified "one primary leak per
+  door" (DOOR-BRIEFS §2.7) is **relaxed for the dressing layer**; each door may carry
+  a small still-life around its primary leak.
+- **Dark ivy, not green (LAW 5).** The R8 photo carries no extractable green foliage
+  (103 near-black greenish px in the whole image); the growth is dark weathering.
+  Green ivy would read as **Moss & Moon leaking into the Hall** (that room is unbuilt;
+  LAW 5 forbids it). The Hall's growth is the photograph's own dark growth.
+- **No drawn cracks (concept-board doctrine).** Drawn cracks read as straight
+  scratches/seams on real masonry (built, rejected). Age lives in the photographic
+  stone's own weathering + moss/ivy + dust. **If a crack is ever wanted, it is CUT
+  from R8 — never drawn.**
+
+### OPEN NOTE — three refinement knobs (Luna to judge on the phone re-walk)
+Carried unresolved by Luna's instruction; she will flag any that bother her eye on
+device: **(1)** the Machine Room gear reads a touch target-like; **(2)** the Work
+With Luna leaning frame is too plain; **(3)** the lanterns are small. All are quick
+tunes if flagged.
 
 **Governed by reference R9** (`design-history/R9-grand-hall-vision.{webp,md}`, mood
 only). Adopted into scope from R9's atmosphere notes: **one continuous space**, the
@@ -58,8 +94,8 @@ Work is warm task light, The Edit is burgundy.
 
 **Specific note (1 Aug 2026):** **dust motes drifting in the Library door's light
 beam** — barely visible, motivated by the lamp (they appear only where the door's
-warm light spills), with a **static equivalent under reduced-motion** (LAW 6). Part
-of the patina pass, not built now.
+warm light spills), with a **static equivalent under reduced-motion** (LAW 6).
+**Built in the dressing layer, 3 Aug 2026.**
 
 ---
 
