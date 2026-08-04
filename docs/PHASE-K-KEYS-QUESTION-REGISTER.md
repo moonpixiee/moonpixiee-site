@@ -1,128 +1,187 @@
-# PHASE-K-KEYS-QUESTION-REGISTER.md
+# PHASE K — KEYS QUESTION REGISTER
+## Identity Audit, Ratified Rulings & Gated Migration Blueprint (Velvet)
 
-**House of Luna — Identity Phase ("Memory & Keys"): Question Register**
-Status: OPEN — no question is ruled; no implementation is authorized; no timeline is implied.
-Standing: this document opens the identity phase the way the Phase R proposal opened the redesign — questions before decisions, decisions before code. It is subordinate to HOUSE_CONSTITUTION.md (§3: The House Remembers) and HOUSE_ARCHITECTURE.md.
-Phase naming: "Phase K" is a working label; Luna names phases.
-
----
-
-## 0. Dependency map (proposed, unratified)
-
-```
-Phase R cutover  ──────────────►  Your Room debut (the Hall must exist to gain a door)
-Supabase foundation (schema,      ──►  can be prepared in parallel branch once
-auth, RLS, key vocabulary)             KQ-1..KQ-4 are ratified — but nothing user-facing
-Shopify webhooks / entitlements   ──►  commerce phase interlocks at KQ-6
-```
-
-Ratified inputs already standing: key-based vocabulary ("Unlock Your Room," "Return to Your Room," "Lost Your Key?") · Supabase for identity and data · "browser convenience, not House memory" boundary (RQ-4) · Your Room absent until it exists, debuting as a House event (RQ-3, AM-R-002) · The Not Yet vocabulary reserved for real unavailable destinations.
+Status: Discovery complete. Report only — no auth code, no schema changes, nothing built.
+Repo audited: velvet-muse-studio @ main (8271e2d).
+Live DB audited: Supabase project pcgzhlxjcjdeweygdzci (resumed read-only 2026-08-04, re-paused after).
+Dates: code audit 2026-08-03; live-DB pass 2026-08-04.
+Authoring: Velvet session (Claude). Transcription: moonpixiee-site session.
 
 ---
 
-## The Questions
+## §0 · Purpose & provenance
 
-### KQ-1 — What is a Key, mechanically?
+This register is the ratified record of Phase K: who the resident is at the identity layer, what
+must survive any move, the canonical House architecture, and the privacy rulings that shape the
+schema. Everything marked VERIFIED was read from the live database or the repo during the audit.
+Everything marked RATIFIED is a ruling handed down by Luna and recorded verbatim.
 
-The vocabulary is ratified; the mechanism is not. Options, non-exclusive:
-- **(a) Magic link** — "the House sends you a key" — email-based, passwordless, lowest friction, maps cleanly to the metaphor; key expiry = "keys are cut fresh."
-- **(b) Passkeys (WebAuthn)** — the strongest literal realization of "key" that exists: a cryptographic key that lives on the visitor's device. Beautiful metaphor fit; device-loss recovery story needed.
-- **(c) Password** — the option the vocabulary was built to escape. Include only if a fallback is required.
-
-Sub-question: is "Lost Your Key?" recovery email-anchored regardless of mechanism? (Probably yes; ratify explicitly.)
-
-**One House. One Address.** *(RULING — Luna, 3 Aug 2026; Constitution v4.3.)* One root domain forever — `housesofluna.com`. All wings are **subdomains** (`velvet.housesofluna.com`, future `moss.…`), never separate roots. One key holds across the whole House: sessions must work across `*.housesofluna.com` via cookie **domain scoping** (cookie domain `.housesofluna.com`). Whatever KQ-1 mechanism is chosen, its session token must be domain-scoped, not host-only — a schema/mechanism constraint, not a later toggle. (See HOUSE_ARCHITECTURE.md §7; supersedes the earlier path-based wing model.)
-
-### KQ-2 — What does the House remember — and what does it refuse to remember?
-
-§3 needs a **memory charter**: an explicit enumerated list, because "the House remembers" without boundaries is surveillance wearing velvet. Proposed memory classes to rule on individually:
-- **Threshold memory** — that you have a key and have crossed before (minimum viable §3)
-- **Entitlement memory** — what you hold: purchases, unlocked works, access grants (interlocks KQ-6)
-- **Presence memory** — when you last visited, what room you were in ("welcome back to the Library"?) — highest atmosphere, highest sensitivity
-- **Preference memory** — reduced ceremony, reading position, saved things
-- **Contribution memory** — anything the visitor writes or keeps in the House (journals, margin notes) — carries the encryption-posture question from the earlier architecture debate, which returns here for final ruling
-
-And the inverse, stated in the charter with equal weight: **what the House deliberately forgets or never records.** Analytics posture, IP retention, tracking boundary. The charter should be publishable — a resident can read what the House knows.
-
-### KQ-3 — Returning your key
-
-Account deletion, data export, and the vocabulary for both. If receiving a key is ceremonial, surrendering one must be dignified — and complete. Rulings needed: what deletion actually deletes (everything? entitlements survive for re-keying?), export format, and the copy for the saddest door in the House.
-
-### KQ-4 — What do keyless visitors see, once keys exist?
-
-Pre-identity, the Hall shows only true doors. Post-identity there is a real state distinction: Your Room exists but *this visitor* holds no key. Options:
-- **(a)** Your Room door visible to all, locked-with-meaning for keyless visitors — the R7 "Not Yet" ruling was about nonexistent rooms; a room that exists but is locked to you is a genuinely different case and arguably the door's honest state
-- **(b)** Door visible only to keyholders — the Hall literally differs per visitor; strongest "House knows you" statement, but invisible features recruit no one
-- **(c)** Visible to all with the invitation as the interaction — "Unlock Your Room" as the door's action for the keyless
-
-### KQ-5 — The debut event itself
-
-The ratified sentence: *a door that did not exist before now exists because the House knows who has returned.* Mechanics to rule: does the door appear Hall-wide on launch day (a public House event) or per-visitor at first key-cutting (a private one)? What is **inside Your Room on day one** — the room must not debut empty (DR-001 discipline applies to rooms, not just forms). Minimum furnishing to define before any launch date exists.
-
-### KQ-6 — Identity ↔ commerce interlock
-
-The purchase-to-House-access flow (Shopify webhook → HMAC verification → entitlement tables → room access) assumes identity exists. Sequencing to ratify: does identity ship alone first (keys with nothing to unlock but Your Room), or together with commerce (keys arrive already meaning something)? Gumroad buyer data (R0 export, complete) also lands here: are legacy buyers offered keys at launch — the House remembering people it met before it could remember?
-
-### KQ-7 — Failure states, in House voice
-
-Every auth system's true character shows in its errors. The full state inventory needs House copy: wrong key, expired key, too many attempts, the House cannot reach your email, session ended. Doctrine from the ratified copy principles: errors direct, never apologize, never go vague — but here they must also never break the House's voice. ("This key no longer fits. Cut a fresh one?" — direction, in-world, honest.)
-
-### KQ-8 — What the law calls this
-
-Privacy policy, consent, data-processing reality behind the velvet: Supabase region, retention periods, lawful basis. The House's mythology must sit *on top of* plain legal truth, never in place of it. Deliverable: a plain-language privacy page whose contents match the KQ-2 charter exactly — one document in two voices.
-
-### KQ-9 — The Room network (added 31 Jul 2026, from Luna's future vision)
-
-Long-term: the same Room architecture that powers Your Room may let members publish visitable rooms of their own. **Directional constitution, Luna's words, to be formally ratified in Phase K:** rooms are *visited*, never followed · no public follower counts, like totals, or popularity rankings · no algorithmic discovery feed · personal analytics visible only to the room owner · public / private / key-only visibility all possible · discovery is intentional only — direct room address (e.g. `/@handle`), shared key or invitation, guestbook cards, opt-in curated directory, exact search, owner-curated doors to rooms they return to. A Room is a place someone built, not a profile. Schema consequence when Phase K builds: room identity + ownership model from day one (owner, stable handle, visibility, atmosphere, published objects, guestbook permissions, directory opt-in) and **no follower-count, popularity, or ranking fields — their absence is constitutional, not an omission.** Phase R consequence: none visible — the ratified exclusions stand absolutely; only the Hall's component generality (rooms as a reusable structure, not one-offs) preserves this future, documented in architecture notes.
-
-### Logged proposal P-1 — Ambient state-change (the House never notifies)
-
-Future concept, Luna 31 Jul 2026: when something changes for a keyholder — a new guide owned, a letter arrived — no toast, no badge, no pop-up. Instead the House lets it be *discovered*: the Library door glows a touch warmer; a distant page turns. State change as atmosphere. Depends on entitlement memory (KQ-2) and introduces sound as a new medium (needs its own ruling: default-silent, opt-in). Parked until Phase K.
+One correction stands on the record: the premise of a "shared, already-live Supabase project" is
+DISPROVEN. There is exactly one org and one project, and it is canonical (see §2).
 
 ---
 
-## Flagship use cases
+## §1 · Current Velvet authentication — VERIFIED (code)
 
-### K-USE-1 — The Becoming as a Living Book *(logged 2 Aug 2026)*
+Supabase Auth is the sole identity system. Email/password only.
 
-The Becoming's prompts are not static cards; they are **pages waiting to be written in.** Key-holders answer prompts; the House stores the response with **Written** and **Last revisited** dates. Answered pages show quiet evidence — a worn edge, a seal — **never a badge or notification** (the P-R4 principle at page scale). Prompts evolve as they are answered; **the book is never complete.**
-
-**Privacy ruling required before build:** pages are **private by default**, visible only to their key-holder, **never to visitors** (including under P-R3 Visiting Houses), with an explicit ruling on **operator access** (recommended: **sealed** — the House holds the writing but does not read it, per §17).
-
-**Requires:** identity (KQ-1), entitlements (KQ-2 contribution memory), storage. **This use case is the standing argument for Phase K's priority.**
-
-**Interaction notes (from the 2 Aug design session — direction, not yet built):**
-- **Hover** — candlelight catching the page.
-- **Click** — the page unfolds (a *close-the-book* gesture, **not a modal**).
-- **Resting state** — inactive prompts read as **aged paper recessed into the wall**; the active one **catches the lamplight** — pulling a page from a folio.
-
-Interlocks: KQ-2 (contribution memory + encryption posture), KQ-1 (mechanism), P-R3 (the visibility boundary this use case hardens), P-R4 (quiet evidence over notification).
-
-### K-USE-2 — Letters in the Walls *(logged 2 Aug 2026)*
-
-A vault of writings Luna leaves in the House — **"Leave in the House"** as a sibling action to publishing. The House delivers them **privately, one resident at a time**, based on **where that resident is in their journey.** Delivery is quiet — a moon seal on a page, a letter in a room — **never a notification, feed, or broadcast** (P-R4 principle). Deliveries are private: **no resident ever sees another's letters**, and there is **no public record of who received what.** Letters **persist indefinitely** — a resident joining years later can still receive something written years before.
-
-**GOVERNANCE RULING REQUIRED — conflict with the K-USE-1 seal (flagged 2 Aug 2026):**
-Delivery triggers **MUST be metadata-only** — page counts, revisit events, absence duration, volume/threshold reached, calendar/moon dates. The House **MUST NOT parse, classify, or act on the CONTENT of sealed pages** to select letters — **content-based delivery breaks the K-USE-1 seal even with no human reader.** Any future content-aware delivery would require an **explicit, revocable, resident-held opt-in**, ratified as its own constitutional amendment. **Recommended standing rule: metadata-only.**
-
-**Requires:** identity (KQ-1), entitlement/presence memory (KQ-2 — the metadata the triggers read), storage, delivery model. Interlocks: KQ-2 (the metadata boundary above is a memory-charter ruling), K-USE-1 (the seal this must not break), P-R4 (ambient delivery over notification), P-1 (state-change as atmosphere).
-
-**The flagship pair.** K-USE-1 and K-USE-2 are Phase K's flagship pair: the House **remembers what you wrote** (sealed), and the House **gives you what Luna left** (addressed to your milestones, not your secrets). The seal is the hinge between them — K-USE-2's metadata-only rule is what keeps K-USE-1's promise true.
+- Provider: Supabase Auth, email + password only. No OAuth, no magic link. Signup carries
+  display_name in user metadata. (auth.functions.ts)
+- Password reset: resetPasswordForEmail → ${origin}/reset-password-confirm (origin-relative).
+- Session transport: cookie-based via @supabase/ssr; server + browser clients share the cookie jar.
+- Session validation: server auth.getUser() revalidates against the Auth server (does not trust the
+  cookie JWT); guards fail closed. (auth-server.ts, route-guards.ts)
+- Cookie domain: NONE set → host-only cookies. This is the one blocker for cross-subdomain SSO (§4).
+- Privilege model: NO service-role client anywhere. All table/storage access runs under the caller's
+  own JWT; RLS is the only enforcement. (supabase-server.ts)
+- Doc note: VISION.md v2.0 "service_role" line is historical; v2.1 ("no service-role client
+  anywhere") matches the code.
 
 ---
 
-## Ratified privacy constraints — schema-shaping (3 Aug 2026)
+## §2 · Supabase reality + live security audit — VERIFIED
 
-Ratified constraints that MUST shape the Phase K schema, not be added later. They bind KQ-2 (the memory charter), K-USE-1, and K-USE-2.
+One org, one project. Org: moonpixiee llc (pktkagixhyecovgwdetx). Project: velvet-muse-studio
+(ref pcgzhlxjcjdeweygdzci), ca-central-1, Postgres 17. Was paused; resumed 2026-08-04 for a
+read-only audit; re-paused afterward (paused is the safe resting state). The repo .env binds to this
+exact ref. No second/"shared/live" project exists — this one project IS the whole of Velvet's
+identity and data.
 
-1. **K-USE-1 — Becoming pages are sealed.** Private to their key-holder, **not readable by the operator.** Evaluate encryption-at-rest options where operator-sealing is technically meaningful, and **document honestly what "sealed" can and cannot guarantee at each layer** — client, transport, at-rest, backups, logs, DB/operator admin. The seal's real guarantees *and* its real limits are both written down; no hand-wave.
+Data graph that must survive any move (rooted at auth.users.id):
+  profiles → workspaces → muses → muse_reference_images (+storage)
+                                → scenes → scene_content / scene_images (+storage)
+                                → projects
+Two storage buckets whose object paths embed the user UUID: scene-images (${userId}/${sceneId}/…)
+and muse-references (${userId}/…). DB user_id columns and storage object paths are COUPLED — any
+identity change that alters a UUID breaks both at once. Preferences live in workspaces
+(active_muse_id, studio_type) + muses (current_era/current_mood); there is no separate prefs table.
+The Codex is a lens over scenes/scene_content, not a table.
 
-2. **K-USE-2 — Letters delivery triggers are metadata-only.** Counts, dates, revisit events, absence duration, volume/threshold reached. The schema must make **content-based triggering structurally unavailable, not merely unused** — sealed-page content is not a column, join, index, or function input the delivery path can reach, even in principle. (Reinforces the K-USE-2 governance ruling.)
+### Verification block A — inventory & Step-0 user count (SQL)
+    auth_users        = 1     (with email = 1)
+    public base tables = 8
+    storage buckets    = 2     (muse-references, scene-images — both public = false)
+    storage objects    = 23
+  Step 0 (the migration gate) is ANSWERED: exactly one real user (Luna). Single-identity migration →
+  lowest risk tier. Must be re-confirmed = 1 immediately before any structural change (§5, K.0).
 
-3. **Repo / Supabase audit — Phase K discovery (PENDING Luna's go; touches infra outside this repo).** Confirm the `velvet-muse-studio` repo's actual name and location, and flag any other repos touching the same Supabase project. **Note:** `moonpixiee-site` contains no Supabase config or auth (verified 3 Aug — static Astro site); `velvet-muse-studio` is not in this working directory. This audit is Phase K discovery against a separate ecosystem, to run only when authorized — and per §0 the dependency map has Phase K schema/user-facing work waiting on Phase R cutover (the Phase R stamp is still pending the Gate 2 re-walk). **A shared, already-live Supabase project is an unverified assumption at this point, not fact.** The "no Supabase project configuration yet" line below correctly refers to THIS repo (`moonpixiee-site`), which has none; Velvet's Supabase reality lives in `velvet-muse-studio` and is invisible from here. Replacing that assumption with truth is precisely the audit's job — to run in (or pointed at) `velvet-muse-studio`, with `list_organizations` / `list_projects` via the Supabase MCP, on Luna's go.
+### Verification block B — RLS, policies, definer functions (SQL) — PASS
+  RLS enabled on all 8 tables:
+    - 7 foundation tables: one FOR ALL policy each, predicate user_id = (select auth.uid()) on both
+      USING and WITH CHECK (profiles keys on id). Ownership enforced on read AND write.
+    - projects: 4 granular policies (SELECT/INSERT/UPDATE/DELETE), same auth.uid() = user_id predicate.
+  Both storage buckets private (public = false) → objects reachable only via signed URLs.
+  relforcerowsecurity = false on every table → table OWNER bypasses RLS; no service-role client uses
+    the app, so real-world exposure is low. Noted for anyone who later adds one.
+
+  Security advisors — no ERROR; WARN-level hardening only:
+    - archive_muse (SECURITY DEFINER, anon-callable via /rest/v1/rpc): NOT exploitable — body filters
+      user_id = (select auth.uid()) on every write, so anon touches 0 rows, no cross-user archive.
+    - handle_new_user (SECURITY DEFINER, exposed as RPC): low risk (trigger fn references new; a direct
+      RPC call errors), but should not be in the public API.
+    - set_updated_at: mutable search_path (archive_muse/handle_new_user already pin search_path).
+    - Auth: leaked-password protection (HIBP) disabled — matters, email+password is the only method.
+  These are remediations for the parked K.3 hardening task (§5), not this phase.
+
+### Ledger-divergence finding — FLAG
+  The live schema is fully built (8 tables, correct RLS, handle_new_user, set_updated_at, archive_muse),
+  but supabase_migrations.schema_migrations holds ONE row — 20260719204346
+  fix_scenes_status_check_canon_gate — matching NONE of the four committed migration files. The DB was
+  built out-of-band. The committed migrations, the ledger, and the live schema are three different
+  truths. Ruling: the LIVE schema is the source of truth (§5, K.1).
 
 ---
 
-## What this register is not
+## §3 · Canonical architecture — RATIFIED shape
 
-No schema, no code, no Supabase project configuration, no UI. Those begin only after these rulings exist, a Phase K brief is ratified, and Phase R has cut over (for anything user-facing). The questions are ordered so KQ-1 and KQ-2 unlock the most: mechanism and memory charter are the constitution of this phase; everything else furnishes them.
+    housesofluna.com                 → The House (public shell / directory)
+    housesofluna.com/velvet          → ceremonial entrance (a PATH on the apex; low-trust)
+    velvet.housesofluna.com          → the Velvet app (authenticated; today's velvet-muse-studio)
+    auth.housesofluna.com (optional) → stable Auth callback/redirect origin
+
+One Supabase Auth identity across *.housesofluna.com — and it already is one: a single project's Auth.
+The work is not "merge identities," it is "make the one session span subdomains" (§4). The House and
+Velvet are rooms; a room does not issue its own passport. The entrance stays a path on the apex; the
+app stays a subdomain — so the apex is the House/marketing surface and the subdomain is the trust
+boundary where the session cookie lives. One root domain is ratified law.
+
+---
+
+## §4 · Cross-subdomain sessions — the actual work (no data migration)
+
+Cookies are host-only today. To make sessions span *.housesofluna.com:
+  1. Set cookie domain=.housesofluna.com in the @supabase/ssr setAll options
+     (supabase-server-ssr.ts) — env-driven, PROD ONLY (must stay unset on localhost / preview hosts).
+     This single change is the whole of House-wide SSO. UUIDs do not move.
+  2. Pin the reset redirect to the app subdomain if the House ever initiates reset (don't trust origin).
+  3. Register a canonical Auth redirect origin in Supabase (dedicated auth. or always-velvet.).
+  4. Cookie flags: domain-wide + SameSite=Lax + Secure + HttpOnly. Correct for same-registrable-domain
+     subdomains; no SameSite=None needed.
+
+---
+
+## §5 · Gated migration blueprint — Step 0 gates everything
+
+One project, ONE real user, no service-role dependency → this is domain/session config, not a data
+lift. Ordered; safe to halt between steps.
+
+  K.0 — VERIFY (GATE)
+    0. Re-confirm auth.users = 1 immediately before any structural change. (Answered today: 1.) If ever
+       >1 at cutover, STOP and re-tier — every later step assumes single-user.
+    1. Reconcile against this register.
+    2. (Done) Resume project; RLS/advisor audit — PASS; WARN-level hardening noted (§2).
+
+  K.1 — VERSION-CONTROL THE SCHEMA (RATIFIED: before ANY structural work)
+    3. Capture the LIVE schema as the source of truth via pg_dump --schema-only (introspection), NOT a
+       re-type from the TS Database type. The live DB is authoritative; committed files are not.
+    4. Commit as ordered migrations, reconciled so the set reproduces the live schema exactly and the
+       ledger matches: foundation DDL (7 base tables + their RLS), handle_new_user (+ trigger wiring),
+       set_updated_at, archive_muse, moonmark, reference-semantics, projects. Nothing structural
+       proceeds until this lands.
+
+  K.2 — DOMAINS & SESSION (no data change)
+    5. Point velvet.housesofluna.com at the Velvet deploy; housesofluna.com/velvet at the entrance.
+    6. Env-drive cookie domain=.housesofluna.com (prod only); register the Auth redirect origin(s).
+    7. Verify a velvet. login is visible at the apex and the reset flow round-trips. → House-wide SSO.
+
+  K.3 — HARDENING (PARKED as its own task; fold in the §2 WARN items)
+    8. Revoke EXECUTE on archive_muse / handle_new_user from anon(/authenticated); pin set_updated_at
+       search_path; enable leaked-password (HIBP) protection.
+
+  K.4 — ONLY IF a DIFFERENT project is ever forced (NOT indicated)
+    9. A true project move = export auth.users (needs Supabase support / auth access), re-map the UUID,
+       and rewrite every user_id column AND every storage object path (${userId}/… in both buckets) in
+       lockstep, re-issuing signed URLs. High-risk; nothing seen justifies it — the one project IS
+       canonical.
+
+---
+
+## §6 · Privacy rulings — RATIFIED (verbatim)
+
+### K-USE-1 — Sealed pages: THE SEAL WINS. (RATIFIED)
+  - Sealed pages use client-side encryption. Content is encrypted in the browser before it reaches the
+    server; the server stores ciphertext only and never holds the key.
+  - The key derives from a resident-held secret (passphrase / device secret). The server never sees it.
+  - A recovery phrase is issued at the moment of sealing, with a plain-language warning: losing both
+    the key and the recovery phrase means the sealed pages are permanently unrecoverable — by design.
+  - "Lost Your Key?" restores House ACCESS (the account), never sealed CONTENT. Account recovery and
+    content recovery are separate powers: the House can readmit the resident but cannot reopen the seal.
+  - Schema shape: sealed fields store sealed_content (ciphertext) + seal_meta (KDF params, algorithm,
+    nonce, recovery-phrase verifier) instead of plaintext. Sealing is per-field, opt-in. Honored
+    consequences: sealed content is server-unsearchable (out of Library literal recall) and
+    un-regenerable (the Atelier cannot read it). user_id, timestamps, and output_type stay cleartext
+    (RLS + indexing). Candidate sealable fields: scene_content.content, muses.lore / identity_profile,
+    private letters.
+
+### K-USE-2 — Metadata-only delivery: STRUCTURALLY UNREACHABLE. (RATIFIED)
+  - Any delivery / notification / automation surface reads a metadata-only projection
+    (scene_id, user_id, output_type, created_at, status, moonmarked_at) and is structurally incapable
+    of reading content — enforced by a dedicated role/view with NO SELECT grant on the content columns
+    (scene_content.content and any sealed columns). "Structurally unavailable, not merely unused": it is
+    a missing grant, not a disabled feature. No content in triggers / webhooks / edge payloads — they
+    are fed the metadata view, never the base table. This reinforces K-USE-1: where content is sealed it
+    is ciphertext anyway, so the delivery path could not read meaning even if mis-granted.
+
+---
+
+END OF REGISTER — Phase K discovery closed. Structural work begins at K.1 (live schema → VCS).
