@@ -319,3 +319,35 @@ The Observatory (trading, markets, charts, journals, macro, psychology) · Moss 
 journal, goals; not public) · Your Room (the resident's dashboard — their creations,
 saved Muses, projects). Principle Luna named: **every wing has a purpose; the Machine
 Room stays a workshop, never a miscellaneous folder.**
+
+## Grand Hall ↔ Machine Room — consistency pass (7 Aug 2026)
+
+Executing the two laws House-wide so the Hall and the wing read as one building:
+- **Engraved nameplates** — the Hall's door labels (The Library · The Edit · The
+  Machine Room · VELVET//CTRL · Work With Luna) changed from floating drop-shadow
+  text to CUT-into-the-stone (incised shadow above; the lower bevel catches each
+  door's own `--room` light — the journey of light carried into the letterforms).
+  Matches the Grand Hall title, the Threshold, and the Machine Room plates.
+- **The waking, not a lift** — the Hall doors' hover no longer translateY-lifts;
+  the room's light simply RISES from within the opening (candle-lit-deeper), same
+  gesture as the Machine Room doors. "Candlelight over bounce."
+
+## Grand Hall — "Sell the Illusion" depth pass (7 Aug 2026)
+
+Luna's direction: the architecture is correct but the Hall still reads as a
+composition, not a physical place. One pass, no new features — make it feel like
+you could WALK THROUGH these doors:
+- **Wall thickness / structural arches** — the arch order became a raised, beveled
+  voussoir surround standing proud of the reveal (a carved groove between them); the
+  jamb/reveal was thickened (opening inset ~8.6%) so you look THROUGH a heavy wall,
+  not into a shallow recess. Piers deepened and the cornice made heavier (it casts a
+  real shadow) so the arcade reads load-bearing.
+- **Monumental doors** — enlarged (primary ~23.5rem, taller aspect .64) and the
+  arcade tightened (piers nearly meet) so the openings dominate one continuous wall.
+- **Deeper thresholds** — the head of each opening falls into near-black; the jambs
+  read as thick stone in shadow.
+- **Room light stains the stone** — each door's `--room` light now bleeds onto the
+  surrounding masonry (a mid-height wash hugging the arch + a stronger sill pool),
+  pooling at the threshold and falling off before the next door (LAW 5 held — light,
+  not paint; the wall between doors stays House stone).
+Holds in rest + woken states; the candle-waking still rises through the deeper reveal.

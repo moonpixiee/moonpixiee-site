@@ -213,7 +213,7 @@
        held together at the centre. (The Alignment Pass will re-architect this into
        one continuous arcade; for now the Hall grows to acknowledge the wing.) */
     .doors{ display:grid; grid-template-columns:repeat(6,1fr); align-items:end; justify-items:center;
-      gap:clamp(2.4rem,4vw,4rem) clamp(2rem,3.5vw,3.4rem); width:min(94vw,66rem); }
+      gap:clamp(2.4rem,4vw,4rem) clamp(1rem,1.8vw,1.8rem); width:min(97vw,74rem); }
     .doors li{ grid-column:span 2; }
     .doors li:nth-child(4){ grid-column:2 / span 2; }   /* row 2 · centred pair */
     .doors li:nth-child(5){ grid-column:4 / span 2; }
@@ -221,25 +221,33 @@
 
   /* ---- a DOOR: real, activatable; <a> works with or without JS ---- */
   .door{ display:flex; flex-direction:column; align-items:center; gap:.9rem;
-    text-decoration:none; color:inherit; width:min(80vw,20rem); position:relative; cursor:pointer;
+    text-decoration:none; color:inherit; width:min(88vw,23.5rem); position:relative; cursor:pointer;
     -webkit-tap-highlight-color:transparent; }
-  .door[data-tier="secondary"]{ width:min(64vw,15rem); }   /* quieter scale (secondary standalone) */
+  .door[data-tier="secondary"]{ width:min(76vw,19rem); }   /* quieter scale (secondary standalone) */
 
-  /* the PORTAL — a recessed stone doorway with depth (trim + reveal + shadow) */
-  .portal{ position:relative; width:100%; aspect-ratio:.72;
+  /* the PORTAL — a recessed stone doorway with real WALL THICKNESS (order + reveal +
+     deep shadow). Taller + heavier so it reads as load-bearing masonry, not a card. */
+  .portal{ position:relative; width:100%; aspect-ratio:.64;
     border-radius:47% 47% 4% 4%/31% 31% 0 0;
     background:linear-gradient(180deg,var(--stone-2) 0%,var(--stone-1) 52%,var(--stone-0) 100%);
-    box-shadow:0 2px 0 rgba(var(--warm),.07), 0 22px 44px -18px rgba(0,0,0,.72);
+    box-shadow:0 3px 0 rgba(var(--warm),.08), 0 34px 66px -20px rgba(0,0,0,.82);   /* the door has mass; its shadow falls deep */
     transition:box-shadow var(--dms) var(--ease), transform var(--dms) var(--ease);
   }
-  .portal::before{  /* the stone TRIM — a raised order around the opening */
-    content:''; position:absolute; inset:clamp(9px,3%,16px); border-radius:46% 46% 3% 3%/30% 30% 0 0;
-    box-shadow:inset 0 2px 3px rgba(var(--warm),.10), inset 0 -3px 8px rgba(0,0,0,.6);
+  .portal::before{  /* the ARCH ORDER — a raised, beveled voussoir surround of carved
+       stone. It stands PROUD of the reveal (a carved groove separates them), lit along
+       its crown by the lantern and shadowed on its underside: structural, not a trim. */
+    content:''; position:absolute; inset:clamp(6px,2.2%,12px); border-radius:46% 46% 3% 3%/30% 30% 0 0;
+    box-shadow:
+      inset 0 4px 6px rgba(var(--warm),.17),          /* the lantern rakes the crown of the order */
+      inset 0 -6px 13px rgba(0,0,0,.64),              /* the order's underside falls into shadow */
+      inset 0 0 0 2px rgba(0,0,0,.32),                /* the carved groove — the order proud of the reveal */
+      inset 0 0 0 3px rgba(var(--warm),.06),
+      0 1px 2px rgba(0,0,0,.5);
     pointer-events:none;
   }
   /* the OPENING — the room beyond a closed door: dark, the room's hue rising */
-  .opening{ position:absolute; inset:clamp(18px,6%,30px) clamp(18px,6%,30px) 0;
-    border-radius:44% 44% 2% 2%/28% 28% 0 0; overflow:hidden;
+  .opening{ position:absolute; inset:clamp(27px,8.6%,48px) clamp(27px,8.6%,48px) 0;
+    border-radius:43% 43% 2% 2%/27% 27% 0 0; overflow:hidden;
     /* the room's light rises from within, past the closed door */
     background:
       radial-gradient(80% 64% at 50% 107%, color-mix(in srgb,var(--room) 62%, transparent) 0%,
@@ -310,19 +318,30 @@
   @keyframes hol-shimmer{ 0%,100%{ background-position:0% 0; opacity:.72; } 50%{ background-position:100% 0; opacity:1; } }
   @media (prefers-reduced-motion:reduce){ .door[data-leak="shimmer"] .leak{ animation:none; opacity:.9; background-position:50% 0; } }
 
-  /* ---- the NAMEPLATE — the Architect names the room ---- */
+  /* ---- the NAMEPLATE — the Architect names the room, ENGRAVED into the stone
+         (Luna's law "Architecture speaks through the walls", 7 Aug 2026 — matched to
+         the Grand Hall title, the Threshold, and the Machine Room plates). The name
+         is CUT into the wall: a shadow falls into the incision from above, and the
+         LOWER BEVEL catches that door's own room-light (the journey of light, carried
+         into the letterforms). ---- */
   .plate{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:.11em;
-    font-size:clamp(1.05rem,3.4vw,1.35rem); line-height:1; text-align:center;
-    color:#CBB488; text-shadow:0 1px 0 rgba(0,0,0,.55), 0 2px 4px rgba(0,0,0,.5); }
-  .door[data-tier="secondary"] .plate{ font-size:clamp(.95rem,3vw,1.15rem); color:#B7A47A; }
+    font-size:clamp(1.05rem,3.4vw,1.35rem); line-height:1; text-align:center; color:#B29A61;
+    text-shadow:
+      0 -1px 1px rgba(0,0,0,.72),
+      0 1px 0 color-mix(in srgb, var(--room) 42%, rgba(226,196,130,.5)),
+      0 2px 4px rgba(0,0,0,.5); }
+  .door[data-tier="secondary"] .plate{ font-size:clamp(.95rem,3vw,1.15rem); color:#A79461; }
   .plate small{ display:block; font-variant:normal; font-family:var(--fn); font-style:italic;
     font-size:.7em; letter-spacing:0; color:rgba(233,224,208,.5); margin-top:.35rem; }
 
-  /* ---- the door WAKES on hover/focus; opens on activate ---- */
-  .door:hover .portal, .door:focus-visible .portal{ transform:translateY(-2px);
+  /* ---- the door WAKES on hover/focus; opens on activate ----
+         The waking is LIGHT, not motion (Luna's ruling, 7 Aug 2026 — candlelight
+         over bounce; matched to the Machine Room): no lift. The room's light simply
+         RISES from within the opening, like a candle lit deeper inside. ---- */
+  .door:hover .portal, .door:focus-visible .portal{
     box-shadow:0 2px 0 rgba(var(--warm),.12), 0 0 0 1px color-mix(in srgb,var(--room) 40%,transparent), 0 28px 52px -18px rgba(0,0,0,.7); }
   .door:hover .opening, .door:focus-visible .opening{
-    box-shadow:inset 0 34px 44px -22px rgba(0,0,0,.9), inset 0 -30px 46px -18px color-mix(in srgb,var(--room) 85%,transparent); }
+    box-shadow:inset 0 34px 44px -22px rgba(0,0,0,.9), inset 0 -40px 58px -16px color-mix(in srgb,var(--room) 95%,transparent); }
   .door:focus-visible{ outline:none; }
   .door:focus-visible .portal{ box-shadow:0 0 0 2px var(--house-amber,#E3A34A), 0 0 0 5px #0C0A09, 0 24px 48px -18px rgba(0,0,0,.7); }
 
@@ -356,11 +375,13 @@
          colour pools at the opening and falls off, so between doors the masonry
          returns to House stone (LAW 5 — light, not paint; full-wall washes rejected). --- */
   .door::before{ content:''; position:absolute; z-index:0; left:50%; top:-3%; transform:translateX(-50%);
-    width:154%; height:120%; pointer-events:none; border-radius:50% 50% 44% 44%/58% 58% 30% 30%;
+    width:158%; height:122%; pointer-events:none; border-radius:50% 50% 44% 44%/58% 58% 30% 30%;
     background:
       radial-gradient(60% 56% at 50% 3%, rgba(var(--warm),.13) 0%, rgba(var(--warm),.045) 42%, transparent 72%),                 /* House lantern, from above */
-      radial-gradient(80% 66% at 50% 99%, color-mix(in srgb, var(--room) 32%, transparent) 0%,
-        color-mix(in srgb, var(--room) 11%, transparent) 40%, transparent 72%); }                                                /* the room's light on the stone, from the sill */
+      radial-gradient(66% 56% at 50% 60%, color-mix(in srgb, var(--room) 22%, transparent) 0%,
+        color-mix(in srgb, var(--room) 8%, transparent) 46%, transparent 73%),                                                   /* the room's light STAINING the stone around the arch (pools, then falls off) */
+      radial-gradient(84% 70% at 50% 99%, color-mix(in srgb, var(--room) 42%, transparent) 0%,
+        color-mix(in srgb, var(--room) 15%, transparent) 40%, transparent 74%); }                                                /* the room's light on the stone, from the sill */
   /* --- the pooled light on the floor at the sill, tinted to --room (the journey
          of light — leak intensity; between doors the stone is untinted House) --- */
   .door::after{ content:''; position:absolute; z-index:0; left:50%; bottom:-2%; transform:translateX(-50%);
@@ -531,25 +552,27 @@
   .frame{ position:absolute; z-index:0; inset:-7% -16% 0 -16%; pointer-events:none; }
   .frame::before{ content:''; position:absolute; inset:0; pointer-events:none;
     background:
-      /* LEFT pier: cast shadow · lit edge · warm shaft face · turn · deep reveal */
+      /* LEFT pier: cast shadow · lit edge · warm shaft face · turn · deep reveal (stronger
+         relief so the pier projects and holds the arch — structural, not painted trim) */
       linear-gradient(90deg,
-        rgba(0,0,0,.64) 0 1%,
-        rgba(140,112,68,.42) 1.8% 3.4%,
-        rgba(84,64,38,.48) 3.4% 7.6%,
-        rgba(44,32,19,.5) 7.6% 9.8%,
-        rgba(0,0,0,.7) 9.8% 12.4%,
-        transparent 13%),
+        rgba(0,0,0,.72) 0 1.2%,
+        rgba(162,130,80,.54) 2% 3.8%,
+        rgba(88,66,40,.52) 3.8% 8.2%,
+        rgba(40,29,17,.56) 8.2% 10.6%,
+        rgba(0,0,0,.82) 10.6% 13.4%,
+        transparent 14%),
       linear-gradient(270deg,
-        rgba(0,0,0,.64) 0 1%,
-        rgba(140,112,68,.42) 1.8% 3.4%,
-        rgba(84,64,38,.48) 3.4% 7.6%,
-        rgba(44,32,19,.5) 7.6% 9.8%,
-        rgba(0,0,0,.7) 9.8% 12.4%,
-        transparent 13%); }
-  .frame::after{ content:''; position:absolute; left:0; right:0; top:0; height:5.5%; pointer-events:none;
-    /* the CORNICE — an entablature band capping the bay, lit along its top edge */
-    background:linear-gradient(180deg, rgba(146,116,70,.4) 0%, rgba(66,50,29,.56) 42%, rgba(12,8,5,.64) 100%);
-    box-shadow:0 6px 10px -3px rgba(0,0,0,.64), inset 0 1px 0 rgba(var(--warm),.22); border-radius:2px 2px 0 0; }
+        rgba(0,0,0,.72) 0 1.2%,
+        rgba(162,130,80,.54) 2% 3.8%,
+        rgba(88,66,40,.52) 3.8% 8.2%,
+        rgba(40,29,17,.56) 8.2% 10.6%,
+        rgba(0,0,0,.82) 10.6% 13.4%,
+        transparent 14%); }
+  .frame::after{ content:''; position:absolute; left:0; right:0; top:0; height:7.5%; pointer-events:none;
+    /* the CORNICE — a heavier entablature band capping the bay, lit along its top edge,
+       casting a real shadow onto the wall below */
+    background:linear-gradient(180deg, rgba(158,126,78,.48) 0%, rgba(74,56,33,.62) 40%, rgba(10,7,4,.72) 100%);
+    box-shadow:0 11px 17px -4px rgba(0,0,0,.72), inset 0 2px 0 rgba(var(--warm),.26); border-radius:2px 2px 0 0; }
   /* narrow the piers on mobile — in the vertical procession the DOOR dominates the
      viewport; the frame serves the door (mobile is the primary acceptance criterion) */
   @media (max-width:859px){ .frame{ inset:-4% -5% 0 -5%; } .frame::before{ opacity:.82; } }
@@ -564,12 +587,14 @@
   .doors li:nth-child(4) .frame::before{ filter:brightness(.9); }
   .doors li:nth-child(3) .apron{ filter:brightness(.6) saturate(1.05) hue-rotate(-3deg); }
 
-  /* deepen the REVEAL — the arch is a real opening you look into, not a shallow recess */
+  /* deepen the REVEAL — the arch is a real opening cut through a THICK wall, not a
+     shallow recess. The head recedes into near-black; the jambs read as heavy stone;
+     the room's own light stains the reveal it spills across. */
   .opening{ box-shadow:
-      inset 0 0 24px 2px color-mix(in srgb,var(--room) 24%, transparent),
-      inset 0 44px 52px -22px rgba(0,0,0,.94),                /* the head falls deep into shadow */
-      inset 14px 0 26px -14px rgba(0,0,0,.8),                 /* left jamb depth */
-      inset -14px 0 26px -14px rgba(0,0,0,.8); }              /* right jamb depth */
+      inset 0 0 34px 3px color-mix(in srgb,var(--room) 27%, transparent),   /* the room's light hugging the reveal stone */
+      inset 0 62px 68px -20px rgba(0,0,0,.97),                /* the head falls deep into darkness */
+      inset 22px 0 40px -13px rgba(0,0,0,.88),                /* left jamb — the thick reveal in shadow */
+      inset -22px 0 40px -13px rgba(0,0,0,.88); }             /* right jamb — the thick reveal in shadow */
 
   /* --- LAW 6: the lantern flame breathes; frozen under reduced-motion --- */
   @media (prefers-reduced-motion:no-preference){
