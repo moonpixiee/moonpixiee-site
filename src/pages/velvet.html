@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VELVET//CTRL | House of Luna</title>
+<meta name="description" content="The House's locked wing. Identity, authored and kept." />
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK53SYTZRQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VK53SYTZRQ');
+</script>
+<link rel="stylesheet" href="/styles/tokens.css"/>
+<style>
+  /* ============================================================
+     VELVET//CTRL — the ceremonial entrance (door brief §2.6, RATIFIED).
+     Reference R5 (black-and-red ornate) — ATMOSPHERE ONLY. No skull or
+     skeletal ornament; magnetic and advanced, never horror.
+
+     This is the low-trust PATH on the apex (housesofluna.com/velvet), per the
+     "One House. One Address." ruling: the ceremonial threshold. The one
+     boundary-crossing action hands the resident across to the live app at
+     velvet.housesofluna.com — where real clearance is checked. No auth here.
+
+     Light plot (LAW 1, one key light): the key light is RED — emitted from
+     WITHIN the arch, controlled, slightly impossible. It pools up from the
+     threshold; the approach DARKENS as it nears the door. No sourceless glow.
+     Walls (LAW 2): near-black value construction + grain — touchable darkness,
+     never void. Red is sacred (LAW 3): here it is the wing's signal and its
+     one invitation forward — never scattered decoration. Leak (§2.6): an
+     impossible digital shimmer, which collapses to a static gradient under
+     reduced motion (LAW 6). Voice (LAW 8): the wordmark speaks in the Architect;
+     the signal reports in the Machine (mono); prose in the Narrator.
+
+     PROVISIONAL — the signal-red value (--vc-signal) is set by eye here and
+     awaits Luna's on-screen ratification (Stability Declaration / LAW 5).
+     ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Near-black wing — darker than the House; the approach darkens as it nears (LAW 2) */
+    --vc-void:   #0B0910;                              /* the dark the door sits in */
+    --vc-wall:   var(--house-black, #1A1720);          /* wall face — Charcoal Velvet */
+    --vc-panel:  var(--house-black-soft, #252031);     /* raised surround */
+    --vc-joint:  var(--house-stone-deep, #443F37);     /* carved-signal hairlines, recessed trim */
+
+    /* The one key light (LAW 1) — controlled signal red, emitted from within (PROVISIONAL value) */
+    --vc-signal:      #C23A4C;                          /* signal red — the emitted light */
+    --vc-signal-deep: var(--house-red, #6A2436);        /* Garnet — the sacred base / invitation */
+
+    /* House constants (LAW 5 — the House owns light; brass whispers) */
+    --paper:     var(--house-paper, #EFE7D8);
+    --paper-dim: var(--house-paper-dim, #C9C0AE);
+    --red-voice: var(--house-red-voice, #B87283);      /* red speaking on dark grounds (AA 4.86:1) */
+    --stone:     var(--house-stone, #8A8375);
+    --brass:     var(--house-brass, #A9884F);
+    --amber:     var(--house-amber, #E3A34A);
+
+    /* The Cast (LAW 8) */
+    --fa: var(--font-architect, 'Cormorant Garamond', Georgia, serif);
+    --fn: var(--font-narrator, 'Source Serif 4', Georgia, serif);
+    --fl: var(--font-librarian, 'Jost', system-ui, sans-serif);
+    --fm: var(--font-machine, 'IBM Plex Mono', ui-monospace, monospace);
+    --ease: var(--ease-door, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  html { scroll-behavior: smooth; background: var(--vc-void); }
+  body {
+    color: var(--paper); font-family: var(--fn); font-weight: 400;
+    line-height: 1.7; overflow-x: hidden; min-height: 100vh;
+    /* Lighting plot: red pools up from the threshold (low centre); the reach
+       above stays near-black so the light has somewhere to come FROM. */
+    background:
+      radial-gradient(64% 40% at 50% 92%, rgba(194,58,76,0.20) 0%, rgba(194,58,76,0.05) 46%, transparent 72%),
+      radial-gradient(50% 26% at 50% -2%, rgba(106,36,54,0.10) 0%, transparent 60%),
+      linear-gradient(180deg, var(--vc-wall) 0%, #120E16 58%, var(--vc-void) 100%);
+    background-attachment: fixed;
+  }
+  /* Wall tooth — grain overlay ≤3% (Constraint Annex / LAW 2) */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  a { color: inherit; }
+  img, svg { display: block; max-width: 100%; }
+
+  .skip-link {
+    position: absolute; top: -100px; left: 1rem; z-index: 1000;
+    background: var(--vc-panel); color: var(--paper);
+    padding: 0.8rem 1.2rem; font-family: var(--fm); font-size: 0.72rem; letter-spacing: 0.05em;
+    text-decoration: none; border: 1px solid var(--vc-joint); transition: top 0.2s ease;
+  }
+  .skip-link:focus { top: 1rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ── NAV (Hall-return, ratified in-room convention) ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem clamp(1.2rem, 4vw, 2.6rem);
+    background: linear-gradient(to bottom, rgba(11,9,16,0.94) 0%, transparent 100%);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .nav-logo { font-family: var(--fa); font-variant: small-caps; letter-spacing: 0.07em; font-size: 1.15rem; color: var(--paper); text-decoration: none; }
+  .nav-back { font-family: var(--fn); font-size: 0.92rem; color: var(--red-voice); text-decoration: none; transition: color 0.3s; }
+  .nav-back:hover { color: var(--amber); }
+
+  /* ── THE THRESHOLD (hero) ── */
+  .page-hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 7.5rem 1.5rem 4rem; position: relative; z-index: 2;
+  }
+  .page-eyebrow {
+    font-family: var(--fm); letter-spacing: 0.32em; text-transform: uppercase;
+    font-size: 0.7rem; color: var(--red-voice); margin-bottom: 1.4rem;   /* AA-cleared red for small text (LAW: atmosphere never outranks accessibility) */
+    text-shadow: 0 0 18px rgba(194,58,76,0.55);                            /* the signal glow stays — emitted light behind legible voice */
+  }
+  .wordmark {
+    font-family: var(--fa); font-weight: 500; font-size: clamp(2.9rem, 9vw, 5.4rem);
+    line-height: 1; letter-spacing: 0.01em; color: var(--paper); margin-bottom: 1.4rem;
+  }
+  .wordmark .slash { color: var(--vc-signal); text-shadow: 0 0 24px rgba(194,58,76,0.6); }
+  .page-sub {
+    font-family: var(--fn); font-style: italic; font-size: clamp(1rem, 2.4vw, 1.18rem);
+    color: var(--paper-dim); max-width: 40ch; line-height: 1.85; margin-bottom: 3rem;
+  }
+
+  /* ── THE ARCH — a deep arch in near-black surround; red emitted from within;
+        threshold edged in red light; ornament abstracted (carved signal). ── */
+  .gate { position: relative; width: min(86vw, 360px); margin: 0 auto 2.6rem; }
+  .arch {
+    position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+    border-top-left-radius: 50% 34%; border-top-right-radius: 50% 34%;
+    border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;
+    border: 1px solid var(--vc-joint);
+    /* interior: red light emitted from within, pooling up from the threshold */
+    background:
+      radial-gradient(120% 78% at 50% 108%, rgba(194,58,76,0.42) 0%, rgba(140,32,48,0.14) 38%, transparent 68%),
+      linear-gradient(180deg, #08060B 0%, #100A11 62%, #16090F 100%);
+    box-shadow: inset 0 2px 40px rgba(0,0,0,0.9), 0 34px 70px -34px rgba(0,0,0,0.9), 0 0 60px -26px rgba(194,58,76,0.4);
+  }
+  /* abstracted carved-signal ornament — a second, inset arch hairline (brass whisper) */
+  .arch::before {
+    content: ''; position: absolute; inset: 12px;
+    border-top-left-radius: 50% 32%; border-top-right-radius: 50% 32%;
+    border: 1px solid rgba(169,136,79,0.22);
+    border-bottom: none; pointer-events: none;
+  }
+  /* the impossible digital shimmer (§2.6 leak) — a slow red sweep down the opening.
+     LAW 6: under reduced motion it settles to a static vertical gradient (below). */
+  .arch::after {
+    content: ''; position: absolute; left: 0; right: 0; top: -40%; height: 60%;
+    background: linear-gradient(180deg, transparent, rgba(230,90,110,0.16) 46%, rgba(230,90,110,0.28) 50%, rgba(230,90,110,0.16) 54%, transparent);
+    mix-blend-mode: screen; pointer-events: none;
+    animation: vc-shimmer 5.5s var(--ease) infinite;
+  }
+  @keyframes vc-shimmer { 0% { transform: translateY(0); opacity: 0; } 14% { opacity: 1; } 60% { opacity: 0.5; } 100% { transform: translateY(320%); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .arch::after { animation: none; top: 0; height: 100%; opacity: 0.5;
+      background: linear-gradient(180deg, transparent 30%, rgba(230,90,110,0.14) 100%); }
+  }
+
+  /* the sigil-signal inside the opening — abstracted, mono; NOT bone */
+  .arch-mark {
+    position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end; padding-bottom: 14%;
+    font-family: var(--fm); color: rgba(239,231,216,0.86);
+  }
+  .arch-glyph { font-size: 1.5rem; letter-spacing: 0.3em; color: var(--paper); text-shadow: 0 0 22px rgba(194,58,76,0.7); }
+  .arch-signal { margin-top: 0.7rem; font-size: 0.56rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red-voice); text-shadow: 0 0 14px rgba(194,58,76,0.45); }
+  /* threshold edged in red light — the lit sill at the base of the arch */
+  .arch-sill {
+    position: absolute; left: 6%; right: 6%; bottom: 0; height: 2px; z-index: 3;
+    background: linear-gradient(90deg, transparent, var(--vc-signal) 50%, transparent);
+    box-shadow: 0 0 16px 1px rgba(194,58,76,0.7);
+  }
+
+  /* ── THE CROSSING — the one boundary-crossing action (hands you to the app) ── */
+  .cross {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    font-family: var(--fa); font-variant: small-caps; letter-spacing: 0.09em; font-size: 1.16rem;
+    color: var(--paper); text-decoration: none;
+    padding: 0.95rem 2.1rem; border: 1px solid var(--vc-signal-deep);
+    background: linear-gradient(180deg, rgba(106,36,54,0.28), rgba(106,36,54,0.10));
+    box-shadow: 0 0 0 0 rgba(194,58,76,0); transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), background 0.4s var(--ease);
+  }
+  .cross .arrow { color: var(--vc-signal); transition: transform 0.4s var(--ease); }
+  .cross:hover, .cross:focus-visible {
+    border-color: var(--vc-signal);
+    background: linear-gradient(180deg, rgba(140,32,48,0.42), rgba(106,36,54,0.16));
+    box-shadow: 0 0 40px -8px rgba(194,58,76,0.55);
+  }
+  .cross:hover .arrow, .cross:focus-visible .arrow { transform: translateX(4px); }
+
+  /* mono clearance line — the House-wide session, acknowledged (K.2 tie); atmosphere, not intake */
+  .clearance {
+    margin-top: 1.4rem; font-family: var(--fm); font-size: 0.62rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--stone);
+  }
+  .clearance b { color: var(--red-voice); font-weight: 500; }
+
+  .back-link { display: inline-block; margin-top: 2.8rem; font-family: var(--fn); font-size: 0.95rem; color: var(--red-voice); text-decoration: none; }
+  .back-link:hover { color: var(--amber); }
+
+  /* ── FOOTER ── opaque ground so atmosphere never washes the chrome (DR-G2-4 pattern) ── */
+  #vc-foot { position: relative; z-index: 2; background: var(--vc-void); border-top: 1px solid rgba(68,63,55,0.4); }
+  footer { position: relative; z-index: 2; padding: 3rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 1100px; margin: 0 auto; }
+  .footer-logo { font-family: var(--fa); font-variant: small-caps; font-size: 1.05rem; color: var(--red-voice); text-decoration: none; }
+  .footer-links { display: flex; gap: 1.4rem; }
+  .footer-links a { font-family: var(--fl); font-size: 0.78rem; color: var(--paper-dim); text-decoration: none; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--red-voice); }
+  .footer-copy { font-family: var(--fl); font-size: 0.7rem; color: rgba(138,131,117,0.55); width: 100%; text-align: center; padding-top: 1rem; }
+
+  @media (max-width: 640px) {
+    .page-hero { padding: 7rem 1.3rem 3rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#threshold" class="skip-link">Skip to the door</a>
+
+<nav>
+  <a href="/" class="nav-logo">House of Luna</a>
+  <a href="/" class="nav-back">&larr; The Hall</a>
+</nav>
+
+<main class="page-hero" id="threshold">
+  <p class="page-eyebrow">// Restricted Wing</p>
+  <h1 class="wordmark">VELVET<span class="slash">//</span>CTRL</h1>
+  <p class="page-sub">The wing where a self is built, versioned, and kept under lock. The House opened every other door for you. This one asks first.</p>
+
+  <!-- THE ARCH: near-black surround, red light from within, shimmer leak, lit sill -->
+  <div class="gate">
+    <div class="arch" role="img" aria-label="A deep arched door, near-black, lit from within by red light">
+      <div class="arch-mark" aria-hidden="true">
+        <span class="arch-glyph">V//C</span>
+        <span class="arch-signal">Identity &middot; Control</span>
+      </div>
+      <span class="arch-sill" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <!-- THE CROSSING: the one action — hands you across to the live app -->
+  <a class="cross" href="https://velvet.housesofluna.com">Enter VELVET//CTRL <span class="arrow" aria-hidden="true">&rarr;</span></a>
+  <p class="clearance">Session <b>*.housesofluna.com</b> &middot; clearance is checked beyond this door</p>
+
+  <a href="/" class="back-link">&larr; Return to the Hall</a>
+</main>
+
+<div id="vc-foot">
+<footer>
+  <a href="/" class="footer-logo">House of Luna</a>
+  <div class="footer-links">
+    <a href="/tools">The Machine Room</a>
+    <a href="https://instagram.com/moonpixiee">Instagram</a>
+    <a href="https://substack.com/@moonpixiee">Substack</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 Moonpixiee &middot; House of Luna &middot; All rights reserved.</p>
+</footer>
+</div>
+
+</body>
+</html>

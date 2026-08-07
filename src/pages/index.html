@@ -194,9 +194,16 @@
     width:min(96vw,62rem); display:flex; flex-direction:column; align-items:center;
     gap:clamp(2.6rem,9vw,4.2rem); }
   @media (min-width:860px){
-    .doors{ display:grid; grid-template-columns:repeat(3,1fr); align-items:end;
+    /* six columns so rows of three read as three, and a trailing PAIR centres.
+       Row 1: the three principals (Library · Edit · Machine). Row 2: VELVET//CTRL
+       (a new principal, admitted this House event) beside Work With Luna, the two
+       held together at the centre. (The Alignment Pass will re-architect this into
+       one continuous arcade; for now the Hall grows to acknowledge the wing.) */
+    .doors{ display:grid; grid-template-columns:repeat(6,1fr); align-items:end; justify-items:center;
       gap:clamp(2.4rem,4vw,4rem) clamp(2rem,3.5vw,3.4rem); width:min(94vw,66rem); }
-    .doors li:last-child{ grid-column:2; }   /* the secondary door sits apart, below the three principals */
+    .doors li{ grid-column:span 2; }
+    .doors li:nth-child(4){ grid-column:2 / span 2; }   /* row 2 · centred pair */
+    .doors li:nth-child(5){ grid-column:4 / span 2; }
   }
 
   /* ---- a DOOR: real, activatable; <a> works with or without JS ---- */
@@ -264,6 +271,16 @@
   /* Work With Luna — warm task light pooling at the sill */
   .door[data-leak="task"] .leak{ left:50%; bottom:-8px; width:60%; height:16%; transform:translateX(-50%);
     background:radial-gradient(60% 100% at 50% 0%, color-mix(in srgb,var(--room) 55%,transparent) 0%, transparent 72%); }
+  /* VELVET//CTRL — an impossible digital shimmer bleeding under the threshold (door
+     brief §2.6): a signal-red line that slides side to side, controlled, slightly
+     impossible. LAW 6: it settles to a steady red bleed under reduced motion. */
+  .door[data-leak="shimmer"] .leak{ left:50%; bottom:0; width:56%; height:2px; transform:translateX(-50%);
+    background:linear-gradient(90deg, transparent, var(--room) 34%, color-mix(in srgb,var(--room) 55%,#E8657A) 50%, var(--room) 66%, transparent);
+    background-size:220% 100%;
+    box-shadow:0 0 12px 1px var(--room), 0 0 28px 6px color-mix(in srgb,var(--room) 42%,transparent);
+    animation:hol-shimmer 3.4s var(--ease) infinite; }
+  @keyframes hol-shimmer{ 0%,100%{ background-position:0% 0; opacity:.72; } 50%{ background-position:100% 0; opacity:1; } }
+  @media (prefers-reduced-motion:reduce){ .door[data-leak="shimmer"] .leak{ animation:none; opacity:.9; background-position:50% 0; } }
 
   /* ---- the NAMEPLATE — the Architect names the room ---- */
   .plate{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:.11em;
@@ -535,6 +552,7 @@
   #house-interior:not([inert]) .doors li:nth-child(2) .door{ transition-delay:140ms; }
   #house-interior:not([inert]) .doors li:nth-child(3) .door{ transition-delay:220ms; }
   #house-interior:not([inert]) .doors li:nth-child(4) .door{ transition-delay:300ms; }
+  #house-interior:not([inert]) .doors li:nth-child(5) .door{ transition-delay:380ms; }
   @media (prefers-reduced-motion:reduce){
     .door,.portal,.opening,.opening::before{ transition:none !important; }
     .door{ opacity:1 !important; transform:none !important; }
@@ -611,6 +629,11 @@
         <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
         <span class="plate">The Machine Room</span>
       </a></li>
+      <li><a class="door" data-leak="shimmer" data-tier="primary" href="/velvet" style="--room:#B4283F">
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
+        <span class="plate">VELVET//CTRL</span>
+      </a></li>
       <li><a class="door" data-leak="task" data-tier="secondary" href="/work" style="--room:#C9A05A">
         <span class="lantern" aria-hidden="true"><i></i></span>
         <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
@@ -631,6 +654,7 @@
           <li><a href="/library">The Library</a></li>
           <li><a href="/edit">The Edit</a></li>
           <li><a href="/tools">The Machine Room</a></li>
+          <li><a href="/velvet">VELVET//CTRL</a></li>
           <li><a href="/work">Work With Luna</a></li>
         </ul>
         <p class="map-group">Passages</p>
@@ -713,10 +737,14 @@
 
     // ---- the Room network (Phase R live roster). Future rooms append here. ----
     var ROOMS = [
-      { id:'library', name:'The Library',      route:'/library', leak:'page',   hue:'#C79A4A', tier:'primary' },
-      { id:'edit',    name:'The Edit',         route:'/edit',    leak:'fabric', hue:'#6E2A34', tier:'primary' },
-      { id:'machine', name:'The Machine Room', route:'/tools',   leak:'glow',   hue:'#C98A3E', tier:'primary' },
-      { id:'work',    name:'Work With Luna',   route:'/work',    leak:'task',   hue:'#C9A05A', tier:'secondary',
+      { id:'library', name:'The Library',      route:'/library', leak:'page',    hue:'#C79A4A', tier:'primary' },
+      { id:'edit',    name:'The Edit',         route:'/edit',    leak:'fabric',  hue:'#6E2A34', tier:'primary' },
+      { id:'machine', name:'The Machine Room', route:'/tools',   leak:'glow',    hue:'#C98A3E', tier:'primary' },
+      // VELVET//CTRL — admitted as a House event now the wing is built + published
+      // (velvet.housesofluna.com). Deep crimson signal glow (hue PROVISIONAL — set
+      // by eye, awaiting ratification). The door opens to the /velvet entrance.
+      { id:'velvet',  name:'VELVET//CTRL',     route:'/velvet',  leak:'shimmer', hue:'#B4283F', tier:'primary' },
+      { id:'work',    name:'Work With Luna',   route:'/work',    leak:'task',    hue:'#C9A05A', tier:'secondary',
         note:'the atelier — by appointment' }
     ];
     var PASSAGES = [
