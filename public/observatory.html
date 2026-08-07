@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Observatory · House of Luna</title>
+<link rel="stylesheet" href="/styles/tokens.css"/>
+<style>
+  /* ============================================================
+     THE OBSERVATORY — the hidden wing, reached by descending the stair from the
+     Machine Room vault. You arrive from darkness (the descent) into a domed
+     chamber: the orrery, the telescope, the moon through the oculus, stained
+     glass breathing cold light. Photoreal environment; interaction on top.
+     ============================================================ */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;background:#05060c;overflow:hidden;}
+  .room{position:fixed;inset:0;overflow:hidden;background:#05060c;}
+  .env{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:max(108vw,324vh);aspect-ratio:1536/512;will-change:transform;
+    transition:transform .6s cubic-bezier(.22,1,.36,1);}
+  .env img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .fx{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;}
+  .fx>span{position:absolute;transform:translate(-50%,-50%);}
+  /* cold stained-glass / window glow */
+  .cw{border-radius:44% 44% 20% 20%/60% 60% 20% 20%;
+    background:radial-gradient(circle at 50% 45%, rgba(150,150,240,.34) 0%, rgba(110,90,210,.15) 44%, transparent 74%);}
+  @keyframes breathe{0%,100%{opacity:.7;}50%{opacity:1;}}
+  .cw{animation:breathe calc(5s + var(--d,0s)) ease-in-out infinite;}
+  /* the moon through the oculus */
+  .moon{width:12%;height:34%;background:radial-gradient(circle at 50% 46%, rgba(198,206,255,.5) 0%, rgba(150,160,230,.18) 42%, transparent 72%);}
+  /* brass warmth — orrery + telescope + candles */
+  .bw{border-radius:50%;background:radial-gradient(circle at 50% 50%, rgba(240,196,120,.42) 0%, rgba(210,150,70,.16) 46%, transparent 74%);
+    animation:breathe calc(4.4s + var(--d,0s)) ease-in-out infinite;}
+  .mote{position:absolute;width:2px;height:2px;border-radius:50%;
+    background:radial-gradient(circle, rgba(206,214,255,.85), rgba(206,214,255,0));mix-blend-mode:screen;}
+  @keyframes drift{0%{transform:translateY(0) translateX(0);opacity:0;}12%{opacity:.7;}80%{opacity:.4;}100%{transform:translateY(-120px) translateX(var(--dx,4px));opacity:0;}}
+
+  /* return up to the Machine Room */
+  .ascend{position:fixed;top:clamp(1rem,3vw,1.6rem);left:clamp(1rem,3vw,1.6rem);z-index:5;
+    font-family:var(--font-machine,monospace);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(206,214,255,.6);text-decoration:none;background:rgba(8,8,20,.5);border:1px solid rgba(150,150,240,.28);
+    padding:.5rem .8rem;border-radius:3px;backdrop-filter:blur(4px);transition:color .3s;}
+  .ascend:hover{color:#cdd4ff;}
+
+  /* ARRIVAL — you descended into darkness and rise into the room */
+  .arrive{position:fixed;inset:0;z-index:20;background:#05060c;pointer-events:none;
+    animation:arriveOut 1.6s cubic-bezier(.22,1,.36,1) forwards;}
+  @keyframes arriveOut{0%{opacity:1;}100%{opacity:0;}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;} .arrive{display:none;}}
+</style>
+</head>
+<body>
+  <div class="room" id="room">
+    <div class="env" id="env">
+      <img src="/assets/observatory-env.png" alt="The Observatory — a domed chamber with an orrery, a telescope, stained glass, and the moon through the oculus"/>
+      <span class="fx">
+        <span class="moon" style="left:52%;top:9%"></span>
+        <span class="cw" style="left:9%;top:38%;width:8%;height:36%;--d:.6s"></span>
+        <span class="cw" style="left:23%;top:42%;width:8%;height:34%;--d:1.4s"></span>
+        <span class="cw" style="left:40%;top:44%;width:7%;height:30%;--d:.9s"></span>
+        <span class="cw" style="left:74%;top:40%;width:8%;height:34%;--d:1.9s"></span>
+        <span class="cw" style="left:90%;top:42%;width:8%;height:32%;--d:.3s"></span>
+        <span class="bw" style="left:47%;top:56%;width:14%;height:34%;--d:.5s"></span>
+        <span class="bw" style="left:82%;top:52%;width:8%;height:24%;--d:1.2s"></span>
+        <span class="bw" style="left:14%;top:80%;width:5%;height:14%;--d:.8s"></span>
+        <span class="bw" style="left:88%;top:82%;width:5%;height:14%;--d:1.6s"></span>
+        <span class="dust" id="dust" style="left:0;top:0;transform:none;width:100%;height:100%"></span>
+      </span>
+    </div>
+  </div>
+  <a class="ascend" href="/machineroom.html" aria-label="Ascend to the Machine Room">&uarr; The Machine Room</a>
+  <div class="arrive" aria-hidden="true"></div>
+
+<script>
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var env=document.getElementById('env'), dust=document.getElementById('dust');
+  var zones=[{x:52,y:14,s:22},{x:20,y:44,s:20},{x:82,y:46,s:18}];
+  for(var i=0;i<(still?8:26);i++){var z=zones[i%3],m=document.createElement('span');m.className='mote';
+    m.style.left=(z.x+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';m.style.top=(z.y+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';
+    if(still){m.style.opacity='0.35';}else{m.style.setProperty('--dx',(Math.random()*10-5).toFixed(0)+'px');m.style.animation='drift '+(7+Math.random()*7).toFixed(1)+'s linear '+(-Math.random()*11).toFixed(1)+'s infinite';}
+    dust.appendChild(m);}
+  if(!still){
+    window.addEventListener('mousemove',function(e){
+      var px=((e.clientX/window.innerWidth)-0.5), py=((e.clientY/window.innerHeight)-0.5);
+      env.style.transform='translate(calc(-50% + '+(-px*22).toFixed(1)+'px), calc(-50% + '+(-py*14).toFixed(1)+'px))';
+    },{passive:true});
+    document.addEventListener('mouseleave',function(){env.style.transform='translate(-50%,-50%)';});
+  }
+</script>
+</body>
+</html>
