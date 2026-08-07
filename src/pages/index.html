@@ -189,9 +189,17 @@
       radial-gradient(134% 100% at 50% 42%, transparent 50%, rgba(6,4,3,0.30) 84%, rgba(6,4,3,0.5) 100%);
   }
   .hall-head{ position:relative; z-index:2; text-align:center; margin-bottom:clamp(2.4rem,8vw,4rem); padding:0 1.5rem; }
+  /* ENGRAVED (Luna's law — "Architecture speaks through the walls", 7 Aug 2026):
+     the Hall's name is CUT into the masonry, not floating on it. The fill is pulled
+     toward the stone's own gold so it reads as carved relief; a dark shadow falls
+     into the incision from above, a warm bevel catches the lantern below. The wall
+     speaks its own name — the same treatment the Threshold's stone already wears. */
   .hall-name{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:0.15em;
-    font-size:clamp(1.4rem,5vw,2.2rem); color:#D9C7A0; margin:0;
-    text-shadow:0 1px 0 rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.5); }
+    font-size:clamp(1.4rem,5vw,2.2rem); margin:0; color:#9E894F;
+    text-shadow:
+      0 -1px 1px rgba(0,0,0,.72),                /* the incision's upper edge, in shadow */
+      0 1px 0 rgba(226,183,120,.34),             /* the lower bevel catches the lantern */
+      0 2px 4px rgba(0,0,0,.5); }                /* depth in the cut */
   .hall-sub{ font-family:var(--fn); font-style:italic; color:rgba(233,224,208,0.55);
     font-size:clamp(.92rem,2.6vw,1.05rem); margin-top:.5rem; }
 
@@ -241,10 +249,25 @@
       inset 0 36px 44px -24px rgba(0,0,0,.9);                                          /* the head in shadow */
     transition:box-shadow var(--dms) var(--ease);
   }
-  .opening::before{  /* the closed door LEAF — dark at the head, the room's glow below it */
-    content:''; position:absolute; inset:0 0 0 0; border-radius:inherit;
-    background:linear-gradient(180deg, rgba(6,4,4,.88) 0%, rgba(8,6,5,.42) 52%, rgba(8,6,5,0) 100%);
-    transition:opacity var(--dms) var(--ease), transform var(--dms) var(--ease); transform-origin:left center;
+  /* STAGE 3 — the closed door LEAF is now a real planked wooden door (same warm-dark
+     wood for every room — LAW 9, one House; the room's COLOUR is its light, not its
+     door). Vertical planks, two iron bands, an iron ring handle; lit along the top
+     edge by the lantern, deep in shadow at the reveals, the room's light rimming it
+     and bleeding under it. Swings open on activate (transform kept). */
+  .opening::before{ content:''; position:absolute; inset:0; border-radius:inherit; transform-origin:left center;
+    background:
+      radial-gradient(circle at 77% 55%, transparent 2.3%, rgba(16,11,6,.95) 2.5% 3.4%, rgba(150,112,60,.28) 3.4% 3.9%, transparent 4.1%),
+      linear-gradient(180deg, transparent 25%, rgba(20,13,7,.55) 26% 29.5%, transparent 30.5%, transparent 69%, rgba(20,13,7,.55) 70% 73.5%, transparent 74.5%),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.44) 0 1.6px, rgba(196,150,90,.035) 1.6px 3.2px, transparent 3.2px 16.6%),
+      linear-gradient(180deg, #130c07 0%, #22160f 52%, #29190f 82%, #1b1109 100%);
+    box-shadow:
+      inset 0 3px 4px rgba(150,112,60,.16),
+      inset 0 -26px 34px -16px rgba(0,0,0,.72),
+      inset 11px 0 20px -12px rgba(0,0,0,.62),
+      inset -11px 0 20px -12px rgba(0,0,0,.62);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 93%,rgba(0,0,0,.35) 100%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 93%,rgba(0,0,0,.35) 100%);
+    transition:opacity var(--dms) var(--ease), transform var(--dms) var(--ease);
   }
 
   /* ---- the room's LEAK — one trace escaping before entry (ratified motif) ---- */
@@ -434,6 +457,34 @@
     -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); }
 
   /* ============================================================
+     STAGE 4 — ATMOSPHERE + CINEMA (the R9 patina qualities: air, light rays,
+     accumulated age). Appearance-only; Phase R stays closed. Everything here is
+     SOFT and SOURCED: drawn ray-lines and crack-lines were tried and rejected
+     (they read as seams and wires on real masonry), so the "rays" are wide
+     low-opacity light-in-haze gradients motivated by the lanterns (LAW 1), and
+     the "age" is lantern smoke-stain + depth-haze, not drawn cracks. Atmosphere
+     sits at z-index:1 — always BEHIND the doors (--z-doors over --z-hall-atmosphere).
+     Motes drift when motion is welcome; a few hold still under reduced-motion (LAW 6). */
+  .hall-haze{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  /* volumetric god-rays: broad soft shafts falling from the unseen high lantern —
+     pure light caught in the hall's air, screen-blended warmth over the dark stone */
+  .hall-haze::before{ content:''; position:absolute; left:-10%; right:-10%; top:-12%; height:96%;
+    background:
+      linear-gradient(171deg, rgba(var(--warm),.055) 0%, rgba(var(--warm),.02) 26%, transparent 46%),
+      linear-gradient(189deg, rgba(var(--warm),.055) 0%, rgba(var(--warm),.02) 26%, transparent 46%),
+      radial-gradient(46% 40% at 50% -6%, rgba(var(--warm),.10) 0%, rgba(var(--warm),.03) 40%, transparent 72%);
+    mix-blend-mode:screen; filter:blur(7px);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 84%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 84%); }
+  /* accumulated age + distance-haze: centuries of lantern smoke darken the stone
+     high on the wall; a warm haze fills the depth so the far reaches soften into
+     air rather than ending as a flat plane */
+  .hall-haze::after{ content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(60% 30% at 50% -2%, rgba(10,7,5,.42) 0%, rgba(10,7,5,.16) 46%, transparent 72%),
+      radial-gradient(120% 76% at 50% 40%, transparent 46%, rgba(28,20,14,.20) 80%, rgba(18,12,8,.34) 100%); }
+
+  /* ============================================================
      HALL DEPTH LAYER (Hall Patina Pass, architectural-depth layer, R9-governed).
      Appearance-only; Phase R stays closed. Frontal arcade + receding floor
      (ratified): the doors stay frontal and equal; depth comes from the ground
@@ -532,6 +583,7 @@
   .mote{ position:absolute; z-index:2; width:2px; height:2px; border-radius:50%;
     background:radial-gradient(circle, rgba(255,240,208,.9), rgba(255,240,208,0));
     pointer-events:none; }
+  .mote--far{ width:1.5px; height:1.5px; filter:brightness(.66); }   /* Stage 4 — dust in the hall's far air, fainter than the Library beam */
 
   /* House Map — quiet overlay, not a route */
   .hall-map-btn{ position:fixed; z-index:60; top:clamp(.8rem,3vw,1.4rem); right:clamp(.8rem,3vw,1.4rem);
@@ -620,6 +672,7 @@
   <main class="hall" aria-label="The Grand Hall of the House of Luna">
     <div class="hall-age" aria-hidden="true"></div>
     <div class="hall-floor" aria-hidden="true"></div>
+    <div class="hall-haze" aria-hidden="true"></div>
     <div class="hall-head">
       <!-- TITLE ONLY (ratified): the engraved name + four nameplated doors say it;
            the House never over-explains. Protection-clause treatment applies. -->
@@ -796,6 +849,27 @@
           m.style.animationDelay = (-Math.random() * 7).toFixed(1) + 's';
         }
         lib.appendChild(m);
+      }
+    })();
+
+    // Stage 4 — a slow drift of dust through the whole hall's air (fainter, slower
+    // and wider than the Library beam). A few hold still under reduced-motion (LAW 6).
+    (function () {
+      var haze = document.querySelector('.hall-haze');
+      if (!haze) return;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var n = still ? 6 : 14;
+      for (var i = 0; i < n; i++) {
+        var m = document.createElement('span'); m.className = 'mote mote--far';
+        m.style.left = (6 + Math.random() * 88).toFixed(1) + '%';
+        m.style.bottom = (12 + Math.random() * 66).toFixed(1) + '%';
+        if (still) { m.style.opacity = '0.24'; }
+        else {
+          m.style.setProperty('--md', (9 + Math.random() * 7).toFixed(1) + 's');
+          m.style.setProperty('--mx', (Math.random() * 14 - 7).toFixed(0) + 'px');
+          m.style.animationDelay = (-Math.random() * 14).toFixed(1) + 's';
+        }
+        haze.appendChild(m);
       }
     })();
 

@@ -184,3 +184,80 @@ A **gated wing at the back of the Library**: **public-domain and legally availab
 > *"Some books are not hidden because they are forbidden; they are waiting until the reader is ready to meet them."*
 
 **Requires Phase K entitlements** — the **third standing argument for Phase K's priority**, alongside K-USE-1 (The Becoming as a Living Book) and K-USE-2 (Letters in the Walls). The gate is a sequencing mechanism (readiness / reading path), not a paywall.
+
+---
+
+# Tonight's rulings — 7 August 2026 (Alignment Pass close · new law intents · Machine Room milestone)
+
+## Grand Hall — Alignment Pass — COMPLETE (Stages 1–4, 7 Aug 2026)
+
+Re-opened the stamped Hall to match the **R9 concept render** ("one continuous wall,"
+"a journey of light," "real doors," "atmosphere"). Built in four staged milestones with
+Luna's eye between each:
+
+1. **Continuous wall** — the masonry brought present and warm-lit across both rows so the
+   openings read as cut INTO one stone wall, dissolving into House black before the page ends.
+2. **Journey of light** — each threshold pools its `--room` hue on the floor at LEAK
+   intensity; between doors the stone returns to House (LAW 5 held — light, not paint).
+3. **Real doors** — each opening now holds a planked warm-dark wooden door leaf (one wood
+   for every room — LAW 9; the room's COLOUR is its light, not its door), iron ring handle,
+   lit top edge, the room's light rimming and bleeding under it; it swings on activate.
+4. **Atmosphere + cinema** — soft god-rays falling from the lanterns (light-in-haze, NOT
+   drawn lines — the concept-board no-drawn-rays doctrine holds), hall-wide drifting dust
+   (reduced-motion stills), lantern smoke-stain darkening the vault, warm depth-haze
+   softening the far reaches into air. Engraved Hall title (see law intent below).
+
+Holds desktop + mobile + reduced-motion still-frames. **The Alignment Pass is closed;
+the Hall's Stage-4 form is its finished state.** Ratified by eye across the four stages.
+
+## LAW INTENT (Luna, 7 Aug 2026) — to be inscribed into the Aesthetic Laws (§26)
+
+Two laws Luna ruled tonight ("I'd make this a law" / "that sentence should become a design
+law"). Logged here as her stated intent, pending formal inscription into the Constitution:
+
+- **LAW (proposed) — Architecture speaks through the walls.** Every room title is CUT into
+  the building, never floating text on top of it — an inscription the House has carried for
+  centuries: an incised fill pulled toward the stone, a shadow falling into the cut, a warm
+  bevel catching the room's light. Applies House-wide. (The Threshold already complies; the
+  **Grand Hall title now complies — first proof, 7 Aug 2026.**) Luna's note: this is the
+  single strongest separator from every SaaS surface.
+- **LAW (proposed) — Pages are never destinations; they are locations inside one building.**
+  Every room wears the House masonry and continues the one space; moving between rooms should
+  feel like walking another thirty feet down the same hall, never like opening another
+  webpage. (Graduates P-R5 "Geography Before UI" one step further — not only is navigation
+  movement through the House, the surface itself is always the same building.)
+
+## Machine Room Pass — NEW MILESTONE (Luna's redefinition, 7 Aug 2026)
+
+The Machine Room is **redefined** from "AI tools" to **the infrastructure that powers
+creation** — everything inside helps you *think, create, organize, or preserve*; the engine
+beneath the House, the backstage of imagination; built for creators, not casual visitors.
+
+**Machines (today):** **AI Luna** (thinking · writing · planning · strategy) · **Muse**
+(identity memory · characters · visual consistency · worlds) · **Brand Engine** (creative
+systems · type · palette · voice) · **Creator OS** (publishing · organization · repurposing
+· workflow) · **VELVET//CTRL** (the Restricted Wing — identity · memory · personal creative
+OS; eventually the largest machine in the room).
+
+**Build spec (future pass):** the cards become **heavy doors / cabinets you open into the
+machine**, not information tiles — they should feel weighty; **the door wakes on hover**
+(lantern brightens, brass warms, a faint hum — "this machine is awake"); new copy candidates
+— *"Choose a machine. Each one performs a different kind of impossible."* / *"Every
+impossible idea begins with the right machine."*
+
+**Canonical hierarchy:** House → Grand Hall → Machine Room → VELVET//CTRL → Muse → Projects
+→ Scenes → Manifestations.
+
+## VELVET//CTRL placement — RULED (Luna, 7 Aug 2026): BOTH
+
+VELVET keeps its **marquee door in the Grand Hall** (lit 5 Aug; hue `#B4283F` provisional,
+awaiting ratification) AND lives **inside the Machine Room** as its flagship machine. The
+Hall's 5-door Stage-4 form is final; the "inside the Machine Room" placement is built in the
+Machine Room Pass above. (Luna's Disney logic: the Machine Room is the *land*, VELVET the
+headline attraction within it — but the flagship also earns a front door on the Hall.)
+
+## /velvet entrance — eye-walk refinement (7 Aug 2026)
+
+The wordmark lifted into the upper third (met first), a deliberate reach of negative space
+opened before the arch, so the descent to the door reads as approach rather than a stacked
+list. `--vc-signal` (#C23A4C) remains PROVISIONAL, awaiting on-screen ratification.

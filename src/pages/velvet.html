@@ -114,9 +114,12 @@
   .nav-back:hover { color: var(--amber); }
 
   /* ── THE THRESHOLD (hero) ── */
+  /* Eye-walk (Luna, 7 Aug 2026): the wordmark rides HIGH in the upper third — the
+     name is met first — then a deliberate reach of negative space before the arch,
+     so the descent to the door is felt as approach, not a stacked list. */
   .page-hero {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; padding: 7.5rem 1.5rem 4rem; position: relative; z-index: 2;
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+    text-align: center; padding: clamp(8.5rem, 17vh, 12rem) 1.5rem 4rem; position: relative; z-index: 2;
   }
   .page-eyebrow {
     font-family: var(--fm); letter-spacing: 0.32em; text-transform: uppercase;
@@ -130,7 +133,7 @@
   .wordmark .slash { color: var(--vc-signal); text-shadow: 0 0 24px rgba(194,58,76,0.6); }
   .page-sub {
     font-family: var(--fn); font-style: italic; font-size: clamp(1rem, 2.4vw, 1.18rem);
-    color: var(--paper-dim); max-width: 40ch; line-height: 1.85; margin-bottom: 3rem;
+    color: var(--paper-dim); max-width: 40ch; line-height: 1.85; margin-bottom: clamp(3.6rem, 11vh, 6.5rem);
   }
 
   /* ── THE ARCH — a deep arch in near-black surround; red emitted from within;
