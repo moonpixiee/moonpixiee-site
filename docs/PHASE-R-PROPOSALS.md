@@ -291,3 +291,31 @@ room* (an observatory), not a Machine Room *machine*. Decide: is trading a machi
 in the workshop, or its own room off the House? Same open question for whether
 "House Memory" overlaps the Phase-K identity/memory infrastructure. The doors are
 easy to rename or remove; nothing downstream depends on these names yet.
+
+## RULING (Luna, 7 Aug 2026) — Machine Room stays PURE; Trading → The Observatory; no named future doors
+
+Supersedes the provisional named "Coming Soon" doors introduced earlier in Stage 2.
+
+- **The Machine Room holds only INFRASTRUCTURE — reusable systems ("machines that
+  build").** Today: AI Luna, Muse, Brand Engine, Creator OS, VELVET//CTRL (restricted
+  machine). A *practice* is not a machine and does not live here.
+- **Trading is NOT a Machine Room machine.** Trading is a practice → it lives in **The
+  Observatory** (this ratifies P-R7's framing: trading as its own room — brass
+  telescope, star charts, antique clocks, market ticker, celestial navigation;
+  "celestial navigation with money"). Trading Lab removed from /tools.
+- **No named future machines.** Naming ossifies — a casually-named door creates a
+  felt obligation to build that exact thing. **Unbuilt machines are SEALED ARCHES:
+  House stone, no plaque, no glow, no "Coming Soon."** One day a machine wakes behind
+  one — a stronger moment than any promise. (/tools now: 5 real machines + 3 sealed
+  arches; manifest SYS.01–05 then `SYS.—— · sealed`.) **Candidate design law:** *Leave
+  empty arches — the House shows what it is, never what it merely intends.*
+
+### Luna's House map (7 Aug 2026 — logged as direction; individual rooms still ratify per room)
+Grand Hall (navigation) · The Library (knowledge, Letters, The Becoming, archives) ·
+The Edit (writing, Substack, publishing, House Papers) · The Machine Room
+(infrastructure — AI/Muse/VELVET/Creator OS/Brand Engine — anything that *builds*) ·
+The Observatory (trading, markets, charts, journals, macro, psychology) · Moss & Moon
+(conservatory — plants, shop, botanicals, recipes [[P-R1]]) · Luna's Room (private —
+journal, goals; not public) · Your Room (the resident's dashboard — their creations,
+saved Muses, projects). Principle Luna named: **every wing has a purpose; the Machine
+Room stays a workshop, never a miscellaneous folder.**

@@ -173,7 +173,30 @@
     justify-items: center;
   }
   @media (min-width: 620px) { .machines { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 960px) { .machines { grid-template-columns: repeat(3, 1fr); } }
+  /* Desktop: 6-col scaffold, each bay spans 2 → 3 per row. The five real machines
+     sit as 3 + a centered pair (like the Grand Hall); the three sealed arches fill
+     the final row. */
+  @media (min-width: 960px) {
+    .machines { grid-template-columns: repeat(6, 1fr); }
+    .machines .bay { grid-column: span 2; }
+    .machines .bay:nth-child(4) { grid-column: 2 / span 2; }
+    .machines .bay:nth-child(5) { grid-column: 4 / span 2; }
+  }
+
+  /* SEALED ARCH — the opening walled up in the House's own stone: no glow, no
+     mark, no plaque. Heavy, silent, waiting. */
+  .bay--sealed { max-width: 300px; }
+  .portal--sealed { }
+  .portal--sealed::before {
+    background:
+      linear-gradient(158deg, rgba(52,47,62,0.5) 0%, rgba(26,22,34,0.82) 60%, rgba(18,15,24,0.92) 100%),
+      url('/hall-stone.webp');
+    background-size: cover, 150%; background-position: center, center;
+    background-blend-mode: normal, soft-light;
+    box-shadow: inset 0 3px 30px rgba(0,0,0,0.82), inset 0 -14px 34px -10px rgba(0,0,0,0.5);
+  }
+  .portal--sealed::after { border-color: rgba(138,131,117,0.12); }   /* faint stone hairline, no brass */
+  .portal--sealed .wake { display: none; }
 
   .bay { width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; }
 
@@ -395,41 +418,13 @@
       <div class="plate"><span class="plate-cat">Restricted Wing</span><span class="plate-name">VELVET//CTRL</span><span class="plate-state"><span class="dot" aria-hidden="true"></span>Identity &middot; Memory &middot; Canon</span></div>
     </div>
 
-    <div class="bay is-dormant">
-      <div class="portal" role="img" aria-label="Trading Lab — a door not yet built">
-        <span class="wake" aria-hidden="true"></span>
-        <span class="portal-mark" aria-hidden="true"><span class="portal-glyph">TRAD</span></span>
-        <span class="sill" aria-hidden="true"></span>
-      </div>
-      <div class="plate"><span class="plate-cat">Pattern &middot; Probability</span><span class="plate-name">Trading Lab</span><span class="plate-state"><span class="dot" aria-hidden="true"></span>Coming Soon</span></div>
-    </div>
-
-    <div class="bay is-dormant">
-      <div class="portal" role="img" aria-label="Story Engine — a door not yet built">
-        <span class="wake" aria-hidden="true"></span>
-        <span class="portal-mark" aria-hidden="true"><span class="portal-glyph">STORY</span></span>
-        <span class="sill" aria-hidden="true"></span>
-      </div>
-      <div class="plate"><span class="plate-cat">Narrative Systems</span><span class="plate-name">Story Engine</span><span class="plate-state"><span class="dot" aria-hidden="true"></span>Coming Soon</span></div>
-    </div>
-
-    <div class="bay is-dormant">
-      <div class="portal" role="img" aria-label="House Memory — a door not yet built">
-        <span class="wake" aria-hidden="true"></span>
-        <span class="portal-mark" aria-hidden="true"><span class="portal-glyph">MEM</span></span>
-        <span class="sill" aria-hidden="true"></span>
-      </div>
-      <div class="plate"><span class="plate-cat">Preservation</span><span class="plate-name">House Memory</span><span class="plate-state"><span class="dot" aria-hidden="true"></span>Coming Soon</span></div>
-    </div>
-
-    <div class="bay is-dormant" aria-hidden="true">
-      <div class="portal">
-        <span class="wake"></span>
-        <span class="portal-mark"><span class="portal-glyph" style="font-size:0.9rem;">+</span></span>
-        <span class="sill" style="opacity:0.4;"></span>
-      </div>
-      <div class="plate"><span class="plate-cat">The Wing Grows</span><span class="plate-name">More Machines</span><span class="plate-state"><span class="dot"></span>In Time</span></div>
-    </div>
+    <!-- SEALED ARCHES (Luna's ruling, 7 Aug 2026): the wing grows, but its future
+         machines are NOT named or promised — naming ossifies. Three arches stand
+         walled in stone: no plaque, no glow, no explanation. One day a machine
+         wakes behind one, and that moment is more powerful than any "Coming Soon." -->
+    <div class="bay bay--sealed" aria-hidden="true"><div class="portal portal--sealed"></div></div>
+    <div class="bay bay--sealed" aria-hidden="true"><div class="portal portal--sealed"></div></div>
+    <div class="bay bay--sealed" aria-hidden="true"><div class="portal portal--sealed"></div></div>
 
   </div>
 
@@ -442,11 +437,9 @@
         <li><span class="m-idx">SYS.03</span><span class="m-name">Brand Engine</span><span class="m-state">In Development</span></li>
         <li><span class="m-idx">SYS.04</span><span class="m-name">Creator OS</span><span class="m-state">In Development</span></li>
         <li><span class="m-idx">SYS.05</span><span class="m-name">VELVET//CTRL</span><span class="m-state m-restricted">Restricted</span></li>
-        <li><span class="m-idx">SYS.06</span><span class="m-name">Trading Lab</span><span class="m-state">Coming Soon</span></li>
-        <li><span class="m-idx">SYS.07</span><span class="m-name">Story Engine</span><span class="m-state">Coming Soon</span></li>
-        <li><span class="m-idx">SYS.08</span><span class="m-name">House Memory</span><span class="m-state">Coming Soon</span></li>
+        <li><span class="m-idx">SYS.&mdash;&mdash;</span><span class="m-name" style="color:#8A7F63;">&mdash;</span><span class="m-state">sealed</span></li>
       </ul>
-      <div class="board-foot"><strong>01</strong> Online / <strong>03</strong> Developing / <strong>01</strong> Restricted / <strong>03</strong> Queued</div>
+      <div class="board-foot"><strong>01</strong> Online / <strong>03</strong> Developing / <strong>01</strong> Restricted &middot; <strong>03</strong> arches sealed</div>
     </div>
   </div>
 
