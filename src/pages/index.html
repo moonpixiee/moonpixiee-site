@@ -1,103 +1,938 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The Grand Hall · House of Luna</title>
+<title>House of Luna</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK53SYTZRQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VK53SYTZRQ');
+</script>
 <link rel="stylesheet" href="/styles/tokens.css"/>
-<style>
+<!-- Threshold environment (AM-R-004): the R8 photograph is the LCP image, served
+     responsively (AVIF+WebP srcset) from /threshold/ with fetchpriority=high on
+     the <img>. Live text paints first on a dark ground; the image follows. -->
+
+<!-- ============================================================
+     THE THRESHOLD (Phase R · RQ-1 state 1 · AM-R-003 copy)
+     Ratified values mirrored locally: tokens.css stays unconsumed
+     until step 4 (Luna's go, post-AL-002). No colour is inlined that
+     isn't a ratified House token. Atmosphere is pure CSS — no hero
+     asset (references are mood-only), so the 250KB budget is trivially
+     met and Wander is usable the instant the interface paints.
+     ============================================================ -->
+<style id="threshold-styles">
   /* ============================================================
-     THE GRAND HALL — the one continuous wall. The photoreal environment fills the
-     view; interaction is composited on it (north star). Every door is a real way
-     in: it wakes with its own colour as you approach, names itself, and opens to
-     its room. Lanterns flicker, dust drifts, the hall parallaxes as you look down it.
+     THE THRESHOLD — AM-R-004 (threshold only): the approved R8 image is the
+     ENVIRONMENTAL asset; HTML is the living layer. The wall, lantern, engraved
+     name, arch and worn steps live in the photograph (its baked text removed);
+     the greeting, invitation and Wander render as LIVE HTML over the dark
+     doorway, on a dark first-paint ground so text never flashes on white.
+     Responsive crops (AVIF+WebP, srcset) are served from /threshold/.
      ============================================================ */
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;background:#070505;overflow:hidden;}
-  .hall{position:fixed;inset:0;overflow:hidden;background:#070505;}
-  .env{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:max(100vw,150vh);aspect-ratio:1536/1024;will-change:transform;
-    transition:transform .6s cubic-bezier(.22,1,.36,1);}
-  .env img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .sr-only {
+    position: absolute !important; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+  .threshold {
+    --paper:     #EFE7D8;   /* Old Page — greeting, seal label */
+    --paper-dim: #C9C0AE;   /* the overheard invitation */
+    --garnet:    #6A2436;   /* House Red — LAW 3, the one invitation */
+    --amber:     #E3A34A;   /* focus light */
+    --velvet:    #0A0809;   /* the black-stone dark ground */
+    --font-narrator:'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --door: 400ms; --ease-door: cubic-bezier(0.22, 1, 0.36, 1);
 
-  .fx{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;}
-  .lantern{position:absolute;transform:translate(-50%,-50%);border-radius:50%;
-    background:radial-gradient(circle at 50% 50%, rgba(255,206,130,.42) 0%, rgba(240,168,70,.18) 40%, transparent 72%);}
-  @keyframes flick{0%,100%{opacity:.9;}42%{opacity:.72;}66%{opacity:1;}84%{opacity:.82;}}
-  .lantern-anim{animation:flick calc(3s + var(--d,0s)) ease-in-out infinite;}
-  .mote{position:absolute;width:2px;height:2px;border-radius:50%;
-    background:radial-gradient(circle, rgba(255,224,160,.85), rgba(255,224,160,0));mix-blend-mode:screen;}
-  @keyframes rise{0%{transform:translateY(0) translateX(0);opacity:0;}12%{opacity:.7;}80%{opacity:.4;}100%{transform:translateY(-110px) translateX(var(--dx,4px));opacity:0;}}
+    position: fixed; inset: 0; z-index: 2000; overflow: hidden;
+    background: #0A0809;    /* dark ground — the first paint, never white */
+    color: var(--paper);
+  }
+  /* the environment — the R8 photograph, full-bleed. It is the LCP image. */
+  .env { position: absolute; inset: 0; z-index: 0; }
+  .env-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center; display: block;
+  }
 
-  /* a DOOR — a hotspot over the painted door; wakes in its own colour on approach */
-  .door{position:absolute;transform:translate(-50%,-50%);display:block;text-decoration:none;color:transparent;
-    cursor:pointer;outline:none;z-index:3;}
-  .door .glow{position:absolute;inset:-24% -20%;border-radius:46% 46% 8% 8%/40% 40% 6% 6%;pointer-events:none;mix-blend-mode:screen;
-    background:radial-gradient(52% 60% at 50% 46%, rgba(var(--g),.5) 0%, rgba(var(--g),.18) 44%, transparent 74%);
-    opacity:calc(.16 + .9*var(--w,0));transform:scale(calc(1 + .05*var(--w,0)));
-    transition:opacity .55s ease, transform .55s ease;}
-  .door .name{position:absolute;left:50%;bottom:-10%;transform:translateX(-50%);white-space:nowrap;
-    font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.14em;
-    font-size:clamp(.8rem,1.5vw,1.2rem);color:rgba(240,228,206,.96);opacity:var(--w,0);transition:opacity .4s ease;
-    text-shadow:0 1px 3px rgba(0,0,0,.9), 0 0 14px rgba(var(--g),.7);pointer-events:none;}
-  .door:focus-visible{box-shadow:0 0 0 3px rgba(227,163,74,.7);border-radius:8px;}
+  /* the LIVE words, in the dark doorway. A soft scrim rides only behind them,
+     so contrast holds against the actual rendered surface (the interior + the
+     lower reveal the text overlaps). */
+  .stage {
+    position: absolute; left: 50%; top: 57%; transform: translate(-50%, -50%);
+    z-index: 2; width: min(84vw, 23rem); text-align: center;
+  }
+  .stage::before {
+    content: ''; position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%);
+    width: 200%; height: 220%; z-index: -1; pointer-events: none;
+    background: radial-gradient(62% 52% at 50% 50%,
+      rgba(5,4,7,0.80) 0%, rgba(5,4,7,0.52) 42%, rgba(5,4,7,0) 76%);
+  }
+  /* greeting — the primary legible line (ratified two-line break holds) */
+  .t-greeting {
+    font-family: var(--font-narrator); font-weight: 400;
+    font-size: clamp(1.05rem, 3.3vw, 1.4rem); line-height: 1.42;
+    color: var(--paper); margin: 0 0 clamp(1rem, 3.4vw, 1.35rem);
+  }
+  /* invitation — overheard, italic (R-2), lighter than the greeting */
+  .t-invitation {
+    font-family: var(--font-narrator); font-style: italic; font-weight: 400;
+    font-size: clamp(0.95rem, 3vw, 1.08rem); line-height: 1.5; letter-spacing: 0.03em;
+    color: var(--paper-dim); opacity: 0.92; margin: 0 0 clamp(1.9rem, 6vw, 2.6rem);
+  }
+  /* Wander — Garnet, pressed like a seal, exactly once */
+  .t-wander {
+    font-family: var(--font-narrator); font-size: clamp(0.98rem, 3vw, 1.08rem);
+    font-weight: 400; letter-spacing: 0.05em; color: var(--paper);
+    background: radial-gradient(120% 140% at 50% 0%, #7A2A40 0%, var(--garnet) 60%);
+    border: 1px solid rgba(169,136,79,0.42); border-radius: 4px;
+    padding: 0.72rem 2.3rem; cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(238,231,216,0.10), inset 0 -2px 6px rgba(0,0,0,0.35), 0 6px 18px -6px rgba(0,0,0,0.55);
+    transition: background var(--door) var(--ease-door), box-shadow var(--door) var(--ease-door), transform var(--door) var(--ease-door);
+  }
+  .t-wander:hover {
+    background: radial-gradient(120% 140% at 50% 0%, #86304A 0%, #742A3F 60%);
+    box-shadow: inset 0 1px 0 rgba(238,231,216,0.14), 0 0 0 1px rgba(232,165,78,0.30), 0 10px 26px -8px rgba(106,36,54,0.55);
+    transform: translateY(-1px);
+  }
+  /* dual-ring focus (RATIFIED §8.5): amber inner, black-stone outer */
+  .t-wander:focus-visible {
+    outline: 2px solid transparent; outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--amber), 0 0 0 4px var(--velvet);
+  }
 
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;} .door .glow{opacity:.16;}}
+  /* LAW 6 — the environment is already there; the live words settle in */
+  .stage > * { opacity: 0; transform: translateY(9px); }
+  .threshold.is-ready .stage > * {
+    opacity: 1; transform: none;
+    transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
+  }
+  .threshold.is-ready .t-invitation { transition-delay: 110ms; }
+  .threshold.is-ready .t-wander     { transition-delay: 210ms; }
+
+  .threshold.is-leaving {
+    opacity: 0; transform: scale(1.012);
+    transition: opacity var(--door) var(--ease-door), transform var(--door) var(--ease-door);
+    pointer-events: none;
+  }
+  body.threshold-active { overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage > *, .threshold.is-ready .stage > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .t-wander { transition: none; }
+    .threshold.is-leaving { transition: none; }
+  }
+</style>
+
+<style id="hall-styles">
+  /* ============================================================
+     THE GRAND HALL (RQ-1 state 2). The visitor has crossed the threshold and
+     come inside: the threshold's masonry world, WARMER ("the House earns its
+     light"). Built from CRAFT — stone, recesses, trim, architectural shadow,
+     motivated warm light — so the Hall can GROW doors. Four doorways; each door
+     is real (activating opens it, then the room). Depth before decoration.
+     ============================================================ */
+  /* DR-PS-3: kill the browser's default 8px body margin and transparent ground —
+     it was letting white/grey show as a frame (worst at the page's end, behind the
+     Work With Luna arch). The House ground is unbroken black to the last pixel. */
+  html, body { margin:0; background:#0A0807; }
+  #house-interior { background:#0E0B0A; }
+  .hall {
+    --stone-0:#0C0A09; --stone-1:#17110E; --stone-2:#241A14;   /* warm masonry values */
+    --warm: 234,180,116;                                        /* interior light — warmer than the threshold */
+    --paper:#EFE7D8; --brass:#A9884F;
+    --fa:'Cormorant Garamond', Georgia, serif;
+    --fn:'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --dms:420ms; --ease:cubic-bezier(0.22,1,0.36,1);
+    position:relative; min-height:100vh; color:var(--paper);
+    /* the deep ground — WARM masonry dark (STAGE 1): the mortar/joints read
+       warm-brown, not cool grey, so the wall sits in its own interior light. */
+    background:linear-gradient(180deg, #1E1610 0%, #160F0B 56%, #0C0806 100%);
+    padding: clamp(3rem,10vw,6rem) 0 clamp(4.5rem,14vw,9rem);
+    overflow:hidden;
+  }
+  /* DR-PS-1: the Hall wears the Threshold's ACTUAL masonry — hall-stone.webp is
+     cut from the R8 photograph itself (the lit brick beside the arch), lifted to
+     interior light and wrap-blended seamless (tools/hall-stone.py). No procedural
+     brick, no material change at the seam: the same wall, learning warmer light.
+     Per-door moods stay light-only washes over this one stone (see .opening). */
+  .hall::before {   /* the House masonry — real weathered brick, the wall itself */
+    content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background-image:url('/hall-stone.webp');
+    background-size:31% auto; background-position:center -1.5%; background-repeat:repeat;
+    /* STAGE 1 (continuous wall): the good warm brick was being hidden at 0.74 over a
+       cool ground — it read as faint grey texture, so the doors floated on it. Bring
+       the wall PRESENT and warm-lit, so the openings read as cut INTO one stone wall. */
+    opacity:0.96; filter:brightness(1.12) saturate(1.16);
+    /* the stone stays present behind BOTH rows of doors, then dissolves into House
+       black before the page ends — the procession continues into darkness, never grey. */
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 66%,transparent 92%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 66%,transparent 92%);
+  }
+  .hall::after {    /* the interior light laid OVER the masonry — the unseen lantern
+                       discloses the wall high; a warm pool gathers at the feet */
+    content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      /* the lantern high on the wall — warm light disclosing the masonry (STAGE 1: a touch fuller) */
+      radial-gradient(118% 50% at 50% -6%, rgba(var(--warm),0.19) 0%, rgba(var(--warm),0.055) 32%, transparent 60%),
+      /* a warm pool gathers at the feet */
+      radial-gradient(64% 130% at 50% 104%, rgba(var(--warm),0.15) 0%, transparent 66%),
+      /* distance — the wall dissolves into shadow at the far sides (the hall continues
+         past the frame; no phantom bays, just darkness — R9). Softened so more wall reads. */
+      linear-gradient(90deg, rgba(6,4,3,0.46) 0%, rgba(6,4,3,0.12) 10%, transparent 17%, transparent 83%, rgba(6,4,3,0.12) 90%, rgba(6,4,3,0.46) 100%),
+      /* vignette — light pools centrally, the corners fall into shadow (eased for STAGE 1
+         so the continuous wall reads; corners still settle into mood-shadow) */
+      radial-gradient(134% 100% at 50% 42%, transparent 50%, rgba(6,4,3,0.30) 84%, rgba(6,4,3,0.5) 100%);
+  }
+  .hall-head{ position:relative; z-index:2; text-align:center; margin-bottom:clamp(2.4rem,8vw,4rem); padding:0 1.5rem; }
+  /* ENGRAVED (Luna's law — "Architecture speaks through the walls", 7 Aug 2026):
+     the Hall's name is CUT into the masonry, not floating on it. The fill is pulled
+     toward the stone's own gold so it reads as carved relief; a dark shadow falls
+     into the incision from above, a warm bevel catches the lantern below. The wall
+     speaks its own name — the same treatment the Threshold's stone already wears. */
+  .hall-name{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:0.15em;
+    font-size:clamp(1.4rem,5vw,2.2rem); margin:0; color:#9E894F;
+    text-shadow:
+      0 -1px 1px rgba(0,0,0,.72),                /* the incision's upper edge, in shadow */
+      0 1px 0 rgba(226,183,120,.34),             /* the lower bevel catches the lantern */
+      0 2px 4px rgba(0,0,0,.5); }                /* depth in the cut */
+  .hall-sub{ font-family:var(--fn); font-style:italic; color:rgba(233,224,208,0.55);
+    font-size:clamp(.92rem,2.6vw,1.05rem); margin-top:.5rem; }
+
+  .doors{ position:relative; z-index:2; list-style:none; margin:0 auto; padding:0 1.2rem;
+    width:min(96vw,62rem); display:flex; flex-direction:column; align-items:center;
+    gap:clamp(2.6rem,9vw,4.2rem); }
+  @media (min-width:860px){
+    /* six columns so rows of three read as three, and a trailing PAIR centres.
+       Row 1: the three principals (Library · Edit · Machine). Row 2: VELVET//CTRL
+       (a new principal, admitted this House event) beside Work With Luna, the two
+       held together at the centre. (The Alignment Pass will re-architect this into
+       one continuous arcade; for now the Hall grows to acknowledge the wing.) */
+    .doors{ display:grid; grid-template-columns:repeat(6,1fr); align-items:end; justify-items:center;
+      gap:clamp(2.4rem,4vw,4rem) clamp(1rem,1.8vw,1.8rem); width:min(97vw,74rem); }
+    .doors li{ grid-column:span 2; }
+    .doors li:nth-child(4){ grid-column:2 / span 2; }   /* row 2 · centred pair */
+    .doors li:nth-child(5){ grid-column:4 / span 2; }
+  }
+
+  /* ---- a DOOR: real, activatable; <a> works with or without JS ---- */
+  .door{ display:flex; flex-direction:column; align-items:center; gap:.9rem;
+    text-decoration:none; color:inherit; width:min(88vw,23.5rem); position:relative; cursor:pointer;
+    -webkit-tap-highlight-color:transparent; }
+  .door[data-tier="secondary"]{ width:min(76vw,19rem); }   /* quieter scale (secondary standalone) */
+
+  /* the PORTAL — a recessed stone doorway with real WALL THICKNESS (order + reveal +
+     deep shadow). Taller + heavier so it reads as load-bearing masonry, not a card. */
+  .portal{ position:relative; width:100%; aspect-ratio:.64;
+    border-radius:47% 47% 4% 4%/31% 31% 0 0;
+    background:linear-gradient(180deg,var(--stone-2) 0%,var(--stone-1) 52%,var(--stone-0) 100%);
+    box-shadow:0 3px 0 rgba(var(--warm),.08), 0 34px 66px -20px rgba(0,0,0,.82);   /* the door has mass; its shadow falls deep */
+    transition:box-shadow var(--dms) var(--ease), transform var(--dms) var(--ease);
+  }
+  .portal::before{  /* the ARCH ORDER — a raised, beveled voussoir surround of carved
+       stone. It stands PROUD of the reveal (a carved groove separates them), lit along
+       its crown by the lantern and shadowed on its underside: structural, not a trim. */
+    content:''; position:absolute; inset:clamp(6px,2.2%,12px); border-radius:46% 46% 3% 3%/30% 30% 0 0;
+    box-shadow:
+      inset 0 4px 6px rgba(var(--warm),.17),          /* the lantern rakes the crown of the order */
+      inset 0 -6px 13px rgba(0,0,0,.64),              /* the order's underside falls into shadow */
+      inset 0 0 0 2px rgba(0,0,0,.32),                /* the carved groove — the order proud of the reveal */
+      inset 0 0 0 3px rgba(var(--warm),.06),
+      0 1px 2px rgba(0,0,0,.5);
+    pointer-events:none;
+  }
+  /* the OPENING — the room beyond a closed door: dark, the room's hue rising */
+  .opening{ position:absolute; inset:clamp(27px,8.6%,48px) clamp(27px,8.6%,48px) 0;
+    border-radius:43% 43% 2% 2%/27% 27% 0 0; overflow:hidden;
+    /* the room's light rises from within, past the closed door */
+    background:
+      radial-gradient(80% 64% at 50% 107%, color-mix(in srgb,var(--room) 62%, transparent) 0%,
+        color-mix(in srgb,var(--room) 18%, transparent) 34%, transparent 64%),
+      linear-gradient(180deg,#070505 0%,#0A0706 100%);
+    box-shadow:inset 0 0 24px 2px color-mix(in srgb,var(--room) 24%, transparent),   /* light leaking around the door */
+      inset 0 36px 44px -24px rgba(0,0,0,.9);                                          /* the head in shadow */
+    transition:box-shadow var(--dms) var(--ease);
+  }
+  /* STAGE 3 — the closed door LEAF is now a real planked wooden door (same warm-dark
+     wood for every room — LAW 9, one House; the room's COLOUR is its light, not its
+     door). Vertical planks, two iron bands, an iron ring handle; lit along the top
+     edge by the lantern, deep in shadow at the reveals, the room's light rimming it
+     and bleeding under it. Swings open on activate (transform kept). */
+  .opening::before{ content:''; position:absolute; inset:0; border-radius:inherit; transform-origin:left center;
+    background:
+      radial-gradient(circle at 77% 55%, transparent 2.3%, rgba(16,11,6,.95) 2.5% 3.4%, rgba(150,112,60,.28) 3.4% 3.9%, transparent 4.1%),
+      linear-gradient(180deg, transparent 25%, rgba(20,13,7,.55) 26% 29.5%, transparent 30.5%, transparent 69%, rgba(20,13,7,.55) 70% 73.5%, transparent 74.5%),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.44) 0 1.6px, rgba(196,150,90,.035) 1.6px 3.2px, transparent 3.2px 16.6%),
+      linear-gradient(180deg, #130c07 0%, #22160f 52%, #29190f 82%, #1b1109 100%);
+    box-shadow:
+      inset 0 3px 4px rgba(150,112,60,.16),
+      inset 0 -26px 34px -16px rgba(0,0,0,.72),
+      inset 11px 0 20px -12px rgba(0,0,0,.62),
+      inset -11px 0 20px -12px rgba(0,0,0,.62);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 93%,rgba(0,0,0,.35) 100%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 93%,rgba(0,0,0,.35) 100%);
+    transition:opacity var(--dms) var(--ease), transform var(--dms) var(--ease);
+  }
+
+  /* ---- the room's LEAK — one trace escaping before entry (ratified motif) ---- */
+  .leak{ position:absolute; z-index:2; pointer-events:none; }
+  /* Library — one loose page slipped under the door.
+     DR-PS-2: Old Page in the Library's warm gold light — paper grain, a lit top
+     edge and a shaded underside so it reads as a real sheet, never a pure-white
+     sliver. Nothing in the House renders pure white. */
+  .door[data-leak="page"] .leak{ left:50%; bottom:-7px; width:33%; height:6.2%;
+    transform:translateX(-52%) rotate(-4deg); border-radius:1px 2px 1px 1px;
+    background:
+      repeating-linear-gradient(94deg, rgba(92,70,36,0.10) 0 1.5px, rgba(255,244,222,0.05) 1.5px 3px),
+      linear-gradient(168deg, #E7D8B4 0%, #D8C49B 52%, #BFAB80 100%);
+    background-blend-mode:overlay, normal;
+    box-shadow:
+      0 4px 9px rgba(0,0,0,.55),               /* cast on the sill */
+      0 0 13px rgba(199,154,74,.22),           /* caught in the gold light */
+      inset 0 1px 0 rgba(255,248,232,.40),     /* the lit top edge */
+      inset 0 -3px 5px rgba(120,92,48,.30); }  /* the shaded underside */
+  /* The Edit — a fabric edge caught at the threshold */
+  .door[data-leak="fabric"] .leak{ left:56%; bottom:-4px; width:26%; height:12%;
+    background:linear-gradient(160deg, color-mix(in srgb,var(--room) 78%,#000) 0%, color-mix(in srgb,var(--room) 40%,#000) 100%);
+    border-radius:0 0 40% 8% / 0 0 100% 30%; transform:rotate(3deg);
+    box-shadow:0 4px 12px rgba(0,0,0,.5); }
+  /* Machine Room — a low mechanical glow under the door */
+  .door[data-leak="glow"] .leak{ left:50%; bottom:1px; width:52%; height:2px; transform:translateX(-50%);
+    background:linear-gradient(90deg,transparent,var(--room),transparent);
+    box-shadow:0 0 12px 1px var(--room), 0 0 26px 5px color-mix(in srgb,var(--room) 45%,transparent); }
+  /* Work With Luna — warm task light pooling at the sill */
+  .door[data-leak="task"] .leak{ left:50%; bottom:-8px; width:60%; height:16%; transform:translateX(-50%);
+    background:radial-gradient(60% 100% at 50% 0%, color-mix(in srgb,var(--room) 55%,transparent) 0%, transparent 72%); }
+  /* VELVET//CTRL — an impossible digital shimmer bleeding under the threshold (door
+     brief §2.6): a signal-red line that slides side to side, controlled, slightly
+     impossible. LAW 6: it settles to a steady red bleed under reduced motion. */
+  .door[data-leak="shimmer"] .leak{ left:50%; bottom:0; width:56%; height:2px; transform:translateX(-50%);
+    background:linear-gradient(90deg, transparent, var(--room) 34%, color-mix(in srgb,var(--room) 55%,#E8657A) 50%, var(--room) 66%, transparent);
+    background-size:220% 100%;
+    box-shadow:0 0 12px 1px var(--room), 0 0 28px 6px color-mix(in srgb,var(--room) 42%,transparent);
+    animation:hol-shimmer 3.4s var(--ease) infinite; }
+  @keyframes hol-shimmer{ 0%,100%{ background-position:0% 0; opacity:.72; } 50%{ background-position:100% 0; opacity:1; } }
+  @media (prefers-reduced-motion:reduce){ .door[data-leak="shimmer"] .leak{ animation:none; opacity:.9; background-position:50% 0; } }
+
+  /* ---- the NAMEPLATE — the Architect names the room, ENGRAVED into the stone
+         (Luna's law "Architecture speaks through the walls", 7 Aug 2026 — matched to
+         the Grand Hall title, the Threshold, and the Machine Room plates). The name
+         is CUT into the wall: a shadow falls into the incision from above, and the
+         LOWER BEVEL catches that door's own room-light (the journey of light, carried
+         into the letterforms). ---- */
+  .plate{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:.11em;
+    font-size:clamp(1.05rem,3.4vw,1.35rem); line-height:1; text-align:center; color:#B29A61;
+    text-shadow:
+      0 -1px 1px rgba(0,0,0,.72),
+      0 1px 0 color-mix(in srgb, var(--room) 42%, rgba(226,196,130,.5)),
+      0 2px 4px rgba(0,0,0,.5); }
+  .door[data-tier="secondary"] .plate{ font-size:clamp(.95rem,3vw,1.15rem); color:#A79461; }
+  .plate small{ display:block; font-variant:normal; font-family:var(--fn); font-style:italic;
+    font-size:.7em; letter-spacing:0; color:rgba(233,224,208,.5); margin-top:.35rem; }
+
+  /* ---- the door WAKES on hover/focus; opens on activate ----
+         The waking is LIGHT, not motion (Luna's ruling, 7 Aug 2026 — candlelight
+         over bounce; matched to the Machine Room): no lift. The room's light simply
+         RISES from within the opening, like a candle lit deeper inside. ---- */
+  .door:hover .portal, .door:focus-visible .portal{
+    box-shadow:0 2px 0 rgba(var(--warm),.12), 0 0 0 1px color-mix(in srgb,var(--room) 40%,transparent), 0 28px 52px -18px rgba(0,0,0,.7); }
+  .door:hover .opening, .door:focus-visible .opening{
+    box-shadow:inset 0 34px 44px -22px rgba(0,0,0,.9), inset 0 -40px 58px -16px color-mix(in srgb,var(--room) 95%,transparent); }
+  .door:focus-visible{ outline:none; }
+  .door:focus-visible .portal{ box-shadow:0 0 0 2px var(--house-amber,#E3A34A), 0 0 0 5px #0C0A09, 0 24px 48px -18px rgba(0,0,0,.7); }
+
+  /* opening ceremony (activate): the leaf swings, the room floods, then navigate */
+  .door.is-opening .opening::before{ opacity:0; transform:perspective(600px) rotateY(-78deg); }
+  .door.is-opening .opening{ box-shadow:inset 0 20px 40px -22px rgba(0,0,0,.6), inset 0 -10px 60px 0 color-mix(in srgb,var(--room) 95%,transparent); }
+
+  /* ============================================================
+     HALL DRESSING PASS — the Hall Patina Pass milestone (R9-governed,
+     appearance-only; Phase R stays closed). Adds the set dressing:
+       1. a LANTERN over each door (LAW 1 — one sourced key light; it
+          pools and falls, it does not float);
+       2. fuller SILL still-lifes (R9; Luna's ruling — fuller than the
+          one-leak brief), each sitting in that door's light;
+       3. AGE — ivy/growth cut from the R8 photograph, moss, dust
+          (LAW 9 Weathering — the stone beneath stays House stone);
+       4. the JOURNEY OF LIGHT — each door's floor pool tinted to its
+          --room at LEAK intensity; the wall BETWEEN doors stays House
+          stone (LAW 5 / R9.md — light, not paint).
+     The lantern flame is House-warm for every door (the House owns
+     light); only the threshold takes the room's colour (the room owns
+     colour). Holds as a still at 380px and under reduced-motion.
+     ============================================================ */
+  .door{ isolation:isolate; }   /* keep the door's washes local to itself */
+  .portal{ z-index:1; }
+  .plate{ position:relative; z-index:2; }
+
+  /* --- the light on the wall behind the door: House-warm lantern from ABOVE
+         (the House owns light), and the ROOM'S OWN light spilling up from its
+         threshold BELOW (STAGE 2 — the journey of light). Leak intensity: the
+         colour pools at the opening and falls off, so between doors the masonry
+         returns to House stone (LAW 5 — light, not paint; full-wall washes rejected). --- */
+  .door::before{ content:''; position:absolute; z-index:0; left:50%; top:-3%; transform:translateX(-50%);
+    width:158%; height:122%; pointer-events:none; border-radius:50% 50% 44% 44%/58% 58% 30% 30%;
+    background:
+      radial-gradient(60% 56% at 50% 3%, rgba(var(--warm),.13) 0%, rgba(var(--warm),.045) 42%, transparent 72%),                 /* House lantern, from above */
+      radial-gradient(66% 56% at 50% 60%, color-mix(in srgb, var(--room) 22%, transparent) 0%,
+        color-mix(in srgb, var(--room) 8%, transparent) 46%, transparent 73%),                                                   /* the room's light STAINING the stone around the arch (pools, then falls off) */
+      radial-gradient(84% 70% at 50% 99%, color-mix(in srgb, var(--room) 42%, transparent) 0%,
+        color-mix(in srgb, var(--room) 15%, transparent) 40%, transparent 74%); }                                                /* the room's light on the stone, from the sill */
+  /* --- the pooled light on the floor at the sill, tinted to --room (the journey
+         of light — leak intensity; between doors the stone is untinted House) --- */
+  .door::after{ content:''; position:absolute; z-index:0; left:50%; bottom:-2%; transform:translateX(-50%);
+    width:124%; height:26%; pointer-events:none; border-radius:50%;
+    background:radial-gradient(58% 100% at 50% 0%,
+      color-mix(in srgb, var(--room) 40%, rgb(var(--warm))) 0%,
+      color-mix(in srgb, var(--room) 18%, transparent) 44%, transparent 74%);
+    opacity:.54; filter:blur(3px); }   /* STAGE 2 — a fuller pool of the room's light on the floor */
+
+  /* --- the LANTERN fixture over the door (mounted on the wall above) --- */
+  /* a hanging LAMP with a visible silhouette — a caged carriage lantern echoing the
+     Threshold's lamp: roof cap + bracket, a metal-ribbed glass body, warm light
+     within. (Knob #3, Luna: hanging lamps with a visible silhouette.) */
+  .lantern{ position:relative; z-index:3; align-self:center;
+    width:clamp(20px,7.5%,30px); height:clamp(34px,13%,50px); margin-bottom:clamp(3px,1.4%,8px);
+    border-radius:34% 34% 22% 22% / 26% 26% 14% 14%; border:1.5px solid #16100a; border-top:0;
+    background:
+      linear-gradient(90deg, transparent 28%, rgba(15,10,6,.92) 30% 33%, transparent 35% 65%, rgba(15,10,6,.92) 67% 70%, transparent 72%), /* two metal ribs */
+      radial-gradient(60% 62% at 50% 62%, rgba(var(--warm),.42), rgba(46,34,20,.5) 72%);   /* warm glass */
+    box-shadow:inset 0 1px 0 rgba(var(--warm),.28), inset 0 -4px 6px rgba(0,0,0,.6), 0 2px 5px rgba(0,0,0,.6); }
+  .lantern::before{ content:''; position:absolute; left:50%; top:-10px; transform:translateX(-50%);
+    width:150%; height:8px; background:#16100a; clip-path:polygon(0 100%, 100% 100%, 76% 0, 24% 0);   /* the roof cap */
+    box-shadow:0 -5px 0 -2.5px #16100a; }                                                              /* a finial + bracket above */
+  .lantern > i{ position:absolute; left:50%; top:52%; transform:translate(-50%,-50%);
+    width:46%; height:52%; border-radius:46%;
+    background:radial-gradient(circle at 50% 42%, #FFE9B8 0%, #F4B655 46%, #C9822E 80%, transparent 100%);
+    box-shadow:0 0 9px 2px rgba(244,182,85,.70), 0 0 20px 7px rgba(var(--warm),.32); }   /* the warm glass/flame */
+  .lantern::after{ content:''; position:absolute; left:50%; top:34%; transform:translateX(-50%); z-index:-1;
+    width:340%; height:200%; border-radius:50%; pointer-events:none;
+    background:radial-gradient(closest-side, rgba(var(--warm),.20) 0%, rgba(var(--warm),.07) 46%, transparent 74%); }
+
+  /* --- fuller SILL still-lifes: the ratified leak stays the primary trace;
+         .sill adds the room's belongings, sitting in the door's own light --- */
+  .sill{ position:absolute; z-index:2; left:0; right:0; bottom:0; height:22%; pointer-events:none; }
+  /* Library — a closed book (leather board + fore-edge) beside the loose page */
+  .door[data-leak="page"] .sill::before{ content:''; position:absolute; left:39%; bottom:5%; width:30%; height:24%;
+    background:linear-gradient(176deg,#6d4c2f,#4a3220); border-radius:2px 3px 2px 1px; transform:rotate(-3deg);
+    box-shadow:0 3px 7px rgba(0,0,0,.55), inset 0 1px 0 rgba(var(--warm),.28), inset 0 -2px 3px rgba(0,0,0,.5); }
+  .door[data-leak="page"] .sill::after{ content:''; position:absolute; left:40%; bottom:24%; width:28%; height:5.5%;
+    background:linear-gradient(180deg,#E7D8B4,#C9B98F); border-radius:1px; transform:rotate(-3deg);
+    box-shadow:0 1px 2px rgba(0,0,0,.4); }
+  /* The Edit — a soft fold on the drape + a single gilt bead catching the light */
+  .door[data-leak="fabric"] .sill::before{ content:''; position:absolute; left:50%; bottom:9%; width:30%; height:13%;
+    background:linear-gradient(160deg, color-mix(in srgb,var(--room) 55%,#B87283) 0%, transparent 82%);
+    border-radius:0 0 60% 20%; filter:blur(1px); opacity:.7; transform:rotate(3deg); }
+  .door[data-leak="fabric"] .sill::after{ content:''; position:absolute; left:64%; bottom:9%; width:3.4%; height:0; padding-bottom:3.4%;
+    border-radius:50%; background:radial-gradient(circle at 40% 32%, #EAC97E 0%, #A9884F 62%, #6b5326 100%);
+    box-shadow:0 0 4px rgba(234,201,126,.5), inset 0 -1px 1px rgba(0,0,0,.4); }   /* a gilt button caught in the drape */
+  /* Machine Room — a brass gear at the sill + its lit hub (amber under-seam glow) */
+  /* a brass GEAR — solid body + a chunky high-contrast toothed rim + small hub
+     (reads as a gear, not a target: teeth are the loudest feature) */
+  .door[data-leak="glow"] .sill::before{ content:''; position:absolute; left:21%; bottom:2%; width:23%; height:0; padding-bottom:23%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 50% 50%, #2a2013 0 11%, transparent 12%),                          /* hub hole */
+      radial-gradient(circle at 44% 40%, #6a5330 0 30%, #46361d 30% 52%, transparent 53%),         /* solid body */
+      repeating-conic-gradient(from 8deg, #927133 0deg 12deg, #201709 12deg 24deg);                /* 15 chunky teeth */
+    box-shadow:0 0 11px 1px color-mix(in srgb,var(--room) 55%, transparent), inset 0 0 6px rgba(0,0,0,.55);
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.5)); }
+  /* a small second cog, amber-lit, meshing beside it */
+  .door[data-leak="glow"] .sill::after{ content:''; position:absolute; left:41%; bottom:0; width:12%; height:0; padding-bottom:12%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle, #38290f 0 38%, transparent 39%),
+      repeating-conic-gradient(from 12deg, color-mix(in srgb,var(--room) 72%,#E3A34A) 0deg 12deg, #2a2013 12deg 24deg);
+    box-shadow:0 0 8px 1px color-mix(in srgb,var(--room) 55%, transparent); }
+  /* Work With Luna — a small framed piece leaning at the jamb + a low floor candle */
+  .door[data-leak="task"] .sill::before{ content:''; position:absolute; left:9%; bottom:0; width:19%; height:74%;
+    background:linear-gradient(180deg,#241a12,#160f09); border:2px solid transparent; border-radius:1px;
+    border-image:linear-gradient(150deg,#CBA86A 0%,#9A7C44 52%,#6f5730 100%) 1;   /* brass edge only — the frame stays empty (P-R4 may fill it someday) */
+    transform:rotate(-6deg); transform-origin:bottom left;
+    box-shadow:0 4px 8px rgba(0,0,0,.55), inset 0 0 6px rgba(0,0,0,.75); }
+  .door[data-leak="task"] .sill::after{ content:''; position:absolute; right:17%; bottom:0; width:6%; height:28%;
+    background:linear-gradient(180deg,#E7D8B4,#B7A276); border-radius:1px 1px 0 0;
+    box-shadow:0 0 10px 3px rgba(227,163,74,.5), 0 -7px 11px 2px rgba(244,182,85,.42); }
+
+  /* --- AGE: ivy/growth cut from the R8 photograph (dark, not green — the Hall
+         never turns green; that is Moss & Moon's, unbuilt), clinging to a jamb --- */
+  .ivy{ position:absolute; z-index:3; top:-2%; left:-7%; width:26%; height:52%; pointer-events:none;
+    background:url('/hall-ivy.webp') center top / 100% auto no-repeat;
+    opacity:.85; filter:brightness(1.28) contrast(1.05); }
+  .doors li:nth-child(2n) .ivy{ left:auto; right:-7%; transform:scaleX(-1); }   /* alternate the jamb */
+  .door[data-tier="secondary"] .ivy{ width:22%; }
+
+  /* --- hall-wide age: dust tooth only. Drawn cracks/rays read as seams and
+         wires against real masonry (tried, rejected) — the age lives in the
+         photographic weathering of the stone itself, the moss/ivy at the jambs,
+         and this faint grain. Grain kept ≤ the annex budget (≤3%), masked into
+         the dark ground so the far end stays black. --- */
+  .hall-age{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  .hall-age::after{ content:''; position:absolute; inset:0; pointer-events:none; opacity:.03; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:160px 160px;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); mask-image:linear-gradient(180deg,#000 0%,#000 54%,transparent 86%); }
+
+  /* ============================================================
+     STAGE 4 — ATMOSPHERE + CINEMA (the R9 patina qualities: air, light rays,
+     accumulated age). Appearance-only; Phase R stays closed. Everything here is
+     SOFT and SOURCED: drawn ray-lines and crack-lines were tried and rejected
+     (they read as seams and wires on real masonry), so the "rays" are wide
+     low-opacity light-in-haze gradients motivated by the lanterns (LAW 1), and
+     the "age" is lantern smoke-stain + depth-haze, not drawn cracks. Atmosphere
+     sits at z-index:1 — always BEHIND the doors (--z-doors over --z-hall-atmosphere).
+     Motes drift when motion is welcome; a few hold still under reduced-motion (LAW 6). */
+  .hall-haze{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+  /* volumetric god-rays: broad soft shafts falling from the unseen high lantern —
+     pure light caught in the hall's air, screen-blended warmth over the dark stone */
+  .hall-haze::before{ content:''; position:absolute; left:-10%; right:-10%; top:-12%; height:96%;
+    background:
+      linear-gradient(171deg, rgba(var(--warm),.055) 0%, rgba(var(--warm),.02) 26%, transparent 46%),
+      linear-gradient(189deg, rgba(var(--warm),.055) 0%, rgba(var(--warm),.02) 26%, transparent 46%),
+      radial-gradient(46% 40% at 50% -6%, rgba(var(--warm),.10) 0%, rgba(var(--warm),.03) 40%, transparent 72%);
+    mix-blend-mode:screen; filter:blur(7px);
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 84%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 84%); }
+  /* accumulated age + distance-haze: centuries of lantern smoke darken the stone
+     high on the wall; a warm haze fills the depth so the far reaches soften into
+     air rather than ending as a flat plane */
+  .hall-haze::after{ content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(60% 30% at 50% -2%, rgba(10,7,5,.42) 0%, rgba(10,7,5,.16) 46%, transparent 72%),
+      radial-gradient(120% 76% at 50% 40%, transparent 46%, rgba(28,20,14,.20) 80%, rgba(18,12,8,.34) 100%); }
+
+  /* ============================================================
+     HALL DEPTH LAYER (Hall Patina Pass, architectural-depth layer, R9-governed).
+     Appearance-only; Phase R stays closed. Frontal arcade + receding floor
+     (ratified): the doors stay frontal and equal; depth comes from the ground
+     they stand on, deep reveals, piers/trim, and the space falling into shadow.
+     ============================================================ */
+  /* --- STEP 1 · THE FLOOR — the Hall gains a ground. The same masonry, thrown
+     into perspective and sunk into shadow, so the arcade stands ON something
+     (the Threshold's lit stone floor, continued inside). --- */
+  .hall-floor{ position:absolute; left:0; right:0; bottom:0; height:58%; z-index:1; pointer-events:none; overflow:hidden;
+    -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 16%, #000 100%);
+    mask-image:linear-gradient(180deg, transparent 0, #000 16%, #000 100%); }
+  .hall-floor::before{ content:''; position:absolute; left:-45%; right:-45%; top:2%; bottom:-60%;
+    background-image:url('/hall-stone.webp'); background-size:auto 26%; background-repeat:repeat; background-position:center top;
+    transform:perspective(560px) rotateX(66deg); transform-origin:center top;
+    opacity:.46; filter:brightness(.64) saturate(1.05); }
+  .hall-floor::after{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient(70% 62% at 50% 2%, rgba(var(--warm),.15) 0%, transparent 62%),          /* light pools where the arcade stands */
+      radial-gradient(130% 120% at 50% -6%, transparent 26%, rgba(6,4,3,.55) 76%, rgba(6,4,3,.82) 100%),  /* sinks to shadow front + sides */
+      linear-gradient(180deg, transparent 44%, #0A0807 100%); }                                 /* the foreground edge is darkness */
+
+  /* --- STEP 1b · PER-DOOR GROUND — each door stands on its own patch of the ONE
+     ground plane: same tilt + tone as .hall-floor so they read continuous (Work's
+     apron meets the foreground floor). A lit plinth/base course sits at the
+     wall-floor junction, the room's light pooling on the stone (journey of light). --- */
+  .apron{ position:absolute; z-index:0; left:50%; bottom:-9%; width:158%; height:30%;
+    transform:translateX(-50%) perspective(420px) rotateX(66deg); transform-origin:center top; pointer-events:none;
+    background-image:url('/hall-stone.webp'); background-size:auto 60%; background-repeat:repeat; background-position:center top;
+    opacity:.5; filter:brightness(.62) saturate(1.05);
+    -webkit-mask-image:radial-gradient(78% 106% at 50% 0%, #000 44%, transparent 90%);
+    mask-image:radial-gradient(78% 106% at 50% 0%, #000 44%, transparent 90%); }
+  .apron::before{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(56% 84% at 50% 3%, color-mix(in srgb, var(--room) 26%, rgb(var(--warm))) 0%,
+      color-mix(in srgb, var(--room) 12%, transparent) 42%, transparent 74%); opacity:.5; }   /* light on the ground */
+  .apron::after{ content:''; position:absolute; left:7%; right:7%; top:-2px; height:4px; pointer-events:none;
+    border-radius:2px;
+    background:linear-gradient(180deg, rgba(var(--warm),.34) 0%, rgba(120,92,48,.22) 55%, rgba(0,0,0,.28) 100%);
+    box-shadow:0 1px 2px rgba(0,0,0,.5); }                                                     /* the plinth — an aged base course */
+
+  /* --- STEP 2 · PIERS + TRIM — the flat wall becomes an ARCADE. Each bay is
+     flanked by projecting stone piers (defined by a lit edge, a shadowed reveal,
+     and a cast shadow — relief, not a different material) and capped by a cornice.
+     The piers stand on the plinth; the wall stone is their face (same masonry). --- */
+  .frame{ position:absolute; z-index:0; inset:-7% -16% 0 -16%; pointer-events:none; }
+  .frame::before{ content:''; position:absolute; inset:0; pointer-events:none;
+    background:
+      /* LEFT pier: cast shadow · lit edge · warm shaft face · turn · deep reveal (stronger
+         relief so the pier projects and holds the arch — structural, not painted trim) */
+      linear-gradient(90deg,
+        rgba(0,0,0,.72) 0 1.2%,
+        rgba(162,130,80,.54) 2% 3.8%,
+        rgba(88,66,40,.52) 3.8% 8.2%,
+        rgba(40,29,17,.56) 8.2% 10.6%,
+        rgba(0,0,0,.82) 10.6% 13.4%,
+        transparent 14%),
+      linear-gradient(270deg,
+        rgba(0,0,0,.72) 0 1.2%,
+        rgba(162,130,80,.54) 2% 3.8%,
+        rgba(88,66,40,.52) 3.8% 8.2%,
+        rgba(40,29,17,.56) 8.2% 10.6%,
+        rgba(0,0,0,.82) 10.6% 13.4%,
+        transparent 14%); }
+  .frame::after{ content:''; position:absolute; left:0; right:0; top:0; height:7.5%; pointer-events:none;
+    /* the CORNICE — a heavier entablature band capping the bay, lit along its top edge,
+       casting a real shadow onto the wall below */
+    background:linear-gradient(180deg, rgba(158,126,78,.48) 0%, rgba(74,56,33,.62) 40%, rgba(10,7,4,.72) 100%);
+    box-shadow:0 11px 17px -4px rgba(0,0,0,.72), inset 0 2px 0 rgba(var(--warm),.26); border-radius:2px 2px 0 0; }
+  /* narrow the piers on mobile — in the vertical procession the DOOR dominates the
+     viewport; the frame serves the door (mobile is the primary acceptance criterion) */
+  @media (max-width:859px){ .frame{ inset:-4% -5% 0 -5%; } .frame::before{ opacity:.82; } }
+
+  /* subtle ASYMMETRY — materials only, whisper-level; never door geometry or spacing.
+     Each bay ages a hair differently so the arcade reads hand-built, not stamped. */
+  .doors li:nth-child(2) .ivy{ opacity:.7; }
+  .doors li:nth-child(3) .ivy{ opacity:.96; }
+  .doors li:nth-child(4) .ivy{ opacity:.64; }
+  .doors li:nth-child(2) .frame::before{ filter:brightness(.94); }
+  .doors li:nth-child(3) .frame::before{ filter:brightness(1.05); }
+  .doors li:nth-child(4) .frame::before{ filter:brightness(.9); }
+  .doors li:nth-child(3) .apron{ filter:brightness(.6) saturate(1.05) hue-rotate(-3deg); }
+
+  /* deepen the REVEAL — the arch is a real opening cut through a THICK wall, not a
+     shallow recess. The head recedes into near-black; the jambs read as heavy stone;
+     the room's own light stains the reveal it spills across. */
+  .opening{ box-shadow:
+      inset 0 0 34px 3px color-mix(in srgb,var(--room) 27%, transparent),   /* the room's light hugging the reveal stone */
+      inset 0 62px 68px -20px rgba(0,0,0,.97),                /* the head falls deep into darkness */
+      inset 22px 0 40px -13px rgba(0,0,0,.88),                /* left jamb — the thick reveal in shadow */
+      inset -22px 0 40px -13px rgba(0,0,0,.88); }             /* right jamb — the thick reveal in shadow */
+
+  /* --- LAW 6: the lantern flame breathes; frozen under reduced-motion --- */
+  @media (prefers-reduced-motion:no-preference){
+    .lantern > i{ animation:hol-flame 3.8s var(--ease) infinite; }
+    @keyframes hol-flame{ 0%,100%{ opacity:1; } 46%{ opacity:.9; filter:brightness(1.07); } 72%{ opacity:.97; } }
+    .mote{ animation:hol-mote var(--md,7s) linear infinite; }
+    @keyframes hol-mote{ 0%{ transform:translateY(0) translateX(0); opacity:0; }
+      12%{ opacity:.7; } 88%{ opacity:.6; } 100%{ transform:translateY(-120%) translateX(var(--mx,4px)); opacity:0; } }
+  }
+  /* dust motes in the Library door's light beam (built by JS; static twins here) */
+  .mote{ position:absolute; z-index:2; width:2px; height:2px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,240,208,.9), rgba(255,240,208,0));
+    pointer-events:none; }
+  .mote--far{ width:1.5px; height:1.5px; filter:brightness(.66); }   /* Stage 4 — dust in the hall's far air, fainter than the Library beam */
+
+  /* House Map — quiet overlay, not a route */
+  .hall-map-btn{ position:fixed; z-index:60; top:clamp(.8rem,3vw,1.4rem); right:clamp(.8rem,3vw,1.4rem);
+    font-family:var(--fn); font-size:.85rem; letter-spacing:.04em; color:#D9C7A0;
+    background:rgba(20,14,11,.6); border:1px solid rgba(169,136,79,.35); border-radius:4px;
+    padding:.5rem .9rem; cursor:pointer; backdrop-filter:blur(3px); }
+  .hall-map-btn:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--house-amber,#E3A34A),0 0 0 5px #0C0A09; }
+  .hall-map{ position:fixed; inset:0; z-index:70; display:none; place-items:center;
+    background:rgba(6,4,3,.86); backdrop-filter:blur(4px); padding:1.5rem; }
+  .hall-map[open]{ display:grid; }
+  .map-panel{ width:min(92vw,26rem); text-align:center; }
+  .map-panel h2{ font-family:var(--fa); font-variant:small-caps; letter-spacing:.13em; color:#D9C7A0;
+    font-size:1.5rem; font-weight:500; margin-bottom:1.2rem; }
+  .map-list{ list-style:none; margin:0 0 1.4rem; padding:0; display:flex; flex-direction:column; gap:.15rem; }
+  .map-list a{ display:block; font-family:var(--fn); font-size:1.05rem; color:#EFE7D8; text-decoration:none;
+    padding:.6rem .5rem; border-radius:3px; }
+  .map-list a:hover{ background:rgba(169,136,79,.12); }
+  .map-list a:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--house-amber,#E3A34A),0 0 0 5px #0C0A09; }
+  .map-group{ font-family:'Jost',system-ui,sans-serif; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+    color:#B79A5E; margin:1rem 0 .3rem; }
+  .map-close, .map-threshold{ font-family:var(--fn); font-size:.9rem; color:rgba(233,224,208,.6);
+    background:none; border:none; cursor:pointer; text-decoration:underline; margin-top:.4rem; }
+  .map-close:focus-visible,.map-threshold:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--house-amber,#E3A34A),0 0 0 5px #0C0A09; border-radius:3px; }
+
+  /* LAW 6 — doors settle in as the Hall receives the visitor */
+  .door{ opacity:0; transform:translateY(14px); }
+  #house-interior:not([inert]) .door{ opacity:1; transform:none;
+    transition:opacity var(--dms) var(--ease), transform var(--dms) var(--ease); }
+  #house-interior:not([inert]) .doors li:nth-child(1) .door{ transition-delay:60ms; }
+  #house-interior:not([inert]) .doors li:nth-child(2) .door{ transition-delay:140ms; }
+  #house-interior:not([inert]) .doors li:nth-child(3) .door{ transition-delay:220ms; }
+  #house-interior:not([inert]) .doors li:nth-child(4) .door{ transition-delay:300ms; }
+  #house-interior:not([inert]) .doors li:nth-child(5) .door{ transition-delay:380ms; }
+  @media (prefers-reduced-motion:reduce){
+    .door,.portal,.opening,.opening::before{ transition:none !important; }
+    .door{ opacity:1 !important; transform:none !important; }
+    .door.is-opening .opening::before{ transform:none; }
+  }
 </style>
 </head>
 <body>
-  <div class="hall" id="hall">
-    <div class="env" id="env">
-      <img src="/assets/grandhall-env.png" alt="The Grand Hall — one continuous stone wall of seven arched doors, each lit by its own coloured lantern"/>
-      <span class="fx" id="fx"></span>
+
+<!-- ============================================================
+     THE THRESHOLD — state 1 of the one route (RQ-1). Only four things
+     live here (protection clause, AM-R-003): wordmark · greeting ·
+     invitation · Wander. No nav, no SEO, no explanation, no second CTA.
+     ============================================================ -->
+<div class="threshold" id="threshold">
+  <!-- The environment (AM-R-004): the R8 photograph, full-bleed, the LCP image.
+       Mobile portrait crop below 768px; extended landscape crop at/above 768px.
+       AVIF preferred, WebP fallback; fetchpriority high so it paints first. -->
+  <picture class="env" aria-hidden="true">
+    <source type="image/avif" media="(min-width: 768px)" sizes="100vw"
+            srcset="/threshold/desktop-1280.avif 1280w, /threshold/desktop-1920.avif 1920w, /threshold/desktop-2560.avif 2560w">
+    <source type="image/webp" media="(min-width: 768px)" sizes="100vw"
+            srcset="/threshold/desktop-1280.webp 1280w, /threshold/desktop-1920.webp 1920w, /threshold/desktop-2560.webp 2560w">
+    <source type="image/avif" sizes="100vw"
+            srcset="/threshold/mobile-512.avif 512w, /threshold/mobile-768.avif 768w, /threshold/mobile-1023.avif 1023w">
+    <source type="image/webp" sizes="100vw"
+            srcset="/threshold/mobile-512.webp 512w, /threshold/mobile-768.webp 768w, /threshold/mobile-1023.webp 1023w">
+    <img class="env-img" src="/threshold/mobile-768.webp" alt=""
+         width="1023" height="1537" fetchpriority="high" decoding="async">
+  </picture>
+
+  <!-- Accessible site-name equivalent (the raised name lives in the asset). -->
+  <h1 class="sr-only">House of Luna</h1>
+
+  <div class="stage">
+    <!-- Ratified copy exactly; R-1 DELIBERATE two-line break: "you." isolated. -->
+    <p class="t-greeting">The House has been expecting<br>you.</p>
+    <p class="t-invitation">Wander if you like</p>
+    <button type="button" class="t-wander" id="wander">Wander</button>
+  </div>
+</div>
+
+<!-- The interior (interim): the existing House, revealed once the
+     threshold is crossed. The composed Grand Hall replaces this in the
+     next phase; nothing here is removed in the threshold pass. -->
+<div id="house-interior">
+  <!-- ============================================================
+       THE GRAND HALL — state 2 (RQ-1). Four real doors; each <a> navigates on
+       its own (no-JS), and with JS activating a door opens it, then the room.
+       Displayed names are presentation only (N-1): The Library / The Machine
+       Room engraved with the article; The Edit / Work With Luna unchanged.
+       ============================================================ -->
+  <main class="hall" aria-label="The Grand Hall of the House of Luna">
+    <div class="hall-age" aria-hidden="true"></div>
+    <div class="hall-floor" aria-hidden="true"></div>
+    <div class="hall-haze" aria-hidden="true"></div>
+    <div class="hall-head">
+      <!-- TITLE ONLY (ratified): the engraved name + four nameplated doors say it;
+           the House never over-explains. Protection-clause treatment applies. -->
+      <h2 class="hall-name">The Grand Hall</h2>
+    </div>
+    <ul class="doors">
+      <li><a class="door" data-leak="page" data-tier="primary" href="/library" style="--room:#C79A4A">
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
+        <span class="plate">The Library</span>
+      </a></li>
+      <li><a class="door" data-leak="fabric" data-tier="primary" href="/edit" style="--room:#6E2A34">
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
+        <span class="plate">The Edit</span>
+      </a></li>
+      <li><a class="door" data-leak="glow" data-tier="primary" href="/tools" style="--room:#C98A3E">
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
+        <span class="plate">The Machine Room</span>
+      </a></li>
+      <li><a class="door" data-leak="shimmer" data-tier="primary" href="/velvet" style="--room:#B4283F">
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
+        <span class="plate">VELVET//CTRL</span>
+      </a></li>
+      <li><a class="door" data-leak="task" data-tier="secondary" href="/work" style="--room:#C9A05A">
+        <span class="lantern" aria-hidden="true"><i></i></span>
+        <span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>
+        <span class="plate">Work With Luna<small>the atelier — by appointment</small></span>
+      </a></li>
+    </ul>
+  </main>
+
+  <!-- House Map — an overlay, not a route: quiet and instant, no ceremony -->
+  <button class="hall-map-btn" id="mapBtn" type="button" aria-haspopup="dialog" aria-controls="houseMap">House Map</button>
+  <div class="hall-map" id="houseMap" role="dialog" aria-modal="true" aria-label="House Map">
+    <div class="map-panel">
+      <h2>House Map</h2>
+      <!-- Rendered from the ROOMS/PASSAGES data (single source); static content is
+           the no-JS fallback and is replaced on load. -->
+      <div id="mapLinks">
+        <ul class="map-list">
+          <li><a href="/library">The Library</a></li>
+          <li><a href="/edit">The Edit</a></li>
+          <li><a href="/tools">The Machine Room</a></li>
+          <li><a href="/velvet">VELVET//CTRL</a></li>
+          <li><a href="/work">Work With Luna</a></li>
+        </ul>
+        <p class="map-group">Passages</p>
+        <ul class="map-list">
+          <li><a href="/becoming">The Becoming</a></li>
+          <li><a href="/letters">Letters from Moonpixiee</a></li>
+        </ul>
+      </div>
+      <button class="map-threshold" id="mapThreshold" type="button">Return to the threshold</button>
+      <div><button class="map-close" id="mapClose" type="button">Close the map</button></div>
     </div>
   </div>
+</div><!-- /#house-interior -->
+
+<!-- ============================================================
+     Two-state transition (RQ-1) + return-visit convenience (RQ-4).
+     The flag is browser convenience, not House memory: clearing site
+     data resets it. Deep links are unaffected — they open destinations
+     directly (this only governs the landing route's entrance state).
+     ============================================================ -->
+<script>
+  (function () {
+    var KEY = 'hol_entered';               // device-level convenience flag (RQ-4)
+    var threshold = document.getElementById('threshold');
+    var interior  = document.getElementById('house-interior');
+    var wander    = document.getElementById('wander');
+    if (!threshold || !interior || !wander) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var DOOR = reduce ? 0 : 400;           // --motion-door
+
+    function sealInterior() {              // interior waits, unreachable, behind the threshold
+      document.body.classList.add('threshold-active');
+      interior.setAttribute('aria-hidden', 'true');
+      interior.setAttribute('inert', '');
+    }
+    function openInterior() {
+      document.body.classList.remove('threshold-active');
+      interior.removeAttribute('aria-hidden');
+      interior.removeAttribute('inert');
+    }
+    function removeThreshold() {
+      if (threshold && threshold.parentNode) threshold.parentNode.removeChild(threshold);
+    }
+
+    // Returning visitor: the threshold has already been crossed on this device.
+    var entered = false;
+    try { entered = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    if (entered) {
+      removeThreshold();
+      openInterior();
+      return;
+    }
+
+    sealInterior();
+    // settle in (LAW 6) — next frame so the transition runs
+    requestAnimationFrame(function () { threshold.classList.add('is-ready'); });
+
+    function wanderIn() {
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      openInterior();                      // interior interactive immediately; motion is atmosphere
+      threshold.classList.add('is-leaving');
+      window.setTimeout(removeThreshold, DOOR);
+    }
+    wander.addEventListener('click', wanderIn);
+  })();
+</script>
 
 <script>
-  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var env=document.getElementById('env'), fx=document.getElementById('fx');
-  // seven doors, left→right, in the wall's gradient of light
-  var DOORS=[
-    {name:'The Library',      route:'/library',        x:9,  y:57, w:14, h:46, g:'236,178,96',  lx:9,  ly:33},
-    {name:'The Edit',         route:'/edit',           x:25, y:56, w:13, h:44, g:'214,96,146',  lx:26, ly:34},
-    {name:'VELVET//CTRL',     route:'/velvet',         x:41, y:55, w:12, h:41, g:'226,52,64',   lx:44, ly:34},
-    {name:'The Machine Room', route:'/machineroom.html',x:56, y:54, w:11, h:38, g:'240,168,80', lx:59, ly:36},
-    {name:'Work With Luna',   route:'/work',           x:69, y:53, w:9,  h:34, g:'234,184,110', lx:72, ly:37},
-    {name:"Luna's Room",      route:'/luna',           x:80, y:52, w:8,  h:31, g:'150,180,235', lx:83, ly:38},
-    {name:'Your Room',        route:'/you',            x:91, y:52, w:7,  h:28, g:'176,172,160', lx:93, ly:39}
-  ];
-  // lantern flicker glows
-  DOORS.forEach(function(d,i){
-    var l=document.createElement('span'); l.className='lantern'+(still?'':' lantern-anim');
-    l.style.left=d.lx+'%'; l.style.top=d.ly+'%'; l.style.width=(7-i*0.4)+'%'; l.style.height=(11-i*0.7)+'%';
-    l.style.setProperty('--d',(i*0.35)+'s'); fx.appendChild(l);
-  });
-  // dust across the warm middle
-  for(var i=0;i<(still?8:26);i++){var m=document.createElement('span');m.className='mote';
-    m.style.left=(6+Math.random()*88).toFixed(1)+'%';m.style.top=(28+Math.random()*44).toFixed(1)+'%';
-    if(still){m.style.opacity='0.32';}else{m.style.setProperty('--dx',(Math.random()*10-5).toFixed(0)+'px');m.style.animation='rise '+(6+Math.random()*6).toFixed(1)+'s linear '+(-Math.random()*10).toFixed(1)+'s infinite';}
-    fx.appendChild(m);}
-  // door hotspots
-  var doorEls=DOORS.map(function(d){
-    var a=document.createElement('a'); a.className='door'; a.href=d.route; a.setAttribute('aria-label','Enter '+d.name);
-    a.style.left=d.x+'%'; a.style.top=d.y+'%'; a.style.width=d.w+'%'; a.style.height=d.h+'%'; a.style.setProperty('--g',d.g);
-    a.innerHTML='<span class="glow"></span><span class="name">'+d.name+'</span>';
-    env.appendChild(a); return {a:a,d:d};
-  });
-  if(!still){
-    window.addEventListener('mousemove',function(e){
-      var r=env.getBoundingClientRect();
-      var nx=(e.clientX-r.left)/r.width*100, ny=(e.clientY-r.top)/r.height*100;
-      doorEls.forEach(function(o){
-        var dx=(nx-o.d.x)/(o.d.w*0.9), dy=(ny-o.d.y)/(o.d.h*0.9);
-        var w=Math.max(0,Math.min(1,1-Math.hypot(dx,dy)));
-        o.a.style.setProperty('--w', w.toFixed(3));
-      });
-      var px=((e.clientX/window.innerWidth)-0.5), py=((e.clientY/window.innerHeight)-0.5);
-      env.style.transform='translate(calc(-50% + '+(-px*18).toFixed(1)+'px), calc(-50% + '+(-py*10).toFixed(1)+'px))';
-    },{passive:true});
-    document.addEventListener('mouseleave',function(){doorEls.forEach(function(o){o.a.style.setProperty('--w','0');});env.style.transform='translate(-50%,-50%)';});
-  }
+  /* Grand Hall — doors are real (activate = open, then the room); House Map overlay.
+     A room is a TYPE, not a one-off: the Hall doors and the map are generated from
+     the ROOMS/PASSAGES data below, so future rooms extend the system without
+     rebuilding the Hall. Leak motifs are a vocabulary (page/fabric/glow/task/…);
+     tiers are primary|secondary. Reservation only — no auth/profiles/network (Phase R).
+     The static markup above is the no-JS/crawler fallback, replaced on load. */
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var DOOR = reduce ? 0 : 420;   // 300-500ms door transition
+
+    // ---- the Room network (Phase R live roster). Future rooms append here. ----
+    var ROOMS = [
+      { id:'library', name:'The Library',      route:'/library', leak:'page',    hue:'#C79A4A', tier:'primary' },
+      { id:'edit',    name:'The Edit',         route:'/edit',    leak:'fabric',  hue:'#6E2A34', tier:'primary' },
+      { id:'machine', name:'The Machine Room', route:'/tools',   leak:'glow',    hue:'#C98A3E', tier:'primary' },
+      // VELVET//CTRL — admitted as a House event now the wing is built + published
+      // (velvet.housesofluna.com). Deep crimson signal glow (hue PROVISIONAL — set
+      // by eye, awaiting ratification). The door opens to the /velvet entrance.
+      { id:'velvet',  name:'VELVET//CTRL',     route:'/velvet',  leak:'shimmer', hue:'#B4283F', tier:'primary' },
+      { id:'work',    name:'Work With Luna',   route:'/work',    leak:'task',    hue:'#C9A05A', tier:'secondary',
+        note:'the atelier — by appointment' }
+    ];
+    var PASSAGES = [
+      { name:'The Becoming', route:'/becoming' },
+      { name:'Letters from Moonpixiee', route:'/letters' }
+    ];
+
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    // the reusable DOOR component
+    function doorHTML(r){
+      return '<li><a class="door" data-room="'+r.id+'" data-leak="'+r.leak+'" data-tier="'+r.tier+'"'
+        + ' href="'+r.route+'" style="--room:'+r.hue+'">'
+        + '<span class="lantern" aria-hidden="true"><i></i></span>'
+        + '<span class="portal" aria-hidden="true"><span class="frame"></span><span class="opening"></span><span class="leak"></span><span class="sill"></span><span class="ivy"></span><span class="apron"></span></span>'
+        + '<span class="plate">'+esc(r.name)+(r.note?'<small>'+esc(r.note)+'</small>':'')+'</span></a></li>';
+    }
+    function listHTML(items){ return '<ul class="map-list">'+items.map(function(i){return '<li><a href="'+i.route+'">'+esc(i.name)+'</a></li>';}).join('')+'</ul>'; }
+
+    var doorsEl = document.querySelector('.doors');
+    if (doorsEl) doorsEl.innerHTML = ROOMS.map(doorHTML).join('');
+
+    // Dust motes drifting in the Library door's warm beam (R9 note). LAW 6:
+    // animated when motion is welcome; a few static motes otherwise.
+    (function () {
+      var lib = doorsEl && doorsEl.querySelector('.door[data-room="library"]');
+      if (!lib) return;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var n = still ? 3 : 7;
+      for (var i = 0; i < n; i++) {
+        var m = document.createElement('span'); m.className = 'mote';
+        m.style.left = (34 + Math.random() * 32).toFixed(1) + '%';
+        m.style.bottom = (18 + Math.random() * 30).toFixed(1) + '%';
+        if (still) { m.style.opacity = '0.5'; }
+        else {
+          m.style.setProperty('--md', (5.5 + Math.random() * 4).toFixed(1) + 's');
+          m.style.setProperty('--mx', (Math.random() * 10 - 5).toFixed(0) + 'px');
+          m.style.animationDelay = (-Math.random() * 7).toFixed(1) + 's';
+        }
+        lib.appendChild(m);
+      }
+    })();
+
+    // Stage 4 — a slow drift of dust through the whole hall's air (fainter, slower
+    // and wider than the Library beam). A few hold still under reduced-motion (LAW 6).
+    (function () {
+      var haze = document.querySelector('.hall-haze');
+      if (!haze) return;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var n = still ? 6 : 14;
+      for (var i = 0; i < n; i++) {
+        var m = document.createElement('span'); m.className = 'mote mote--far';
+        m.style.left = (6 + Math.random() * 88).toFixed(1) + '%';
+        m.style.bottom = (12 + Math.random() * 66).toFixed(1) + '%';
+        if (still) { m.style.opacity = '0.24'; }
+        else {
+          m.style.setProperty('--md', (9 + Math.random() * 7).toFixed(1) + 's');
+          m.style.setProperty('--mx', (Math.random() * 14 - 7).toFixed(0) + 'px');
+          m.style.animationDelay = (-Math.random() * 14).toFixed(1) + 's';
+        }
+        haze.appendChild(m);
+      }
+    })();
+
+    var mapLinks = document.getElementById('mapLinks');
+    if (mapLinks) mapLinks.innerHTML = listHTML(ROOMS) + '<p class="map-group">Passages</p>' + listHTML(PASSAGES);
+
+    // Doors are real: <a> navigates on its own; with JS, the door opens first.
+    // Delegation, so it survives the data-driven render.
+    if (doorsEl) doorsEl.addEventListener('click', function (e) {
+      var d = e.target.closest && e.target.closest('a.door'); if (!d) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return; // let new-tab pass
+      e.preventDefault();
+      if (d.classList.contains('is-opening')) return;
+      d.classList.add('is-opening');
+      var href = d.getAttribute('href');
+      window.setTimeout(function () { window.location.href = href; }, DOOR);
+    });
+
+    // House Map — a quiet overlay, not a route. Instant, no ceremony.
+    var map = document.getElementById('houseMap');
+    var btn = document.getElementById('mapBtn');
+    var closeB = document.getElementById('mapClose');
+    var threshB = document.getElementById('mapThreshold');
+    function isOpen(){ return map && map.hasAttribute('open'); }
+    function openMap(){ if(!map) return; map.setAttribute('open',''); var f=map.querySelector('a'); (f||closeB).focus(); }
+    function closeMap(){ if(!map) return; map.removeAttribute('open'); if(btn) btn.focus(); }
+    if (btn) btn.addEventListener('click', openMap);
+    if (closeB) closeB.addEventListener('click', closeMap);
+    if (map) map.addEventListener('click', function (e) { if (e.target === map) closeMap(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) closeMap(); });
+
+    // Return to the exterior threshold (RQ-4): clear the device flag, reload.
+    if (threshB) threshB.addEventListener('click', function () {
+      try { localStorage.removeItem('hol_entered'); } catch (e) {}
+      window.location.reload();
+    });
+  })();
 </script>
+
 </body>
 </html>
