@@ -149,8 +149,9 @@
     --fn:'Source Serif 4', Georgia, 'Times New Roman', serif;
     --dms:420ms; --ease:cubic-bezier(0.22,1,0.36,1);
     position:relative; min-height:100vh; color:var(--paper);
-    /* the deep ground — masonry sits on House black; the far end is darkness */
-    background:linear-gradient(180deg, #141010 0%, #0E0B0A 60%, #0A0807 100%);
+    /* the deep ground — WARM masonry dark (STAGE 1): the mortar/joints read
+       warm-brown, not cool grey, so the wall sits in its own interior light. */
+    background:linear-gradient(180deg, #1E1610 0%, #160F0B 56%, #0C0806 100%);
     padding: clamp(3rem,10vw,6rem) 0 clamp(4.5rem,14vw,9rem);
     overflow:hidden;
   }
@@ -162,26 +163,30 @@
   .hall::before {   /* the House masonry — real weathered brick, the wall itself */
     content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
     background-image:url('/hall-stone.webp');
-    background-size:32% auto; background-position:center -1.5%; background-repeat:repeat;
-    opacity:0.74;
-    /* the stone dissolves into House black before the page ends — the procession
-       continues into darkness, it never fades to grey (DR-PS-3 companion) */
-    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 56%,transparent 88%);
-    mask-image:linear-gradient(180deg,#000 0%,#000 56%,transparent 88%);
+    background-size:31% auto; background-position:center -1.5%; background-repeat:repeat;
+    /* STAGE 1 (continuous wall): the good warm brick was being hidden at 0.74 over a
+       cool ground — it read as faint grey texture, so the doors floated on it. Bring
+       the wall PRESENT and warm-lit, so the openings read as cut INTO one stone wall. */
+    opacity:0.96; filter:brightness(1.12) saturate(1.16);
+    /* the stone stays present behind BOTH rows of doors, then dissolves into House
+       black before the page ends — the procession continues into darkness, never grey. */
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 66%,transparent 92%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 66%,transparent 92%);
   }
   .hall::after {    /* the interior light laid OVER the masonry — the unseen lantern
                        discloses the wall high; a warm pool gathers at the feet */
     content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
     background:
-      /* the lantern high on the wall — warm light disclosing the masonry */
-      radial-gradient(115% 46% at 50% -6%, rgba(var(--warm),0.16) 0%, rgba(var(--warm),0.045) 30%, transparent 58%),
+      /* the lantern high on the wall — warm light disclosing the masonry (STAGE 1: a touch fuller) */
+      radial-gradient(118% 50% at 50% -6%, rgba(var(--warm),0.19) 0%, rgba(var(--warm),0.055) 32%, transparent 60%),
       /* a warm pool gathers at the feet */
-      radial-gradient(62% 128% at 50% 104%, rgba(var(--warm),0.13) 0%, transparent 64%),
-      /* distance — the arcade dissolves into shadow at the sides (the hall continues
-         past the frame; no phantom bays, just darkness — R9) */
-      linear-gradient(90deg, rgba(6,4,3,0.52) 0%, rgba(6,4,3,0.14) 9%, transparent 15%, transparent 85%, rgba(6,4,3,0.14) 91%, rgba(6,4,3,0.52) 100%),
-      /* vignette — light pools centrally, the corners fall into shadow (mood) */
-      radial-gradient(130% 96% at 50% 42%, transparent 44%, rgba(6,4,3,0.42) 82%, rgba(6,4,3,0.62) 100%);
+      radial-gradient(64% 130% at 50% 104%, rgba(var(--warm),0.15) 0%, transparent 66%),
+      /* distance — the wall dissolves into shadow at the far sides (the hall continues
+         past the frame; no phantom bays, just darkness — R9). Softened so more wall reads. */
+      linear-gradient(90deg, rgba(6,4,3,0.46) 0%, rgba(6,4,3,0.12) 10%, transparent 17%, transparent 83%, rgba(6,4,3,0.12) 90%, rgba(6,4,3,0.46) 100%),
+      /* vignette — light pools centrally, the corners fall into shadow (eased for STAGE 1
+         so the continuous wall reads; corners still settle into mood-shadow) */
+      radial-gradient(134% 100% at 50% 42%, transparent 50%, rgba(6,4,3,0.30) 84%, rgba(6,4,3,0.5) 100%);
   }
   .hall-head{ position:relative; z-index:2; text-align:center; margin-bottom:clamp(2.4rem,8vw,4rem); padding:0 1.5rem; }
   .hall-name{ font-family:var(--fa); font-weight:500; font-variant:small-caps; letter-spacing:0.15em;
@@ -322,18 +327,25 @@
   .portal{ z-index:1; }
   .plate{ position:relative; z-index:2; }
 
-  /* --- the lantern's warm wash on the wall behind the door (House light) --- */
+  /* --- the light on the wall behind the door: House-warm lantern from ABOVE
+         (the House owns light), and the ROOM'S OWN light spilling up from its
+         threshold BELOW (STAGE 2 — the journey of light). Leak intensity: the
+         colour pools at the opening and falls off, so between doors the masonry
+         returns to House stone (LAW 5 — light, not paint; full-wall washes rejected). --- */
   .door::before{ content:''; position:absolute; z-index:0; left:50%; top:-3%; transform:translateX(-50%);
-    width:150%; height:116%; pointer-events:none; border-radius:50% 50% 44% 44%/58% 58% 30% 30%;
-    background:radial-gradient(60% 58% at 50% 3%, rgba(var(--warm),.13) 0%, rgba(var(--warm),.045) 42%, transparent 72%); }
+    width:154%; height:120%; pointer-events:none; border-radius:50% 50% 44% 44%/58% 58% 30% 30%;
+    background:
+      radial-gradient(60% 56% at 50% 3%, rgba(var(--warm),.13) 0%, rgba(var(--warm),.045) 42%, transparent 72%),                 /* House lantern, from above */
+      radial-gradient(80% 66% at 50% 99%, color-mix(in srgb, var(--room) 32%, transparent) 0%,
+        color-mix(in srgb, var(--room) 11%, transparent) 40%, transparent 72%); }                                                /* the room's light on the stone, from the sill */
   /* --- the pooled light on the floor at the sill, tinted to --room (the journey
          of light — leak intensity; between doors the stone is untinted House) --- */
   .door::after{ content:''; position:absolute; z-index:0; left:50%; bottom:-2%; transform:translateX(-50%);
-    width:118%; height:24%; pointer-events:none; border-radius:50%;
+    width:124%; height:26%; pointer-events:none; border-radius:50%;
     background:radial-gradient(58% 100% at 50% 0%,
-      color-mix(in srgb, var(--room) 34%, rgb(var(--warm))) 0%,
-      color-mix(in srgb, var(--room) 16%, transparent) 44%, transparent 74%);
-    opacity:.42; filter:blur(3px); }
+      color-mix(in srgb, var(--room) 40%, rgb(var(--warm))) 0%,
+      color-mix(in srgb, var(--room) 18%, transparent) 44%, transparent 74%);
+    opacity:.54; filter:blur(3px); }   /* STAGE 2 — a fuller pool of the room's light on the floor */
 
   /* --- the LANTERN fixture over the door (mounted on the wall above) --- */
   /* a hanging LAMP with a visible silhouette — a caged carriage lantern echoing the
