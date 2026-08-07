@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Library · House of Luna</title>
+<link rel="stylesheet" href="/styles/tokens.css"/>
+<style>
+  /* ============================================================
+     THE LIBRARY — the artwork IS the webpage. The approved photoreal asset
+     fills the viewport with no chrome. The whole doorway always shows (title,
+     lantern, books); on wide screens the edges are filled by an ambient,
+     blurred extension of the art itself — never bars, never HTML. All
+     interaction is composited ON the art: the room's warm light rises as you
+     approach the door (cursor-proximity wake), the lantern flickers, dust
+     drifts, and a whisper of parallax gives the stone depth. Click to enter.
+     ============================================================ */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;background:#050403;overflow:hidden;}
+  body{cursor:pointer;}
+  .scene{position:fixed;inset:0;display:block;overflow:hidden;background:#050403;
+    text-decoration:none;color:transparent;outline:none;}
+
+  /* ambient blurred extension of the art — fills the viewport edges seamlessly */
+  .bg{position:absolute;inset:-6%;background:url('/assets/library-full.png') center/cover no-repeat;
+    filter:blur(34px) brightness(.42) saturate(.9);transform:scale(1.08);}
+  .bg-veil{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 100% at 50% 46%, transparent 40%, rgba(5,4,3,.5) 82%, rgba(5,4,3,.8) 100%);}
+
+  /* the sharp art — the WHOLE doorway, always fully visible, centred. On load it
+     PUSHES IN slowly (a slow approach toward the doorway); parallax rides on top. */
+  .art{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    height:min(100vh,150vw);aspect-ratio:1024/1536;will-change:transform,scale;
+    scale:1; animation:pushin 3s cubic-bezier(.22,1,.36,1) both;
+    box-shadow:0 30px 90px -20px rgba(0,0,0,.8);
+    transition:transform .5s cubic-bezier(.22,1,.36,1);}
+  @keyframes pushin{ from{ scale:1.11; } to{ scale:1; } }
+  @keyframes breathe{ 0%,100%{ filter:brightness(1); } 50%{ filter:brightness(1.13); } }
+  .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+
+  .fx{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;}
+  .fx>span{position:absolute;transform:translate(-50%,-50%);transition:opacity .5s ease, transform .5s ease, filter .5s ease;}
+  .flame{left:51%;top:11%;width:24%;height:15%;
+    background:radial-gradient(circle at 50% 50%, rgba(255,214,140,.72) 0%, rgba(240,170,70,.32) 32%, rgba(230,150,60,.11) 56%, transparent 74%);
+    filter:brightness(calc(1 + .18*var(--w,0)));}
+  .spill{left:58%;top:60%;width:46%;height:62%;
+    background:radial-gradient(44% 58% at 50% 40%, rgba(240,178,86,.42) 0%, rgba(226,150,60,.2) 42%, rgba(200,120,40,.06) 66%, transparent 80%);
+    opacity:calc(.72 + .6*var(--w,0));transform:translate(-50%,-50%) scale(calc(1 + .07*var(--w,0)));
+    animation:breathe 6.5s ease-in-out infinite;}
+  .pool{left:53%;top:90%;width:58%;height:20%;
+    background:radial-gradient(50% 100% at 50% 0%, rgba(236,168,74,.44) 0%, rgba(200,120,40,.14) 46%, transparent 78%);
+    opacity:calc(.7 + .5*var(--w,0));animation:breathe 7.5s ease-in-out infinite;}
+  .dust{left:0;top:0;transform:none;width:100%;height:100%;}
+  .mote{position:absolute;width:2px;height:2px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,224,160,.9), rgba(255,224,160,0));mix-blend-mode:screen;}
+  @keyframes rise{0%{transform:translateY(0) translateX(0);opacity:0;}12%{opacity:.8;}80%{opacity:.5;}100%{transform:translateY(-140px) translateX(var(--dx,4px));opacity:0;}}
+  @keyframes flick{0%,100%{opacity:1;}38%{opacity:.82;filter:brightness(1.08);}64%{opacity:.94;}82%{opacity:.86;}}
+  @media (prefers-reduced-motion:no-preference){ .flame{animation:flick 3.4s cubic-bezier(.22,1,.36,1) infinite;} }
+  @media (prefers-reduced-motion:reduce){ .art{transition:none;animation:none;scale:1;} .spill{opacity:1;animation:none;} .pool{opacity:.95;animation:none;} }
+  /* a quiet cue that this doorway opens */
+  .enter-cue{position:fixed;left:0;right:0;bottom:clamp(1.1rem,4vh,2.2rem);text-align:center;z-index:5;pointer-events:none;
+    font-family:var(--font-machine,monospace);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;
+    color:rgba(240,224,196,.62);opacity:0;animation:cueIn 1s ease 2.4s forwards;text-shadow:0 0 12px rgba(226,150,60,.6);}
+  @keyframes cueIn{to{opacity:1;}}
+  .scene:focus-visible{box-shadow:inset 0 0 0 3px rgba(227,163,74,.55), inset 0 0 60px rgba(227,163,74,.25);}
+</style>
+</head>
+<body>
+  <a class="scene" href="/library" aria-label="Enter the Library" id="scene">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="bg-veil" aria-hidden="true"></div>
+    <div class="art" id="art">
+      <img src="/assets/library-full.png" alt="The Library — a great arched wooden door in ancient stone, a lantern above, warm light and bookshelves glowing within"/>
+      <span class="fx">
+        <span class="spill"></span>
+        <span class="pool"></span>
+        <span class="flame"></span>
+        <span class="dust" id="dust"></span>
+      </span>
+    </div>
+    <span class="enter-cue">Enter &crarr;</span>
+  </a>
+
+<script>
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var art=document.getElementById('art'), dust=document.getElementById('dust'), scene=document.getElementById('scene');
+  // the door opens on Enter/Space as well as click — the doorway itself is the interaction
+  document.addEventListener('keydown', function(e){
+    if((e.key==='Enter'||e.key===' ')&&scene){ e.preventDefault(); window.location.href=scene.getAttribute('href'); }
+  });
+  var zones=[{x:60,y:58,s:20},{x:51,y:14,s:9}];
+  for(var i=0;i<(still?6:22);i++){
+    var z=zones[i%2], m=document.createElement('span'); m.className='mote';
+    m.style.left=(z.x+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';
+    m.style.top=(z.y+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';
+    if(still){m.style.opacity='0.4';}
+    else{m.style.setProperty('--dx',(Math.random()*10-5).toFixed(0)+'px');
+      m.style.animation='rise '+(5.5+Math.random()*5).toFixed(1)+'s linear '+(-Math.random()*9).toFixed(1)+'s infinite';}
+    dust.appendChild(m);
+  }
+  if(!still){
+    var DCX=0.57, DCY=0.64;
+    window.addEventListener('mousemove', function(e){
+      var r=art.getBoundingClientRect();
+      var nx=(e.clientX-r.left)/r.width, ny=(e.clientY-r.top)/r.height;
+      var w=Math.max(0, Math.min(1, 1 - Math.hypot(nx-DCX, ny-DCY)/0.5));
+      art.style.setProperty('--w', w.toFixed(3));
+      var px=((e.clientX/window.innerWidth)-0.5), py=((e.clientY/window.innerHeight)-0.5);
+      art.style.transform='translate(calc(-50% + '+(-px*14).toFixed(1)+'px), calc(-50% + '+(-py*10).toFixed(1)+'px))';
+    }, {passive:true});
+    document.addEventListener('mouseleave', function(){ art.style.setProperty('--w','0'); art.style.transform='translate(-50%,-50%)'; });
+  }
+</script>
+</body>
+</html>
