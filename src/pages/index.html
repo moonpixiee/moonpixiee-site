@@ -647,6 +647,37 @@
     .door{ opacity:1 !important; transform:none !important; }
     .door.is-opening .opening::before{ transform:none; }
   }
+
+  /* ============================================================
+     GRAND HALL — rendered environment MERGED into the existing House (Luna, 7 Aug
+     2026). Threshold, House Map and every route are unchanged; only the Hall's
+     visual layer becomes the photoreal wide render, each door a hotspot wired to the
+     route it already had. The old CSS Hall is kept in the DOM (hidden), never deleted.
+     ============================================================ */
+  .hall{ display:none !important; }
+  .hall-env{ position:relative; z-index:2; width:100%; height:100vh; overflow:hidden; background:#070505; }
+  .ghall{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:max(100vw,150vh); aspect-ratio:1536/1024; will-change:transform;
+    transition:transform .6s cubic-bezier(.22,1,.36,1); }
+  .ghall > img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+  .ghall-fx{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen; }
+  .glantern{ position:absolute; transform:translate(-50%,-50%); border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, rgba(255,206,130,.4) 0%, rgba(240,168,70,.16) 40%, transparent 72%); }
+  @keyframes gflick{ 0%,100%{opacity:.9;} 42%{opacity:.72;} 66%{opacity:1;} 84%{opacity:.82;} }
+  .glantern.anim{ animation:gflick calc(3s + var(--gd,0s)) ease-in-out infinite; }
+  .gmote{ position:absolute; width:2px; height:2px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,224,160,.85), rgba(255,224,160,0)); mix-blend-mode:screen; }
+  @keyframes grise{ 0%{transform:translateY(0);opacity:0;} 12%{opacity:.7;} 80%{opacity:.4;} 100%{transform:translateY(-110px) translateX(var(--dx,4px));opacity:0;} }
+  .gdoor{ position:absolute; transform:translate(-50%,-50%); display:block; text-decoration:none; color:transparent; cursor:pointer; outline:none; z-index:3; }
+  .gdoor .gglow{ position:absolute; inset:-24% -20%; border-radius:46% 46% 8% 8%/40% 40% 6% 6%; pointer-events:none; mix-blend-mode:screen;
+    background:radial-gradient(52% 60% at 50% 46%, rgba(var(--g),.5) 0%, rgba(var(--g),.18) 44%, transparent 74%);
+    opacity:calc(.14 + .9*var(--w,0)); transform:scale(calc(1 + .05*var(--w,0))); transition:opacity .55s ease, transform .55s ease; }
+  .gdoor .gname{ position:absolute; left:50%; bottom:-9%; transform:translateX(-50%); white-space:nowrap;
+    font-family:var(--font-architect,'Cormorant Garamond',serif); font-variant:small-caps; letter-spacing:.14em;
+    font-size:clamp(.8rem,1.5vw,1.2rem); color:rgba(240,228,206,.96); opacity:var(--w,0); transition:opacity .4s ease;
+    text-shadow:0 1px 3px rgba(0,0,0,.9), 0 0 14px rgba(var(--g),.7); pointer-events:none; }
+  .gdoor:focus-visible{ box-shadow:0 0 0 3px rgba(227,163,74,.7); border-radius:8px; }
+  @media (prefers-reduced-motion:reduce){ .ghall{transition:none;} .gdoor .gglow{opacity:.14;} }
 </style>
 </head>
 <body>
@@ -730,6 +761,15 @@
         <span class="plate">Work With Luna<small>the atelier — by appointment</small></span>
       </a></li>
     </ul>
+  </main>
+
+  <!-- Rendered Grand Hall (the wall people walk down); each door is a hotspot wired
+       to its existing route. Additive: the CSS Hall above stays in the DOM, hidden. -->
+  <main class="hall-env" aria-label="The Grand Hall">
+    <div class="ghall" id="ghall">
+      <img src="/assets/grandhall-env.png" alt="The Grand Hall — one continuous stone wall of seven arched doors, each lit by its own coloured lantern"/>
+      <span class="ghall-fx" id="ghallFx"></span>
+    </div>
   </main>
 
   <!-- House Map — an overlay, not a route: quiet and instant, no ceremony -->
@@ -835,7 +875,9 @@
       // by eye, awaiting ratification). The door opens to the /velvet entrance.
       { id:'velvet',  name:'VELVET//CTRL',     route:'/velvet',  leak:'shimmer', hue:'#B4283F', tier:'primary' },
       { id:'work',    name:'Work With Luna',   route:'/work',    leak:'task',    hue:'#C9A05A', tier:'secondary',
-        note:'the atelier — by appointment' }
+        note:'the atelier — by appointment' },
+      { id:'lunas',   name:"Luna's Room",      route:'/luna',    leak:'task',    hue:'#9FB0C4', tier:'secondary' },
+      { id:'your',    name:'Your Room',        route:'/you',     leak:'task',    hue:'#8A8375', tier:'secondary' }
     ];
     var PASSAGES = [
       { name:'The Becoming', route:'/becoming' },
@@ -931,6 +973,44 @@
       try { localStorage.removeItem('hol_entered'); } catch (e) {}
       window.location.reload();
     });
+  })();
+</script>
+
+<script>
+  /* Grand Hall — the rendered wall: build the seven door hotspots (wired to the
+     existing routes), the lantern flicker, drifting dust and parallax. Additive:
+     the threshold, House Map and all routes are untouched. */
+  (function(){
+    var ghall=document.getElementById('ghall'), fx=document.getElementById('ghallFx');
+    if(!ghall||!fx) return;
+    var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var DOORS=[
+      {name:'The Library',route:'/library',x:9,y:57,w:14,h:46,g:'236,178,96',lx:9,ly:33},
+      {name:'The Edit',route:'/edit',x:25,y:56,w:13,h:44,g:'214,96,146',lx:26,ly:34},
+      {name:'VELVET//CTRL',route:'/velvet',x:41,y:55,w:12,h:41,g:'226,52,64',lx:44,ly:34},
+      {name:'The Machine Room',route:'/tools',x:56,y:54,w:11,h:38,g:'240,168,80',lx:59,ly:36},
+      {name:'Work With Luna',route:'/work',x:69,y:53,w:9,h:34,g:'234,184,110',lx:72,ly:37},
+      {name:"Luna's Room",route:'/luna',x:80,y:52,w:8,h:31,g:'150,180,235',lx:83,ly:38},
+      {name:'Your Room',route:'/you',x:91,y:52,w:7,h:28,g:'176,172,160',lx:93,ly:39}
+    ];
+    DOORS.forEach(function(d,i){ var l=document.createElement('span'); l.className='glantern'+(still?'':' anim');
+      l.style.left=d.lx+'%'; l.style.top=d.ly+'%'; l.style.width=(7-i*0.4)+'%'; l.style.height=(11-i*0.7)+'%'; l.style.setProperty('--gd',(i*0.35)+'s'); fx.appendChild(l); });
+    for(var i=0;i<(still?8:24);i++){ var m=document.createElement('span'); m.className='gmote';
+      m.style.left=(6+Math.random()*88).toFixed(1)+'%'; m.style.top=(28+Math.random()*44).toFixed(1)+'%';
+      if(still){m.style.opacity='0.32';} else { m.style.setProperty('--dx',(Math.random()*10-5).toFixed(0)+'px'); m.style.animation='grise '+(6+Math.random()*6).toFixed(1)+'s linear '+(-Math.random()*10).toFixed(1)+'s infinite'; }
+      fx.appendChild(m); }
+    var els=DOORS.map(function(d){ var a=document.createElement('a'); a.className='gdoor'; a.href=d.route; a.setAttribute('aria-label','Enter '+d.name);
+      a.style.left=d.x+'%'; a.style.top=d.y+'%'; a.style.width=d.w+'%'; a.style.height=d.h+'%'; a.style.setProperty('--g',d.g);
+      a.innerHTML='<span class="gglow"></span><span class="gname">'+d.name+'</span>'; ghall.appendChild(a); return {a:a,d:d}; });
+    if(!still){
+      window.addEventListener('mousemove',function(e){ var r=ghall.getBoundingClientRect();
+        var nx=(e.clientX-r.left)/r.width*100, ny=(e.clientY-r.top)/r.height*100;
+        els.forEach(function(o){ var dx=(nx-o.d.x)/(o.d.w*0.9), dy=(ny-o.d.y)/(o.d.h*0.9); var w=Math.max(0,Math.min(1,1-Math.hypot(dx,dy))); o.a.style.setProperty('--w',w.toFixed(3)); });
+        var px=((e.clientX/window.innerWidth)-0.5), py=((e.clientY/window.innerHeight)-0.5);
+        ghall.style.transform='translate(calc(-50% + '+(-px*18).toFixed(1)+'px), calc(-50% + '+(-py*10).toFixed(1)+'px))';
+      },{passive:true});
+      document.addEventListener('mouseleave',function(){ els.forEach(function(o){o.a.style.setProperty('--w','0');}); ghall.style.transform='translate(-50%,-50%)'; });
+    }
   })();
 </script>
 
