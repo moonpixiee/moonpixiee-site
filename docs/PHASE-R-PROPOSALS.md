@@ -351,3 +351,37 @@ you could WALK THROUGH these doors:
   pooling at the threshold and falling off before the next door (LAW 5 held — light,
   not paint; the wall between doors stays House stone).
 Holds in rest + woken states; the candle-waking still rises through the deeper reveal.
+
+## NORTH STAR — House of Luna is a place, not pages (Luna, 7 Aug 2026)
+
+**The defining principle.** *"The House is becoming a video game environment more
+than a website. Every decision should ask: would this feel believable if someone
+were walking through this place? If the answer is yes, we're moving in the right
+direction."* We are no longer designing pages — we are designing places.
+
+**Production method (ratified).** RENDERED PHOTOREAL ARTWORK is the production
+visual layer; **HTML/CSS/JS is the interaction layer composited on top** — never an
+attempt to recreate architecture procedurally. Proven with the Library doorway
+(generated art + living-light layer + the artwork-is-the-webpage treatment). Pure-CSS
+"vector fantasy" Hall and Machine Room are RETIRED as failed prototypes.
+
+**Build order.** Environments before interfaces. Finish the believable room first;
+put buttons/interaction on it after.
+
+**Corrected house map / hierarchy.**
+- The Grand Hall — monumental doors, the front of the House (7 doorways; VELVET has
+  its Hall door here AND lives inside the Machine Room).
+- The Machine Room — NOT a Grand-Hall wall. A WORKSHOP BENEATH THE HOUSE you walk
+  into: lower vaulted ceiling, thick stone, exposed arches, pipes, gears, lanterns,
+  machinery, a great ornate ROUND crimson-and-brass VAULT DOOR on the far wall. The
+  ROOM is the experience; the machine doors become SMALLER, built into the walls.
+  Interior machine doors: VELVET//CTRL, Creator OS, Muse, AI Luna, Brand Engine.
+  Palette: crimson accents · brass · dark stone · shadow · warm lantern.
+- The Observatory — its own HIDDEN WING, reached Grand Hall → Machine Room → hidden
+  passage/stair → Observatory (a domed chamber: brass telescope, moon through the
+  oculus, star charts, globes, ledgers). Trading eventually lives here (fulfils P-R7).
+  "Beyond the Grand Hall. Climb. Discover. See what others cannot."
+
+Governed by the Observatory / Machine-Room-interior concept board (7 Aug 2026) —
+art direction (scale, atmosphere, room hierarchy, camera language, lighting), not a
+literal copy.
