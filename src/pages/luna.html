@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luna's Room · House of Luna</title>
+<link rel="stylesheet" href="/styles/tokens.css"/>
+<style>
+  /* Luna's Room — the artwork IS the webpage. Approved photoreal asset, edge-to-edge,
+     no chrome; the room's own light rises on approach. Generated from the shared
+     doorway component (the asset system). --g = this room's light. */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;background:#050403;overflow:hidden;}
+  body{cursor:pointer;}
+  .scene{position:fixed;inset:0;display:block;overflow:hidden;background:#050403;text-decoration:none;color:transparent;outline:none;--g:150,180,235;}
+  .bg{position:absolute;inset:-6%;background:url('/assets/lunas-full.png') center/cover no-repeat;filter:blur(34px) brightness(.42) saturate(.92);transform:scale(1.08);}
+  .bg-veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 100% at 50% 46%, transparent 40%, rgba(5,4,3,.5) 82%, rgba(5,4,3,.8) 100%);}
+  .art{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:min(100vh, calc(100vw * 1536 / 1024));aspect-ratio:1024/1536;will-change:transform;box-shadow:0 30px 90px -20px rgba(0,0,0,.8);transition:transform .5s cubic-bezier(.22,1,.36,1);}
+  .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .fx{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;}
+  .fx>span{position:absolute;transform:translate(-50%,-50%);transition:opacity .5s ease, transform .5s ease, filter .5s ease;}
+  .flame{left:51%;top:11%;width:24%;height:15%;background:radial-gradient(circle at 50% 50%, rgba(150,180,235,.62) 0%, rgba(150,180,235,.28) 34%, rgba(150,180,235,.09) 58%, transparent 76%);filter:brightness(calc(1 + .18*var(--w,0)));}
+  .spill{left:58%;top:60%;width:46%;height:62%;background:radial-gradient(44% 58% at 50% 40%, rgba(150,180,235,.4) 0%, rgba(150,180,235,.19) 42%, rgba(150,180,235,.06) 66%, transparent 80%);opacity:calc(.68 + .6*var(--w,0));transform:translate(-50%,-50%) scale(calc(1 + .07*var(--w,0)));}
+  .pool{left:53%;top:90%;width:58%;height:20%;background:radial-gradient(50% 100% at 50% 0%, rgba(150,180,235,.42) 0%, rgba(150,180,235,.14) 46%, transparent 78%);opacity:calc(.66 + .5*var(--w,0));}
+  .dust{left:0;top:0;transform:none;width:100%;height:100%;}
+  .mote{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle, rgba(255,236,200,.85), rgba(255,236,200,0));mix-blend-mode:screen;}
+  @keyframes rise{0%{transform:translateY(0) translateX(0);opacity:0;}12%{opacity:.8;}80%{opacity:.5;}100%{transform:translateY(-140px) translateX(var(--dx,4px));opacity:0;}}
+  @keyframes flick{0%,100%{opacity:1;}38%{opacity:.82;filter:brightness(1.08);}64%{opacity:.94;}82%{opacity:.86;}}
+  @media (prefers-reduced-motion:no-preference){ .flame{animation:flick 3.6s cubic-bezier(.22,1,.36,1) infinite;} }
+  @media (prefers-reduced-motion:reduce){ .art{transition:none;} .spill{opacity:1;} .pool{opacity:.95;} }
+  .scene:focus-visible{box-shadow:inset 0 0 0 3px rgba(227,163,74,.55), inset 0 0 60px rgba(227,163,74,.25);}
+</style></head><body>
+  <a class="scene" href="/luna" aria-label="Enter Luna's Room" id="scene">
+    <div class="bg" aria-hidden="true"></div><div class="bg-veil" aria-hidden="true"></div>
+    <div class="art" id="art">
+      <img src="/assets/lunas-full.png" alt="Luna's Room — an ancient arched wooden door in stone, lantern above, light within"/>
+      <span class="fx"><span class="spill"></span><span class="pool"></span><span class="flame"></span><span class="dust" id="dust"></span></span>
+    </div>
+  </a>
+<script>
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var art=document.getElementById('art'), dust=document.getElementById('dust');
+  var zones=[{x:60,y:58,s:20},{x:51,y:14,s:9}];
+  for(var i=0;i<(still?6:22);i++){var z=zones[i%2],m=document.createElement('span');m.className='mote';
+    m.style.left=(z.x+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';m.style.top=(z.y+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';
+    if(still){m.style.opacity='0.4';}else{m.style.setProperty('--dx',(Math.random()*10-5).toFixed(0)+'px');m.style.animation='rise '+(5.5+Math.random()*5).toFixed(1)+'s linear '+(-Math.random()*9).toFixed(1)+'s infinite';}
+    dust.appendChild(m);}
+  if(!still){var DCX=0.57,DCY=0.64;
+    window.addEventListener('mousemove',function(e){var rc=art.getBoundingClientRect();var nx=(e.clientX-rc.left)/rc.width,ny=(e.clientY-rc.top)/rc.height;
+      var w=Math.max(0,Math.min(1,1-Math.hypot(nx-DCX,ny-DCY)/0.5));art.style.setProperty('--w',w.toFixed(3));
+      var px=((e.clientX/window.innerWidth)-0.5),py=((e.clientY/window.innerHeight)-0.5);
+      art.style.transform='translate(calc(-50% + '+(-px*14).toFixed(1)+'px), calc(-50% + '+(-py*10).toFixed(1)+'px))';},{passive:true});
+    document.addEventListener('mouseleave',function(){art.style.setProperty('--w','0');art.style.transform='translate(-50%,-50%)';});}
+</script></body></html>
