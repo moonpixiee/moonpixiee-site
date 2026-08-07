@@ -986,12 +986,12 @@
     var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var DOORS=[
       {name:'The Library',route:'/library-door',x:9,y:57,w:14,h:46,g:'236,178,96',lx:9,ly:33},
-      {name:'The Edit',route:'/edit',x:25,y:56,w:13,h:44,g:'214,96,146',lx:26,ly:34},
+      {name:'The Edit',route:'/edit-door',x:25,y:56,w:13,h:44,g:'214,96,146',lx:26,ly:34},
       {name:'VELVET//CTRL',route:'/velvet',x:41,y:55,w:12,h:41,g:'226,52,64',lx:44,ly:34},
-      {name:'The Machine Room',route:'/tools',x:56,y:54,w:11,h:38,g:'240,168,80',lx:59,ly:36},
-      {name:'Work With Luna',route:'/work',x:69,y:53,w:9,h:34,g:'234,184,110',lx:72,ly:37},
-      {name:"Luna's Room",route:'/luna',x:80,y:52,w:8,h:31,g:'150,180,235',lx:83,ly:38},
-      {name:'Your Room',route:'/you',x:91,y:52,w:7,h:28,g:'176,172,160',lx:93,ly:39}
+      {name:'The Machine Room',route:'/machine-door',x:56,y:54,w:11,h:38,g:'240,168,80',lx:59,ly:36},
+      {name:'Work With Luna',route:'/work-door',x:69,y:53,w:9,h:34,g:'234,184,110',lx:72,ly:37},
+      {name:"Luna's Room",route:'/luna-door',x:80,y:52,w:8,h:31,g:'150,180,235',lx:83,ly:38},
+      {name:'Your Room',route:'/you-door',x:91,y:52,w:7,h:28,g:'176,172,160',lx:93,ly:39}
     ];
     DOORS.forEach(function(d,i){ var l=document.createElement('span'); l.className='glantern'+(still?'':' anim');
       l.style.left=d.lx+'%'; l.style.top=d.ly+'%'; l.style.width=(7-i*0.4)+'%'; l.style.height=(11-i*0.7)+'%'; l.style.setProperty('--gd',(i*0.35)+'s'); fx.appendChild(l); });
