@@ -261,3 +261,33 @@ headline attraction within it — but the flagship also earns a front door on th
 The wordmark lifted into the upper third (met first), a deliberate reach of negative space
 opened before the arch, so the descent to the door reads as approach rather than a stacked
 list. `--vc-signal` (#C23A4C) remains PROVISIONAL, awaiting on-screen ratification.
+
+## Machine Room Pass — Stage 1 & 2 EXECUTED (7 Aug 2026; appearance-only, F-6 held)
+
+**Stage 1 (the wing):** /tools rebuilt from "four cards" into a ROOM — the Hall's
+own masonry carried into a dimmer industrial wing, engraved title "The Machine
+Room" (Architecture-speaks-through-the-walls law), redefinition copy ("The House
+builds its impossible ideas here." / "Choose a machine." / "Each one performs a
+different kind of impossible."), and the machines rebuilt as arched DOORWAYS set
+into the wall. Brass for the workshop machines; VELVET//CTRL crimson + locked, the
+one crossing (→ /velvet). F-6 held — dormant machines are un-openable doorways,
+never intake buttons.
+
+**Stage 2 (weight + the waking):** each door made a HEAVY stone arch (House masonry
+surround, lit top edge, deep reveal, dust on the sill, whisper-asymmetry so none
+read stamped). The WAKING (Luna's ruling — NOT scale, NOT bounce): on approach the
+interior light RISES from within ("a candle lit deeper inside") — an opacity-swelled
+glow, filament for the machines, crimson for VELVET. Ambient dust drifts the wing
+(motion-safe stills). The wall GROWS: 9 doors on a 3×3 — the five real machines +
+three named "the wing grows" doors + one eternal "More Machines / In Time"; the mono
+manifest reads SYS.01 → SYS.08. VELVET DESCENDS (deeper, darker crimson interior).
+**Stage 3 (later):** sound — AI Luna hum, Muse paper, VELVET crimson resonance.
+
+**PROVISIONAL — needs Luna's ruling (introduced as visible "Coming Soon" doors to
+show the wing's scale; names are placeholders):** Trading Lab · Story Engine · House
+Memory. **Reconcile Trading Lab with P-R7** (The Trading Room / The Observatory) —
+these may be the same thing under two names, and P-R7 frames it as a *structural
+room* (an observatory), not a Machine Room *machine*. Decide: is trading a machine
+in the workshop, or its own room off the House? Same open question for whether
+"House Memory" overlaps the Phase-K identity/memory infrastructure. The doors are
+easy to rename or remove; nothing downstream depends on these names yet.
