@@ -42,7 +42,7 @@
   .machine:focus-visible{box-shadow:0 0 0 3px rgba(227,163,74,.7);border-radius:6px;}
 
   /* the VAULT — leads to the stair down */
-  .vault{position:absolute;left:72%;top:42%;width:22%;height:52%;transform:translate(-50%,-50%);display:block;text-decoration:none;color:transparent;border-radius:50%;z-index:3;cursor:pointer;outline:none;}
+  .vault{position:absolute;left:68%;top:42%;width:21%;height:50%;transform:translate(-50%,-50%);display:block;text-decoration:none;color:transparent;border-radius:50%;z-index:3;cursor:pointer;outline:none;}
   .vault .halo{position:absolute;inset:-14% -18%;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
     background:radial-gradient(circle at 50% 48%, rgba(226,42,58,.4) 0%, rgba(150,24,40,.15) 48%, transparent 72%);
     opacity:calc(.66 + .5*var(--w,0));transform:scale(calc(1 + .05*var(--w,0)));transition:opacity .6s ease, transform .6s ease;animation:vpulse 5s ease-in-out infinite;}
@@ -73,14 +73,14 @@
   // the five machines as doors in the left wall (front → back). VELVET is the only
   // one built (its wing is live); the rest name themselves and wait.
   var MACHINES=[
-    {name:'AI Luna',      note:'Online',        x:5.5, y:47, w:9,  h:30, href:''},
-    {name:'Muse',         note:'Private Alpha', x:16,  y:47, w:8,  h:27, href:''},
-    {name:'Brand Engine', note:'In Development', x:25.5,y:48, w:7,  h:24, href:''},
-    {name:'Creator OS',   note:'In Development', x:34,  y:49, w:6,  h:21, href:''},
-    {name:'VELVET//CTRL', note:'Restricted',    x:41.5,y:50, w:5.5,h:19, href:'/velvet'}
+    {name:'AI Luna',      note:'Online',        x:5,  y:48, w:10, h:34, href:''},
+    {name:'Muse',         note:'Private Alpha', x:19, y:45, w:8,  h:28, href:''},
+    {name:'Brand Engine', note:'In Development', x:32, y:46, w:7,  h:25, href:''},
+    {name:'Creator OS',   note:'In Development', x:43, y:47, w:6,  h:22, href:''},
+    {name:'VELVET//CTRL', note:'Restricted',    x:51, y:48, w:5,  h:19, href:'/velvet'}
   ];
   // lantern flickers along the wall
-  [[6,30],[17,29],[27,30],[52,30],[90,28],[97,52]].forEach(function(p,i){
+  [[3,25],[19,28],[32,30],[43,32],[88,30],[95,52]].forEach(function(p,i){
     var l=document.createElement('span'); l.className='lantern'+(still?'':' anim');
     l.style.left=p[0]+'%'; l.style.top=p[1]+'%'; l.style.width=(6-i*0.3)+'%'; l.style.height=(9-i*0.5)+'%'; l.style.setProperty('--d',(i*0.4)+'s'); fx.appendChild(l);
   });
@@ -98,7 +98,7 @@
   });
   var vault=document.createElement('a'); vault.className='vault'; vault.href='/machinestair.html'; vault.setAttribute('aria-label','The vault — descend the stair to the Observatory');
   vault.innerHTML='<span class="halo"></span><span class="vcue">The Vault &middot; Descend &darr;</span>';
-  env.appendChild(vault); els.push({el:vault,d:{x:72,y:42,w:22,h:52}});
+  env.appendChild(vault); els.push({el:vault,d:{x:68,y:42,w:21,h:50}});
   if(!still){
     window.addEventListener('mousemove',function(e){
       var r=env.getBoundingClientRect();
