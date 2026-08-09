@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Bookshelves · The Library · House of Luna</title>
+<link rel="stylesheet" href="/styles/tokens.css"/>
+<style>
+  /* LIBRARY ZONE ENGINE — reusable (House of Luna). One config, one photoreal room.
+     Hover a glow for a whisper; click to open; Keep it (saved to your Room) or Leave.
+     The House shifts between visits. This file: The Bookshelves. */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{ --gold:#E3B968; --paper:#EFE7D8; --ink:#2a2118; --ease:cubic-bezier(.22,1,.36,1); }
+  html,body{height:100%;background:#0a0806;overflow:hidden;font-family:var(--font-narrator,Georgia,serif);color:var(--paper);}
+  .zone{position:fixed;inset:0;overflow:hidden;background:#0a0806;}
+  .env{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:104vw;aspect-ratio:1672/941;will-change:transform;transition:transform .6s var(--ease);
+    background:radial-gradient(80% 60% at 32% 44%, rgba(120,86,42,.5) 0%, transparent 60%), radial-gradient(70% 60% at 76% 58%, rgba(70,52,28,.5) 0%, transparent 62%), linear-gradient(180deg,#1b130c 0%,#0e0a06 100%);}
+  @media (max-aspect-ratio:1/1){ .env{width:auto;height:104vh;} }
+  .env img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(122% 100% at 50% 46%, transparent 38%, rgba(6,4,3,.5) 82%, rgba(6,4,3,.84) 100%);}
+  .dust{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2;}
+  .mote{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle, rgba(255,224,160,.85), rgba(255,224,160,0));mix-blend-mode:screen;}
+  @keyframes rise{0%{transform:translateY(0);opacity:0;}14%{opacity:.7;}80%{opacity:.4;}100%{transform:translateY(-120px) translateX(var(--dx,3px));opacity:0;}}
+  .spot{position:absolute;transform:translate(-50%,-50%);width:clamp(26px,2.6vw,42px);height:clamp(26px,2.6vw,42px);cursor:pointer;z-index:5;outline:none;}
+  .spot .orb{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%, rgba(255,226,150,.85) 0%, rgba(240,180,80,.35) 34%, transparent 68%);box-shadow:0 0 14px 3px rgba(240,180,80,.35);opacity:.5;transition:opacity .5s var(--ease), transform .5s var(--ease);animation:pulse 3.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.42;}50%{opacity:.72;}}
+  .spot:hover .orb,.spot:focus-visible .orb{opacity:1;transform:scale(1.18);box-shadow:0 0 26px 8px rgba(240,180,80,.5);}
+  .spot .whisper{position:absolute;left:50%;bottom:130%;transform:translateX(-50%) translateY(6px);min-width:150px;max-width:236px;background:rgba(14,10,7,.82);border:1px solid rgba(227,185,104,.3);border-radius:6px;padding:.6rem .8rem;backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease), transform .35s var(--ease);text-align:left;box-shadow:0 12px 30px -12px rgba(0,0,0,.8);}
+  .spot:hover .whisper,.spot:focus-visible .whisper{opacity:1;transform:translateX(-50%) translateY(0);}
+  .whisper>span{display:block;}
+  .whisper .wn{font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.06em;font-size:1rem;color:var(--gold);}
+  .whisper .wd{font-style:italic;font-size:.82rem;color:rgba(233,224,208,.72);margin-top:.15rem;line-height:1.4;}
+  .whisper .wa{margin-top:.4rem;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(227,185,104,.85);}
+  .spot.is-new .orb{background:radial-gradient(circle at 50% 50%, rgba(200,214,255,.9) 0%, rgba(150,180,235,.4) 34%, transparent 68%);box-shadow:0 0 18px 5px rgba(150,180,235,.45);}
+  .scrim{position:fixed;inset:0;z-index:20;background:rgba(4,3,2,.72);backdrop-filter:blur(4px);display:none;place-items:center;padding:1.5rem;}
+  .scrim.open{display:grid;animation:sfade .4s var(--ease);}
+  @keyframes sfade{from{opacity:0;}to{opacity:1;}}
+  .panel{width:min(92vw,560px);max-height:88vh;overflow:auto;background:linear-gradient(180deg,#efe6d2,#e3d7bd);color:var(--ink);border:1px solid #b8a06a;border-radius:8px;box-shadow:0 40px 100px -30px rgba(0,0,0,.9);padding:clamp(1.6rem,4vw,2.6rem);position:relative;transform:translateY(10px);animation:pup .5s var(--ease) forwards;}
+  @keyframes pup{to{transform:translateY(0);}}
+  .panel .kind{font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#8a6a2e;}
+  .panel h2{font-family:var(--font-architect,'Cormorant Garamond',serif);font-weight:500;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.1;margin:.3rem 0 .8rem;color:#3a2c1a;}
+  .panel .body{font-family:var(--font-narrator,Georgia,serif);font-size:1rem;line-height:1.75;color:#4a3a26;white-space:pre-wrap;}
+  .panel .acts{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid rgba(58,44,26,.2);}
+  .act{font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.06em;font-size:1.02rem;cursor:pointer;padding:.5rem 1.3rem;border-radius:4px;border:1px solid #b39a5f;background:transparent;color:#5a4526;transition:background .3s,color .3s;}
+  .act:hover{background:#5a4526;color:#efe6d2;}
+  .act.keep{border-color:#6a5326;background:#6a5326;color:#efe6d2;} .act.keep:hover{background:#4a3418;}
+  .act.kept{background:#3f6b3a;border-color:#3f6b3a;color:#eafbe4;pointer-events:none;}
+  .act.go{border-color:#3a5a7a;background:#3a5a7a;color:#eaf1fb;} .act.go:hover{background:#294560;}
+  .return{position:fixed;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,3.4vw,2rem);z-index:8;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.12em;font-size:clamp(.82rem,1.5vw,1.05rem);color:rgba(227,185,104,.85);text-decoration:none;text-shadow:0 1px 5px rgba(0,0,0,.9);transition:color .3s;}
+  .return:hover{color:#F2DCA4;}
+  .place{position:fixed;top:clamp(1rem,3vw,1.7rem);left:50%;transform:translateX(-50%);z-index:8;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.24em;font-size:clamp(.76rem,1.5vw,1.02rem);color:rgba(233,224,208,.66);text-shadow:0 1px 8px rgba(0,0,0,.95);}
+  .collection{position:fixed;bottom:clamp(1rem,3vh,1.6rem);left:clamp(1rem,3vw,1.8rem);z-index:8;font-family:var(--font-machine,monospace);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(233,224,208,.55);}
+  .collection b{color:var(--gold);font-weight:600;}
+  .living{position:fixed;bottom:clamp(1rem,3vh,1.6rem);right:clamp(1rem,3vw,1.8rem);z-index:8;text-align:right;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,214,255,.5);}
+  .hint{position:fixed;left:0;right:0;bottom:clamp(3.2rem,8vh,4.4rem);text-align:center;z-index:7;font-family:var(--font-narrator,Georgia,serif);font-style:italic;font-size:.9rem;color:rgba(233,224,208,.4);opacity:0;animation:hintin 1.2s ease 1.2s forwards;}
+  @keyframes hintin{to{opacity:1;}}
+  .toast{position:fixed;left:50%;bottom:clamp(5rem,11vh,7rem);transform:translateX(-50%) translateY(10px);z-index:9;background:rgba(14,10,7,.9);border:1px solid rgba(227,185,104,.4);border-radius:6px;padding:.6rem 1.1rem;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.06em;color:var(--gold);opacity:0;transition:opacity .4s,transform .4s;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .fade{position:fixed;inset:0;z-index:30;background:#000;pointer-events:none;animation:fadeout 1.5s ease .1s both;}
+  @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+  <div class="zone" id="zone">
+    <div class="env" id="env"><img id="envimg" alt="The Bookshelves — a towering candlelit aisle, a rolling ladder, a black cat, a rose window at the far end"/></div>
+    <div class="vignette"></div>
+    <div class="dust" id="dust"></div>
+  </div>
+  <a class="return" href="/library">&larr; The Library</a>
+  <span class="place">The Bookshelves</span>
+  <p class="collection">Collected&nbsp; <b id="ccount">0</b></p>
+  <p class="living" id="living"></p>
+  <p class="hint">Hover the light. Curiosity is how you move.</p>
+  <div class="toast" id="toast"></div>
+  <div class="scrim" id="scrim"><div class="panel" id="panel"></div></div>
+  <div class="fade" aria-hidden="true"></div>
+<script>
+(function(){
+  var ZONE = {"id":"bookshelves","title":"The Bookshelves","asset":"/assets/bookshelves-env.png","hotspots":[{"id":"rare-books","name":"A Rare Volume","line":"Bound in red, spine cracked with use.","verb":"Read it","x":8,"y":42,"kind":"Rare Book","title":"A volume kept apart","body":"Not every book is meant to be lent. This one has been read to pieces and mended twice.\n\nThe margin notes aren’t mine. I’ve never found out whose they are."},{"id":"lost-page","name":"A Lost Page","line":"Fallen open on the reading stand.","verb":"Take it","x":9,"y":70,"kind":"Luna Note","title":"A page that slipped its book","body":"It doesn’t belong to anything on these shelves. It just turns up — a little further along each time I look.\n\nKeep it. Pages like to be carried."},{"id":"ladder","name":"The Secret Ladder","line":"The shelves keep climbing into the dark.","verb":"Climb","x":30,"y":52,"kind":"Passage","title":"You climb.","body":"The rungs are worn smooth. The candlelight thins. Somewhere above, the shelves open onto the upper floor.\n\n(The way up is opening — keep returning.)"},{"id":"lever","name":"A Hidden Lever","line":"A gap behind this row of books.","verb":"Pull","x":91,"y":40,"rare":true,"kind":"Rare Find","title":"A small brass key","body":"No door it fits. Not yet. The House keeps a few of these — promises it hasn’t made good on.\n\nKeep it. A shelf you’ve walked past a hundred times may finally open."},{"id":"astro","name":"Astro","line":"He was here before you.","verb":"Say hello","x":61,"y":80,"kind":"The Cat","title":"Astro blinks, slowly.","body":"His collar says ASTRO. He does not move for anyone — except, apparently, to a different shelf each day.\n\nHe permits you to stay."}]};
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var env=document.getElementById('env'), img=document.getElementById('envimg');
+  img.onerror=function(){ img.removeAttribute('src'); };
+  img.src=ZONE.asset;
+  var today=new Date(); var daySeed=today.getFullYear()*1000+(today.getMonth()*31+today.getDate());
+  function rand(n){ var x=Math.sin(daySeed*97.13+n*13.7)*10000; return x-Math.floor(x); }
+  var phases=['New Moon','Waxing Crescent','First Quarter','Waxing Gibbous','Full Moon','Waning Gibbous','Last Quarter','Waning Crescent'];
+  var lunar=(((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())/86400000)-6.6)%29.53)/29.53; if(lunar<0)lunar+=1;
+  var phase=phases[Math.floor(lunar*8)%8];
+  document.getElementById('living').innerHTML='The House · '+phase+'<br>'+(rand(9)>0.5?'It is quiet tonight.':'You hear a page settle.');
+  var newIdx=Math.floor(rand(3)*ZONE.hotspots.length);
+  var KEY='hol_collection';
+  function getColl(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+  function inColl(id){ return getColl().some(function(x){return x.id===id;}); }
+  function keep(item){ var c=getColl(); if(!c.some(function(x){return x.id===item.id;})){ c.push({id:item.id,title:item.title,kind:item.kind,zone:ZONE.id}); try{localStorage.setItem(KEY,JSON.stringify(c));}catch(e){} } render(); }
+  function render(){ document.getElementById('ccount').textContent=getColl().length; }
+  render();
+  var zone=document.getElementById('zone');
+  ZONE.hotspots.forEach(function(h,i){
+    var s=document.createElement('div'); s.className='spot'+(i===newIdx?' is-new':''); s.tabIndex=0; s.setAttribute('role','button'); s.setAttribute('aria-label',h.name);
+    s.style.left=h.x+'%'; s.style.top=h.y+'%';
+    s.innerHTML='<span class="orb"></span><span class="whisper"><span class="wn">'+h.name+'</span><span class="wd">'+h.line+'</span><span class="wa">'+(i===newIdx?'\u2726 New today \u00b7 ':'')+h.verb+' \u2192</span></span>';
+    s.addEventListener('click',function(){ open(h); });
+    s.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(h); } });
+    env.appendChild(s);
+  });
+  var scrim=document.getElementById('scrim'), panel=document.getElementById('panel'), toastEl=document.getElementById('toast');
+  function open(h){
+    var kept=inColl(h.id); var plain=(h.kind==='Passage'||h.kind==='The Cat');
+    panel.innerHTML='<span class="kind">'+h.kind+'</span><h2>'+h.title+'</h2><div class="body">'+h.body+'</div>'+
+      '<div class="acts">'+
+      (plain?'':'<button class="act read">Read now</button>')+
+      (plain?'':'<button class="act keep'+(kept?' kept':'')+'" data-keep>'+(kept?'Kept \u2713':'Keep')+'</button>')+
+      (h.href?'<button class="act go" data-go>Step through \u2192</button>':'')+
+      '<button class="act leave">'+(h.kind==='The Cat'?'Leave him be':'Leave')+'</button></div>';
+    scrim.classList.add('open');
+    panel.querySelector('.leave').onclick=close;
+    var rd=panel.querySelector('.read'); if(rd) rd.onclick=function(){ toast('Opened \u2014 '+h.title); close(); };
+    var kp=panel.querySelector('[data-keep]'); if(kp&&!kept) kp.onclick=function(){ keep(h); kp.textContent='Kept \u2713'; kp.classList.add('kept'); toast('Kept \u2014 it\u2019s in your Room now.'); };
+    var gb=panel.querySelector('[data-go]'); if(gb) gb.onclick=function(){ location.href=h.href; };
+  }
+  function close(){ scrim.classList.remove('open'); }
+  scrim.addEventListener('click',function(e){ if(e.target===scrim) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  var tt; function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){ toastEl.classList.remove('show'); },2600); }
+  var dust=document.getElementById('dust');
+  for(var i=0;i<(reduce?8:24);i++){ var m=document.createElement('span'); m.className='mote';
+    m.style.left=(4+Math.random()*92).toFixed(1)+'%'; m.style.top=(10+Math.random()*80).toFixed(1)+'%';
+    if(reduce){ m.style.opacity='0.35'; } else { m.style.setProperty('--dx',(Math.random()*8-4).toFixed(0)+'px'); m.style.animation='rise '+(7+Math.random()*7).toFixed(1)+'s linear '+(-Math.random()*12).toFixed(1)+'s infinite'; } dust.appendChild(m); }
+  if(!reduce){ addEventListener('mousemove',function(e){ var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
+})();
+</script>
+</body>
+</html>

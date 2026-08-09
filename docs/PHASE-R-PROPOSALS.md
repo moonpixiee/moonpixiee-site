@@ -428,3 +428,38 @@ matching the Machine Door peek.
   bronze; Machine Room env → contains 5 doors + vault, camera-matched, human scale; a
   stone-stair descent asset (vault → Observatory, moonlight growing); any Hall/threshold
   colour mismatches. Every new interior generated from ~the through-door camera.
+
+## THE LIBRARY — explorable ZONE system + the game loop (Luna, 9 Aug 2026)
+
+The Library is NOT a page — it is an explorable point-and-click PLACE. Curiosity is the
+navigation system; nothing announces itself; wandering is rewarded.
+
+**Reusable "Library Zone" engine — BUILT (public/bookshelves.html).** Any zone = a
+photoreal environment you stand in + glowing hotspots. Hover a hotspot → a candle-glow +
+a whisper (name · one line · a verb: Take / Pick up / Climb / Look closer). Click → the
+thing opens on parchment with **READ NOW / KEEP / LEAVE**. KEEP saves it to the visitor's
+Room (remembered per-device via localStorage; the House remembers what's been found).
+**Living-House:** a daily seed varies the room — Astro moves to a different shelf each
+day, the moon phase shows, one hotspot is marked "✦ new today". Return-to-Library chrome.
+Every future zone reuses this engine — only the ZONE config (background asset + hotspots +
+content) changes.
+
+**The game loop (Luna):** people return not for a notification but to wonder — "did Astro
+move today? a new page on the shelf? will the compartment open tonight?" A place you
+VISIT, not a site you use — social-media stickiness, but good for the soul. This is the
+core progression mechanic of House of Luna.
+
+**Zones:** Bookshelves (001 — engine built) · Main Table · Fireplace · The Terminal ·
+Upstairs · Secret Patio · Hidden Desk · Loose Pages · Mirror · Astro 🐈. Each becomes its
+own environment, never a popup or modal.
+
+**Bookshelves objects:** open book (journal), loose page (Luna note), feather bookmark
+(quote), hidden compartment (rare find), ladder (→ Upstairs, future), Astro. **Rare finds
+w/ probabilities (future):** hidden key 2% · Architect's notebook 0.5% · forgotten shelf
+1% · secret doorway 0.2% · moon letter 3%.
+
+**Art still needed (Luna generates, human eye-level, from the standing camera):** a clean
+photoreal Bookshelves AISLE (the zone env — engine falls back to a placeholder until it
+lands) and the Library HUB (the wide library room with zone-hotspots, built like the Grand
+Hall / Machine Room env). **Future:** "My Room" — visitors decorate their own room with
+discoveries collected across the House.
