@@ -385,3 +385,46 @@ put buttons/interaction on it after.
 Governed by the Observatory / Machine-Room-interior concept board (7 Aug 2026) —
 art direction (scale, atmosphere, room hierarchy, camera language, lighting), not a
 literal copy.
+
+## CONTINUITY MILESTONE — the House is one building, not six pages (Luna, 9 Aug 2026)
+
+**Pause new rooms. The next milestone is CONTINUITY.** Audit every transition
+(Entrance → Hall → Door → Room → Vault → Stair → Observatory) against four laws:
+1. **Colour identity is constant per room** — the same colour in the Hall door, the
+   Threshold, and the room interior. No colour changes across a click.
+2. **Camera continues** — the room interior begins from ~the camera seen through the
+   cracked door; you keep moving forward, you don't cut to an unrelated photograph.
+3. **Scale stays human** — standing → close → inside. Never "suddenly a drone."
+4. **Every click is physical movement** — walking through one building, not navigating
+   between pages.
+
+### Ratified COLOUR IDENTITY (constant everywhere for each room)
+- **The Library** — warm gold.
+- **The Edit** — rose.
+- **The Machine Room** — CRIMSON + bronze. (Supersedes amber; the amber Machine
+  Room threshold + env are OFF-identity and must be regenerated crimson+bronze.)
+- **Work With Luna** — teal. (Luna's 9 Aug ruling — supersedes the earlier "warm, not
+  teal"; the teal Work threshold/room now define the identity. The Hall render's amber
+  Work door is off-identity.)
+- **Luna's Room** — silver-blue moonlight.
+- **Your Room** — warm neutral.
+- **The Observatory** — silver moonlight.
+- **VELVET//CTRL** — crimson (its own signal).
+
+### Machine Room = the PARENT room (not /tools)
+`/tools` is no longer a landing page — it now redirects INTO the Machine Room
+environment (done 9 Aug). Target architecture:
+Grand Hall → Machine Door → **Machine Room (walkable environment)** → five machine
+doors built into the workshop walls (AI Luna · Muse · Brand Engine · Creator OS ·
+VELVET//CTRL) → the giant vault → a stone stair → **the Observatory.** The machines are
+doors *inside* the room; the room is the page. Requires a regenerated Machine Room
+environment that actually contains the five doors + the vault, at human eye-level
+matching the Machine Door peek.
+
+### Fix split
+- **Code (Claude):** `/tools`→env redirect (done); consistent interactive light tints;
+  the descent transition; wiring machine-door hotspots once the env art contains them.
+- **Art (Luna regenerates, to obey the four laws):** Machine Room threshold → crimson+
+  bronze; Machine Room env → contains 5 doors + vault, camera-matched, human scale; a
+  stone-stair descent asset (vault → Observatory, moonlight growing); any Hall/threshold
+  colour mismatches. Every new interior generated from ~the through-door camera.
