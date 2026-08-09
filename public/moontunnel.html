@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Passage · House of Luna</title>
+<link rel="stylesheet" href="/styles/tokens.css"/>
+<style>
+  /* THE MOON TUNNEL — the quiet passage between the stair and the Observatory
+     (continuity build, 9 Aug 2026). The crimson dies behind you, the stone goes
+     wet, the machinery falls silent, and cool moonlight grows ahead. You drift
+     forward down the tunnel toward the moonlit arch. The coldest, stillest beat
+     before the stars. Not a transition screen — the descent continuing. */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;background:#05070c;overflow:hidden;}
+  body{cursor:pointer;}
+  .scene{position:fixed;inset:0;display:block;overflow:hidden;background:#05070c;text-decoration:none;color:transparent;outline:none;}
+  .env{position:absolute;inset:0;overflow:hidden;}
+  /* we move FORWARD down the tunnel toward the moonlit arch */
+  .env img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    transform-origin:53% 44%;animation:forward 9s cubic-bezier(.4,0,.4,1) both;}
+  @keyframes forward{ from{ transform:scale(1); } to{ transform:scale(1.16); } }
+  .fx{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;}
+  /* cool moonlight growing at the far arch */
+  .moon{position:absolute;left:53%;top:44%;width:34%;height:44%;transform:translate(-50%,-50%);
+    background:radial-gradient(circle at 50% 50%, rgba(160,190,240,.34) 0%, rgba(120,150,220,.12) 46%, transparent 76%);
+    opacity:.2;animation:moongrow 9s ease-in forwards;}
+  @keyframes moongrow{0%{opacity:.15;}60%{opacity:.55;}100%{opacity:.95;}}
+  /* the crimson lantern behind you, fading as you move away */
+  .ember{position:absolute;left:15%;top:26%;width:20%;height:26%;transform:translate(-50%,-50%);
+    background:radial-gradient(circle at 50% 50%, rgba(226,60,60,.4) 0%, rgba(180,40,40,.14) 44%, transparent 74%);
+    opacity:.8;animation:emberfade 9s ease-out forwards;}
+  @keyframes emberfade{0%{opacity:.85;}100%{opacity:.25;}}
+  /* slow cold motes / drifting damp air */
+  .mote{position:absolute;width:1.6px;height:1.6px;border-radius:50%;background:radial-gradient(circle, rgba(200,214,255,.8), rgba(200,214,255,0));mix-blend-mode:screen;}
+  @keyframes drift{0%{transform:translateY(0);opacity:0;}16%{opacity:.6;}84%{opacity:.4;}100%{transform:translateY(-90px) translateX(var(--dx,3px));opacity:0;}}
+  /* a darkening at the edges — the tunnel is close and quiet */
+  .veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 100% at 53% 44%, transparent 30%, rgba(4,6,12,.5) 78%, rgba(4,6,12,.8) 100%);}
+  .fade{position:fixed;inset:0;z-index:30;background:#000;pointer-events:none;animation:fadeout 1.8s ease .1s both;}
+  @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
+  .cue{position:fixed;left:0;right:0;bottom:clamp(1.4rem,5vh,2.6rem);text-align:center;z-index:6;pointer-events:none;
+    font-family:var(--font-machine,monospace);font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(200,214,255,.72);text-shadow:0 0 14px rgba(160,190,240,.7);}
+  .cue .a{opacity:0;animation:cueA 2.4s ease .5s both;} @keyframes cueA{0%{opacity:0;}26%{opacity:.8;}100%{opacity:.8;}}
+  .cue .b{opacity:0;animation:cueB 1.2s ease 8s forwards;} @keyframes cueB{to{opacity:1;}}
+  .return{position:fixed;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,3.4vw,2rem);z-index:6;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.12em;font-size:clamp(.8rem,1.4vw,1rem);color:rgba(180,190,210,.72);text-decoration:none;text-shadow:0 1px 5px rgba(0,0,0,.9);}
+  .return:hover{color:#D8E0F4;}
+  @media (prefers-reduced-motion:reduce){ .env img{animation:none;transform:scale(1.1);} .moon{animation:none;opacity:.9;} .ember{animation:none;opacity:.35;} .fade{display:none;} .cue .b{opacity:1;animation:none;} }
+</style>
+</head>
+<body>
+  <a class="scene" href="/observatory.html" aria-label="Continue into the Observatory" id="scene">
+    <div class="env"><img src="/assets/moontunnel.png" alt="A wet stone tunnel, crimson lamplight behind, cool moonlight glowing from a distant arch ahead"/></div>
+    <span class="fx"><span class="moon"></span><span class="ember"></span><span class="dust" id="dust"></span></span>
+    <span class="veil"></span>
+    <span class="cue"><span class="a">The machinery falls silent&hellip;</span><span class="b"> &nbsp;·&nbsp; Enter the Observatory &darr;</span></span>
+  </a>
+  <a class="return" href="/machinestair.html" aria-label="Back up the stair">&larr; Back up</a>
+  <div class="fade" aria-hidden="true"></div>
+<script>
+  var scene=document.getElementById('scene'), dust=document.getElementById('dust');
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for(var i=0;i<(still?6:16);i++){var m=document.createElement('span');m.className='mote';
+    m.style.left=(20+Math.random()*66).toFixed(1)+'%';m.style.top=(30+Math.random()*46).toFixed(1)+'%';
+    if(still){m.style.opacity='0.3';}else{m.style.setProperty('--dx',(Math.random()*8-4).toFixed(0)+'px');m.style.animation='drift '+(7+Math.random()*6).toFixed(1)+'s linear '+(-Math.random()*10).toFixed(1)+'s infinite';}
+    dust.appendChild(m);}
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&scene){ e.preventDefault(); window.location.href='/observatory.html'; } });
+</script>
+</body>
+</html>

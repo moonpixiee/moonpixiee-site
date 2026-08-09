@@ -39,17 +39,17 @@
 </style>
 </head>
 <body>
-  <a class="scene" href="/observatory.html" aria-label="Descend into the Observatory" id="scene">
+  <a class="scene" href="/moontunnel.html" aria-label="Descend into the passage" id="scene">
     <div class="bg" aria-hidden="true"></div>
     <div class="stair"><img src="/assets/machinestair.png" alt="A stone stair descending from crimson lamplight into cool moonlight"/></div>
     <span class="moon" aria-hidden="true"></span>
-    <span class="cue"><span class="a">Descending&hellip;</span><span class="b"> &nbsp;·&nbsp; Enter the Observatory &darr;</span></span>
+    <span class="cue"><span class="a">Descending&hellip;</span><span class="b"> &nbsp;·&nbsp; Deeper &darr;</span></span>
   </a>
   <a class="return" href="/machineroom.html" aria-label="Back up to the Machine Room">&larr; Back up</a>
   <div class="fade" aria-hidden="true"></div>
 <script>
   var scene=document.getElementById('scene');
-  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&scene){ e.preventDefault(); window.location.href='/observatory.html'; } });
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&scene){ e.preventDefault(); window.location.href='/moontunnel.html'; } });
 </script>
 </body>
 </html>
