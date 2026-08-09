@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Descending · House of Luna</title>
+<link rel="stylesheet" href="/styles/tokens.css"/>
+<style>
+  /* THE STAIR — the physical descent from the Machine Room vault down to the
+     Observatory (continuity build, 9 Aug 2026). On load you fade in at the top in
+     crimson lamplight and slowly travel DOWN the steps; cool moonlight grows from
+     below. At the bottom, the Observatory opens. Not a transition screen — the
+     journey itself. */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;background:#07060a;overflow:hidden;}
+  body{cursor:pointer;}
+  .scene{position:fixed;inset:0;display:block;overflow:hidden;background:#07060a;text-decoration:none;color:transparent;outline:none;}
+  .bg{position:absolute;inset:-8%;background:url('/assets/machinestair.png') center/cover no-repeat;filter:blur(40px) brightness(.4) saturate(.9);}
+  /* the stair is taller than the viewport; we travel DOWN it */
+  .stair{position:absolute;left:50%;top:0;height:132vh;aspect-ratio:1024/1536;transform:translate(-50%,0);
+    animation:descend 7.5s cubic-bezier(.33,0,.35,1) both;box-shadow:0 0 120px 40px rgba(0,0,0,.6);}
+  .stair img{height:100%;width:auto;display:block;}
+  @keyframes descend{ from{ transform:translate(-50%,0); } to{ transform:translate(-50%,-32vh); } }
+  /* cool moonlight breathing up from below, growing as you descend */
+  .moon{position:absolute;left:50%;bottom:-6%;transform:translateX(-50%);width:80%;height:44%;pointer-events:none;mix-blend-mode:screen;
+    background:radial-gradient(60% 100% at 50% 100%, rgba(150,180,235,.32) 0%, rgba(120,150,220,.12) 46%, transparent 78%);
+    opacity:0;animation:moongrow 7.5s ease-in forwards;}
+  @keyframes moongrow{ 0%{opacity:0;} 60%{opacity:.5;} 100%{opacity:1;} }
+  .fade{position:fixed;inset:0;z-index:30;background:#000;pointer-events:none;animation:fadeout 1.8s ease .1s both;}
+  @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
+  .cue{position:fixed;left:0;right:0;bottom:clamp(1.4rem,5vh,2.6rem);text-align:center;z-index:6;pointer-events:none;
+    font-family:var(--font-machine,monospace);font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;
+    color:rgba(200,214,255,.75);text-shadow:0 0 14px rgba(150,180,235,.7);}
+  .cue .a{opacity:0;animation:cueA 2s ease .4s both;} @keyframes cueA{0%{opacity:0;}30%{opacity:.85;}100%{opacity:.85;}}
+  .cue .b{opacity:0;animation:cueB 1s ease 6.6s forwards;} @keyframes cueB{to{opacity:1;}}
+  .return{position:fixed;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,3.4vw,2rem);z-index:6;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.12em;font-size:clamp(.8rem,1.4vw,1rem);color:rgba(200,180,180,.7);text-decoration:none;text-shadow:0 1px 5px rgba(0,0,0,.9);}
+  .return:hover{color:#E4CCCC;}
+  @media (prefers-reduced-motion:reduce){ .stair{animation:none;transform:translate(-50%,-32vh);} .moon{animation:none;opacity:1;} .fade{display:none;} .cue .b{opacity:1;animation:none;} }
+</style>
+</head>
+<body>
+  <a class="scene" href="/observatory.html" aria-label="Descend into the Observatory" id="scene">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="stair"><img src="/assets/machinestair.png" alt="A stone stair descending from crimson lamplight into cool moonlight"/></div>
+    <span class="moon" aria-hidden="true"></span>
+    <span class="cue"><span class="a">Descending&hellip;</span><span class="b"> &nbsp;·&nbsp; Enter the Observatory &darr;</span></span>
+  </a>
+  <a class="return" href="/machineroom.html" aria-label="Back up to the Machine Room">&larr; Back up</a>
+  <div class="fade" aria-hidden="true"></div>
+<script>
+  var scene=document.getElementById('scene');
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&scene){ e.preventDefault(); window.location.href='/observatory.html'; } });
+</script>
+</body>
+</html>
