@@ -30,8 +30,22 @@
   .spot.flash .wake{opacity:1;filter:brightness(1.5);}
   /* WHISPER — a placard that materialises out of shadow. No box. */
   .spot .whisper{position:absolute;left:50%;bottom:120%;transform:translateX(-50%) translateY(8px);width:max-content;max-width:min(74vw,258px);text-align:center;pointer-events:none;opacity:0;filter:blur(3px);transition:opacity .45s var(--ease), transform .45s var(--ease), filter .45s var(--ease);}
-  .spot:hover .whisper,.spot:focus-visible .whisper,.spot.awake .whisper{opacity:1;filter:blur(0);transform:translateX(-50%) translateY(0);}
+  .spot:hover .whisper,.spot:focus-visible .whisper,.spot.awake .whisper,.astro:hover .whisper,.astro:focus-visible .whisper,.astro.awake .whisper{opacity:1;filter:blur(0);transform:translateX(-50%) translateY(0);}
   .whisper::before{content:"";position:absolute;inset:-60% -34%;z-index:-1;pointer-events:none;background:radial-gradient(58% 66% at 50% 50%, rgba(8,6,10,.74), transparent 72%);filter:blur(7px);}
+
+  /* ASTRO — a resident, not wallpaper: a transparent sprite layered on the room */
+  .astro{position:absolute;transform:translate(-50%,-100%);z-index:4;cursor:pointer;outline:none;}
+  .astro .abody{position:relative;width:100%;transform-origin:bottom center;filter:drop-shadow(0 8px 16px rgba(0,0,0,.62));animation:breathe 5.5s ease-in-out infinite, stir 9s ease-in-out infinite;}
+  .astro .abody img{display:block;width:100%;height:auto;}
+  .astro .abody .ablink{position:absolute;inset:0;opacity:0;animation:blink 6.4s ease-in-out infinite;}
+  @keyframes breathe{0%,100%{scale:1 1;}50%{scale:1 1.014;}}
+  @keyframes stir{0%,82%,100%{rotate:0deg;}90%{rotate:-1.5deg;}96%{rotate:.7deg;}}
+  @keyframes blink{0%,88%{opacity:0;}90%,91.5%{opacity:1;}93%{opacity:0;}94.5%,96%{opacity:1;}97.5%,100%{opacity:0;}}
+  .astro.flip .abody{transform:scaleX(-1);}
+  .astro .aglow{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);width:126%;height:62%;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:0;background:radial-gradient(closest-side, rgba(190,210,255,.42), transparent 74%);transition:opacity .5s var(--ease);}
+  .astro:hover .aglow,.astro:focus-visible .aglow,.astro.awake .aglow{opacity:.75;}
+  .astro.purr .aglow{opacity:1;}
+  .astro .whisper{position:absolute;left:50%;bottom:104%;transform:translateX(-50%) translateY(8px);width:max-content;max-width:min(70vw,240px);text-align:center;pointer-events:none;opacity:0;filter:blur(3px);transition:opacity .45s var(--ease), transform .45s var(--ease), filter .45s var(--ease);}
   .whisper .wl{display:block;font-family:var(--font-narrator,Georgia,serif);font-style:italic;font-size:.98rem;line-height:1.4;color:rgba(244,236,220,.96);text-shadow:0 1px 12px rgba(0,0,0,.98);}
   .whisper .wn{display:block;margin-top:.28rem;font-family:var(--font-machine,monospace);font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(227,185,104,.9);text-shadow:0 1px 8px rgba(0,0,0,.95);}
 
@@ -155,7 +169,7 @@
   <div class="fade" aria-hidden="true"></div>
 <script>
 (function(){
-  var ZONE = {"id":"terminal","title":"The Terminal","asset":"/assets/terminal-env.png","hotspots":[{"id":"threads","cat":"nav","name":"Threads","line":"The feed, still scrolling in the dark.","verb":"Open","x":44,"y":40,"route":""},{"id":"substack","cat":"artifact","kind":"Journal","name":"Substack","line":"The last essay, printed and pinned.","verb":"Read","x":84,"y":42,"title":"The long-form shelf","body":"The things too big for a post end up here — the essays, the letters that go out to the ones who stayed.\n\n(The archive links in soon.)"},{"id":"logs","cat":"lore","kind":"Observatory Log","name":"Observatory Logs","line":"A star-chart, annotated by hand.","verb":"Read","x":82,"y":24,"title":"“Logged from the far wing.”","body":"Readings the Observatory sends down the line. I don’t always understand them. I keep them anyway."},{"id":"screen","cat":"ambient","name":"The Screen","line":"The cursor blinks, patient.","verb":"","x":44,"y":40,"w":12,"h":16,"react":"The cursor blinks twice, and a line of green text scrolls up from nowhere, then clears."},{"id":"egg","cat":"rare","kind":"Rare Find","name":"The Keyboard","line":"Worn where the hands go.","verb":"Type","x":40,"y":62,"rare":true,"title":"> the House answers","body":"You typed nothing, and it answered anyway. Some nights the Terminal is in a mood to talk.\n\nKeep what it said. It won’t say it twice.","closed":"You press a key. Nothing. The Terminal is only listening tonight."},{"id":"mug","cat":"ambient","name":"A Cold Mug","line":"A ring dried at the bottom.","verb":"","x":60,"y":58,"react":"Long cold. Whoever sat here left in a hurry, or forgot the hour. Both happen, here."},{"id":"lantern-t","cat":"ambient","name":"The Lamp","line":"Warm, beside the cold glow.","verb":"","x":74,"y":58,"react":"You turn it up. Warm light and cold light meet on the desk, and neither wins."},{"id":"chair-t","cat":"passage","name":"The Chair","line":"Angled to the screen.","verb":"Sit","x":18,"y":70,"narration":"You sit. The monitor-glow finds your face, cold and blue. For a moment you’re where the House touches the loud world — and it’s quiet here, still."},{"id":"papers-t","cat":"lore","kind":"Printouts","name":"A Stack of Printouts","line":"Draft after draft.","verb":"Look closer","x":86,"y":60,"title":"The paper trail","body":"Everything the screen has ever said, printed and kept. I trust paper more than pixels. Paper doesn’t update itself while you sleep."},{"id":"astro-t","cat":"cat","name":"Astro","line":"Watching the screen, unblinking.","verb":"","x":12,"y":44,"reacts":["He stares at the cursor like it owes him something. Maybe it does.","His eyes track a line of text no one typed.","He sits in the coldest light in the House, content."]}]};
+  var ZONE = {"id":"terminal","title":"The Terminal","asset":"/assets/terminal-env.png","hotspots":[{"id":"threads","cat":"nav","name":"Threads","line":"The feed, still scrolling in the dark.","verb":"Open","x":44,"y":40,"route":""},{"id":"substack","cat":"artifact","kind":"Journal","name":"Substack","line":"The last essay, printed and pinned.","verb":"Read","x":84,"y":42,"title":"The long-form shelf","body":"The things too big for a post end up here — the essays, the letters that go out to the ones who stayed.\n\n(The archive links in soon.)"},{"id":"logs","cat":"lore","kind":"Observatory Log","name":"Observatory Logs","line":"A star-chart, annotated by hand.","verb":"Read","x":82,"y":24,"title":"“Logged from the far wing.”","body":"Readings the Observatory sends down the line. I don’t always understand them. I keep them anyway."},{"id":"screen","cat":"ambient","name":"The Screen","line":"The cursor blinks, patient.","verb":"","x":44,"y":40,"w":12,"h":16,"react":"The cursor blinks twice, and a line of green text scrolls up from nowhere, then clears."},{"id":"egg","cat":"rare","kind":"Rare Find","name":"The Keyboard","line":"Worn where the hands go.","verb":"Type","x":40,"y":62,"rare":true,"title":"> the House answers","body":"You typed nothing, and it answered anyway. Some nights the Terminal is in a mood to talk.\n\nKeep what it said. It won’t say it twice.","closed":"You press a key. Nothing. The Terminal is only listening tonight."},{"id":"mug","cat":"ambient","name":"A Cold Mug","line":"A ring dried at the bottom.","verb":"","x":60,"y":58,"react":"Long cold. Whoever sat here left in a hurry, or forgot the hour. Both happen, here."},{"id":"lantern-t","cat":"ambient","name":"The Lamp","line":"Warm, beside the cold glow.","verb":"","x":74,"y":58,"react":"You turn it up. Warm light and cold light meet on the desk, and neither wins."},{"id":"chair-t","cat":"passage","name":"The Chair","line":"Angled to the screen.","verb":"Sit","x":18,"y":70,"narration":"You sit. The monitor-glow finds your face, cold and blue. For a moment you’re where the House touches the loud world — and it’s quiet here, still."},{"id":"papers-t","cat":"lore","kind":"Printouts","name":"A Stack of Printouts","line":"Draft after draft.","verb":"Look closer","x":86,"y":60,"title":"The paper trail","body":"Everything the screen has ever said, printed and kept. I trust paper more than pixels. Paper doesn’t update itself while you sleep."},{"id":"astro-t","cat":"cat","name":"Astro","line":"Watching the screen, unblinking.","verb":"","x":12,"y":44,"reacts":["He stares at the cursor like it owes him something. Maybe it does.","His eyes track a line of text no one typed.","He sits in the coldest light in the House, content."]}],"astro":null};
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var touch = matchMedia('(hover: none)').matches;
   var env=document.getElementById('env'), img=document.getElementById('envimg');
@@ -180,6 +194,7 @@
   // build invisible hit regions
   var spots=[];
   ZONE.hotspots.forEach(function(h){
+    if(h.cat==='cat' && ZONE.astro) return;
     var s=document.createElement('div'); s.className='spot'+(h.cat==='cat'?' astro':''); s.tabIndex=0; s.setAttribute('role','button'); s.setAttribute('aria-label',h.name+' — '+h.line);
     s.style.left=h.x+'%'; s.style.top=h.y+'%';
     if(h.w) s.style.setProperty('--sw',h.w+'%'); if(h.h) s.style.setProperty('--sh',h.h+'%');
@@ -190,10 +205,28 @@
     env.appendChild(s); spots.push(s);
   });
 
+  // Astro — a living sprite layered on the room (roam rooms only)
+  if(ZONE.astro){
+    var A=ZONE.astro;
+    var present = A.rareVisit ? (rand(hashId(ZONE.id+'-astro'))>0.55) : (!A.absent || rand(hashId(ZONE.id+'-astro'))>0.26);
+    if(present){
+      var sp=A.spots[Math.floor(rand(hashId(ZONE.id+'-spot'))*A.spots.length)%A.spots.length];
+      var a=document.createElement('div'); a.className='astro'+(sp.flip?' flip':''); a.tabIndex=0; a.setAttribute('role','button'); a.setAttribute('aria-label','Astro — '+A.line);
+      a.style.left=sp.x+'%'; a.style.top=sp.y+'%'; a.style.width=A.w+'%';
+      a.innerHTML='<span class="aglow"></span><div class="abody"><img class="aopen" src="/assets/astro/'+sp.pose+'.png" alt="Astro"/><img class="ablink" src="/assets/astro/'+sp.pose+'-blink.png" alt=""/></div><span class="whisper"><span class="wl">'+A.line+'</span></span>';
+      env.appendChild(a);
+      var abusy=false, an=0;
+      var areact=function(){ if(abusy) return; abusy=true; an=(an+1)%A.reacts.length; a.classList.add('purr'); floatLine(sp.x, Math.max(6,sp.y-A.w-6), A.reacts[Math.floor(rand(hashId(ZONE.id+an+'r'))*A.reacts.length)%A.reacts.length]); setTimeout(function(){ a.classList.remove('purr'); abusy=false; },2600); };
+      a.addEventListener('click',function(e){ if(suppressClick) return; if(touch){ if(!a.classList.contains('awake')){ disarm(); a.classList.add('awake'); armed=a; return; } disarm(); } areact(); });
+      a.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); areact(); } });
+    }
+  }
+
   // mobile: first tap wakes, second acts
-  var armed=null;
+  var armed=null, suppressClick=false;
   function disarm(){ if(armed){ armed.classList.remove('awake'); armed=null; } }
   function tap(h,s,e){
+    if(suppressClick) return;
     if(touch){ if(!s.classList.contains('awake')){ disarm(); s.classList.add('awake'); armed=s; return; } disarm(); }
     activate(h,s);
   }
@@ -309,7 +342,16 @@
     m.style.left=(4+Math.random()*92).toFixed(1)+'%'; m.style.top=(10+Math.random()*80).toFixed(1)+'%';
     if(reduce){ m.style.opacity='0.35'; } else { m.style.setProperty('--dx',(Math.random()*8-4).toFixed(0)+'px'); m.style.animation='rise '+(7+Math.random()*7).toFixed(1)+'s linear '+(-Math.random()*12).toFixed(1)+'s infinite'; } dust.appendChild(m); }
   var parallaxOff=false;
-  if(!reduce){ addEventListener('mousemove',function(e){ if(parallaxOff||dwelling||moving) return; var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transition='transform .3s var(--ease)'; env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
+  if(!reduce && !touch){ addEventListener('mousemove',function(e){ if(parallaxOff||dwelling||moving) return; var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transition='transform .3s var(--ease)'; env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
+  // touch: drag the camera to look around the room; a still tap reaches objects
+  if(touch){
+    var hintEl=document.querySelector('.hint'); if(hintEl) hintEl.textContent='Drag to look around · tap once to reveal, twice to touch';
+    var panX=0, sx=0, spn=0, drag=false, zn=document.getElementById('zone');
+    function maxPan(){ var w=env.getBoundingClientRect().width; return Math.max(0,(w-innerWidth)/2); }
+    zn.addEventListener('touchstart',function(e){ if(e.touches.length!==1||moving||dwelling||av.classList.contains('open')) return; sx=e.touches[0].clientX; spn=panX; drag=false; },{passive:true});
+    zn.addEventListener('touchmove',function(e){ if(e.touches.length!==1||moving||dwelling||av.classList.contains('open')) return; var dx=e.touches[0].clientX-sx; if(Math.abs(dx)>8) drag=true; if(drag){ var mp=maxPan(); panX=Math.max(-mp,Math.min(mp,spn+dx)); env.style.transition='none'; env.style.transform='translate(calc(-50% + '+panX.toFixed(0)+'px),-50%)'; } },{passive:true});
+    zn.addEventListener('touchend',function(){ if(drag){ suppressClick=true; setTimeout(function(){ suppressClick=false; },350); } },{passive:true});
+  }
 })();
 </script>
 </body>

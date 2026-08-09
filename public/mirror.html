@@ -35,9 +35,13 @@
 
   /* ASTRO — a resident, not wallpaper: a transparent sprite layered on the room */
   .astro{position:absolute;transform:translate(-50%,-100%);z-index:4;cursor:pointer;outline:none;}
-  .astro img{display:block;width:100%;height:auto;filter:drop-shadow(0 8px 16px rgba(0,0,0,.62));animation:breathe 5.5s ease-in-out infinite;transform-origin:bottom center;}
+  .astro .abody{position:relative;width:100%;transform-origin:bottom center;filter:drop-shadow(0 8px 16px rgba(0,0,0,.62));animation:breathe 5.5s ease-in-out infinite, stir 9s ease-in-out infinite;}
+  .astro .abody img{display:block;width:100%;height:auto;}
+  .astro .abody .ablink{position:absolute;inset:0;opacity:0;animation:blink 6.4s ease-in-out infinite;}
   @keyframes breathe{0%,100%{scale:1 1;}50%{scale:1 1.014;}}
-  .astro.flip img{transform:scaleX(-1);}
+  @keyframes stir{0%,82%,100%{rotate:0deg;}90%{rotate:-1.5deg;}96%{rotate:.7deg;}}
+  @keyframes blink{0%,88%{opacity:0;}90%,91.5%{opacity:1;}93%{opacity:0;}94.5%,96%{opacity:1;}97.5%,100%{opacity:0;}}
+  .astro.flip .abody{transform:scaleX(-1);}
   .astro .aglow{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);width:126%;height:62%;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:0;background:radial-gradient(closest-side, rgba(190,210,255,.42), transparent 74%);transition:opacity .5s var(--ease);}
   .astro:hover .aglow,.astro:focus-visible .aglow,.astro.awake .aglow{opacity:.75;}
   .astro.purr .aglow{opacity:1;}
@@ -209,19 +213,20 @@
       var sp=A.spots[Math.floor(rand(hashId(ZONE.id+'-spot'))*A.spots.length)%A.spots.length];
       var a=document.createElement('div'); a.className='astro'+(sp.flip?' flip':''); a.tabIndex=0; a.setAttribute('role','button'); a.setAttribute('aria-label','Astro — '+A.line);
       a.style.left=sp.x+'%'; a.style.top=sp.y+'%'; a.style.width=A.w+'%';
-      a.innerHTML='<span class="aglow"></span><img src="/assets/astro/'+sp.pose+'.png" alt="Astro"/><span class="whisper"><span class="wl">'+A.line+'</span></span>';
+      a.innerHTML='<span class="aglow"></span><div class="abody"><img class="aopen" src="/assets/astro/'+sp.pose+'.png" alt="Astro"/><img class="ablink" src="/assets/astro/'+sp.pose+'-blink.png" alt=""/></div><span class="whisper"><span class="wl">'+A.line+'</span></span>';
       env.appendChild(a);
       var abusy=false, an=0;
       var areact=function(){ if(abusy) return; abusy=true; an=(an+1)%A.reacts.length; a.classList.add('purr'); floatLine(sp.x, Math.max(6,sp.y-A.w-6), A.reacts[Math.floor(rand(hashId(ZONE.id+an+'r'))*A.reacts.length)%A.reacts.length]); setTimeout(function(){ a.classList.remove('purr'); abusy=false; },2600); };
-      a.addEventListener('click',function(e){ if(touch){ if(!a.classList.contains('awake')){ disarm(); a.classList.add('awake'); armed=a; return; } disarm(); } areact(); });
+      a.addEventListener('click',function(e){ if(suppressClick) return; if(touch){ if(!a.classList.contains('awake')){ disarm(); a.classList.add('awake'); armed=a; return; } disarm(); } areact(); });
       a.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); areact(); } });
     }
   }
 
   // mobile: first tap wakes, second acts
-  var armed=null;
+  var armed=null, suppressClick=false;
   function disarm(){ if(armed){ armed.classList.remove('awake'); armed=null; } }
   function tap(h,s,e){
+    if(suppressClick) return;
     if(touch){ if(!s.classList.contains('awake')){ disarm(); s.classList.add('awake'); armed=s; return; } disarm(); }
     activate(h,s);
   }
@@ -337,7 +342,16 @@
     m.style.left=(4+Math.random()*92).toFixed(1)+'%'; m.style.top=(10+Math.random()*80).toFixed(1)+'%';
     if(reduce){ m.style.opacity='0.35'; } else { m.style.setProperty('--dx',(Math.random()*8-4).toFixed(0)+'px'); m.style.animation='rise '+(7+Math.random()*7).toFixed(1)+'s linear '+(-Math.random()*12).toFixed(1)+'s infinite'; } dust.appendChild(m); }
   var parallaxOff=false;
-  if(!reduce){ addEventListener('mousemove',function(e){ if(parallaxOff||dwelling||moving) return; var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transition='transform .3s var(--ease)'; env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
+  if(!reduce && !touch){ addEventListener('mousemove',function(e){ if(parallaxOff||dwelling||moving) return; var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transition='transform .3s var(--ease)'; env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
+  // touch: drag the camera to look around the room; a still tap reaches objects
+  if(touch){
+    var hintEl=document.querySelector('.hint'); if(hintEl) hintEl.textContent='Drag to look around · tap once to reveal, twice to touch';
+    var panX=0, sx=0, spn=0, drag=false, zn=document.getElementById('zone');
+    function maxPan(){ var w=env.getBoundingClientRect().width; return Math.max(0,(w-innerWidth)/2); }
+    zn.addEventListener('touchstart',function(e){ if(e.touches.length!==1||moving||dwelling||av.classList.contains('open')) return; sx=e.touches[0].clientX; spn=panX; drag=false; },{passive:true});
+    zn.addEventListener('touchmove',function(e){ if(e.touches.length!==1||moving||dwelling||av.classList.contains('open')) return; var dx=e.touches[0].clientX-sx; if(Math.abs(dx)>8) drag=true; if(drag){ var mp=maxPan(); panX=Math.max(-mp,Math.min(mp,spn+dx)); env.style.transition='none'; env.style.transform='translate(calc(-50% + '+panX.toFixed(0)+'px),-50%)'; } },{passive:true});
+    zn.addEventListener('touchend',function(){ if(drag){ suppressClick=true; setTimeout(function(){ suppressClick=false; },350); } },{passive:true});
+  }
 })();
 </script>
 </body>

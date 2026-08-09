@@ -41,7 +41,7 @@
   .way .whisper{position:absolute;left:50%;bottom:114%;transform:translateX(-50%) translateY(6px);width:max-content;max-width:240px;
     background:rgba(12,9,16,.82);border:1px solid rgba(227,185,104,.28);border-radius:7px;padding:.55rem .85rem;backdrop-filter:blur(7px);
     opacity:0;pointer-events:none;transition:opacity .4s var(--ease), transform .4s var(--ease);text-align:center;box-shadow:0 14px 34px -14px rgba(0,0,0,.85);}
-  .way:hover .whisper,.way:focus-visible .whisper{opacity:1;transform:translateX(-50%) translateY(0);}
+  .way:hover .whisper,.way:focus-visible .whisper,.way.awake .whisper{opacity:1;transform:translateX(-50%) translateY(0);}
   .way .wl{display:block;font-style:italic;font-size:.94rem;line-height:1.4;color:rgba(240,232,216,.92);}
   .way .wn{display:block;margin-top:.32rem;font-family:var(--font-machine,monospace);font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(227,185,104,.82);}
   .way.fresh .halo{animation:beckon 3.6s ease-in-out infinite;}
@@ -90,6 +90,8 @@
 <script>
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var touch = matchMedia('(hover: none)').matches;
+  var suppressClick=false, armedWay=null;
   // ---- the ways through. unlock = days since you first entered the Library ---
   // Day 0 (first night): only the Shelves and the Hearth. The rest arrives with
   // return visits. x/y are % on the Hub render; kneel:true → the camera kneels.
@@ -132,7 +134,7 @@
     el.tabIndex=0; el.setAttribute('role','link'); el.setAttribute('aria-label',w.name+' — '+w.line);
     el.style.left=w.x+'%'; el.style.top=w.y+'%';
     el.innerHTML='<span class="halo"></span><span class="whisper"><span class="wl">'+w.line+'</span><span class="wn">'+w.name+'</span></span>';
-    el.addEventListener('click',function(){ enter(w); });
+    el.addEventListener('click',function(){ if(suppressClick) return; if(touch){ if(!el.classList.contains('awake')){ if(armedWay){ armedWay.classList.remove('awake'); armedWay.style.setProperty('--w','0'); } el.classList.add('awake'); el.style.setProperty('--w','1'); armedWay=el; return; } } enter(w); });
     el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); enter(w); } });
     plane.appendChild(el);
     w._el=el;
@@ -146,8 +148,8 @@
   }
   if(daysIn===0){ hint.textContent='The shelves, and the fire. The rest of the House is still waking.'; }
 
-  // ---- cursor-proximity wake for each way -----------------------------------
-  if(!reduce){
+  // ---- cursor-proximity wake for each way (desktop) -------------------------
+  if(!reduce && !touch){
     addEventListener('mousemove',function(e){
       var r=env.getBoundingClientRect();
       var nx=(e.clientX-r.left)/r.width*100, ny=(e.clientY-r.top)/r.height*100;
@@ -158,6 +160,15 @@
       env.style.transform='translate(calc(-50% + '+(-px*12).toFixed(1)+'px), calc(-50% + '+(-py*8).toFixed(1)+'px))';
     },{passive:true});
     addEventListener('mouseleave',function(){ WAYS.forEach(function(w){ if(w._el) w._el.style.setProperty('--w','0'); }); env.style.transform='translate(-50%,-50%)'; });
+  }
+  // ---- touch: drag to look around; tap once to reveal a doorway, twice to enter
+  if(touch){
+    hint.textContent='Drag to look around · tap a doorway to reveal it, again to enter';
+    var panX=0, sx=0, spn=0, drag=false;
+    function maxPan(){ var w=env.getBoundingClientRect().width; return Math.max(0,(w-innerWidth)/2); }
+    stage.addEventListener('touchstart',function(e){ if(e.touches.length!==1||moving) return; sx=e.touches[0].clientX; spn=panX; drag=false; },{passive:true});
+    stage.addEventListener('touchmove',function(e){ if(e.touches.length!==1||moving) return; var dx=e.touches[0].clientX-sx; if(Math.abs(dx)>8) drag=true; if(drag){ var mp=maxPan(); panX=Math.max(-mp,Math.min(mp,spn+dx)); env.style.transition='none'; env.style.transform='translate(calc(-50% + '+panX.toFixed(0)+'px),-50%)'; } },{passive:true});
+    stage.addEventListener('touchend',function(e){ if(drag){ suppressClick=true; setTimeout(function(){ suppressClick=false; },350); } else if(!e.target.closest('.way') && armedWay){ armedWay.classList.remove('awake'); armedWay.style.setProperty('--w','0'); armedWay=null; } },{passive:true});
   }
 
   // ---- entering a room: the camera walks (or kneels) ------------------------
