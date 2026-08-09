@@ -6,9 +6,8 @@
 <title>The Hidden Desk · The Library · House of Luna</title>
 <link rel="stylesheet" href="/styles/tokens.css"/>
 <style>
-  /* LIBRARY ZONE ENGINE — reusable (House of Luna). One config, one photoreal room.
-     Hover a glow for a whisper; click to open; Keep it (saved to your Room) or Leave.
-     The House shifts between visits. This file: The Hidden Desk. */
+  /* LIBRARY ZONE ENGINE v2 — invisible at rest; objects catch light when you look.
+     One config, one photoreal room. This file: The Hidden Desk. */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   :root{ --gold:#E3B968; --paper:#EFE7D8; --ink:#2a2118; --ease:cubic-bezier(.22,1,.36,1); }
   html,body{height:100%;background:#0a0806;overflow:hidden;font-family:var(--font-narrator,Georgia,serif);color:var(--paper);}
@@ -17,44 +16,120 @@
     background:radial-gradient(80% 60% at 32% 44%, rgba(120,86,42,.5) 0%, transparent 60%), radial-gradient(70% 60% at 76% 58%, rgba(70,52,28,.5) 0%, transparent 62%), linear-gradient(180deg,#1b130c 0%,#0e0a06 100%);}
   @media (max-aspect-ratio:1/1){ .env{width:auto;height:104vh;} }
   .env img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
-  .vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(122% 100% at 50% 46%, transparent 38%, rgba(6,4,3,.5) 82%, rgba(6,4,3,.84) 100%);}
+  .vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(122% 100% at 50% 46%, transparent 40%, rgba(6,4,3,.42) 84%, rgba(6,4,3,.72) 100%);}
   .dust{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2;}
-  .mote{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle, rgba(255,224,160,.85), rgba(255,224,160,0));mix-blend-mode:screen;}
-  @keyframes rise{0%{transform:translateY(0);opacity:0;}14%{opacity:.7;}80%{opacity:.4;}100%{transform:translateY(-120px) translateX(var(--dx,3px));opacity:0;}}
-  .spot{position:absolute;transform:translate(-50%,-50%);width:clamp(26px,2.6vw,42px);height:clamp(26px,2.6vw,42px);cursor:pointer;z-index:5;outline:none;}
-  .spot .orb{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%, rgba(255,226,150,.85) 0%, rgba(240,180,80,.35) 34%, transparent 68%);box-shadow:0 0 14px 3px rgba(240,180,80,.35);opacity:.5;transition:opacity .5s var(--ease), transform .5s var(--ease);animation:pulse 3.4s ease-in-out infinite;}
-  @keyframes pulse{0%,100%{opacity:.42;}50%{opacity:.72;}}
-  .spot:hover .orb,.spot:focus-visible .orb{opacity:1;transform:scale(1.18);box-shadow:0 0 26px 8px rgba(240,180,80,.5);}
-  .spot .whisper{position:absolute;left:50%;bottom:130%;transform:translateX(-50%) translateY(6px);min-width:150px;max-width:236px;background:rgba(14,10,7,.82);border:1px solid rgba(227,185,104,.3);border-radius:6px;padding:.6rem .8rem;backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease), transform .35s var(--ease);text-align:left;box-shadow:0 12px 30px -12px rgba(0,0,0,.8);}
-  .spot:hover .whisper,.spot:focus-visible .whisper{opacity:1;transform:translateX(-50%) translateY(0);}
-  .whisper>span{display:block;}
-  .whisper .wn{font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.06em;font-size:1rem;color:var(--gold);}
-  .whisper .wd{font-style:italic;font-size:.82rem;color:rgba(233,224,208,.72);margin-top:.15rem;line-height:1.4;}
-  .whisper .wa{margin-top:.4rem;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(227,185,104,.85);}
-  .spot.is-new .orb{background:radial-gradient(circle at 50% 50%, rgba(200,214,255,.9) 0%, rgba(150,180,235,.4) 34%, transparent 68%);box-shadow:0 0 18px 5px rgba(150,180,235,.45);}
-  .scrim{position:fixed;inset:0;z-index:20;background:rgba(4,3,2,.72);backdrop-filter:blur(4px);display:none;place-items:center;padding:1.5rem;}
-  .scrim.open{display:grid;animation:sfade .4s var(--ease);}
-  @keyframes sfade{from{opacity:0;}to{opacity:1;}}
-  .panel{width:min(92vw,560px);max-height:88vh;overflow:auto;background:linear-gradient(180deg,#efe6d2,#e3d7bd);color:var(--ink);border:1px solid #b8a06a;border-radius:8px;box-shadow:0 40px 100px -30px rgba(0,0,0,.9);padding:clamp(1.6rem,4vw,2.6rem);position:relative;transform:translateY(10px);animation:pup .5s var(--ease) forwards;}
-  @keyframes pup{to{transform:translateY(0);}}
-  .panel .kind{font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#8a6a2e;}
-  .panel h2{font-family:var(--font-architect,'Cormorant Garamond',serif);font-weight:500;font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.1;margin:.3rem 0 .8rem;color:#3a2c1a;}
-  .panel .body{font-family:var(--font-narrator,Georgia,serif);font-size:1rem;line-height:1.75;color:#4a3a26;white-space:pre-wrap;}
-  .panel .acts{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid rgba(58,44,26,.2);}
-  .act{font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.06em;font-size:1.02rem;cursor:pointer;padding:.5rem 1.3rem;border-radius:4px;border:1px solid #b39a5f;background:transparent;color:#5a4526;transition:background .3s,color .3s;}
-  .act:hover{background:#5a4526;color:#efe6d2;}
-  .act.keep{border-color:#6a5326;background:#6a5326;color:#efe6d2;} .act.keep:hover{background:#4a3418;}
-  .act.kept{background:#3f6b3a;border-color:#3f6b3a;color:#eafbe4;pointer-events:none;}
-  .act.go{border-color:#3a5a7a;background:#3a5a7a;color:#eaf1fb;} .act.go:hover{background:#294560;}
-  .return{position:fixed;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,3.4vw,2rem);z-index:8;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.12em;font-size:clamp(.82rem,1.5vw,1.05rem);color:rgba(227,185,104,.85);text-decoration:none;text-shadow:0 1px 5px rgba(0,0,0,.9);transition:color .3s;}
+  .mote{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle, rgba(255,224,160,.8), rgba(255,224,160,0));mix-blend-mode:screen;}
+  @keyframes rise{0%{transform:translateY(0);opacity:0;}14%{opacity:.6;}80%{opacity:.35;}100%{transform:translateY(-120px) translateX(var(--dx,3px));opacity:0;}}
+
+  /* HOTSPOT — an invisible hit region. Nothing shows until you look. */
+  .spot{position:absolute;transform:translate(-50%,-50%);width:var(--sw,4.4%);height:var(--sh,9%);min-width:38px;min-height:48px;cursor:pointer;z-index:5;outline:none;}
+  .spot .wake{position:absolute;inset:-34% -44%;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .5s var(--ease), filter .5s var(--ease);
+    background:radial-gradient(closest-side, rgba(255,214,140,.5), rgba(255,198,110,.14) 55%, transparent 78%);}
+  .spot.astro .wake{background:radial-gradient(closest-side, rgba(186,208,255,.5), rgba(150,180,235,.12) 55%, transparent 76%);}
+  .spot:hover .wake,.spot:focus-visible .wake,.spot.awake .wake{opacity:.85;}
+  .spot.flash .wake{opacity:1;filter:brightness(1.5);}
+  /* WHISPER — a placard that materialises out of shadow. No box. */
+  .spot .whisper{position:absolute;left:50%;bottom:120%;transform:translateX(-50%) translateY(8px);width:max-content;max-width:min(74vw,258px);text-align:center;pointer-events:none;opacity:0;filter:blur(3px);transition:opacity .45s var(--ease), transform .45s var(--ease), filter .45s var(--ease);}
+  .spot:hover .whisper,.spot:focus-visible .whisper,.spot.awake .whisper{opacity:1;filter:blur(0);transform:translateX(-50%) translateY(0);}
+  .whisper::before{content:"";position:absolute;inset:-60% -34%;z-index:-1;pointer-events:none;background:radial-gradient(58% 66% at 50% 50%, rgba(8,6,10,.74), transparent 72%);filter:blur(7px);}
+  .whisper .wl{display:block;font-family:var(--font-narrator,Georgia,serif);font-style:italic;font-size:.98rem;line-height:1.4;color:rgba(244,236,220,.96);text-shadow:0 1px 12px rgba(0,0,0,.98);}
+  .whisper .wn{display:block;margin-top:.28rem;font-family:var(--font-machine,monospace);font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(227,185,104,.9);text-shadow:0 1px 8px rgba(0,0,0,.95);}
+
+  /* narration lines that rise near an object (ambient / astro / passage) */
+  .floatline{position:absolute;transform:translate(-50%,-50%);z-index:6;pointer-events:none;max-width:min(70vw,260px);text-align:center;font-family:var(--font-narrator,serif);font-style:italic;font-size:1.02rem;line-height:1.45;color:rgba(245,238,222,.97);text-shadow:0 1px 14px rgba(0,0,0,.98);opacity:0;animation:floatline 3.4s ease forwards;}
+  .floatline::before{content:"";position:absolute;inset:-52% -30%;z-index:-1;background:radial-gradient(58% 66% at 50% 50%, rgba(8,6,10,.72), transparent 72%);filter:blur(8px);}
+  @keyframes floatline{0%{opacity:0;transform:translate(-50%,-44%);}16%{opacity:1;transform:translate(-50%,-50%);}78%{opacity:1;}100%{opacity:0;transform:translate(-50%,-56%);}}
+  /* dwell — sitting; the room settles, dims a touch, and holds */
+  .dwell-dim{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:radial-gradient(120% 100% at 50% 52%, transparent 30%, rgba(4,3,6,.5) 82%, rgba(4,3,6,.7) 100%);transition:opacity 1.2s var(--ease);}
+  .dwell-dim.on{opacity:1;}
+  .roomfade{position:fixed;inset:0;z-index:29;background:#000;pointer-events:none;opacity:0;transition:opacity .7s ease .3s;}
+  .roomfade.on{opacity:1;}
+
+  /* ===== ARTIFACT VIEWER — objects you pick up; the room stays visible behind ===== */
+  .av{position:fixed;inset:0;z-index:20;display:none;place-items:center;padding:clamp(1rem,4vw,2.4rem);}
+  .av.open{display:grid;}
+  .av-veil{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .5s var(--ease);backdrop-filter:blur(3.5px) brightness(.82);-webkit-backdrop-filter:blur(3.5px) brightness(.82);background:radial-gradient(120% 100% at 50% 50%, transparent 34%, rgba(4,3,6,.34) 78%, rgba(4,3,6,.5) 100%);}
+  .av.open .av-veil{opacity:1;}
+  .av-hold{position:relative;z-index:2;display:grid;place-items:center;width:100%;height:100%;}
+  .av .particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;}
+  .av .p{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle,rgba(255,224,150,.9),transparent);mix-blend-mode:screen;animation:pfloat linear infinite;}
+  @keyframes pfloat{0%{transform:translateY(24px);opacity:0;}20%{opacity:.8;}100%{transform:translateY(-130px);opacity:0;}}
+  .art-paper{background:linear-gradient(150deg,#efe6d0,#e6d9ba 55%,#d8c8a2);color:#3a2c1a;border:1px solid #c3ab72;box-shadow:0 40px 100px -30px rgba(0,0,0,.78), inset 0 0 60px rgba(150,120,60,.12);}
+  .art-scroll{background:linear-gradient(160deg,#1c1712,#221a12 60%,#14100b);color:#e8d9b4;border:1px solid #8a6a2e;box-shadow:0 40px 110px -28px rgba(0,0,0,.85), inset 0 0 70px rgba(120,90,40,.16), 0 0 0 1px rgba(198,160,90,.25);}
+  .art-gold-edge{position:relative;} .art-gold-edge::after{content:"";position:absolute;inset:7px;border:1px solid rgba(198,160,90,.5);border-radius:3px;pointer-events:none;}
+  .art-kind{font-family:var(--font-machine,monospace);font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:#8a6a2e;}
+  .art-scroll .art-kind,.lore-art .art-kind{color:#c6a45a;}
+  .art-title{font-family:var(--font-architect,'Cormorant Garamond',serif);font-weight:500;font-size:clamp(1.4rem,3.6vw,2.1rem);line-height:1.08;margin:.25rem 0 .7rem;color:#33261a;}
+  .art-scroll .art-title,.lore-art .art-title{color:#f0e2bd;}
+  .art-body{font-family:var(--font-narrator,Georgia,serif);font-size:1rem;line-height:1.78;white-space:pre-wrap;}
+  .art-acts{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:1.4rem;padding-top:1rem;border-top:1px solid rgba(120,90,40,.3);}
+  .art-act{font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.05em;font-size:1rem;cursor:pointer;padding:.46rem 1.2rem;border-radius:3px;border:1px solid #b39a5f;background:transparent;color:#5a4526;transition:background .3s,color .3s;}
+  .art-scroll .art-act,.lore-art .art-act{color:#d9c68f;border-color:#8a6a2e;}
+  .art-act:hover{background:#5a4526;color:#efe6d2;}
+  .art-act.keep{background:#6a5326;border-color:#6a5326;color:#efe6d2;} .art-act.keep:hover{background:#4a3418;}
+  .art-act.kept{background:#3f6b3a;border-color:#3f6b3a;color:#eafbe4;pointer-events:none;}
+  .av.r-rare .art,.av.r-legendary .art,.av.r-rare .book-spread,.av.r-legendary .book-spread{box-shadow:0 40px 110px -24px rgba(0,0,0,.85), 0 0 40px rgba(227,185,104,.3)!important;}
+  .rare-tag{display:inline-block;margin-left:.5rem;font-family:var(--font-machine,monospace);font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:#c6a45a;border:1px solid rgba(198,160,90,.5);border-radius:3px;padding:.1rem .4rem;vertical-align:middle;}
+  .art.page{width:min(88vw,440px);max-height:84vh;overflow:auto;padding:clamp(1.5rem,4vw,2.4rem);border-radius:3px;}
+  .av.open .art.page{animation:floatUp .9s var(--ease) both;}
+  @keyframes floatUp{0%{opacity:0;transform:translateY(60vh) rotate(-7deg) scale(.72);}55%{opacity:1;}100%{opacity:1;transform:translateY(0) rotate(0) scale(1);}}
+  /* LORE — boxless placard, materialises from shadow (no parchment card) */
+  .art.lore-art{width:min(80vw,520px);max-height:82vh;overflow:auto;text-align:center;padding:1rem;}
+  .art.lore-art .art-body{color:rgba(238,231,216,.92);}
+  .art.lore-art .art-acts{justify-content:center;border-top:none;margin-top:1.6rem;}
+  .art.lore-art .art-act{border-color:rgba(198,160,90,.5);color:#d9c68f;}
+  .lore-art::after{content:"";position:absolute;} /* placeholder */
+  .av.open .art.lore-art{animation:loreIn .9s var(--ease) both;}
+  @keyframes loreIn{0%{opacity:0;filter:blur(8px);transform:translateY(14px);}100%{opacity:1;filter:blur(0);transform:translateY(0);}}
+  .lorewrap{position:relative;}
+  .lorewrap::before{content:"";position:absolute;inset:-30% -20%;z-index:-1;background:radial-gradient(56% 60% at 50% 50%, rgba(8,6,12,.7), transparent 72%);filter:blur(10px);}
+  .art.book{width:min(94vw,760px);display:flex;flex-direction:column;gap:.7rem;perspective:1800px;}
+  .book-spread{position:relative;height:min(66vh,460px);display:grid;grid-template-columns:1fr 1fr;border-radius:5px;overflow:hidden;transform-origin:center;}
+  .av.open .art.book .book-spread{animation:bookIn .95s var(--ease) both;}
+  @keyframes bookIn{0%{opacity:0;transform:rotateX(26deg) scale(.7);}100%{opacity:1;transform:rotateX(0) scale(1);}}
+  .book-page{padding:clamp(1.1rem,2.6vw,1.8rem);overflow:auto;}
+  .book-page.left{background:linear-gradient(120deg,#e9dcbd,#ded0ad);box-shadow:inset -22px 0 40px -24px rgba(80,55,20,.7);}
+  .book-page.right{background:linear-gradient(240deg,#e9dcbd,#ded0ad);box-shadow:inset 22px 0 40px -24px rgba(80,55,20,.7);}
+  .book-gutter{position:absolute;left:50%;top:0;bottom:0;width:2px;transform:translateX(-50%);background:rgba(80,55,20,.35);}
+  .book-foot{padding:.2rem clamp(1rem,3vw,1.6rem) .8rem;}
+  .book-foot .art-acts{margin-top:.4rem;border-top:none;}
+  .art.letter{width:min(88vw,440px);max-height:84vh;overflow:auto;padding:clamp(1.6rem,4vw,2.4rem) clamp(1.5rem,4vw,2.4rem) clamp(1.4rem,3vw,2rem);border-radius:2px;position:relative;}
+  .av.open .art.letter{animation:floatUp .8s var(--ease) both;}
+  .seal{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;cursor:pointer;z-index:3;background:radial-gradient(circle at 38% 34%,#a33b46,#6a2130 68%,#4a1622);box-shadow:0 8px 20px -6px rgba(0,0,0,.7), inset 0 2px 6px rgba(255,180,180,.3);display:grid;place-items:center;color:rgba(255,220,220,.85);font-size:1.4rem;transition:transform .5s var(--ease),opacity .5s;}
+  .seal::after{content:"\2766";}
+  .letter .fold{max-height:0;overflow:hidden;opacity:0;transition:max-height .8s var(--ease),opacity .6s;}
+  .letter .prompt{text-align:center;font-style:italic;color:#6a5326;margin-top:1.2rem;}
+  .letter.open-seal .seal{animation:sealcrack .6s ease forwards;}
+  @keyframes sealcrack{40%{transform:translateX(-50%) scale(1.12);}100%{transform:translateX(-50%) scale(.55) rotate(15deg);opacity:0;}}
+  .letter.open-seal .fold{max-height:64vh;opacity:1;}
+  .letter.open-seal .prompt{display:none;}
+  .art.object{width:min(92vw,620px);max-height:84vh;display:grid;grid-template-columns:auto 1fr;gap:clamp(1rem,3vw,1.8rem);align-items:center;padding:clamp(1.5rem,4vw,2.3rem);border-radius:4px;}
+  .relic{width:clamp(84px,13vw,130px);height:clamp(140px,22vw,210px);display:grid;place-items:center;perspective:800px;}
+  .relic svg{width:100%;height:100%;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6));animation:turn 7s linear infinite;}
+  @keyframes turn{from{transform:rotateY(0);}to{transform:rotateY(360deg);}}
+  .art.mirror{width:min(88vw,500px);display:flex;flex-direction:column;gap:.7rem;}
+  .mirror-glass{position:relative;height:min(58vh,540px);border-radius:48% 48% 44% 44%/8% 8% 5% 5%;overflow:hidden;background:linear-gradient(180deg,#14141c,#0a0a10);box-shadow:0 0 0 2px #b39a5f,0 40px 120px -30px #000, inset 0 0 80px rgba(120,140,200,.14);}
+  .av.open .art.mirror .mirror-glass{animation:floatUp .9s var(--ease) both;}
+  .mirror-glass .surface{position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 38%, rgba(150,170,220,.14), transparent 70%);}
+  .mirror-glass .figure{position:absolute;left:50%;top:60%;transform:translateX(-50%);width:20%;height:44%;border-radius:50% 50% 40% 40%;background:radial-gradient(circle at 50% 28%, rgba(210,220,255,.42), transparent 66%);opacity:0;}
+  .mirror-glass.stirred .figure{animation:appear 4s ease 4.5s forwards;}
+  @keyframes appear{0%{opacity:0;transform:translateX(-50%) translateY(20px);}100%{opacity:.55;transform:translateX(-50%) translateY(0);}}
+  .house-notices{position:fixed;inset:0;z-index:19;pointer-events:none;opacity:0;background:radial-gradient(120% 90% at 50% 60%, rgba(240,180,90,.16), transparent 70%);}
+  .house-notices.go{animation:notice 3.4s ease forwards;}
+  @keyframes notice{0%{opacity:0;}12%{opacity:1;}24%{opacity:.3;}42%{opacity:.85;}100%{opacity:0;}}
+  .notice-line{position:fixed;left:0;right:0;top:15%;text-align:center;z-index:24;pointer-events:none;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.2em;font-size:clamp(1rem,2.4vw,1.5rem);color:rgba(245,220,170,.96);text-shadow:0 0 24px rgba(240,180,90,.8);opacity:0;}
+  .notice-line.go{animation:noticeLine 3.4s ease forwards;}
+  @keyframes noticeLine{0%{opacity:0;transform:translateY(8px);}18%{opacity:1;transform:translateY(0);}80%{opacity:1;}100%{opacity:0;}}
+
+  .return{position:fixed;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,3.4vw,2rem);z-index:8;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.12em;font-size:clamp(.82rem,1.5vw,1.05rem);color:rgba(227,185,104,.8);text-decoration:none;text-shadow:0 1px 6px rgba(0,0,0,.95);transition:color .3s,opacity .6s;}
   .return:hover{color:#F2DCA4;}
-  .place{position:fixed;top:clamp(1rem,3vw,1.7rem);left:50%;transform:translateX(-50%);z-index:8;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.24em;font-size:clamp(.76rem,1.5vw,1.02rem);color:rgba(233,224,208,.66);text-shadow:0 1px 8px rgba(0,0,0,.95);}
-  .collection{position:fixed;bottom:clamp(1rem,3vh,1.6rem);left:clamp(1rem,3vw,1.8rem);z-index:8;font-family:var(--font-machine,monospace);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(233,224,208,.55);}
+  .place{position:fixed;top:clamp(1rem,3vw,1.7rem);left:50%;transform:translateX(-50%);z-index:8;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.24em;font-size:clamp(.76rem,1.5vw,1.02rem);color:rgba(233,224,208,.6);text-shadow:0 1px 8px rgba(0,0,0,.98);transition:opacity .6s;}
+  .collection{position:fixed;bottom:clamp(1rem,3vh,1.6rem);left:clamp(1rem,3vw,1.8rem);z-index:8;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(233,224,208,.5);}
   .collection b{color:var(--gold);font-weight:600;}
-  .living{position:fixed;bottom:clamp(1rem,3vh,1.6rem);right:clamp(1rem,3vw,1.8rem);z-index:8;text-align:right;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,214,255,.5);}
-  .hint{position:fixed;left:0;right:0;bottom:clamp(3.2rem,8vh,4.4rem);text-align:center;z-index:7;font-family:var(--font-narrator,Georgia,serif);font-style:italic;font-size:.9rem;color:rgba(233,224,208,.4);opacity:0;animation:hintin 1.2s ease 1.2s forwards;}
-  @keyframes hintin{to{opacity:1;}}
-  .toast{position:fixed;left:50%;bottom:clamp(5rem,11vh,7rem);transform:translateX(-50%) translateY(10px);z-index:9;background:rgba(14,10,7,.9);border:1px solid rgba(227,185,104,.4);border-radius:6px;padding:.6rem 1.1rem;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.06em;color:var(--gold);opacity:0;transition:opacity .4s,transform .4s;}
+  .living{position:fixed;bottom:clamp(1rem,3vh,1.6rem);right:clamp(1rem,3vw,1.8rem);z-index:8;text-align:right;font-family:var(--font-machine,monospace);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,214,255,.45);}
+  .hint{position:fixed;left:0;right:0;bottom:clamp(3rem,8vh,4.2rem);text-align:center;z-index:7;font-family:var(--font-narrator,Georgia,serif);font-style:italic;font-size:.9rem;color:rgba(233,224,208,.42);opacity:0;animation:hintcycle 9s ease 1s forwards;}
+  @keyframes hintcycle{0%{opacity:0;}14%{opacity:1;}76%{opacity:1;}100%{opacity:0;}}
+  .toast{position:fixed;left:50%;bottom:clamp(5rem,11vh,7rem);transform:translateX(-50%) translateY(10px);z-index:9;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.06em;color:var(--gold);text-shadow:0 1px 12px rgba(0,0,0,.95);opacity:0;transition:opacity .4s,transform .4s;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .fade{position:fixed;inset:0;z-index:30;background:#000;pointer-events:none;animation:fadeout 1.5s ease .1s both;}
   @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
@@ -63,71 +138,178 @@
 </head>
 <body>
   <div class="zone" id="zone">
-    <div class="env" id="env"><img id="envimg" alt="The Hidden Desk — a writing nook behind a shelf, open ledgers, candles, a lantern, a cat on the windowsill"/></div>
+    <div class="env" id="env"><img id="envimg" alt="The Hidden Desk — a writing nook behind a shelf, ledgers, candles, a lantern, a cat on the sill"/></div>
     <div class="vignette"></div>
     <div class="dust" id="dust"></div>
+    <div class="dwell-dim" id="dwelldim"></div>
   </div>
-  <a class="return" href="/library">&larr; The Library</a>
-  <span class="place">The Hidden Desk</span>
+  <a class="return" href="/library" id="return">&larr; The Library</a>
+  <span class="place" id="place">The Hidden Desk</span>
   <p class="collection">Collected&nbsp; <b id="ccount">0</b></p>
   <p class="living" id="living"></p>
-  <p class="hint">Hover the light. Curiosity is how you move.</p>
+  <p class="hint">Nothing here asks to be clicked. Look, and things wake.</p>
   <div class="toast" id="toast"></div>
-  <div class="scrim" id="scrim"><div class="panel" id="panel"></div></div>
+  <div class="av" id="av"><div class="av-veil"></div><div class="particles" id="avp"></div><div class="av-hold" id="avhold"></div></div>
+  <div class="house-notices" id="hn"></div><div class="notice-line" id="hnl"></div>
+  <div class="roomfade" id="roomfade"></div>
   <div class="fade" aria-hidden="true"></div>
 <script>
 (function(){
-  var ZONE = {"id":"hiddendesk","title":"The Hidden Desk","asset":"/assets/hiddendesk-env.png","hotspots":[{"id":"letters","name":"The Letters","line":"Pinned where they can be seen.","verb":"Read","x":30,"y":26,"kind":"Letter","title":"Letters I never sent","body":"Some of these are to people. Some are to versions of myself I didn’t become.\n\nI pin them up so I remember I meant them."},{"id":"ledger","name":"The Open Ledger","line":"Someone stopped writing mid-line.","verb":"Read","x":48,"y":58,"kind":"Journal","title":"The sentence breaks off here","body":"“—and if it works, then everything after this is going to be—”\n\nThat’s where I stopped. I don’t remember why. I never finished it."},{"id":"seal","name":"A Wax Seal","line":"A sigil pressed in deep red.","verb":"Take it","x":40,"y":66,"kind":"Quote","title":"The House’s mark","body":"Not a logo. A promise, pressed into wax: what’s made here is made carefully, or not at all."},{"id":"drawer","name":"The Drawer","line":"Locked, most days.","verb":"Open","x":72,"y":82,"rare":true,"kind":"Rare Find","title":"The drawer gives","body":"It doesn’t open when you want it to. It opens when it’s ready — and today it was.\n\nInside: something small, and clearly kept for a reason. Keep it."},{"id":"astro","name":"Astro","line":"Asleep on the windowsill.","verb":"Say hello","x":60,"y":33,"kind":"The Cat","title":"Astro stirs.","body":"He was guarding the desk. Or sleeping on it. With Astro these are the same job.\n\nHe blinks at you, then settles back."}]};
+  var ZONE = {"id":"hiddendesk","title":"The Hidden Desk","asset":"/assets/hiddendesk-env.png","hotspots":[{"id":"letters","cat":"artifact","kind":"Letter","name":"The Letters","line":"Pinned where they can be seen.","verb":"Break the seal","x":30,"y":26,"title":"Letters I never sent","body":"Some of these are to people. Some are to versions of myself I didn’t become.\n\nI pin them up so I remember I meant them."},{"id":"ledger","cat":"artifact","kind":"Journal","name":"The Open Ledger","line":"Someone stopped writing mid-line.","verb":"Read","x":48,"y":58,"title":"The sentence breaks off here","body":"“—and if it works, then everything after this is going to be—”\n\nThat’s where I stopped. I don’t remember why. I never finished it."},{"id":"seal-wax","cat":"artifact","kind":"Quote","name":"A Wax Seal","line":"A sigil pressed in deep red.","verb":"Take it","x":40,"y":66,"title":"The House’s mark","body":"Not a logo. A promise, pressed into wax: what’s made here is made carefully, or not at all."},{"id":"drawer-hd","cat":"rare","kind":"Rare Find","name":"The Drawer","line":"Locked, most days.","verb":"Open","x":72,"y":82,"rare":true,"rarity":"legendary","title":"The drawer gives","body":"It doesn’t open when you want it to. It opens when it’s ready — and today it was.\n\nInside: something small, and clearly kept for a reason. Keep it.","closed":"Locked, still. The drawer keeps its own hours, and today is not the day."},{"id":"lantern-hd","cat":"ambient","name":"The Lantern","line":"Turned low against the dark.","verb":"","x":74,"y":42,"react":"You turn it up a little. The nook leans in around the light."},{"id":"quill-hd","cat":"ambient","name":"The Quill","line":"Nib still wet.","verb":"","x":66,"y":52,"react":"A drop of ink gathers at the nib, and does not fall."},{"id":"pinned","cat":"lore","kind":"Pinned Notes","name":"Pinned Diagrams","line":"A wall of half-plans.","verb":"Look closer","x":30,"y":20,"title":"The wall of maybe","body":"Ideas I pinned up so they’d stop following me around. Half are nonsense. One or two are the whole reason this House exists. I won’t tell you which."},{"id":"candles-hd","cat":"ambient","name":"The Candles","line":"Three, burning together.","verb":"","x":42,"y":44,"react":"The three flames sway as one. Someone opened a door, far off."},{"id":"chair-hd","cat":"passage","name":"The Chair","line":"Worn to the shape of long nights.","verb":"Sit","x":40,"y":82,"narration":"You sit where the writing happens. The room narrows to a lamp, a page, and the sound of your own thinking. This is where the House is most itself."},{"id":"astro-hd","cat":"cat","name":"Astro","line":"Asleep on the windowsill.","verb":"","x":60,"y":33,"reacts":["He stirs, resettles, guards the desk in his sleep.","One ear turns toward you. The rest of him declines.","He yawns enormously, and returns to duty."]},{"id":"window-hd","cat":"lore","kind":"The Glass","name":"The Window","line":"Ivy and moonlight beyond.","verb":"Look up","x":60,"y":22,"w":9,"h":16,"title":"The night keeps watch too","body":"The ivy has half-taken the glass. I let it. Some things should be a little overgrown, a little hidden. That’s the whole point of a nook."}]};
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var touch = matchMedia('(hover: none)').matches;
   var env=document.getElementById('env'), img=document.getElementById('envimg');
   img.onerror=function(){ img.removeAttribute('src'); };
   img.src=ZONE.asset;
   var today=new Date(); var daySeed=today.getFullYear()*1000+(today.getMonth()*31+today.getDate());
   function rand(n){ var x=Math.sin(daySeed*97.13+n*13.7)*10000; return x-Math.floor(x); }
+  function hashId(s){ var n=0; for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))%99991; return n; }
   var phases=['New Moon','Waxing Crescent','First Quarter','Waxing Gibbous','Full Moon','Waning Gibbous','Last Quarter','Waning Crescent'];
   var lunar=(((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())/86400000)-6.6)%29.53)/29.53; if(lunar<0)lunar+=1;
   var phase=phases[Math.floor(lunar*8)%8];
   document.getElementById('living').innerHTML='The House · '+phase+'<br>'+(rand(9)>0.5?'It is quiet tonight.':'You hear a page settle.');
-  var newIdx=Math.floor(rand(3)*ZONE.hotspots.length);
+
+  // collection
   var KEY='hol_collection';
   function getColl(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
   function inColl(id){ return getColl().some(function(x){return x.id===id;}); }
   function keep(item){ var c=getColl(); if(!c.some(function(x){return x.id===item.id;})){ c.push({id:item.id,title:item.title,kind:item.kind,zone:ZONE.id}); try{localStorage.setItem(KEY,JSON.stringify(c));}catch(e){} } render(); }
   function render(){ document.getElementById('ccount').textContent=getColl().length; }
   render();
-  var zone=document.getElementById('zone');
-  ZONE.hotspots.forEach(function(h,i){
-    var s=document.createElement('div'); s.className='spot'+(i===newIdx?' is-new':''); s.tabIndex=0; s.setAttribute('role','button'); s.setAttribute('aria-label',h.name);
+
+  // build invisible hit regions
+  var spots=[];
+  ZONE.hotspots.forEach(function(h){
+    var s=document.createElement('div'); s.className='spot'+(h.cat==='cat'?' astro':''); s.tabIndex=0; s.setAttribute('role','button'); s.setAttribute('aria-label',h.name+' — '+h.line);
     s.style.left=h.x+'%'; s.style.top=h.y+'%';
-    s.innerHTML='<span class="orb"></span><span class="whisper"><span class="wn">'+h.name+'</span><span class="wd">'+h.line+'</span><span class="wa">'+(i===newIdx?'\u2726 New today \u00b7 ':'')+h.verb+' \u2192</span></span>';
-    s.addEventListener('click',function(){ open(h); });
-    s.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(h); } });
-    env.appendChild(s);
+    if(h.w) s.style.setProperty('--sw',h.w+'%'); if(h.h) s.style.setProperty('--sh',h.h+'%');
+    var verb = h.verb ? '<span class="wn">'+h.verb+' \u2192</span>' : '';
+    s.innerHTML='<span class="wake"></span><span class="whisper"><span class="wl">'+h.line+'</span>'+verb+'</span>';
+    s.addEventListener('click',function(e){ tap(h,s,e); });
+    s.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(h,s); } });
+    env.appendChild(s); spots.push(s);
   });
-  var scrim=document.getElementById('scrim'), panel=document.getElementById('panel'), toastEl=document.getElementById('toast');
-  function open(h){
-    var kept=inColl(h.id); var plain=(h.kind==='Passage'||h.kind==='The Cat');
-    panel.innerHTML='<span class="kind">'+h.kind+'</span><h2>'+h.title+'</h2><div class="body">'+h.body+'</div>'+
-      '<div class="acts">'+
-      (plain?'':'<button class="act read">Read now</button>')+
-      (plain?'':'<button class="act keep'+(kept?' kept':'')+'" data-keep>'+(kept?'Kept \u2713':'Keep')+'</button>')+
-      (h.href?'<button class="act go" data-go>Step through \u2192</button>':'')+
-      '<button class="act leave">'+(h.kind==='The Cat'?'Leave him be':'Leave')+'</button></div>';
-    scrim.classList.add('open');
-    panel.querySelector('.leave').onclick=close;
-    var rd=panel.querySelector('.read'); if(rd) rd.onclick=function(){ toast('Opened \u2014 '+h.title); close(); };
-    var kp=panel.querySelector('[data-keep]'); if(kp&&!kept) kp.onclick=function(){ keep(h); kp.textContent='Kept \u2713'; kp.classList.add('kept'); toast('Kept \u2014 it\u2019s in your Room now.'); };
-    var gb=panel.querySelector('[data-go]'); if(gb) gb.onclick=function(){ location.href=h.href; };
+
+  // mobile: first tap wakes, second acts
+  var armed=null;
+  function disarm(){ if(armed){ armed.classList.remove('awake'); armed=null; } }
+  function tap(h,s,e){
+    if(touch){ if(!s.classList.contains('awake')){ disarm(); s.classList.add('awake'); armed=s; return; } disarm(); }
+    activate(h,s);
   }
-  function close(){ scrim.classList.remove('open'); }
-  scrim.addEventListener('click',function(e){ if(e.target===scrim) close(); });
+  document.addEventListener('click',function(e){ if(touch && armed && !e.target.closest('.spot')) disarm(); }, true);
+
+  // dispatch by category
+  function activate(h,s){
+    var c=h.cat||'artifact';
+    if(c==='artifact'){ openArtifact(h); }
+    else if(c==='rare'){ if(rand(hashId(h.id)+1)>0.45){ openArtifact(h); } else { floatLine(h.x,h.y-5, h.closed||'Nothing gives, tonight.'); flashWake(s); } }
+    else if(c==='nav'){ walkTo(h); }
+    else if(c==='passage'){ dwell(h,s); }
+    else if(c==='ambient'){ floatLine(h.x,h.y-5, h.react||h.line); flashWake(s); }
+    else if(c==='lore'){ openLore(h); }
+    else if(c==='cat'){ astroReact(h,s); }
+    else openArtifact(h);
+  }
+
+  // in-world helpers
+  function flashWake(s){ if(!s) return; s.classList.add('flash'); setTimeout(function(){ s.classList.remove('flash'); },420); }
+  function floatLine(x,y,text){ var f=document.createElement('div'); f.className='floatline'; f.style.left=x+'%'; f.style.top=y+'%'; f.textContent=text; env.appendChild(f); setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); },3600); }
+  function astroReact(h,s){ var r=h.reacts||['He blinks, slowly.']; var i=Math.floor(rand(hashId(h.id)+ (s._n=(s._n||0)+1))*r.length)%r.length; flashWake(s); floatLine(h.x, h.y-6, r[i]); }
+
+  // passage — sit / look; the room settles and holds until you move
+  var dwelling=false, dwelldim=document.getElementById('dwelldim');
+  function dwell(h,s){
+    if(h.href){ walkTo(h); return; }
+    if(reduce){ floatLine(h.x,h.y-6,h.narration); return; }
+    dwelling=true; parallaxOff=true;
+    env.style.transition='transform 1.6s var(--ease)'; env.style.transformOrigin=h.x+'% '+h.y+'%';
+    env.style.transform='translate(-50%,-50%) scale(1.14)';
+    dwelldim.classList.add('on');
+    floatLine(h.x, h.y-8, h.narration);
+    var stop=function(ev){ if(ev.target.closest('.spot')) return; document.removeEventListener('click',stop,true); endDwell(); };
+    setTimeout(function(){ document.addEventListener('click',stop,true); },400);
+  }
+  function endDwell(){ dwelling=false; dwelldim.classList.remove('on'); env.style.transition='transform .9s var(--ease)'; env.style.transform='translate(-50%,-50%)'; setTimeout(function(){ parallaxOff=false; },900); }
+
+  // nav — the camera walks toward the object, then through
+  var moving=false, roomfade=document.getElementById('roomfade');
+  function walkTo(h){
+    if(!h.route){ floatLine(h.x,h.y-5,'This way isn’t open yet.'); return; }
+    if(moving) return; moving=true;
+    if(reduce){ location.href=h.route; return; }
+    parallaxOff=true; env.style.transition='transform 1.15s cubic-bezier(.5,0,.72,0)'; env.style.transformOrigin=h.x+'% '+h.y+'%';
+    env.style.transform='translate(-50%,-50%) scale(2.6)';
+    roomfade.classList.add('on');
+    setTimeout(function(){ location.href=h.route; },1150);
+  }
+
+  // ===== ARTIFACT VIEWER =====
+  var toastEl=document.getElementById('toast');
+  var av=document.getElementById('av'), avhold=document.getElementById('avhold'), avp=document.getElementById('avp');
+  var hn=document.getElementById('hn'), hnl=document.getElementById('hnl');
+  var KEY_SVG='<svg viewBox="0 0 60 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="kg" x1="0" x2="1"><stop offset="0" stop-color="#8a6a2e"/><stop offset=".5" stop-color="#e6c877"/><stop offset="1" stop-color="#7a5a24"/></linearGradient></defs><g fill="url(#kg)" stroke="#5a4318" stroke-width="1.5"><circle cx="30" cy="34" r="22"/><circle cx="30" cy="34" r="9" fill="#1c1712"/><rect x="26" y="52" width="8" height="120"/><rect x="34" y="150" width="16" height="7"/><rect x="34" y="162" width="12" height="7"/></g></svg>';
+  function typeOf(k){ if(k==='Journal'||k==='Rare Book') return 'book'; if(k==='Letter') return 'letter'; if(k==='Rare Find') return 'object'; return 'page'; }
+  function rarityOf(h,k){ if(h.rarity) return h.rarity; if(h.rare) return 'rare'; if(k==='Letter'||k==='Rare Book') return 'uncommon'; return 'common'; }
+  function kindTag(h,rar){ return '<span class="art-kind">'+h.kind+((rar==='rare'||rar==='legendary')?'<span class="rare-tag">'+rar+'</span>':'')+'</span>'; }
+  function actBtns(o){ var s='';
+    if(o.read) s+='<button class="art-act" data-read>'+o.read+'</button>';
+    if(o.keep) s+='<button class="art-act keep'+(o.kept?' kept':'')+'" data-keep>'+(o.kept?'Kept \u2713':o.keep)+'</button>';
+    s+='<button class="art-act" data-close>'+o.close+'</button>';
+    return '<div class="art-acts">'+s+'</div>'; }
+  function openLore(h){
+    av.className='av open r-common';
+    avhold.innerHTML='<div class="lorewrap"><div class="art lore-art">'+kindTag(h,'common')+'<h2 class="art-title">'+h.title+'</h2><div class="art-body">'+h.body+'</div><div class="art-acts"><button class="art-act" data-close>Let it be</button></div></div></div>';
+    avhold.querySelector('[data-close]').onclick=close;
+  }
+  function openArtifact(h){
+    var t=h.art||typeOf(h.kind), rar=rarityOf(h,h.kind), kept=inColl(h.id);
+    av.className='av open r-'+rar; var html='';
+    if(t==='book'){
+      html='<div class="art book"><div class="book-spread art-paper">'+
+        '<div class="book-page left">'+kindTag(h,rar)+'<h2 class="art-title">'+h.title+'</h2></div>'+
+        '<div class="book-page right"><div class="art-body">'+h.body+'</div></div>'+
+        '<span class="book-gutter"></span></div>'+
+        '<div class="book-foot art-paper">'+actBtns({keep:'Keep in My Room',close:'Return to Shelf',kept:kept})+'</div></div>';
+    } else if(t==='letter'){
+      html='<div class="art art-paper letter" id="artletter"><div class="seal" id="artseal" title="Break the seal"></div>'+
+        '<p class="prompt">The wax is unbroken. Break the seal.</p>'+
+        '<div class="fold">'+kindTag(h,rar)+'<h2 class="art-title">'+h.title+'</h2><div class="art-body">'+h.body+'</div>'+
+        actBtns({read:'Read',keep:'Keep',close:'Refold',kept:kept})+'</div></div>';
+    } else if(t==='object'){
+      html='<div class="art art-scroll art-gold-edge object"><div class="relic">'+KEY_SVG+'</div><div>'+
+        kindTag(h,rar)+'<h2 class="art-title">'+h.title+'</h2><div class="art-body">'+h.body+'</div>'+
+        actBtns({keep:'Take',close:'Leave',kept:kept})+'</div></div>';
+    } else if(t==='mirror'){
+      html='<div class="art mirror"><div class="mirror-glass stirred"><div class="surface"></div><div class="figure"></div></div>'+
+        '<div class="art-scroll art-gold-edge" style="padding:1.1rem 1.4rem;border-radius:4px;">'+kindTag(h,rar)+
+        '<h2 class="art-title">'+h.title+'</h2><div class="art-body">'+h.body+'</div>'+
+        actBtns({keep:(rar==='common'?null:'Keep'),close:'Look away',kept:kept})+'</div></div>';
+    } else {
+      html='<div class="art art-paper art-gold-edge page">'+kindTag(h,rar)+'<h2 class="art-title">'+h.title+'</h2>'+
+        '<div class="art-body">'+h.body+'</div>'+actBtns({read:'Read',keep:'Keep',close:'Let It Fall',kept:kept})+'</div>';
+    }
+    avhold.innerHTML=html; spawnParticles(rar); if(rar==='legendary') houseReacts();
+    var seal=document.getElementById('artseal'); if(seal) seal.onclick=function(){ document.getElementById('artletter').classList.add('open-seal'); };
+    var rd=avhold.querySelector('[data-read]'); if(rd) rd.onclick=function(){ toast('You read it, slowly.'); };
+    var kp=avhold.querySelector('[data-keep]'); if(kp&&!kept) kp.onclick=function(){ keep(h); kp.textContent='Kept \u2713'; kp.classList.add('kept'); toast('Placed in Your Room.'); };
+    avhold.querySelector('[data-close]').onclick=close;
+  }
+  function close(){ av.className='av'; avhold.innerHTML=''; avp.innerHTML=''; }
+  function spawnParticles(rar){ avp.innerHTML=''; var n=rar==='legendary'?30:(rar==='rare'?16:(rar==='uncommon'?8:0));
+    for(var i=0;i<n;i++){ var p=document.createElement('span'); p.className='p'; p.style.left=(6+Math.random()*88).toFixed(1)+'%'; p.style.top=(30+Math.random()*60).toFixed(1)+'%'; p.style.animationDuration=(4+Math.random()*5).toFixed(1)+'s'; p.style.animationDelay=(-Math.random()*5).toFixed(1)+'s'; avp.appendChild(p); } }
+  function houseReacts(){ hnl.textContent='The House notices.'; hn.classList.remove('go'); hnl.classList.remove('go'); void hn.offsetWidth; hn.classList.add('go'); hnl.classList.add('go'); }
+  av.addEventListener('click',function(e){ if(e.target===av||e.target.classList.contains('av-veil')) close(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
   var tt; function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(tt); tt=setTimeout(function(){ toastEl.classList.remove('show'); },2600); }
+
+  // dust + parallax
   var dust=document.getElementById('dust');
   for(var i=0;i<(reduce?8:24);i++){ var m=document.createElement('span'); m.className='mote';
     m.style.left=(4+Math.random()*92).toFixed(1)+'%'; m.style.top=(10+Math.random()*80).toFixed(1)+'%';
     if(reduce){ m.style.opacity='0.35'; } else { m.style.setProperty('--dx',(Math.random()*8-4).toFixed(0)+'px'); m.style.animation='rise '+(7+Math.random()*7).toFixed(1)+'s linear '+(-Math.random()*12).toFixed(1)+'s infinite'; } dust.appendChild(m); }
-  if(!reduce){ addEventListener('mousemove',function(e){ var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
+  var parallaxOff=false;
+  if(!reduce){ addEventListener('mousemove',function(e){ if(parallaxOff||dwelling||moving) return; var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transition='transform .3s var(--ease)'; env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
 })();
 </script>
 </body>

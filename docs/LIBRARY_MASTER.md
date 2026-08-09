@@ -4,6 +4,9 @@
 
 > # “A place you visit, not a tool you use.”
 > **The one question every future feature must answer: *does this make someone want to spend another ten quiet minutes in the House?*** If yes, it belongs. If it only "adds functionality," it belongs somewhere else. — Luna, ratified 9 Aug 2026
+>
+> ## “Every Artifact Viewer should feel like a different piece of furniture in the House, not a different screen in an app.”
+> When someone clicks a book they should think *"I picked up a book,"* not *"a modal opened."* This shapes every animation, shadow, button, and interaction. — Luna, ratified 9 Aug 2026
 
 ---
 
@@ -472,7 +475,49 @@ How memory *shows itself* — quietly, never announced:
 
 Data model (extends the existing `hol_collection` / `hol_lib_first`): a single `hol_house` record — `{firstRoom, firstSeen, firstMoon, metAstro, visitsByRoom{}, dwellMs{}, opened[], kept[] (already have), favouriteChair}`. Every zone writes to it on arrival/interaction; Your Room reads from it to render the "evidence." Build in slices — the cheap first brick (first-visit stamp: first room, first moon, first-met-Astro) can ship immediately since the plumbing already exists.
 
+## The Artifact Viewer — ✅ BUILT (Luna's ratified system, 9 Aug 2026)
+
+No object opens in a generic modal. Each collectible has its own presentation that **begins from the object and expands into view**; the room stays visible behind it, thrown out of focus (depth-of-field blur); closing returns you exactly where you stood — no reloads. One reusable engine drives every zone (`kind` → artifact type; `rare`/`rarity` → dressing).
+
+**Templates (built):**
+
+| Type | Presentation | Actions |
+|---|---|---|
+| **Book** (Journal, Rare Book) | opens onto a two-page spread, gutter shadow, parchment | Continue Reading · Keep in My Room · Close Book |
+| **Page** (Luna Note, Quote) | floats up off the floor, turns once, settles flat | Read · Keep · Leave It Here |
+| **Letter** | arrives sealed; pressing the wax **cracks the seal** and the letter unfolds | Read · Keep · Refold Letter |
+| **Object** (Rare Find) | museum display — the relic **rotates**, lore beside it | Keep · Return |
+| **Mirror** | the glass fills the view; ~4.5s later something stirs in the reflection | Keep · Look away |
+| **Passage / Cat** | a quiet parchment beat (Step through → / Leave him be) | — |
+
+**Rarity dressing:** common = plain parchment · uncommon = +wax + faint particles · rare = leather-gold scroll + glow + a `RARE` tag · **legendary = the House reacts** — a warm pulse across the whole screen and *"The House notices."* The two brass keys (Bookshelves lever, Hidden Desk drawer) are legendary.
+
+**Design language:** dark academia · museum · Victorian archive. Aged parchment, brass, wax, leather-gold. No glassmorphism, no white cards, no generic dialogs — every viewer is built in scalable CSS so it stays crisp.
+
+**Inventory philosophy (direction):** Keep is not "add to a list" — it is **placing the object into Your Room** (`/you`). Later, kept things become furniture there: books on shelves, letters stacked on the desk, keys on hooks, paintings on walls, pressed flowers between books, constellations found. Your Room becomes the record of your journey — a home, not a dashboard. *(This is the presentation layer for Blueprint 004 — The House Remembers.)*
+
+**Still to build:** the Painting template (frame grows, subtle animation — no painting objects placed yet); the Terminal walk-in (camera to the CRT instead of a viewer); rare-tier custom sound; and Your Room's furnished-inventory view.
+
+## The Interaction Layer — ✅ REBUILT (Luna's interaction pass, 9 Aug 2026)
+
+**North star:** with nothing hovered, a screenshot of any Library room looks like untouched concept art. Nothing reveals it's a webpage until you get curious and touch something. *(Verified — the at-rest render is pure environment.)*
+
+- **Invisible at rest.** No orbs, no markers, ever. An object only responds when the cursor enters its (invisible, generous) hit area, keyboard focus reaches it, or — on mobile — first tap wakes it and second tap acts. The response is a soft *localized* light on the object itself, not a floating circle.
+- **Whispers are placards from shadow.** No cream cards — the line and verb materialise (blur→clear) out of a soft dark halo, then vanish when you leave. The writing Luna liked is kept; only the treatment changed.
+- **Density over objectives.** Rooms now carry 8–14 objects, not four, sorted by category so wandering is rewarded: **navigation** (walk somewhere) · **artifact** (Read/Keep/Leave) · **ambient** (tiny in-world reaction, no reward) · **lore** (a House/world detail) · **rare** (seed-gated). Bookshelves and Fireplace carry 14 each.
+- **In-world reactions, no modal.** Ambient objects answer in place (the clock ticks louder, a candle gutters, a page settles) as a line rising near the object. "Sit" settles the camera toward the chair, dims the room a touch, and holds until you move — no paper card. Astro never opens a modal.
+- **Object-matched verbs.** Book: *Keep in My Room / Return to Shelf.* Letter: *Break the Seal / Keep / Refold.* Page: *Read / Keep / Let It Fall.* Key: *Take / Leave.* Chair: *Sit.* Ladder: *Climb.*
+- **Lighter depth of field.** Examining an artifact blurs and vignettes the room but keeps it perceptible — you're holding something *inside* the room, not on another screen.
+
+## Astro — ✅ a resident, not wallpaper (sprite layer, 9 Aug 2026)
+
+Astro is a **transparent sprite layered above the room**, from Luna's sprite pack — never baked into a background. Stack: `room bg → objects → Astro (transparent PNG) → whispers`. Seven poses cut clean: sit, look-up, walk, red-bed, loaf, on-a-book, curled. The daily seed picks his **pose, his spot, and whether he's here at all** (some nights he's elsewhere; the Mirror he visits only rarely). He breathes gently, casts a real shadow, and on click reacts in-world — a soft glint and a line rising beside him — never a card.
+
+Live in the six roam rooms now (Fireplace, Main Table, Upstairs, Loose Pages, Mirror, Secret Patio). The three rooms with a cat **painted into the background** (Bookshelves, Hidden Desk, Terminal) keep that painted cat for now so there's never a double — **send cat-free background regens for those three and Astro roams there too.**
+
 ## Change log
+- **v1.4 — 9 Aug 2026** — Interaction layer rebuilt: invisible-at-rest hotspots, placard whispers, category system (nav/artifact/ambient/lore/rare), in-world reactions for ambient + sit + Astro, object-matched verbs, lighter depth-of-field, mobile two-tap. Astro rebuilt as a transparent sprite layer (7 poses, seed-driven pose/spot/presence) across the six roam rooms. Open: cat-free backgrounds for Bookshelves/Hidden Desk/Terminal so Astro roams there; Astro idle animation (blink/tail via the face + tail sprites); walk-between-rooms.
+- **v1.3 — 9 Aug 2026** — Artifact Viewer engine BUILT and rolled to all 9 zones: per-type presentation (book / page / letter / object / mirror), rarity dressing through legendary "the House notices," depth-of-field blur behind, close-in-place. Elevated the "furniture, not a screen" law to the banner. Recorded the inventory-as-Your-Room philosophy.
 - **v1.2 — 9 Aug 2026** — New full-res Upstairs render installed (007), hotspots re-pinned to the real gallery (balcony · reading chair · alcove lamp · patio door · Astro on the balustrade). *Note: the new render has no telescope — the ratified "Telescope" interaction is deferred until a scope is in the art (or say the word and I'll pin a sky-gaze beat at a window).* Elevated Luna's mantra to the document banner. Captured two ratified directions: **Astro's living routines** and **Blueprint 004 — The House Remembers**.
 - **v1.1 — 9 Aug 2026** — Hub + all 9 zones BUILT on the real renders and installed to the repo. Zone-ID registry LOCKED to grid order 001–010 (§11). Hub interaction model (invisible hotspots, walk-in / kneel transitions, day-gated discovery) implemented and verified. Zone content prose is Claude-drafted placeholder in Luna's voice — hers to rewrite. Open: full-res art for 007 Upstairs & 009 Loose Pages; script the day-7 Astro-key and day-14 mirror-walk scenes; ratify proposed interactions & unlock timings.
 - **v1.0 — 9 Aug 2026** — First full Library bible. Hub + 9 zones spec'd. Six Bibles codified.
