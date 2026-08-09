@@ -1,44 +1,54 @@
 <!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Your Room · House of Luna</title>
+<title>Threshold of Your Room · House of Luna</title>
 <link rel="stylesheet" href="/styles/tokens.css"/>
 <style>
-  /* Your Room — THRESHOLD. The doorway you arrive at from the Grand Hall: the whole
-     doorway fills the view (title carved in the stone), the light breathes, dust
-     drifts, a slow push-in on load, and the door itself is the interaction (the room is still being built). */
+  /* THRESHOLD of Your Room — the doorway you arrive at from the Grand Hall.
+     A cinematic arrival: fade from black, a slow push-in toward the door, the light
+     breathing, dust drifting, the lantern flickering. The doorway itself is the
+     interaction (the room is still being built). Part of the House architecture, not a loading screen. */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;background:#050403;overflow:hidden;}
   body{cursor:default;--g:232,182,120;}
   .scene{position:fixed;inset:0;display:block;overflow:hidden;background:#050403;text-decoration:none;color:transparent;outline:none;}
-  .bg{position:absolute;inset:-6%;background:url('/assets/your-full.png') center/cover no-repeat;filter:blur(34px) brightness(.42) saturate(.9);transform:scale(1.08);}
-  .bg-veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 100% at 50% 46%, transparent 40%, rgba(5,4,3,.5) 82%, rgba(5,4,3,.8) 100%);}
-  .art{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:min(100vh, calc(100vw * 1448 / 1086));aspect-ratio:1086/1448;will-change:transform,scale;scale:1;animation:pushin 3s cubic-bezier(.22,1,.36,1) both;box-shadow:0 30px 90px -20px rgba(0,0,0,.8);transition:transform .5s cubic-bezier(.22,1,.36,1);}
-  @keyframes pushin{from{scale:1.11;}to{scale:1;}}
+  .bg{position:absolute;inset:-6%;background:url('/assets/your-full.png') center/cover no-repeat;filter:blur(38px) brightness(.36) saturate(.9);transform:scale(1.08);}
+  .bg-veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(122% 104% at 50% 46%, transparent 36%, rgba(5,4,3,.56) 80%, rgba(5,4,3,.86) 100%);}
+  /* the doorway dominates the view; a slow push-in on load; parallax rides on top */
+  .art{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);height:min(103vh, calc(100vw * 1448 / 1086));aspect-ratio:1086/1448;will-change:transform,scale;scale:1;animation:pushin 3.4s cubic-bezier(.22,1,.36,1) both;box-shadow:0 40px 100px -24px rgba(0,0,0,.85);transition:transform .5s cubic-bezier(.22,1,.36,1);}
+  @keyframes pushin{from{scale:1.12;}to{scale:1;}}
   @keyframes breathe{0%,100%{filter:brightness(1);}50%{filter:brightness(1.13);}}
   .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
   .fx{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;}
   .fx>span{position:absolute;transform:translate(-50%,-50%);transition:opacity .5s ease, transform .5s ease, filter .5s ease;}
-  .flame{left:51%;top:11%;width:24%;height:15%;background:radial-gradient(circle at 50% 50%, rgba(232,182,120,.6) 0%, rgba(232,182,120,.28) 34%, rgba(232,182,120,.09) 58%, transparent 76%);filter:brightness(calc(1 + .18*var(--w,0)));}
-  .spill{left:58%;top:60%;width:46%;height:62%;background:radial-gradient(44% 58% at 50% 40%, rgba(232,182,120,.4) 0%, rgba(232,182,120,.19) 42%, transparent 80%);opacity:calc(.68 + .6*var(--w,0));transform:translate(-50%,-50%) scale(calc(1 + .07*var(--w,0)));animation:breathe 6.5s ease-in-out infinite;}
-  .pool{left:53%;top:90%;width:58%;height:20%;background:radial-gradient(50% 100% at 50% 0%, rgba(232,182,120,.42) 0%, transparent 78%);opacity:calc(.66 + .5*var(--w,0));animation:breathe 7.5s ease-in-out infinite;}
+  .flame{left:51%;top:11%;width:24%;height:15%;background:radial-gradient(circle at 50% 50%, rgba(232,182,120,.6) 0%, rgba(232,182,120,.28) 34%, rgba(232,182,120,.09) 58%, transparent 76%);filter:brightness(calc(1 + .2*var(--w,0)));}
+  .spill{left:58%;top:60%;width:46%;height:62%;background:radial-gradient(44% 58% at 50% 40%, rgba(232,182,120,.4) 0%, rgba(232,182,120,.19) 42%, transparent 80%);opacity:calc(.66 + .6*var(--w,0));transform:translate(-50%,-50%) scale(calc(1 + .08*var(--w,0)));animation:breathe 6.5s ease-in-out infinite;}
+  .pool{left:53%;top:90%;width:58%;height:20%;background:radial-gradient(50% 100% at 50% 0%, rgba(232,182,120,.42) 0%, transparent 78%);opacity:calc(.64 + .5*var(--w,0));animation:breathe 7.5s ease-in-out infinite;}
   .dust{left:0;top:0;transform:none;width:100%;height:100%;}
   .mote{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle, rgba(255,236,200,.85), rgba(255,236,200,0));mix-blend-mode:screen;}
   @keyframes rise{0%{transform:translateY(0);opacity:0;}12%{opacity:.8;}80%{opacity:.5;}100%{transform:translateY(-140px) translateX(var(--dx,4px));opacity:0;}}
   @keyframes flick{0%,100%{opacity:1;}38%{opacity:.82;filter:brightness(1.08);}64%{opacity:.94;}82%{opacity:.86;}}
   @media (prefers-reduced-motion:no-preference){ .flame{animation:flick 3.4s cubic-bezier(.22,1,.36,1) infinite;} }
-  @media (prefers-reduced-motion:reduce){ .art{transition:none;animation:none;scale:1;} .spill{opacity:1;animation:none;} .pool{opacity:.95;animation:none;} }
-  .scene:focus-visible{box-shadow:inset 0 0 0 3px rgba(227,163,74,.55), inset 0 0 60px rgba(227,163,74,.25);}
-  .enter-cue{position:fixed;left:0;right:0;bottom:clamp(1.1rem,4vh,2.2rem);text-align:center;z-index:5;pointer-events:none;font-family:var(--font-machine,monospace);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(240,224,196,.62);opacity:0;animation:cueIn 1s ease 2.4s forwards;text-shadow:0 0 12px rgba(232,182,120,.6);}
+  @media (prefers-reduced-motion:reduce){ .art{transition:none;animation:none;scale:1;} .spill{opacity:1;animation:none;} .pool{opacity:.95;animation:none;} .fade{display:none;} }
+  /* return to the Hall — elegant gold text, no button */
+  .return{position:fixed;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,3.4vw,2rem);z-index:6;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.12em;font-size:clamp(.82rem,1.5vw,1.05rem);color:rgba(226,196,130,.82);text-decoration:none;text-shadow:0 1px 5px rgba(0,0,0,.9);transition:color .3s;}
+  .return:hover{color:#F2DCA4;}
+  .enter-cue{position:fixed;left:0;right:0;bottom:clamp(1.1rem,4vh,2.2rem);text-align:center;z-index:5;pointer-events:none;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,224,196,.5);opacity:0;animation:cueIn 1.4s ease 3s forwards;text-shadow:0 0 12px rgba(232,182,120,.55);}
   @keyframes cueIn{to{opacity:1;}}
+  /* fade from black on arrival */
+  .fade{position:fixed;inset:0;z-index:30;background:#000;pointer-events:none;animation:fadeout 1.7s ease .1s both;}
+  @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
+  .scene:focus-visible{box-shadow:inset 0 0 0 3px rgba(227,163,74,.55), inset 0 0 60px rgba(227,163,74,.25);}
 </style></head><body>
   <div class="scene"  aria-label="Your Room — being built" id="scene">
     <div class="bg" aria-hidden="true"></div><div class="bg-veil" aria-hidden="true"></div>
     <div class="art" id="art">
-      <img src="/assets/your-full.png" alt="Your Room — an ancient arched wooden door in stone, a lantern above, light within"/>
+      <img src="/assets/your-full.png" alt="Threshold of Your Room — an ancient arched wooden door in stone, a lantern above, light within"/>
       <span class="fx"><span class="spill"></span><span class="pool"></span><span class="flame"></span><span class="dust" id="dust"></span></span>
     </div>
     <span class="enter-cue">Still being built</span>
   </div>
+  <a class="return" href="/">&larr; The Grand Hall</a>
+  <div class="fade" aria-hidden="true"></div>
 <script>
   var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var art=document.getElementById('art'), dust=document.getElementById('dust'), scene=document.getElementById('scene');
