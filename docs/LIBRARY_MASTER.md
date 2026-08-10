@@ -532,7 +532,11 @@ Both doors are now **open** — the Grand Hall's Luna's-Room and Your-Room thres
 
 > The user should never think *"I'm logging into Velvet."* They should think *"I'm going home."*
 
-**Login becomes the first thing you unlock.** No auth screen — a ceremony. First visit: *"Welcome to The House. Every visitor is given a room. The House remembers what you leave behind."* → **Receive Your Key** → (Supabase Auth) → instead of "Account created," *"The House has prepared a room for you. Follow me."* → the door opens, fade, and you're standing in **Your Room** for the first time. *(BUILT front-end; the Supabase account step hooks into the "Receive Your Key" click — awaiting go-ahead.)*
+**Login becomes the first thing you unlock — ✅ WIRED to real Supabase Auth.** No auth screen — a ceremony. First visit: *"Welcome to The House. Every visitor is given a room… How would you like your door to be known?"* (optional door name → stored as `display_name`) → **Receive Your Key** → *"Forge your key. Keep it somewhere safe — it opens your room."* (email · key · confirm key) → on success the 🗝→🚪 **unlock animation** (*Unlocking… · The House remembers you. · Welcome home.*), fade, and you're in **Your Room**. Returning visitors get *"Welcome back. The House recognizes you."* (email · key · Enter). The word **"password" never appears — it is always a Key.**
+
+Auth decisions (ratified): **email + Key** as the foundation, architected so **Apple/Google slot in later as more "keys"** without changing a word the user sees (all methods = *"using your key"*). Magic links were rejected — *"someone just discovered a magical mansion, and now Gmail enters the story."* Session-aware (`supabase.auth.getSession()` skips the ceremony for signed-in residents). The signup uses `supabase.auth.signUp({ email, password, options:{ data:{ display_name } } })`, which fires the room-provisioning trigger — so **the room exists the instant a key is forged.**
+
+**Supabase config to verify (Luna, in the dashboard):** (1) Authentication → Providers → **Email enabled** (default on); (2) **"Confirm email"** — if ON (default), a forged key needs an email confirmation before *logging in* (the room is already created either way); the flow shows *"Confirm it in your email, then return."* Turn it OFF for instant *"welcome home"* with no email step (less strict, more immersive — your call); (3) Authentication → URL Configuration → add the deployed domain to **Site URL / Redirect URLs** (needed if Confirm email is on). The publishable key is embedded client-side (safe by design; RLS protects data). The GEMINI/service secrets are never touched.
 
 **The rename — VELVET stops being "the app."** It becomes one room in a larger House:
 - **The House** — the whole experience.
@@ -543,31 +547,17 @@ Both doors are now **open** — the Grand Hall's Luna's-Room and Your-Room thres
 
 **Two identities: `users` + `rooms`.** Every signup provisions a room. Your room *is* your profile — people don't visit `@luna`, they visit *Luna's Room* (Animal-Crossing / Hogwarts-dorm / old-Tumblr energy).
 
-Proposed `rooms` schema — **SPEC ONLY, not applied to Supabase without Luna's go-ahead** (and never breaking the running project):
-```sql
-create table rooms (
-  room_id     uuid primary key default gen_random_uuid(),
-  owner       uuid references auth.users(id) on delete cascade,
-  room_name   text not null default 'Your Room',
-  theme       text default 'warm',      -- warm | violet | ...
-  wall_color  text,
-  music       text,                       -- playlist / vinyl ref
-  layout      jsonb default '{}',         -- furniture placement
-  created_at  timestamptz default now()
-);
--- companion: room_items (the furniture) — one row per kept/earned object
-create table room_items (
-  id        uuid primary key default gen_random_uuid(),
-  room_id   uuid references rooms(room_id) on delete cascade,
-  kind      text,        -- book | letter | portrait | vinyl | illustration | crystal ...
-  title     text,
-  source    text,        -- which room/action it came from
-  shelf     text,        -- where it sits (Shelf 3, wall, desk...)
-  meta      jsonb,
-  created_at timestamptz default now()
-);
-```
-*(This is where `hol_collection` graduates from localStorage to a real per-room table.)*
+**Room architecture — ✅ LIVE IN SUPABASE** (project `velvet-muse-studio`, applied 9 Aug 2026). Additive only; Velvet's existing tables untouched. Every table has Row-Level Security: rooms are publicly *visitable* (Hallways) but only the owner can change theirs.
+
+| Table | Purpose |
+|---|---|
+| `profiles` *(extended)* | Velvet's table + new `username` (unique), `avatar`, `bio` |
+| `rooms` | one per resident — `name`, `theme`, `wallpaper`, `music`, `lighting`, `layout` jsonb, `computer_theme`, `is_public` |
+| `room_items` | every Keep / earned object as furniture — `item_type`, `title`, `source`, `position` jsonb |
+| `room_visitors` | "Luna visited your room" — `visitor_id`, `visited_at` |
+| `room_customizations` | wallpaper, curtains, furniture, plants, fireplace, pet, music, weather |
+
+**The signup hook now gives every visitor a room.** `handle_new_user()` was extended (Velvet's profile + workspace creation preserved exactly) to also provision a `rooms` row + `room_customizations` on account creation — exception-guarded so it can never block a signup. *"A room is created"* is now literally true. `hol_collection` (localStorage) is the front-end shadow of `room_items` until the client is wired to Supabase.
 
 **Every action becomes furniture — not badges, not XP.**
 
@@ -586,7 +576,11 @@ create table room_items (
 > **MOONNET** · Connected to The House
 > ✦ Continue Creating → Velvet · ✦ Your Room · ✦ **Hallways** · ✦ **Conversations** · ✦ Letters (Substack, in-House) · ✦ Observatory (discover) · ✦ Settings
 
-VELVET stops being "the app" — it's one application running on MoonNet. The eventual tree: `MoonNet → { Velvet(Studio/Library/Codex), Your Room, Hallways, Conversations, Letters, Moss & Moon, Observatory, … }`. The outside platforms (Threads, Substack) still exist; MoonNet wraps them in the House's own language, so if native versions ship later, users never notice the seam.
+VELVET stops being "the app" — it's one application running on MoonNet. **The House is the product; VELVET is the first room people spend time in.** The eventual tree: `MoonNet → { Velvet(Studio/Library/Codex), Your Room, Hallways, Conversations, Letters, Moss & Moon, Observatory, … }`. The outside platforms (Threads, Substack) still exist; MoonNet wraps them in the House's own language, so if native versions ship later, users never notice the seam.
+
+**MoonNet is the hub, and destinations are DATA (✅ built).** The desktop reads `public.moonnet_destinations` (slug, title, icon, kind, href, soon_note, enabled, requires_auth, sort_order) over the public API — never hardcoded. Sign-in flows to Your Room → MoonNet → *Continue Creating* → Velvet, not straight to Velvet. To point *Continue Creating* at Velvet (or later, your own platforms for Letters/Conversations), you edit **one row's `href`** — no code change, no redeploy. Front-end falls back to a built-in list if offline. *Current rows:* Continue Creating · Your Room · Hallways · Conversations · Letters · Moss & Moon · Observatory · Settings (Continue Creating / Letters / Moss & Moon have `href` null → "warming up" until set).
+
+**The resident is the source of truth.** `Resident → { Room, Muses, Keeps, Collections, Canon, Letters, Conversations, Velvet Projects }`. Everything belongs to the resident; Velvet simply edits some of it. Generate an image → a framed print appears on a wall; publish a Letter → a bound journal on a shelf; favourite a Muse → a portrait above the fireplace; 100 creations → a gold plaque; visit often → plants grow, candles multiply. No popups, no achievements — the House simply remembers.
 
 - **Hallways** (BUILT preview) — you don't click usernames, you *open doors*: "Doors are waiting tonight — ○ A Botanical Conservatory · ○ A Witch's Study · ○ A Poet's Apartment · ○ A Cyberpunk Loft · ○ A Cottage Kitchen." Luna's Room is a live door; the rest fill as rooms are claimed. This is the visiting layer (the old MySpace/Tumblr idea, in-world).
 - **Conversations** (BUILT preview) — the House's version of Threads: little notes pinned around the House. *"Luna left a thought — 'the moon remembers every version of you.' ♡ 247 · Leave your own note…"* Not a clone; in-world.
@@ -603,9 +597,13 @@ VELVET stops being "the app" — it's one application running on MoonNet. The ev
 | Pin / Save | **Keep** / **Collected** |
 | Internet | **MoonNet** — *"Connected by moonlight."* |
 
-**Open for Luna:** (1) go-ahead to create the `rooms`/`room_items` tables in Supabase; (2) real MySpace/Tumblr/Substack handles + the Velvet route for "Continue to Velvet"; (3) confirm the area rename as canon.
+**Open for Luna:** (1) ✅ DONE — room tables live in Supabase; (2) wire the front-end: `Receive Your Key` → Supabase Auth signup (site needs the Supabase URL + anon key + client), and swap Your Room's collection from `hol_collection` to `room_items`; (3) real handles + Velvet route for MoonNet destinations; (4) confirm the area rename as canon.
 
 ## Change log
+- **v2.3 — 9 Aug 2026** — Mobile/Hub bug pass from Luna's walkthrough. Hub: **discovery day-gating turned OFF** (all 8 doorways show at once — it was hiding Main Table etc.), hotspots **re-measured onto the real objects** (Main Table dead-center, hearth far-right, shelves far-left…), whispers switched to the lighter placard style, and on phones the Hub now **fits the full width** so every doorway is visible and tappable (was a wide panorama cropped to one edge door). Zones: softened the whisper/floatline shadow (the "floating dark orb"), and added a **contact shadow under Astro** so he never reads as floating.
+- **v2.2 — 9 Aug 2026** — **"Receive Your Key" wired to real Supabase Auth** (email + Key, never "password"): welcome + optional door-name → Forge your key (email/key/confirm) → 🗝→🚪 unlock → Your Room; returning = "Welcome back, the House recognizes you." Session-aware; door name → `display_name`; signup fires the room trigger. supabase-js loaded on the room pages; auth layer abstracted for Apple/Google later. Config for Luna to verify: email provider, Confirm-email setting, Site/Redirect URLs. UI verified in-sandbox (welcome / forge / sign-in); live auth round-trip runs on the deployed site (sandbox can't reach Supabase).
+- **v2.1 — 9 Aug 2026** — MoonNet is now **data-driven**: `public.moonnet_destinations` table (RLS: public reads enabled rows) seeded with the 8 destinations; the desktop reads them over the publishable API and falls back to a built-in list offline. Hub model ratified (sign-in → Your Room → MoonNet → Velvet). "Continue Creating" href left null pending the Velvet URL — set the row to go live. Resident-as-source-of-truth captured.
+- **v2.0 — 9 Aug 2026** — **Room architecture built in Supabase** (`velvet-muse-studio`): `rooms`, `room_items`, `room_visitors`, `room_customizations` (all RLS'd; rooms public-visitable, owner-writable), `profiles` extended with username/avatar/bio. `handle_new_user()` extended to provision a room at signup (exception-guarded; Velvet's profile+workspace creation preserved). Signup trigger hardened (execute revoked from anon/authenticated). Security advisors: no errors on the new tables. Next: wire `Receive Your Key` → Supabase Auth and read `room_items` in Your Room.
 - **v1.9 — 9 Aug 2026** — The computer became **MoonNet**, the House's operating system: it boots (`Connecting… ✦ The House remembers. ✓ Velvet ✓ Letters ✓ Conversations ✓ Hallways ✓ Observatory`) then resolves to a desktop (Continue Creating / Your Room / Hallways / Conversations / Letters / Observatory / Settings). **Hallways** (open doors, not usernames) and **Conversations** (in-world notes) built as previews. Luna's Room computer now boots MoonNet too. Ratified the MoonNet vocabulary (Visit Room / Room / Memories / Keep / Collected).
 - **v1.8 — 9 Aug 2026** — Blueprint 005 (House Network / auth-as-arriving-home) ratified and captured, with the proposed `rooms`+`room_items` schema (spec only). BUILT front-end: the "Receive Your Key" first-visit ceremony and the THE HOUSE NETWORK computer menu in Your Room. Supabase account step + real social links await Luna's go-ahead.
 - **v1.7 — 9 Aug 2026** — Luna's Room and Your Room BUILT on the engine and wired (thresholds opened, House Map updated). Your Room's collection view ("Everything You've Kept") ships as the first slice of Blueprint 004 — reads the kept-items store and displays them by source room. Engine gained per-room tone (`--accent`/`--wake`), a `collection` hotspot type, external `link` hotspots, and per-room return targets. Astro roams both rooms too.

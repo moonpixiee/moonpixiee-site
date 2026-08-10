@@ -9,7 +9,7 @@
   /* LIBRARY ZONE ENGINE v2 — invisible at rest; objects catch light when you look.
      One config, one photoreal room. This file: The Hidden Desk. */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  :root{ --gold:#E3B968; --paper:#EFE7D8; --ink:#2a2118; --ease:cubic-bezier(.22,1,.36,1); }
+  :root{ --gold:#E3B968; --paper:#EFE7D8; --ink:#2a2118; --ease:cubic-bezier(.22,1,.36,1); --wake:rgba(255,214,140,.5); }
   html,body{height:100%;background:#0a0806;overflow:hidden;font-family:var(--font-narrator,Georgia,serif);color:var(--paper);}
   .zone{position:fixed;inset:0;overflow:hidden;background:#0a0806;}
   .env{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:104vw;aspect-ratio:1672/941;will-change:transform;transition:transform .6s var(--ease);
@@ -24,18 +24,19 @@
   /* HOTSPOT — an invisible hit region. Nothing shows until you look. */
   .spot{position:absolute;transform:translate(-50%,-50%);width:var(--sw,4.4%);height:var(--sh,9%);min-width:38px;min-height:48px;cursor:pointer;z-index:5;outline:none;}
   .spot .wake{position:absolute;inset:-34% -44%;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .5s var(--ease), filter .5s var(--ease);
-    background:radial-gradient(closest-side, rgba(255,214,140,.5), rgba(255,198,110,.14) 55%, transparent 78%);}
+    background:radial-gradient(closest-side, var(--wake), transparent 78%);}
   .spot.astro .wake{background:radial-gradient(closest-side, rgba(186,208,255,.5), rgba(150,180,235,.12) 55%, transparent 76%);}
   .spot:hover .wake,.spot:focus-visible .wake,.spot.awake .wake{opacity:.85;}
   .spot.flash .wake{opacity:1;filter:brightness(1.5);}
   /* WHISPER — a placard that materialises out of shadow. No box. */
   .spot .whisper{position:absolute;left:50%;bottom:120%;transform:translateX(-50%) translateY(8px);width:max-content;max-width:min(74vw,258px);text-align:center;pointer-events:none;opacity:0;filter:blur(3px);transition:opacity .45s var(--ease), transform .45s var(--ease), filter .45s var(--ease);}
   .spot:hover .whisper,.spot:focus-visible .whisper,.spot.awake .whisper,.astro:hover .whisper,.astro:focus-visible .whisper,.astro.awake .whisper{opacity:1;filter:blur(0);transform:translateX(-50%) translateY(0);}
-  .whisper::before{content:"";position:absolute;inset:-60% -34%;z-index:-1;pointer-events:none;background:radial-gradient(58% 66% at 50% 50%, rgba(8,6,10,.74), transparent 72%);filter:blur(7px);}
+  .whisper::before{content:"";position:absolute;inset:-32% -14%;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 116% 62% at 50% 50%, rgba(8,6,10,.5), transparent 78%);filter:blur(10px);}
 
   /* ASTRO — a resident, not wallpaper: a transparent sprite layered on the room */
   .astro{position:absolute;transform:translate(-50%,-100%);z-index:4;cursor:pointer;outline:none;}
-  .astro .abody{position:relative;width:100%;transform-origin:bottom center;filter:drop-shadow(0 8px 16px rgba(0,0,0,.62));animation:breathe 5.5s ease-in-out infinite, stir 9s ease-in-out infinite;}
+  .astro .abody{position:relative;z-index:1;width:100%;transform-origin:bottom center;filter:drop-shadow(0 8px 16px rgba(0,0,0,.62));animation:breathe 5.5s ease-in-out infinite, stir 9s ease-in-out infinite;}
+  .astro .aground{position:absolute;left:50%;bottom:-1%;transform:translateX(-50%);width:76%;height:9%;border-radius:50%;background:radial-gradient(ellipse closest-side, rgba(0,0,0,.55), transparent 78%);z-index:0;pointer-events:none;filter:blur(2px);}
   .astro .abody img{display:block;width:100%;height:auto;}
   @keyframes breathe{0%,100%{scale:1 1;}50%{scale:1 1.014;}}
   @keyframes stir{0%,82%,100%{rotate:0deg;}90%{rotate:-1.5deg;}96%{rotate:.7deg;}}
@@ -49,7 +50,7 @@
 
   /* narration lines that rise near an object (ambient / astro / passage) */
   .floatline{position:absolute;transform:translate(-50%,-50%);z-index:6;pointer-events:none;max-width:min(70vw,260px);text-align:center;font-family:var(--font-narrator,serif);font-style:italic;font-size:1.02rem;line-height:1.45;color:rgba(245,238,222,.97);text-shadow:0 1px 14px rgba(0,0,0,.98);opacity:0;animation:floatline 3.4s ease forwards;}
-  .floatline::before{content:"";position:absolute;inset:-52% -30%;z-index:-1;background:radial-gradient(58% 66% at 50% 50%, rgba(8,6,10,.72), transparent 72%);filter:blur(8px);}
+  .floatline::before{content:"";position:absolute;inset:-30% -14%;z-index:-1;background:radial-gradient(ellipse 116% 60% at 50% 50%, rgba(8,6,10,.5), transparent 78%);filter:blur(11px);}
   @keyframes floatline{0%{opacity:0;transform:translate(-50%,-44%);}16%{opacity:1;transform:translate(-50%,-50%);}78%{opacity:1;}100%{opacity:0;transform:translate(-50%,-56%);}}
   /* dwell — sitting; the room settles, dims a touch, and holds */
   .dwell-dim{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:radial-gradient(120% 100% at 50% 52%, transparent 30%, rgba(4,3,6,.5) 82%, rgba(4,3,6,.7) 100%);transition:opacity 1.2s var(--ease);}
@@ -93,6 +94,72 @@
   .lore-art::after{content:"";position:absolute;} /* placeholder */
   .av.open .art.lore-art{animation:loreIn .9s var(--ease) both;}
   @keyframes loreIn{0%{opacity:0;filter:blur(8px);transform:translateY(14px);}100%{opacity:1;filter:blur(0);transform:translateY(0);}}
+  .collroll{width:min(92vw,640px);max-height:84vh;overflow:auto;padding:clamp(1.5rem,4vw,2.3rem);border-radius:5px;}
+  .ki-count{font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:#c6a45a;margin:.2rem 0 1.1rem;}
+  .keeplist{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:.7rem;}
+  .keepitem{border:1px solid rgba(198,160,90,.3);border-radius:4px;padding:.7rem .85rem;background:rgba(198,160,90,.06);display:flex;flex-direction:column;gap:.15rem;}
+  .ki-kind{font-family:var(--font-machine,monospace);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:#c6a45a;}
+  .ki-title{font-family:var(--font-architect,serif);font-size:1.02rem;color:#f0e2bd;line-height:1.15;}
+  .ki-zone{font-family:var(--font-narrator,serif);font-style:italic;font-size:.78rem;color:rgba(233,224,208,.55);}
+  .ki-empty{font-family:var(--font-narrator,serif);font-style:italic;font-size:1.05rem;line-height:1.7;color:rgba(233,224,208,.82);text-align:center;padding:1.5rem 0;}
+  /* THE HOUSE NETWORK — the computer screen */
+  .hnet{width:min(92vw,540px);max-height:84vh;overflow:auto;border-radius:8px;background:linear-gradient(180deg,#0b0f1e,#080a14);border:1px solid #2a3350;box-shadow:0 40px 110px -28px rgba(0,0,0,.9), inset 0 0 60px rgba(60,90,180,.14), 0 0 0 1px rgba(120,150,220,.15);color:#cdd8f5;font-family:var(--font-machine,monospace);}
+  .hn-bar{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.1rem;border-bottom:1px solid rgba(120,150,220,.2);}
+  .hn-title{letter-spacing:.24em;font-size:.7rem;color:#a9c0f5;}
+  .hn-status{font-size:.56rem;letter-spacing:.16em;color:#7fdca0;}
+  .hn-list{display:flex;flex-direction:column;padding:.6rem;gap:.12rem;}
+  .hn-item{display:flex;align-items:center;gap:.65rem;text-align:left;background:transparent;border:none;color:#cdd8f5;font-family:var(--font-machine,monospace);font-size:.82rem;letter-spacing:.06em;padding:.58rem .75rem;border-radius:4px;cursor:pointer;transition:background .2s,color .2s;}
+  .hn-item:hover{background:rgba(120,150,220,.14);color:#eaf1ff;}
+  .hn-dot{width:6px;height:6px;border-radius:50%;background:#5f77c8;box-shadow:0 0 8px #5f77c8;flex:none;}
+  .hn-foot{padding:.6rem 1.1rem 1rem;border-top:1px solid rgba(120,150,220,.2);}
+  .hn-foot .art-act{color:#a9c0f5;border-color:rgba(120,150,220,.4);}
+  .hn-foot .art-act:hover{background:rgba(120,150,220,.2);color:#fff;}
+  /* MoonNet */
+  .mn-boot{font-family:var(--font-machine,monospace);font-size:.82rem;line-height:1.75;color:#9fdcb0;white-space:pre-wrap;padding:1.5rem 1.4rem;margin:0;min-height:260px;}
+  .mn-bar{padding:.85rem 1.15rem;border-bottom:1px solid rgba(120,150,220,.2);}
+  .mn-title{display:block;letter-spacing:.3em;font-size:.8rem;color:#dbe4ff;}
+  .mn-sub{display:block;margin-top:.25rem;font-size:.58rem;letter-spacing:.12em;color:#8090c2;}
+  .mn-list{display:flex;flex-direction:column;padding:.6rem;gap:.12rem;}
+  .mn-item{display:flex;align-items:center;gap:.7rem;text-align:left;background:transparent;border:none;color:#cdd8f5;font-family:var(--font-machine,monospace);font-size:.86rem;letter-spacing:.05em;padding:.62rem .78rem;border-radius:4px;cursor:pointer;transition:background .2s,color .2s;}
+  .mn-item:hover{background:rgba(120,150,220,.14);color:#eaf1ff;}
+  .mn-star{color:#8aa2e8;} .mn-door{color:#8aa2e8;font-size:.92em;}
+  .mn-notes{padding:.75rem;display:flex;flex-direction:column;gap:.7rem;}
+  .mn-note{border:1px solid rgba(120,150,220,.18);border-radius:5px;padding:.85rem .95rem;background:rgba(120,150,220,.05);}
+  .mn-who{font-family:var(--font-machine,monospace);font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:#8090c2;margin:0 0 .35rem;}
+  .mn-txt{font-family:var(--font-narrator,Georgia,serif);font-style:italic;font-size:1.02rem;color:#e6ecff;margin:0;line-height:1.5;}
+  .mn-heart{font-family:var(--font-machine,monospace);font-size:.62rem;color:#c98aa8;margin:.45rem 0 0;}
+  .mn-leave{margin-top:.1rem;text-align:left;background:transparent;border:1px dashed rgba(120,150,220,.3);border-radius:5px;color:#8f9fce;font-family:var(--font-machine,monospace);font-size:.74rem;padding:.65rem .85rem;cursor:pointer;}
+  .mn-leave:hover{background:rgba(120,150,220,.1);color:#cdd8f5;}
+  .hn-foot [data-back]{color:#a9c0f5;border-color:rgba(120,150,220,.4);}
+  /* RECEIVE YOUR KEY — the first-visit ceremony */
+  .keyrite{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:#05040a;opacity:0;transition:opacity 1s ease, background 1.6s ease;text-align:center;padding:2rem;}
+  .keyrite.show{opacity:1;}
+  .keyrite.gone{opacity:0;}
+  .kr-inner{max-width:580px;}
+  .kr-line{font-family:var(--font-architect,'Cormorant Garamond',serif);font-size:clamp(1.2rem,3vw,1.95rem);color:rgba(240,232,216,.95);line-height:1.5;margin:.5rem 0;opacity:0;transform:translateY(8px);animation:krin 1.3s ease forwards;}
+  .kr-line.d1{animation-delay:1.2s;} .kr-line.d2{animation-delay:2.4s;}
+  .kr-line.show2{animation:krin 1.3s ease forwards;} .kr-line.show2.d1{animation-delay:1s;}
+  @keyframes krin{to{opacity:1;transform:translateY(0);}}
+  .kr-line.show2.d2{animation-delay:2s;}
+  .kr-btn{margin-top:1.4rem;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.14em;font-size:1.12rem;color:#f0e2bd;background:transparent;border:1px solid rgba(227,185,104,.6);border-radius:4px;padding:.7rem 1.9rem;cursor:pointer;transition:background .3s,color .3s;}
+  .kr-btn:hover{background:rgba(227,185,104,.18);color:#fff;}
+  .kr-btn:disabled{opacity:.5;cursor:default;}
+  .kr-d{opacity:0;animation:krin 1.3s ease 3.7s forwards;}
+  .kr-namewrap{margin-top:1.9rem;opacity:0;animation:krin 1.3s ease 3.5s forwards;display:flex;flex-direction:column;gap:.55rem;align-items:center;}
+  .kr-label{font-family:var(--font-narrator,serif);font-style:italic;font-size:.92rem;color:rgba(240,232,216,.68);}
+  .kr-label span{opacity:.55;font-size:.85em;}
+  .kr-form{display:flex;flex-direction:column;gap:.7rem;align-items:center;margin:1.5rem auto 0;}
+  .kr-input{font-family:var(--font-narrator,Georgia,serif);font-size:1rem;color:#f0e2bd;background:rgba(255,255,255,.04);border:1px solid rgba(227,185,104,.35);border-radius:4px;padding:.7rem .9rem;text-align:center;width:min(86vw,320px);}
+  .kr-input::placeholder{color:rgba(240,232,216,.4);font-style:italic;}
+  .kr-input:focus{outline:none;border-color:rgba(227,185,104,.75);background:rgba(255,255,255,.06);}
+  .kr-form .kr-btn{margin-top:.3rem;}
+  .kr-err{min-height:1.2em;margin-top:.7rem;font-family:var(--font-narrator,serif);font-style:italic;font-size:.9rem;color:#d69a9a;}
+  .kr-alt{margin-top:.5rem;background:none;border:none;color:rgba(227,185,104,.72);font-family:var(--font-narrator,serif);font-style:italic;font-size:.88rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+  .kr-alt:hover{color:#f0e2bd;}
+  .kr-unlock{display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+  .kr-key{font-size:2.7rem;line-height:1;opacity:0;animation:krkey 1.4s ease .15s forwards;}
+  @keyframes krkey{0%{opacity:0;transform:rotate(-42deg) scale(.7);}45%{opacity:1;}100%{opacity:1;transform:rotate(0) scale(1);}}
+  .kr-door{font-size:2.7rem;line-height:1;margin-top:.5rem;opacity:0;animation:krin 1.2s ease 1.9s forwards;}
   .lorewrap{position:relative;}
   .lorewrap::before{content:"";position:absolute;inset:-30% -20%;z-index:-1;background:radial-gradient(56% 60% at 50% 50%, rgba(8,6,12,.7), transparent 72%);filter:blur(10px);}
   .art.book{width:min(94vw,760px);display:flex;flex-direction:column;gap:.7rem;perspective:1800px;}
@@ -167,7 +234,7 @@
   <div class="fade" aria-hidden="true"></div>
 <script>
 (function(){
-  var ZONE = {"id":"hiddendesk","title":"The Hidden Desk","asset":"/assets/hiddendesk-env.png","hotspots":[{"id":"letters","cat":"artifact","kind":"Letter","name":"The Letters","line":"Pinned where they can be seen.","verb":"Break the seal","x":30,"y":26,"title":"Letters I never sent","body":"Some of these are to people. Some are to versions of myself I didn’t become.\n\nI pin them up so I remember I meant them."},{"id":"ledger","cat":"artifact","kind":"Journal","name":"The Open Ledger","line":"Someone stopped writing mid-line.","verb":"Read","x":48,"y":58,"title":"The sentence breaks off here","body":"“—and if it works, then everything after this is going to be—”\n\nThat’s where I stopped. I don’t remember why. I never finished it."},{"id":"seal-wax","cat":"artifact","kind":"Quote","name":"A Wax Seal","line":"A sigil pressed in deep red.","verb":"Take it","x":40,"y":66,"title":"The House’s mark","body":"Not a logo. A promise, pressed into wax: what’s made here is made carefully, or not at all."},{"id":"drawer-hd","cat":"rare","kind":"Rare Find","name":"The Drawer","line":"Locked, most days.","verb":"Open","x":72,"y":82,"rare":true,"rarity":"legendary","title":"The drawer gives","body":"It doesn’t open when you want it to. It opens when it’s ready — and today it was.\n\nInside: something small, and clearly kept for a reason. Keep it.","closed":"Locked, still. The drawer keeps its own hours, and today is not the day."},{"id":"lantern-hd","cat":"ambient","name":"The Lantern","line":"Turned low against the dark.","verb":"","x":74,"y":42,"react":"You turn it up a little. The nook leans in around the light."},{"id":"quill-hd","cat":"ambient","name":"The Quill","line":"Nib still wet.","verb":"","x":66,"y":52,"react":"A drop of ink gathers at the nib, and does not fall."},{"id":"pinned","cat":"lore","kind":"Pinned Notes","name":"Pinned Diagrams","line":"A wall of half-plans.","verb":"Look closer","x":30,"y":20,"title":"The wall of maybe","body":"Ideas I pinned up so they’d stop following me around. Half are nonsense. One or two are the whole reason this House exists. I won’t tell you which."},{"id":"candles-hd","cat":"ambient","name":"The Candles","line":"Three, burning together.","verb":"","x":42,"y":44,"react":"The three flames sway as one. Someone opened a door, far off."},{"id":"chair-hd","cat":"passage","name":"The Chair","line":"Worn to the shape of long nights.","verb":"Sit","x":40,"y":82,"narration":"You sit where the writing happens. The room narrows to a lamp, a page, and the sound of your own thinking. This is where the House is most itself."},{"id":"astro-hd","cat":"cat","name":"Astro","line":"Asleep on the windowsill.","verb":"","x":60,"y":33,"reacts":["He stirs, resettles, guards the desk in his sleep.","One ear turns toward you. The rest of him declines.","He yawns enormously, and returns to duty."]},{"id":"window-hd","cat":"lore","kind":"The Glass","name":"The Window","line":"Ivy and moonlight beyond.","verb":"Look up","x":60,"y":22,"w":9,"h":16,"title":"The night keeps watch too","body":"The ivy has half-taken the glass. I let it. Some things should be a little overgrown, a little hidden. That’s the whole point of a nook."}],"astro":{"w":8,"line":"Keeping the desk company.","reacts":["He guards the desk, even in his sleep.","One ear turns toward you. The rest of him declines.","He yawns enormously, and returns to duty."],"absent":true,"spots":[{"x":40,"y":89,"pose":"sit"},{"x":70,"y":91,"pose":"curl"}]}};
+  var ZONE = {"id":"hiddendesk","title":"The Hidden Desk","asset":"/assets/hiddendesk-env.png","hotspots":[{"id":"letters","cat":"artifact","kind":"Letter","name":"The Letters","line":"Pinned where they can be seen.","verb":"Break the seal","x":30,"y":26,"title":"Letters I never sent","body":"Some of these are to people. Some are to versions of myself I didn’t become.\n\nI pin them up so I remember I meant them."},{"id":"ledger","cat":"artifact","kind":"Journal","name":"The Open Ledger","line":"Someone stopped writing mid-line.","verb":"Read","x":48,"y":58,"title":"The sentence breaks off here","body":"“—and if it works, then everything after this is going to be—”\n\nThat’s where I stopped. I don’t remember why. I never finished it."},{"id":"seal-wax","cat":"artifact","kind":"Quote","name":"A Wax Seal","line":"A sigil pressed in deep red.","verb":"Take it","x":40,"y":66,"title":"The House’s mark","body":"Not a logo. A promise, pressed into wax: what’s made here is made carefully, or not at all."},{"id":"drawer-hd","cat":"rare","kind":"Rare Find","name":"The Drawer","line":"Locked, most days.","verb":"Open","x":72,"y":82,"rare":true,"rarity":"legendary","title":"The drawer gives","body":"It doesn’t open when you want it to. It opens when it’s ready — and today it was.\n\nInside: something small, and clearly kept for a reason. Keep it.","closed":"Locked, still. The drawer keeps its own hours, and today is not the day."},{"id":"lantern-hd","cat":"ambient","name":"The Lantern","line":"Turned low against the dark.","verb":"","x":74,"y":42,"react":"You turn it up a little. The nook leans in around the light."},{"id":"quill-hd","cat":"ambient","name":"The Quill","line":"Nib still wet.","verb":"","x":66,"y":52,"react":"A drop of ink gathers at the nib, and does not fall."},{"id":"pinned","cat":"lore","kind":"Pinned Notes","name":"Pinned Diagrams","line":"A wall of half-plans.","verb":"Look closer","x":30,"y":20,"title":"The wall of maybe","body":"Ideas I pinned up so they’d stop following me around. Half are nonsense. One or two are the whole reason this House exists. I won’t tell you which."},{"id":"candles-hd","cat":"ambient","name":"The Candles","line":"Three, burning together.","verb":"","x":42,"y":44,"react":"The three flames sway as one. Someone opened a door, far off."},{"id":"chair-hd","cat":"passage","name":"The Chair","line":"Worn to the shape of long nights.","verb":"Sit","x":40,"y":82,"narration":"You sit where the writing happens. The room narrows to a lamp, a page, and the sound of your own thinking. This is where the House is most itself."},{"id":"astro-hd","cat":"cat","name":"Astro","line":"Asleep on the windowsill.","verb":"","x":60,"y":33,"reacts":["He stirs, resettles, guards the desk in his sleep.","One ear turns toward you. The rest of him declines.","He yawns enormously, and returns to duty."]},{"id":"window-hd","cat":"lore","kind":"The Glass","name":"The Window","line":"Ivy and moonlight beyond.","verb":"Look up","x":60,"y":22,"w":9,"h":16,"title":"The night keeps watch too","body":"The ivy has half-taken the glass. I let it. Some things should be a little overgrown, a little hidden. That’s the whole point of a nook."}],"astro":{"w":8,"line":"Keeping the desk company.","reacts":["He guards the desk, even in his sleep.","One ear turns toward you. The rest of him declines.","He yawns enormously, and returns to duty."],"absent":true,"spots":[{"x":40,"y":89,"pose":"sit"},{"x":70,"y":91,"pose":"curl"}]},"intro":false,"network":false};
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var touch = matchMedia('(hover: none)').matches;
   var env=document.getElementById('env'), img=document.getElementById('envimg');
@@ -211,7 +278,7 @@
       var sp=A.spots[Math.floor(rand(hashId(ZONE.id+'-spot'))*A.spots.length)%A.spots.length];
       var a=document.createElement('div'); a.className='astro'+(sp.flip?' flip':''); a.tabIndex=0; a.setAttribute('role','button'); a.setAttribute('aria-label','Astro — '+A.line);
       a.style.left=sp.x+'%'; a.style.top=sp.y+'%'; a.style.width=A.w+'%';
-      a.innerHTML='<span class="aglow"></span><div class="abody"><img class="aopen" src="/assets/astro/'+sp.pose+'.png" alt="Astro"/></div><span class="whisper"><span class="wl">'+A.line+'</span></span>';
+      a.innerHTML='<span class="aground"></span><span class="aglow"></span><div class="abody"><img class="aopen" src="/assets/astro/'+sp.pose+'.png" alt="Astro"/></div><span class="whisper"><span class="wl">'+A.line+'</span></span>';
       env.appendChild(a);
       var abusy=false, an=0;
       var areact=function(){ if(abusy) return; abusy=true; an=(an+1)%A.reacts.length; a.classList.add('purr'); floatLine(sp.x, Math.max(6,sp.y-A.w-6), A.reacts[Math.floor(rand(hashId(ZONE.id+an+'r'))*A.reacts.length)%A.reacts.length]); setTimeout(function(){ a.classList.remove('purr'); abusy=false; },2600); };
@@ -239,6 +306,9 @@
     else if(c==='passage'){ dwell(h,s); }
     else if(c==='ambient'){ floatLine(h.x,h.y-5, h.react||h.line); flashWake(s); }
     else if(c==='lore'){ openLore(h); }
+    else if(c==='collection'){ openCollection(h); }
+    else if(c==='network'){ openMoonNet(h); }
+    else if(c==='link'){ if(h.href){ window.open(h.href,'_blank'); } else { floatLine(h.x,h.y-5, h.soon||'Coming online soon.'); flashWake(s); } }
     else if(c==='cat'){ astroReact(h,s); }
     else openArtifact(h);
   }
@@ -292,6 +362,144 @@
     av.className='av open r-common';
     avhold.innerHTML='<div class="lorewrap"><div class="art lore-art">'+kindTag(h,'common')+'<h2 class="art-title">'+h.title+'</h2><div class="art-body">'+h.body+'</div><div class="art-acts"><button class="art-act" data-close>Let it be</button></div></div></div>';
     avhold.querySelector('[data-close]').onclick=close;
+  }
+  function niceZone(z){ var m={bookshelves:'the Bookshelves',fireplace:'the Fireplace',maintable:'the Main Table',hiddendesk:'the Hidden Desk',terminal:'the Terminal',upstairs:'Upstairs',loosepages:'Loose Pages',mirror:'the Mirror',secretpatio:'the Secret Patio',luna:"Luna's Room"}; return m[z]||(z||'the House'); }
+  function openCollection(h){
+    var c=getColl(), body;
+    if(!c.length){ body='<p class="ki-empty">Nothing rests here yet.<br>Wander the House — when you <em>Keep</em> something, it comes to live in this room.</p>'; }
+    else { body='<div class="keeplist">'+c.map(function(x){ return '<div class="keepitem"><span class="ki-kind">'+(x.kind||'Kept')+'</span><span class="ki-title">'+x.title+'</span><span class="ki-zone">from '+niceZone(x.zone)+'</span></div>'; }).join('')+'</div>'; }
+    av.className='av open r-common';
+    avhold.innerHTML='<div class="lorewrap"><div class="art art-scroll art-gold-edge collroll"><span class="art-kind">The House Remembers</span><h2 class="art-title">'+h.title+'</h2><p class="ki-count">'+c.length+' kept</p>'+body+'<div class="art-acts"><button class="art-act" data-close>Close</button></div></div></div>';
+    avhold.querySelector('[data-close]').onclick=close;
+  }
+  // ===== MoonNet — the operating system of The House =====
+  // Destinations are DATA (public.moonnet_destinations), not hardcode. The publishable
+  // key is safe for the browser; RLS only exposes enabled rows.
+  var SB_URL='https://pcgzhlxjcjdeweygdzci.supabase.co';
+  var SB_KEY='sb_publishable_TKJjv10k4Gg6lzDrwpopkQ_-Vf3yO_x';
+  var sb=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SB_URL,SB_KEY):null;
+  var MN_FALLBACK=[
+    {slug:'continue-creating',title:'Continue Creating',icon:'\u2726',kind:'external',href:null,soon_note:'The Studio is warming up. Velvet runs on MoonNet soon.'},
+    {slug:'your-room',title:'Your Room',icon:'\u2726',kind:'internal',href:'/you.html'},
+    {slug:'hallways',title:'Hallways',icon:'\u2726',kind:'view'},
+    {slug:'conversations',title:'Conversations',icon:'\u2726',kind:'view'},
+    {slug:'letters',title:'Letters',icon:'\u2726',kind:'external',href:null,soon_note:'Your Letters (long-form) arrive on MoonNet soon.'},
+    {slug:'observatory',title:'Observatory',icon:'\u2726',kind:'view',soon_note:'The Observatory opens soon.'},
+    {slug:'settings',title:'Settings',icon:'\u2726',kind:'view',soon_note:'Room settings open soon.'}
+  ];
+  var MN_DEST=null;
+  function mnFetchDest(cb){
+    if(MN_DEST){ cb(MN_DEST); return; }
+    try{
+      fetch(SB_URL+'/rest/v1/moonnet_destinations?select=slug,title,icon,kind,href,soon_note,requires_auth&enabled=eq.true&order=sort_order.asc',{headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}})
+        .then(function(r){ return r.ok?r.json():null; })
+        .then(function(j){ MN_DEST=(j&&j.length)?j:MN_FALLBACK; cb(MN_DEST); })
+        .catch(function(){ cb(MN_FALLBACK); });
+    }catch(e){ cb(MN_FALLBACK); }
+  }
+  function mnGo(it){
+    if(it.slug==='hallways'){ mnHalls(); return; }
+    if(it.slug==='conversations'){ mnConvo(); return; }
+    if(it.slug==='your-room'){ if(ZONE.id==='you'){ close(); toast('You’re already home.'); } else { location.href=it.href||'/you.html'; } return; }
+    if(it.kind==='internal' && it.href){ location.href=it.href; return; }
+    if(it.kind==='external' && it.href){ window.open(it.href,'_blank'); return; }
+    toast(it.soon_note||'Coming online soon.');
+  }
+  function openMoonNet(h){
+    av.className='av open r-common';
+    avhold.innerHTML='<div class="lorewrap"><div class="hnet" id="moonnet"><div class="mn-screen" id="mnscreen"></div></div></div>';
+    if(reduce){ mnDesktop(); return; }
+    var boot=['MOONNET','','Connecting\u2026','','\u2726 The House remembers.','','\u2713 Velvet','\u2713 Letters','\u2713 Conversations','\u2713 Hallways','\u2713 Observatory','','Connected.'];
+    document.getElementById('mnscreen').innerHTML='<pre class="mn-boot" id="mnboot"></pre>';
+    var pre=document.getElementById('mnboot'), i=0;
+    (function tick(){ if(!pre.isConnected) return; if(i<boot.length){ pre.textContent+=(i?'\n':'')+boot[i]; i++; setTimeout(tick, i<3?320:170); } else { setTimeout(mnDesktop, 700); } })();
+  }
+  function mnScreen(){ return document.getElementById('mnscreen'); }
+  function mnDesktop(){
+    var s=mnScreen(); if(!s) return;
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connecting to The House\u2026</span></div>';
+    mnFetchDest(function(dest){ var s2=mnScreen(); if(!s2) return;
+      s2.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connected to The House</span></div><div class="mn-list">'+
+        dest.map(function(it,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-star">'+(it.icon||'\u2726')+'</span>'+it.title+'</button>';}).join('')+
+        '</div><div class="hn-foot"><button class="art-act" data-close>Disconnect</button></div>';
+      s2.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ mnGo(dest[+b.getAttribute('data-i')]); }; });
+      s2.querySelector('[data-close]').onclick=close;
+    });
+  }
+  function mnHalls(){
+    var s=mnScreen(); if(!s) return;
+    var doors=[{n:"Luna's Room", href:'/luna.html'},{n:'A Botanical Conservatory'},{n:"A Witch's Study"},{n:"A Poet's Apartment"},{n:'A Cyberpunk Loft'},{n:'A Cottage Kitchen'}];
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">HALLWAYS</span><span class="mn-sub">Doors are waiting tonight.</span></div><div class="mn-list">'+
+      doors.map(function(d,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-door">\u25CB</span>'+d.n+'</button>';}).join('')+
+      '</div><div class="hn-foot"><button class="art-act" data-back>\u2190 MoonNet</button></div>';
+    s.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ var d=doors[+b.getAttribute('data-i')]; if(d.href){ location.href=d.href; } else { toast('That door is still locked. The Hallways fill as rooms are claimed.'); } }; });
+    s.querySelector('[data-back]').onclick=mnDesktop;
+  }
+  function mnConvo(){
+    var s=mnScreen(); if(!s) return;
+    var notes=[{who:'Luna', txt:'the moon remembers every version of you.', h:247},{who:'Luna', txt:'built another door tonight. i think someone will find it.', h:88},{who:'The House', txt:'a candle was lit in a room no one has visited in a while.', h:33}];
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">CONVERSATIONS</span><span class="mn-sub">Notes pinned around the House.</span></div><div class="mn-notes">'+
+      notes.map(function(n){return '<div class="mn-note"><p class="mn-who">'+n.who+' left a thought.</p><p class="mn-txt">\u201C'+n.txt+'\u201D</p><p class="mn-heart">\u2661 '+n.h+'</p></div>';}).join('')+
+      '<button class="mn-leave">Leave your own note\u2026</button></div><div class="hn-foot"><button class="art-act" data-back>\u2190 MoonNet</button></div>';
+    s.querySelector('.mn-leave').onclick=function(){ toast('Your notes join the House soon.'); };
+    s.querySelector('[data-back]').onclick=mnDesktop;
+  }
+  function buildIntro(){
+    function start(){ var ov=document.createElement('div'); ov.className='keyrite'; ov.__door=''; welcomeStep(ov); document.body.appendChild(ov); requestAnimationFrame(function(){ ov.classList.add('show'); }); }
+    if(sb&&sb.auth&&sb.auth.getSession){ sb.auth.getSession().then(function(r){ if(r&&r.data&&r.data.session) return; start(); }).catch(start); }
+    else { try{ if(localStorage.getItem('hol_room')) return; }catch(e){} start(); }
+  }
+  function welcomeStep(ov){
+    ov.innerHTML='<div class="kr-inner">'+
+      '<p class="kr-line">Welcome to The House.</p>'+
+      '<p class="kr-line d1">Every visitor is given a room.</p>'+
+      '<p class="kr-line d2">The House remembers what you leave behind.</p>'+
+      '<div class="kr-namewrap"><label class="kr-label">How would you like your door to be known? <span>(optional)</span></label>'+
+      '<input class="kr-input kr-name" type="text" maxlength="40" placeholder="a name for your door"/></div>'+
+      '<button class="kr-btn kr-d">Receive Your Key</button></div>';
+    ov.querySelector('.kr-btn').onclick=function(){ ov.__door=(ov.querySelector('.kr-name').value||'').trim(); forgeStep(ov,false); };
+  }
+  function forgeStep(ov, signin){
+    var inner=ov.querySelector('.kr-inner');
+    if(signin){
+      inner.innerHTML='<p class="kr-line show2">Welcome back.</p><p class="kr-line show2 d1">The House recognizes you.</p>'+
+        '<form class="kr-form"><input class="kr-input" type="email" name="email" placeholder="email" autocomplete="email" required/>'+
+        '<input class="kr-input" type="password" name="key" placeholder="your key" autocomplete="current-password" required/>'+
+        '<button class="kr-btn" type="submit">Enter</button></form>'+
+        '<p class="kr-err" aria-live="polite"></p><button class="kr-alt">New here? Forge a key.</button>';
+    } else {
+      inner.innerHTML='<p class="kr-line show2">Forge your key.</p><p class="kr-line show2 d1">Keep it somewhere safe — it opens your room.</p>'+
+        '<form class="kr-form"><input class="kr-input" type="email" name="email" placeholder="email" autocomplete="email" required/>'+
+        '<input class="kr-input" type="password" name="key" placeholder="your key" autocomplete="new-password" required/>'+
+        '<input class="kr-input" type="password" name="key2" placeholder="confirm your key" autocomplete="new-password" required/>'+
+        '<button class="kr-btn" type="submit">Receive Key</button></form>'+
+        '<p class="kr-err" aria-live="polite"></p><button class="kr-alt">Already have a key? Turn it.</button>';
+    }
+    var form=inner.querySelector('.kr-form'), err=inner.querySelector('.kr-err');
+    inner.querySelector('.kr-alt').onclick=function(){ forgeStep(ov, !signin); };
+    form.onsubmit=function(e){ e.preventDefault(); if(!sb){ err.textContent='The House can’t reach its records right now.'; return; }
+      var email=(form.email.value||'').trim(), key=form.key.value;
+      if(!signin){ if(key.length<6){ err.textContent='Your key needs at least 6 characters.'; return; } if(key!==form.key2.value){ err.textContent='Those keys don’t match.'; return; } }
+      var btn=form.querySelector('.kr-btn'); btn.disabled=true; var old=btn.textContent; btn.textContent='…';
+      var pr = signin ? sb.auth.signInWithPassword({email:email,password:key})
+                      : sb.auth.signUp({email:email,password:key,options:{data:{display_name: ov.__door||null}}});
+      pr.then(function(res){
+        if(res.error){ err.textContent=friendly(res.error.message); btn.disabled=false; btn.textContent=old; return; }
+        if(!signin && !(res.data&&res.data.session)){ inner.innerHTML='<p class="kr-line show2">Your key is forged.</p><p class="kr-line show2 d1">Confirm it in your email, then return to your room.</p>'; return; }
+        unlockStep(ov, signin);
+      }).catch(function(){ err.textContent='Something in the House didn’t turn. Try again.'; btn.disabled=false; btn.textContent=old; });
+    };
+  }
+  function friendly(m){ m=(m||'').toLowerCase();
+    if(m.indexOf('already')>=0) return 'A room already answers to that email. Turn your key instead.';
+    if(m.indexOf('at least')>=0||m.indexOf('6 char')>=0) return 'Your key needs at least 6 characters.';
+    if(m.indexOf('invalid')>=0||m.indexOf('credential')>=0) return 'That key didn’t turn. Check it and try again.';
+    if(m.indexOf('email')>=0) return 'That email doesn’t look right.';
+    return 'The House hesitated. Try again in a moment.'; }
+  function unlockStep(ov, signin){
+    try{ localStorage.setItem('hol_room', JSON.stringify({received:true})); }catch(e){}
+    ov.querySelector('.kr-inner').innerHTML='<div class="kr-unlock"><span class="kr-key">\uD83D\uDDDD</span><p class="kr-line show2">Unlocking\u2026</p><p class="kr-line show2 d1">The House remembers you.</p><span class="kr-door">\uD83D\uDEAA</span><p class="kr-line show2 d2">'+(signin?'Welcome home.':'Your room is ready. Welcome home.')+'</p></div>';
+    setTimeout(function(){ ov.classList.add('gone'); setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); },1400); }, 3200);
   }
   function openArtifact(h){
     var t=h.art||typeOf(h.kind), rar=rarityOf(h,h.kind), kept=inColl(h.id);
@@ -350,6 +558,7 @@
     zn.addEventListener('touchmove',function(e){ if(e.touches.length!==1||moving||dwelling||av.classList.contains('open')) return; var dx=e.touches[0].clientX-sx; if(Math.abs(dx)>8) drag=true; if(drag){ var mp=maxPan(); panX=Math.max(-mp,Math.min(mp,spn+dx)); env.style.transition='none'; env.style.transform='translate(calc(-50% + '+panX.toFixed(0)+'px),-50%)'; } },{passive:true});
     zn.addEventListener('touchend',function(){ if(drag){ suppressClick=true; setTimeout(function(){ suppressClick=false; },350); } },{passive:true});
   }
+  if(ZONE.intro){ buildIntro(); }
 })();
 </script>
 </body>

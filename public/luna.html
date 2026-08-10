@@ -31,11 +31,12 @@
   /* WHISPER — a placard that materialises out of shadow. No box. */
   .spot .whisper{position:absolute;left:50%;bottom:120%;transform:translateX(-50%) translateY(8px);width:max-content;max-width:min(74vw,258px);text-align:center;pointer-events:none;opacity:0;filter:blur(3px);transition:opacity .45s var(--ease), transform .45s var(--ease), filter .45s var(--ease);}
   .spot:hover .whisper,.spot:focus-visible .whisper,.spot.awake .whisper,.astro:hover .whisper,.astro:focus-visible .whisper,.astro.awake .whisper{opacity:1;filter:blur(0);transform:translateX(-50%) translateY(0);}
-  .whisper::before{content:"";position:absolute;inset:-60% -34%;z-index:-1;pointer-events:none;background:radial-gradient(58% 66% at 50% 50%, rgba(8,6,10,.74), transparent 72%);filter:blur(7px);}
+  .whisper::before{content:"";position:absolute;inset:-32% -14%;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 116% 62% at 50% 50%, rgba(8,6,10,.5), transparent 78%);filter:blur(10px);}
 
   /* ASTRO — a resident, not wallpaper: a transparent sprite layered on the room */
   .astro{position:absolute;transform:translate(-50%,-100%);z-index:4;cursor:pointer;outline:none;}
-  .astro .abody{position:relative;width:100%;transform-origin:bottom center;filter:drop-shadow(0 8px 16px rgba(0,0,0,.62));animation:breathe 5.5s ease-in-out infinite, stir 9s ease-in-out infinite;}
+  .astro .abody{position:relative;z-index:1;width:100%;transform-origin:bottom center;filter:drop-shadow(0 8px 16px rgba(0,0,0,.62));animation:breathe 5.5s ease-in-out infinite, stir 9s ease-in-out infinite;}
+  .astro .aground{position:absolute;left:50%;bottom:-1%;transform:translateX(-50%);width:76%;height:9%;border-radius:50%;background:radial-gradient(ellipse closest-side, rgba(0,0,0,.55), transparent 78%);z-index:0;pointer-events:none;filter:blur(2px);}
   .astro .abody img{display:block;width:100%;height:auto;}
   @keyframes breathe{0%,100%{scale:1 1;}50%{scale:1 1.014;}}
   @keyframes stir{0%,82%,100%{rotate:0deg;}90%{rotate:-1.5deg;}96%{rotate:.7deg;}}
@@ -49,7 +50,7 @@
 
   /* narration lines that rise near an object (ambient / astro / passage) */
   .floatline{position:absolute;transform:translate(-50%,-50%);z-index:6;pointer-events:none;max-width:min(70vw,260px);text-align:center;font-family:var(--font-narrator,serif);font-style:italic;font-size:1.02rem;line-height:1.45;color:rgba(245,238,222,.97);text-shadow:0 1px 14px rgba(0,0,0,.98);opacity:0;animation:floatline 3.4s ease forwards;}
-  .floatline::before{content:"";position:absolute;inset:-52% -30%;z-index:-1;background:radial-gradient(58% 66% at 50% 50%, rgba(8,6,10,.72), transparent 72%);filter:blur(8px);}
+  .floatline::before{content:"";position:absolute;inset:-30% -14%;z-index:-1;background:radial-gradient(ellipse 116% 60% at 50% 50%, rgba(8,6,10,.5), transparent 78%);filter:blur(11px);}
   @keyframes floatline{0%{opacity:0;transform:translate(-50%,-44%);}16%{opacity:1;transform:translate(-50%,-50%);}78%{opacity:1;}100%{opacity:0;transform:translate(-50%,-56%);}}
   /* dwell — sitting; the room settles, dims a touch, and holds */
   .dwell-dim{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;background:radial-gradient(120% 100% at 50% 52%, transparent 30%, rgba(4,3,6,.5) 82%, rgba(4,3,6,.7) 100%);transition:opacity 1.2s var(--ease);}
@@ -139,8 +140,26 @@
   .kr-line.d1{animation-delay:1.2s;} .kr-line.d2{animation-delay:2.4s;}
   .kr-line.show2{animation:krin 1.3s ease forwards;} .kr-line.show2.d1{animation-delay:1s;}
   @keyframes krin{to{opacity:1;transform:translateY(0);}}
-  .kr-btn{margin-top:2.2rem;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.14em;font-size:1.15rem;color:#f0e2bd;background:transparent;border:1px solid rgba(227,185,104,.6);border-radius:4px;padding:.7rem 1.9rem;cursor:pointer;opacity:0;animation:krin 1.3s ease 3.7s forwards;transition:background .3s,color .3s;}
+  .kr-line.show2.d2{animation-delay:2s;}
+  .kr-btn{margin-top:1.4rem;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.14em;font-size:1.12rem;color:#f0e2bd;background:transparent;border:1px solid rgba(227,185,104,.6);border-radius:4px;padding:.7rem 1.9rem;cursor:pointer;transition:background .3s,color .3s;}
   .kr-btn:hover{background:rgba(227,185,104,.18);color:#fff;}
+  .kr-btn:disabled{opacity:.5;cursor:default;}
+  .kr-d{opacity:0;animation:krin 1.3s ease 3.7s forwards;}
+  .kr-namewrap{margin-top:1.9rem;opacity:0;animation:krin 1.3s ease 3.5s forwards;display:flex;flex-direction:column;gap:.55rem;align-items:center;}
+  .kr-label{font-family:var(--font-narrator,serif);font-style:italic;font-size:.92rem;color:rgba(240,232,216,.68);}
+  .kr-label span{opacity:.55;font-size:.85em;}
+  .kr-form{display:flex;flex-direction:column;gap:.7rem;align-items:center;margin:1.5rem auto 0;}
+  .kr-input{font-family:var(--font-narrator,Georgia,serif);font-size:1rem;color:#f0e2bd;background:rgba(255,255,255,.04);border:1px solid rgba(227,185,104,.35);border-radius:4px;padding:.7rem .9rem;text-align:center;width:min(86vw,320px);}
+  .kr-input::placeholder{color:rgba(240,232,216,.4);font-style:italic;}
+  .kr-input:focus{outline:none;border-color:rgba(227,185,104,.75);background:rgba(255,255,255,.06);}
+  .kr-form .kr-btn{margin-top:.3rem;}
+  .kr-err{min-height:1.2em;margin-top:.7rem;font-family:var(--font-narrator,serif);font-style:italic;font-size:.9rem;color:#d69a9a;}
+  .kr-alt{margin-top:.5rem;background:none;border:none;color:rgba(227,185,104,.72);font-family:var(--font-narrator,serif);font-style:italic;font-size:.88rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+  .kr-alt:hover{color:#f0e2bd;}
+  .kr-unlock{display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+  .kr-key{font-size:2.7rem;line-height:1;opacity:0;animation:krkey 1.4s ease .15s forwards;}
+  @keyframes krkey{0%{opacity:0;transform:rotate(-42deg) scale(.7);}45%{opacity:1;}100%{opacity:1;transform:rotate(0) scale(1);}}
+  .kr-door{font-size:2.7rem;line-height:1;margin-top:.5rem;opacity:0;animation:krin 1.2s ease 1.9s forwards;}
   .lorewrap{position:relative;}
   .lorewrap::before{content:"";position:absolute;inset:-30% -20%;z-index:-1;background:radial-gradient(56% 60% at 50% 50%, rgba(8,6,12,.7), transparent 72%);filter:blur(10px);}
   .art.book{width:min(94vw,760px);display:flex;flex-direction:column;gap:.7rem;perspective:1800px;}
@@ -259,7 +278,7 @@
       var sp=A.spots[Math.floor(rand(hashId(ZONE.id+'-spot'))*A.spots.length)%A.spots.length];
       var a=document.createElement('div'); a.className='astro'+(sp.flip?' flip':''); a.tabIndex=0; a.setAttribute('role','button'); a.setAttribute('aria-label','Astro — '+A.line);
       a.style.left=sp.x+'%'; a.style.top=sp.y+'%'; a.style.width=A.w+'%';
-      a.innerHTML='<span class="aglow"></span><div class="abody"><img class="aopen" src="/assets/astro/'+sp.pose+'.png" alt="Astro"/></div><span class="whisper"><span class="wl">'+A.line+'</span></span>';
+      a.innerHTML='<span class="aground"></span><span class="aglow"></span><div class="abody"><img class="aopen" src="/assets/astro/'+sp.pose+'.png" alt="Astro"/></div><span class="whisper"><span class="wl">'+A.line+'</span></span>';
       env.appendChild(a);
       var abusy=false, an=0;
       var areact=function(){ if(abusy) return; abusy=true; an=(an+1)%A.reacts.length; a.classList.add('purr'); floatLine(sp.x, Math.max(6,sp.y-A.w-6), A.reacts[Math.floor(rand(hashId(ZONE.id+an+'r'))*A.reacts.length)%A.reacts.length]); setTimeout(function(){ a.classList.remove('purr'); abusy=false; },2600); };
@@ -354,6 +373,38 @@
     avhold.querySelector('[data-close]').onclick=close;
   }
   // ===== MoonNet — the operating system of The House =====
+  // Destinations are DATA (public.moonnet_destinations), not hardcode. The publishable
+  // key is safe for the browser; RLS only exposes enabled rows.
+  var SB_URL='https://pcgzhlxjcjdeweygdzci.supabase.co';
+  var SB_KEY='sb_publishable_TKJjv10k4Gg6lzDrwpopkQ_-Vf3yO_x';
+  var sb=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SB_URL,SB_KEY):null;
+  var MN_FALLBACK=[
+    {slug:'continue-creating',title:'Continue Creating',icon:'\u2726',kind:'external',href:null,soon_note:'The Studio is warming up. Velvet runs on MoonNet soon.'},
+    {slug:'your-room',title:'Your Room',icon:'\u2726',kind:'internal',href:'/you.html'},
+    {slug:'hallways',title:'Hallways',icon:'\u2726',kind:'view'},
+    {slug:'conversations',title:'Conversations',icon:'\u2726',kind:'view'},
+    {slug:'letters',title:'Letters',icon:'\u2726',kind:'external',href:null,soon_note:'Your Letters (long-form) arrive on MoonNet soon.'},
+    {slug:'observatory',title:'Observatory',icon:'\u2726',kind:'view',soon_note:'The Observatory opens soon.'},
+    {slug:'settings',title:'Settings',icon:'\u2726',kind:'view',soon_note:'Room settings open soon.'}
+  ];
+  var MN_DEST=null;
+  function mnFetchDest(cb){
+    if(MN_DEST){ cb(MN_DEST); return; }
+    try{
+      fetch(SB_URL+'/rest/v1/moonnet_destinations?select=slug,title,icon,kind,href,soon_note,requires_auth&enabled=eq.true&order=sort_order.asc',{headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}})
+        .then(function(r){ return r.ok?r.json():null; })
+        .then(function(j){ MN_DEST=(j&&j.length)?j:MN_FALLBACK; cb(MN_DEST); })
+        .catch(function(){ cb(MN_FALLBACK); });
+    }catch(e){ cb(MN_FALLBACK); }
+  }
+  function mnGo(it){
+    if(it.slug==='hallways'){ mnHalls(); return; }
+    if(it.slug==='conversations'){ mnConvo(); return; }
+    if(it.slug==='your-room'){ if(ZONE.id==='you'){ close(); toast('You’re already home.'); } else { location.href=it.href||'/you.html'; } return; }
+    if(it.kind==='internal' && it.href){ location.href=it.href; return; }
+    if(it.kind==='external' && it.href){ window.open(it.href,'_blank'); return; }
+    toast(it.soon_note||'Coming online soon.');
+  }
   function openMoonNet(h){
     av.className='av open r-common';
     avhold.innerHTML='<div class="lorewrap"><div class="hnet" id="moonnet"><div class="mn-screen" id="mnscreen"></div></div></div>';
@@ -366,23 +417,14 @@
   function mnScreen(){ return document.getElementById('mnscreen'); }
   function mnDesktop(){
     var s=mnScreen(); if(!s) return;
-    var items=[
-      {k:'Continue Creating', act:'soon', soon:'The Studio is warming up. Velvet runs on MoonNet soon.'},
-      {k:'Your Room', act:'you'},
-      {k:'Hallways', act:'halls'},
-      {k:'Conversations', act:'convo'},
-      {k:'Letters', act:'soon', soon:'Your Letters (long-form) arrive on MoonNet soon.'},
-      {k:'Observatory', act:'soon', soon:'The Observatory — featured rooms, trending letters — opens soon.'},
-      {k:'Settings', act:'soon', soon:'Room settings open soon.'}
-    ];
-    s.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connected to The House</span></div><div class="mn-list">'+
-      items.map(function(it,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-star">\u2726</span>'+it.k+'</button>';}).join('')+
-      '</div><div class="hn-foot"><button class="art-act" data-close>Disconnect</button></div>';
-    s.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ var it=items[+b.getAttribute('data-i')];
-      if(it.act==='you'){ if(ZONE.id==='you'){ close(); toast('You’re already home.'); } else { location.href='/you.html'; } }
-      else if(it.act==='halls'){ mnHalls(); } else if(it.act==='convo'){ mnConvo(); }
-      else { toast(it.soon||'Coming online soon.'); } }; });
-    s.querySelector('[data-close]').onclick=close;
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connecting to The House\u2026</span></div>';
+    mnFetchDest(function(dest){ var s2=mnScreen(); if(!s2) return;
+      s2.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connected to The House</span></div><div class="mn-list">'+
+        dest.map(function(it,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-star">'+(it.icon||'\u2726')+'</span>'+it.title+'</button>';}).join('')+
+        '</div><div class="hn-foot"><button class="art-act" data-close>Disconnect</button></div>';
+      s2.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ mnGo(dest[+b.getAttribute('data-i')]); }; });
+      s2.querySelector('[data-close]').onclick=close;
+    });
   }
   function mnHalls(){
     var s=mnScreen(); if(!s) return;
@@ -403,18 +445,61 @@
     s.querySelector('[data-back]').onclick=mnDesktop;
   }
   function buildIntro(){
-    try{ if(localStorage.getItem('hol_room')) return; }catch(e){ return; }
-    var ov=document.createElement('div'); ov.className='keyrite';
-    ov.innerHTML='<div class="kr-inner"><p class="kr-line">Welcome to The House.</p><p class="kr-line d1">Every visitor is given a room.</p><p class="kr-line d2">The House remembers what you leave behind.</p><button class="kr-btn">Receive Your Key</button></div>';
-    document.body.appendChild(ov);
-    requestAnimationFrame(function(){ ov.classList.add('show'); });
-    ov.querySelector('.kr-btn').onclick=function(){
-      // Supabase Auth hooks in HERE — for now the House prepares the room on this device
-      try{ localStorage.setItem('hol_room', JSON.stringify({ name:'Your Room', received:true })); }catch(e){}
-      var inner=ov.querySelector('.kr-inner');
-      inner.innerHTML='<p class="kr-line show2">The House has prepared a room for you.</p><p class="kr-line show2 d1">Follow me.</p>';
-      setTimeout(function(){ ov.classList.add('gone'); setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); },1400); }, 2800);
+    function start(){ var ov=document.createElement('div'); ov.className='keyrite'; ov.__door=''; welcomeStep(ov); document.body.appendChild(ov); requestAnimationFrame(function(){ ov.classList.add('show'); }); }
+    if(sb&&sb.auth&&sb.auth.getSession){ sb.auth.getSession().then(function(r){ if(r&&r.data&&r.data.session) return; start(); }).catch(start); }
+    else { try{ if(localStorage.getItem('hol_room')) return; }catch(e){} start(); }
+  }
+  function welcomeStep(ov){
+    ov.innerHTML='<div class="kr-inner">'+
+      '<p class="kr-line">Welcome to The House.</p>'+
+      '<p class="kr-line d1">Every visitor is given a room.</p>'+
+      '<p class="kr-line d2">The House remembers what you leave behind.</p>'+
+      '<div class="kr-namewrap"><label class="kr-label">How would you like your door to be known? <span>(optional)</span></label>'+
+      '<input class="kr-input kr-name" type="text" maxlength="40" placeholder="a name for your door"/></div>'+
+      '<button class="kr-btn kr-d">Receive Your Key</button></div>';
+    ov.querySelector('.kr-btn').onclick=function(){ ov.__door=(ov.querySelector('.kr-name').value||'').trim(); forgeStep(ov,false); };
+  }
+  function forgeStep(ov, signin){
+    var inner=ov.querySelector('.kr-inner');
+    if(signin){
+      inner.innerHTML='<p class="kr-line show2">Welcome back.</p><p class="kr-line show2 d1">The House recognizes you.</p>'+
+        '<form class="kr-form"><input class="kr-input" type="email" name="email" placeholder="email" autocomplete="email" required/>'+
+        '<input class="kr-input" type="password" name="key" placeholder="your key" autocomplete="current-password" required/>'+
+        '<button class="kr-btn" type="submit">Enter</button></form>'+
+        '<p class="kr-err" aria-live="polite"></p><button class="kr-alt">New here? Forge a key.</button>';
+    } else {
+      inner.innerHTML='<p class="kr-line show2">Forge your key.</p><p class="kr-line show2 d1">Keep it somewhere safe — it opens your room.</p>'+
+        '<form class="kr-form"><input class="kr-input" type="email" name="email" placeholder="email" autocomplete="email" required/>'+
+        '<input class="kr-input" type="password" name="key" placeholder="your key" autocomplete="new-password" required/>'+
+        '<input class="kr-input" type="password" name="key2" placeholder="confirm your key" autocomplete="new-password" required/>'+
+        '<button class="kr-btn" type="submit">Receive Key</button></form>'+
+        '<p class="kr-err" aria-live="polite"></p><button class="kr-alt">Already have a key? Turn it.</button>';
+    }
+    var form=inner.querySelector('.kr-form'), err=inner.querySelector('.kr-err');
+    inner.querySelector('.kr-alt').onclick=function(){ forgeStep(ov, !signin); };
+    form.onsubmit=function(e){ e.preventDefault(); if(!sb){ err.textContent='The House can’t reach its records right now.'; return; }
+      var email=(form.email.value||'').trim(), key=form.key.value;
+      if(!signin){ if(key.length<6){ err.textContent='Your key needs at least 6 characters.'; return; } if(key!==form.key2.value){ err.textContent='Those keys don’t match.'; return; } }
+      var btn=form.querySelector('.kr-btn'); btn.disabled=true; var old=btn.textContent; btn.textContent='…';
+      var pr = signin ? sb.auth.signInWithPassword({email:email,password:key})
+                      : sb.auth.signUp({email:email,password:key,options:{data:{display_name: ov.__door||null}}});
+      pr.then(function(res){
+        if(res.error){ err.textContent=friendly(res.error.message); btn.disabled=false; btn.textContent=old; return; }
+        if(!signin && !(res.data&&res.data.session)){ inner.innerHTML='<p class="kr-line show2">Your key is forged.</p><p class="kr-line show2 d1">Confirm it in your email, then return to your room.</p>'; return; }
+        unlockStep(ov, signin);
+      }).catch(function(){ err.textContent='Something in the House didn’t turn. Try again.'; btn.disabled=false; btn.textContent=old; });
     };
+  }
+  function friendly(m){ m=(m||'').toLowerCase();
+    if(m.indexOf('already')>=0) return 'A room already answers to that email. Turn your key instead.';
+    if(m.indexOf('at least')>=0||m.indexOf('6 char')>=0) return 'Your key needs at least 6 characters.';
+    if(m.indexOf('invalid')>=0||m.indexOf('credential')>=0) return 'That key didn’t turn. Check it and try again.';
+    if(m.indexOf('email')>=0) return 'That email doesn’t look right.';
+    return 'The House hesitated. Try again in a moment.'; }
+  function unlockStep(ov, signin){
+    try{ localStorage.setItem('hol_room', JSON.stringify({received:true})); }catch(e){}
+    ov.querySelector('.kr-inner').innerHTML='<div class="kr-unlock"><span class="kr-key">\uD83D\uDDDD</span><p class="kr-line show2">Unlocking\u2026</p><p class="kr-line show2 d1">The House remembers you.</p><span class="kr-door">\uD83D\uDEAA</span><p class="kr-line show2 d2">'+(signin?'Welcome home.':'Your room is ready. Welcome home.')+'</p></div>';
+    setTimeout(function(){ ov.classList.add('gone'); setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); },1400); }, 3200);
   }
   function openArtifact(h){
     var t=h.art||typeOf(h.kind), rar=rarityOf(h,h.kind), kept=inColl(h.id);
