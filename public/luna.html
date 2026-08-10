@@ -101,6 +101,46 @@
   .ki-title{font-family:var(--font-architect,serif);font-size:1.02rem;color:#f0e2bd;line-height:1.15;}
   .ki-zone{font-family:var(--font-narrator,serif);font-style:italic;font-size:.78rem;color:rgba(233,224,208,.55);}
   .ki-empty{font-family:var(--font-narrator,serif);font-style:italic;font-size:1.05rem;line-height:1.7;color:rgba(233,224,208,.82);text-align:center;padding:1.5rem 0;}
+  /* THE HOUSE NETWORK — the computer screen */
+  .hnet{width:min(92vw,540px);max-height:84vh;overflow:auto;border-radius:8px;background:linear-gradient(180deg,#0b0f1e,#080a14);border:1px solid #2a3350;box-shadow:0 40px 110px -28px rgba(0,0,0,.9), inset 0 0 60px rgba(60,90,180,.14), 0 0 0 1px rgba(120,150,220,.15);color:#cdd8f5;font-family:var(--font-machine,monospace);}
+  .hn-bar{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.1rem;border-bottom:1px solid rgba(120,150,220,.2);}
+  .hn-title{letter-spacing:.24em;font-size:.7rem;color:#a9c0f5;}
+  .hn-status{font-size:.56rem;letter-spacing:.16em;color:#7fdca0;}
+  .hn-list{display:flex;flex-direction:column;padding:.6rem;gap:.12rem;}
+  .hn-item{display:flex;align-items:center;gap:.65rem;text-align:left;background:transparent;border:none;color:#cdd8f5;font-family:var(--font-machine,monospace);font-size:.82rem;letter-spacing:.06em;padding:.58rem .75rem;border-radius:4px;cursor:pointer;transition:background .2s,color .2s;}
+  .hn-item:hover{background:rgba(120,150,220,.14);color:#eaf1ff;}
+  .hn-dot{width:6px;height:6px;border-radius:50%;background:#5f77c8;box-shadow:0 0 8px #5f77c8;flex:none;}
+  .hn-foot{padding:.6rem 1.1rem 1rem;border-top:1px solid rgba(120,150,220,.2);}
+  .hn-foot .art-act{color:#a9c0f5;border-color:rgba(120,150,220,.4);}
+  .hn-foot .art-act:hover{background:rgba(120,150,220,.2);color:#fff;}
+  /* MoonNet */
+  .mn-boot{font-family:var(--font-machine,monospace);font-size:.82rem;line-height:1.75;color:#9fdcb0;white-space:pre-wrap;padding:1.5rem 1.4rem;margin:0;min-height:260px;}
+  .mn-bar{padding:.85rem 1.15rem;border-bottom:1px solid rgba(120,150,220,.2);}
+  .mn-title{display:block;letter-spacing:.3em;font-size:.8rem;color:#dbe4ff;}
+  .mn-sub{display:block;margin-top:.25rem;font-size:.58rem;letter-spacing:.12em;color:#8090c2;}
+  .mn-list{display:flex;flex-direction:column;padding:.6rem;gap:.12rem;}
+  .mn-item{display:flex;align-items:center;gap:.7rem;text-align:left;background:transparent;border:none;color:#cdd8f5;font-family:var(--font-machine,monospace);font-size:.86rem;letter-spacing:.05em;padding:.62rem .78rem;border-radius:4px;cursor:pointer;transition:background .2s,color .2s;}
+  .mn-item:hover{background:rgba(120,150,220,.14);color:#eaf1ff;}
+  .mn-star{color:#8aa2e8;} .mn-door{color:#8aa2e8;font-size:.92em;}
+  .mn-notes{padding:.75rem;display:flex;flex-direction:column;gap:.7rem;}
+  .mn-note{border:1px solid rgba(120,150,220,.18);border-radius:5px;padding:.85rem .95rem;background:rgba(120,150,220,.05);}
+  .mn-who{font-family:var(--font-machine,monospace);font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:#8090c2;margin:0 0 .35rem;}
+  .mn-txt{font-family:var(--font-narrator,Georgia,serif);font-style:italic;font-size:1.02rem;color:#e6ecff;margin:0;line-height:1.5;}
+  .mn-heart{font-family:var(--font-machine,monospace);font-size:.62rem;color:#c98aa8;margin:.45rem 0 0;}
+  .mn-leave{margin-top:.1rem;text-align:left;background:transparent;border:1px dashed rgba(120,150,220,.3);border-radius:5px;color:#8f9fce;font-family:var(--font-machine,monospace);font-size:.74rem;padding:.65rem .85rem;cursor:pointer;}
+  .mn-leave:hover{background:rgba(120,150,220,.1);color:#cdd8f5;}
+  .hn-foot [data-back]{color:#a9c0f5;border-color:rgba(120,150,220,.4);}
+  /* RECEIVE YOUR KEY — the first-visit ceremony */
+  .keyrite{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:#05040a;opacity:0;transition:opacity 1s ease, background 1.6s ease;text-align:center;padding:2rem;}
+  .keyrite.show{opacity:1;}
+  .keyrite.gone{opacity:0;}
+  .kr-inner{max-width:580px;}
+  .kr-line{font-family:var(--font-architect,'Cormorant Garamond',serif);font-size:clamp(1.2rem,3vw,1.95rem);color:rgba(240,232,216,.95);line-height:1.5;margin:.5rem 0;opacity:0;transform:translateY(8px);animation:krin 1.3s ease forwards;}
+  .kr-line.d1{animation-delay:1.2s;} .kr-line.d2{animation-delay:2.4s;}
+  .kr-line.show2{animation:krin 1.3s ease forwards;} .kr-line.show2.d1{animation-delay:1s;}
+  @keyframes krin{to{opacity:1;transform:translateY(0);}}
+  .kr-btn{margin-top:2.2rem;font-family:var(--font-architect,serif);font-variant:small-caps;letter-spacing:.14em;font-size:1.15rem;color:#f0e2bd;background:transparent;border:1px solid rgba(227,185,104,.6);border-radius:4px;padding:.7rem 1.9rem;cursor:pointer;opacity:0;animation:krin 1.3s ease 3.7s forwards;transition:background .3s,color .3s;}
+  .kr-btn:hover{background:rgba(227,185,104,.18);color:#fff;}
   .lorewrap{position:relative;}
   .lorewrap::before{content:"";position:absolute;inset:-30% -20%;z-index:-1;background:radial-gradient(56% 60% at 50% 50%, rgba(8,6,12,.7), transparent 72%);filter:blur(10px);}
   .art.book{width:min(94vw,760px);display:flex;flex-direction:column;gap:.7rem;perspective:1800px;}
@@ -175,7 +215,7 @@
   <div class="fade" aria-hidden="true"></div>
 <script>
 (function(){
-  var ZONE = {"id":"luna","title":"Luna's Room","asset":"/assets/lunas-room-env.png","hotspots":[{"id":"luna-pc","cat":"link","name":"The Computer","line":"The screen just says LUNA.","verb":"Log on","x":18,"y":50,"soon":"Luna’s corner of the old web — MySpace, Tumblr — flickers on soon."},{"id":"luna-mood","cat":"lore","kind":"Moodboard","name":"The Moodboard","line":"A wall of pinned images.","verb":"Look closer","x":10,"y":28,"title":"The wall she thinks against","body":"Everything Luna is chasing, pinned where she has to see it. Half of the House started as something on this wall."},{"id":"luna-city","cat":"lore","kind":"The Glass","name":"The City View","line":"A city glittering in the rain.","verb":"Look out","x":33,"y":30,"w":11,"h":18,"title":"The city she watches from","body":"The House sits above a city that never quite sleeps. She likes the lights on and the sound off — the world at a distance she can choose."},{"id":"luna-bed","cat":"passage","name":"The Canopy Bed","line":"Velvet and shadow.","verb":"Rest","x":60,"y":56,"narration":"You sink into the velvet. The candles keep their small vigil, the city glows far below, and the whole House goes quiet around you. This is where Luna comes to disappear for a while."},{"id":"luna-altar","cat":"artifact","kind":"The Altar","name":"The Altar","line":"Amethyst, catching the candlelight.","verb":"Set an intention","x":66,"y":90,"rarity":"uncommon","title":"The intention stone","body":"Luna keeps a stone here for whatever she’s trying to call in. Take one with you — hold whatever you’re hoping for while you do.\n\nKeep it. Intentions travel better with something to carry them."},{"id":"luna-shelf","cat":"lore","kind":"Curios","name":"The Shelves","line":"Bottles, candles, small kept things.","verb":"Look closer","x":86,"y":45,"title":"A life in small objects","body":"Nothing here is expensive. Everything here is chosen. That’s the whole difference between a room and a sanctuary."},{"id":"luna-neon","cat":"ambient","name":"The Neon","line":"“Dark Soft Energy.”","verb":"","x":87,"y":13,"react":"The neon hums, pink against the dark. It’s a promise she made to herself. It’s holding."},{"id":"luna-vinyl","cat":"ambient","name":"The Records","line":"Something is always playing.","verb":"","x":82,"y":40,"react":"A record turns somewhere in the dark. The room fills with something slow, and Luna-shaped."},{"id":"luna-candles","cat":"ambient","name":"The Candles","line":"A hundred small flames.","verb":"","x":8,"y":60,"react":"She lights them one at a time, most nights. The room breathes a little warmer."},{"id":"luna-book","cat":"artifact","kind":"Journal","name":"A Spellbook","line":"Left open by the chaise.","verb":"Read","x":74,"y":94,"title":"Not a spellbook, really","body":"She calls it that. It’s a journal with ambitions — half diary, half instructions to a future version of herself.\n\nThe latest page is about you, a little. About whoever finally wandered all the way in here."}],"astro":{"w":11,"line":"He guards Luna’s sanctuary.","reacts":["He has claimed the warmest corner, as is his right.","He blinks at you, slow, from the velvet.","A soft purr — you passed some test you didn’t know about."],"absent":true,"spots":[{"x":66,"y":80,"pose":"loaf"},{"x":40,"y":93,"pose":"sit"},{"x":90,"y":82,"pose":"curl"}]}};
+  var ZONE = {"id":"luna","title":"Luna's Room","asset":"/assets/lunas-room-env.png","hotspots":[{"id":"luna-pc","cat":"network","name":"The Computer","line":"The screen just says LUNA.","verb":"Boot MoonNet","x":18,"y":50},{"id":"luna-mood","cat":"lore","kind":"Moodboard","name":"The Moodboard","line":"A wall of pinned images.","verb":"Look closer","x":10,"y":28,"title":"The wall she thinks against","body":"Everything Luna is chasing, pinned where she has to see it. Half of the House started as something on this wall."},{"id":"luna-city","cat":"lore","kind":"The Glass","name":"The City View","line":"A city glittering in the rain.","verb":"Look out","x":33,"y":30,"w":11,"h":18,"title":"The city she watches from","body":"The House sits above a city that never quite sleeps. She likes the lights on and the sound off — the world at a distance she can choose."},{"id":"luna-bed","cat":"passage","name":"The Canopy Bed","line":"Velvet and shadow.","verb":"Rest","x":60,"y":56,"narration":"You sink into the velvet. The candles keep their small vigil, the city glows far below, and the whole House goes quiet around you. This is where Luna comes to disappear for a while."},{"id":"luna-altar","cat":"artifact","kind":"The Altar","name":"The Altar","line":"Amethyst, catching the candlelight.","verb":"Set an intention","x":66,"y":90,"rarity":"uncommon","title":"The intention stone","body":"Luna keeps a stone here for whatever she’s trying to call in. Take one with you — hold whatever you’re hoping for while you do.\n\nKeep it. Intentions travel better with something to carry them."},{"id":"luna-shelf","cat":"lore","kind":"Curios","name":"The Shelves","line":"Bottles, candles, small kept things.","verb":"Look closer","x":86,"y":45,"title":"A life in small objects","body":"Nothing here is expensive. Everything here is chosen. That’s the whole difference between a room and a sanctuary."},{"id":"luna-neon","cat":"ambient","name":"The Neon","line":"“Dark Soft Energy.”","verb":"","x":87,"y":13,"react":"The neon hums, pink against the dark. It’s a promise she made to herself. It’s holding."},{"id":"luna-vinyl","cat":"ambient","name":"The Records","line":"Something is always playing.","verb":"","x":82,"y":40,"react":"A record turns somewhere in the dark. The room fills with something slow, and Luna-shaped."},{"id":"luna-candles","cat":"ambient","name":"The Candles","line":"A hundred small flames.","verb":"","x":8,"y":60,"react":"She lights them one at a time, most nights. The room breathes a little warmer."},{"id":"luna-book","cat":"artifact","kind":"Journal","name":"A Spellbook","line":"Left open by the chaise.","verb":"Read","x":74,"y":94,"title":"Not a spellbook, really","body":"She calls it that. It’s a journal with ambitions — half diary, half instructions to a future version of herself.\n\nThe latest page is about you, a little. About whoever finally wandered all the way in here."}],"astro":{"w":11,"line":"He guards Luna’s sanctuary.","reacts":["He has claimed the warmest corner, as is his right.","He blinks at you, slow, from the velvet.","A soft purr — you passed some test you didn’t know about."],"absent":true,"spots":[{"x":66,"y":80,"pose":"loaf"},{"x":40,"y":93,"pose":"sit"},{"x":90,"y":82,"pose":"curl"}]},"intro":false,"network":false};
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var touch = matchMedia('(hover: none)').matches;
   var env=document.getElementById('env'), img=document.getElementById('envimg');
@@ -248,6 +288,7 @@
     else if(c==='ambient'){ floatLine(h.x,h.y-5, h.react||h.line); flashWake(s); }
     else if(c==='lore'){ openLore(h); }
     else if(c==='collection'){ openCollection(h); }
+    else if(c==='network'){ openMoonNet(h); }
     else if(c==='link'){ if(h.href){ window.open(h.href,'_blank'); } else { floatLine(h.x,h.y-5, h.soon||'Coming online soon.'); flashWake(s); } }
     else if(c==='cat'){ astroReact(h,s); }
     else openArtifact(h);
@@ -312,6 +353,69 @@
     avhold.innerHTML='<div class="lorewrap"><div class="art art-scroll art-gold-edge collroll"><span class="art-kind">The House Remembers</span><h2 class="art-title">'+h.title+'</h2><p class="ki-count">'+c.length+' kept</p>'+body+'<div class="art-acts"><button class="art-act" data-close>Close</button></div></div></div>';
     avhold.querySelector('[data-close]').onclick=close;
   }
+  // ===== MoonNet — the operating system of The House =====
+  function openMoonNet(h){
+    av.className='av open r-common';
+    avhold.innerHTML='<div class="lorewrap"><div class="hnet" id="moonnet"><div class="mn-screen" id="mnscreen"></div></div></div>';
+    if(reduce){ mnDesktop(); return; }
+    var boot=['MOONNET','','Connecting\u2026','','\u2726 The House remembers.','','\u2713 Velvet','\u2713 Letters','\u2713 Conversations','\u2713 Hallways','\u2713 Observatory','','Connected.'];
+    document.getElementById('mnscreen').innerHTML='<pre class="mn-boot" id="mnboot"></pre>';
+    var pre=document.getElementById('mnboot'), i=0;
+    (function tick(){ if(!pre.isConnected) return; if(i<boot.length){ pre.textContent+=(i?'\n':'')+boot[i]; i++; setTimeout(tick, i<3?320:170); } else { setTimeout(mnDesktop, 700); } })();
+  }
+  function mnScreen(){ return document.getElementById('mnscreen'); }
+  function mnDesktop(){
+    var s=mnScreen(); if(!s) return;
+    var items=[
+      {k:'Continue Creating', act:'soon', soon:'The Studio is warming up. Velvet runs on MoonNet soon.'},
+      {k:'Your Room', act:'you'},
+      {k:'Hallways', act:'halls'},
+      {k:'Conversations', act:'convo'},
+      {k:'Letters', act:'soon', soon:'Your Letters (long-form) arrive on MoonNet soon.'},
+      {k:'Observatory', act:'soon', soon:'The Observatory — featured rooms, trending letters — opens soon.'},
+      {k:'Settings', act:'soon', soon:'Room settings open soon.'}
+    ];
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connected to The House</span></div><div class="mn-list">'+
+      items.map(function(it,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-star">\u2726</span>'+it.k+'</button>';}).join('')+
+      '</div><div class="hn-foot"><button class="art-act" data-close>Disconnect</button></div>';
+    s.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ var it=items[+b.getAttribute('data-i')];
+      if(it.act==='you'){ if(ZONE.id==='you'){ close(); toast('You’re already home.'); } else { location.href='/you.html'; } }
+      else if(it.act==='halls'){ mnHalls(); } else if(it.act==='convo'){ mnConvo(); }
+      else { toast(it.soon||'Coming online soon.'); } }; });
+    s.querySelector('[data-close]').onclick=close;
+  }
+  function mnHalls(){
+    var s=mnScreen(); if(!s) return;
+    var doors=[{n:"Luna's Room", href:'/luna.html'},{n:'A Botanical Conservatory'},{n:"A Witch's Study"},{n:"A Poet's Apartment"},{n:'A Cyberpunk Loft'},{n:'A Cottage Kitchen'}];
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">HALLWAYS</span><span class="mn-sub">Doors are waiting tonight.</span></div><div class="mn-list">'+
+      doors.map(function(d,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-door">\u25CB</span>'+d.n+'</button>';}).join('')+
+      '</div><div class="hn-foot"><button class="art-act" data-back>\u2190 MoonNet</button></div>';
+    s.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ var d=doors[+b.getAttribute('data-i')]; if(d.href){ location.href=d.href; } else { toast('That door is still locked. The Hallways fill as rooms are claimed.'); } }; });
+    s.querySelector('[data-back]').onclick=mnDesktop;
+  }
+  function mnConvo(){
+    var s=mnScreen(); if(!s) return;
+    var notes=[{who:'Luna', txt:'the moon remembers every version of you.', h:247},{who:'Luna', txt:'built another door tonight. i think someone will find it.', h:88},{who:'The House', txt:'a candle was lit in a room no one has visited in a while.', h:33}];
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">CONVERSATIONS</span><span class="mn-sub">Notes pinned around the House.</span></div><div class="mn-notes">'+
+      notes.map(function(n){return '<div class="mn-note"><p class="mn-who">'+n.who+' left a thought.</p><p class="mn-txt">\u201C'+n.txt+'\u201D</p><p class="mn-heart">\u2661 '+n.h+'</p></div>';}).join('')+
+      '<button class="mn-leave">Leave your own note\u2026</button></div><div class="hn-foot"><button class="art-act" data-back>\u2190 MoonNet</button></div>';
+    s.querySelector('.mn-leave').onclick=function(){ toast('Your notes join the House soon.'); };
+    s.querySelector('[data-back]').onclick=mnDesktop;
+  }
+  function buildIntro(){
+    try{ if(localStorage.getItem('hol_room')) return; }catch(e){ return; }
+    var ov=document.createElement('div'); ov.className='keyrite';
+    ov.innerHTML='<div class="kr-inner"><p class="kr-line">Welcome to The House.</p><p class="kr-line d1">Every visitor is given a room.</p><p class="kr-line d2">The House remembers what you leave behind.</p><button class="kr-btn">Receive Your Key</button></div>';
+    document.body.appendChild(ov);
+    requestAnimationFrame(function(){ ov.classList.add('show'); });
+    ov.querySelector('.kr-btn').onclick=function(){
+      // Supabase Auth hooks in HERE — for now the House prepares the room on this device
+      try{ localStorage.setItem('hol_room', JSON.stringify({ name:'Your Room', received:true })); }catch(e){}
+      var inner=ov.querySelector('.kr-inner');
+      inner.innerHTML='<p class="kr-line show2">The House has prepared a room for you.</p><p class="kr-line show2 d1">Follow me.</p>';
+      setTimeout(function(){ ov.classList.add('gone'); setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); },1400); }, 2800);
+    };
+  }
   function openArtifact(h){
     var t=h.art||typeOf(h.kind), rar=rarityOf(h,h.kind), kept=inColl(h.id);
     av.className='av open r-'+rar; var html='';
@@ -369,6 +473,7 @@
     zn.addEventListener('touchmove',function(e){ if(e.touches.length!==1||moving||dwelling||av.classList.contains('open')) return; var dx=e.touches[0].clientX-sx; if(Math.abs(dx)>8) drag=true; if(drag){ var mp=maxPan(); panX=Math.max(-mp,Math.min(mp,spn+dx)); env.style.transition='none'; env.style.transform='translate(calc(-50% + '+panX.toFixed(0)+'px),-50%)'; } },{passive:true});
     zn.addEventListener('touchend',function(){ if(drag){ suppressClick=true; setTimeout(function(){ suppressClick=false; },350); } },{passive:true});
   }
+  if(ZONE.intro){ buildIntro(); }
 })();
 </script>
 </body>

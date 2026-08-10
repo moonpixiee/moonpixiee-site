@@ -528,7 +528,86 @@ Two personal rooms off the Grand Hall, on the same interaction engine (invisible
 
 Both doors are now **open** — the Grand Hall's Luna's-Room and Your-Room thresholds cross into the built rooms (were "still being built"), and the House Map quick-nav points to them.
 
+## Blueprint 005 — The House Network: auth as arriving home  *(ratified direction, 9 Aug 2026)*
+
+> The user should never think *"I'm logging into Velvet."* They should think *"I'm going home."*
+
+**Login becomes the first thing you unlock.** No auth screen — a ceremony. First visit: *"Welcome to The House. Every visitor is given a room. The House remembers what you leave behind."* → **Receive Your Key** → (Supabase Auth) → instead of "Account created," *"The House has prepared a room for you. Follow me."* → the door opens, fade, and you're standing in **Your Room** for the first time. *(BUILT front-end; the Supabase account step hooks into the "Receive Your Key" click — awaiting go-ahead.)*
+
+**The rename — VELVET stops being "the app."** It becomes one room in a larger House:
+- **The House** — the whole experience.
+- **Your Room** — your personal space and profile.
+- **The Studio (VELVET)** — where you create.
+- **The Library** — where you discover.
+- **The House Network** — where you visit other people (the computer).
+
+**Two identities: `users` + `rooms`.** Every signup provisions a room. Your room *is* your profile — people don't visit `@luna`, they visit *Luna's Room* (Animal-Crossing / Hogwarts-dorm / old-Tumblr energy).
+
+Proposed `rooms` schema — **SPEC ONLY, not applied to Supabase without Luna's go-ahead** (and never breaking the running project):
+```sql
+create table rooms (
+  room_id     uuid primary key default gen_random_uuid(),
+  owner       uuid references auth.users(id) on delete cascade,
+  room_name   text not null default 'Your Room',
+  theme       text default 'warm',      -- warm | violet | ...
+  wall_color  text,
+  music       text,                       -- playlist / vinyl ref
+  layout      jsonb default '{}',         -- furniture placement
+  created_at  timestamptz default now()
+);
+-- companion: room_items (the furniture) — one row per kept/earned object
+create table room_items (
+  id        uuid primary key default gen_random_uuid(),
+  room_id   uuid references rooms(room_id) on delete cascade,
+  kind      text,        -- book | letter | portrait | vinyl | illustration | crystal ...
+  title     text,
+  source    text,        -- which room/action it came from
+  shelf     text,        -- where it sits (Shelf 3, wall, desk...)
+  meta      jsonb,
+  created_at timestamptz default now()
+);
+```
+*(This is where `hol_collection` graduates from localStorage to a real per-room table.)*
+
+**Every action becomes furniture — not badges, not XP.**
+
+| You do this | This appears in Your Room |
+|---|---|
+| Keep a book | a book on a shelf (Shelf 3, forever) |
+| Write a journal | a journal on the desk/bed |
+| Moonmark a scene | a framed illustration on the wall |
+| Finish a Muse | her portrait |
+| Save a playlist | vinyl records |
+| Upload a profile picture | a framed portrait |
+| Keep enough letters | a bound volume: *Letters You Chose To Keep* |
+
+**The computer = MoonNet, the operating system of The House (BUILT).** Not a menu of brand links — an OS that *boots.* Open the computer (in Your Room and Luna's Room) and it runs a boot sequence — `MOONNET / Connecting… / ✦ The House remembers. / ✓ Velvet ✓ Letters ✓ Conversations ✓ Hallways ✓ Observatory / Connected.` — then the desktop resolves:
+
+> **MOONNET** · Connected to The House
+> ✦ Continue Creating → Velvet · ✦ Your Room · ✦ **Hallways** · ✦ **Conversations** · ✦ Letters (Substack, in-House) · ✦ Observatory (discover) · ✦ Settings
+
+VELVET stops being "the app" — it's one application running on MoonNet. The eventual tree: `MoonNet → { Velvet(Studio/Library/Codex), Your Room, Hallways, Conversations, Letters, Moss & Moon, Observatory, … }`. The outside platforms (Threads, Substack) still exist; MoonNet wraps them in the House's own language, so if native versions ship later, users never notice the seam.
+
+- **Hallways** (BUILT preview) — you don't click usernames, you *open doors*: "Doors are waiting tonight — ○ A Botanical Conservatory · ○ A Witch's Study · ○ A Poet's Apartment · ○ A Cyberpunk Loft · ○ A Cottage Kitchen." Luna's Room is a live door; the rest fill as rooms are claimed. This is the visiting layer (the old MySpace/Tumblr idea, in-world).
+- **Conversations** (BUILT preview) — the House's version of Threads: little notes pinned around the House. *"Luna left a thought — 'the moon remembers every version of you.' ♡ 247 · Leave your own note…"* Not a clone; in-world.
+
+**The vocabulary (ratified) — MoonNet replaces social-app language:**
+
+| App word | House word |
+|---|---|
+| Home feed | **MoonNet** |
+| Follow user | **Visit Room** |
+| Profile | **Room** |
+| Bio | **About this Room** |
+| Posts | **Memories** |
+| Pin / Save | **Keep** / **Collected** |
+| Internet | **MoonNet** — *"Connected by moonlight."* |
+
+**Open for Luna:** (1) go-ahead to create the `rooms`/`room_items` tables in Supabase; (2) real MySpace/Tumblr/Substack handles + the Velvet route for "Continue to Velvet"; (3) confirm the area rename as canon.
+
 ## Change log
+- **v1.9 — 9 Aug 2026** — The computer became **MoonNet**, the House's operating system: it boots (`Connecting… ✦ The House remembers. ✓ Velvet ✓ Letters ✓ Conversations ✓ Hallways ✓ Observatory`) then resolves to a desktop (Continue Creating / Your Room / Hallways / Conversations / Letters / Observatory / Settings). **Hallways** (open doors, not usernames) and **Conversations** (in-world notes) built as previews. Luna's Room computer now boots MoonNet too. Ratified the MoonNet vocabulary (Visit Room / Room / Memories / Keep / Collected).
+- **v1.8 — 9 Aug 2026** — Blueprint 005 (House Network / auth-as-arriving-home) ratified and captured, with the proposed `rooms`+`room_items` schema (spec only). BUILT front-end: the "Receive Your Key" first-visit ceremony and the THE HOUSE NETWORK computer menu in Your Room. Supabase account step + real social links await Luna's go-ahead.
 - **v1.7 — 9 Aug 2026** — Luna's Room and Your Room BUILT on the engine and wired (thresholds opened, House Map updated). Your Room's collection view ("Everything You've Kept") ships as the first slice of Blueprint 004 — reads the kept-items store and displays them by source room. Engine gained per-room tone (`--accent`/`--wake`), a `collection` hotspot type, external `link` hotspots, and per-room return targets. Astro roams both rooms too.
 - **v1.6 — 9 Aug 2026** — Astro blink removed (kept breathing + stir). Four fixed backgrounds installed (Fireplace, Bookshelves, Terminal, Hidden Desk) — the fix removed the baked cat, so those three became roam rooms and Astro now roams all nine.
 - **v1.5 — 9 Aug 2026** — Mobile: touch drag-to-look-around + two-tap interaction across the Hub and all 9 rooms (mouse parallax was desktop-only, leaving phones static). Astro idle animation: two-frame **slow blink** (eyes-closed frame auto-generated per pose by detecting the eye pixels) plus a gentle idle **stir**, on top of breathing.
