@@ -519,7 +519,17 @@ Astro now **roams all nine rooms** — Luna's fixed backgrounds removed the pain
 
 Desktop looked around with the mouse; a phone can't, so the room sat cropped and unreachable. Now, on touch devices, **drag horizontally to pan the camera** across the full-width room (clamped to the edges), and **tap once to reveal a thing, tap again to touch it** (a drag never triggers a tap). Applied across the Hub and all nine rooms. Desktop mouse-look is unchanged.
 
+## Luna's Room & Your Room — ✅ BUILT (9 Aug 2026)
+
+Two personal rooms off the Grand Hall, on the same interaction engine (invisible hotspots, placards, mobile drag, Astro roaming).
+
+- **Luna's Room** (`/luna.html`, violet tone) — her sanctuary: the LUNA computer, moodboard wall, city view, canopy bed (rest), the amethyst **altar** (keep an intention stone), shelves, the "Dark Soft Energy" neon, records, a spellbook-journal. The computer is a `link` hotspot awaiting Luna's real MySpace/Tumblr handles.
+- **Your Room** (`/you.html`, warm tone) — **the payoff for every Keep, and the first working slice of Blueprint 004.** The "House Network" computer and the "Everything you've kept lives here" frame open a live **collection view** that reads `hol_collection` and shows every kept item with the room it came from (empty state included). Window seat (sit), your journal, the Letters & Notes basket, "Memories · Stories · Soul."
+
+Both doors are now **open** — the Grand Hall's Luna's-Room and Your-Room thresholds cross into the built rooms (were "still being built"), and the House Map quick-nav points to them.
+
 ## Change log
+- **v1.7 — 9 Aug 2026** — Luna's Room and Your Room BUILT on the engine and wired (thresholds opened, House Map updated). Your Room's collection view ("Everything You've Kept") ships as the first slice of Blueprint 004 — reads the kept-items store and displays them by source room. Engine gained per-room tone (`--accent`/`--wake`), a `collection` hotspot type, external `link` hotspots, and per-room return targets. Astro roams both rooms too.
 - **v1.6 — 9 Aug 2026** — Astro blink removed (kept breathing + stir). Four fixed backgrounds installed (Fireplace, Bookshelves, Terminal, Hidden Desk) — the fix removed the baked cat, so those three became roam rooms and Astro now roams all nine.
 - **v1.5 — 9 Aug 2026** — Mobile: touch drag-to-look-around + two-tap interaction across the Hub and all 9 rooms (mouse parallax was desktop-only, leaving phones static). Astro idle animation: two-frame **slow blink** (eyes-closed frame auto-generated per pose by detecting the eye pixels) plus a gentle idle **stir**, on top of breathing.
 - **v1.4 — 9 Aug 2026** — Interaction layer rebuilt: invisible-at-rest hotspots, placard whispers, category system (nav/artifact/ambient/lore/rare), in-world reactions for ambient + sit + Astro, object-matched verbs, lighter depth-of-field, mobile two-tap. Astro rebuilt as a transparent sprite layer (7 poses, seed-driven pose/spot/presence) across the six roam rooms. Open: cat-free backgrounds for Bookshelves/Hidden Desk/Terminal so Astro roams there; Astro idle animation (blink/tail via the face + tail sprites); walk-between-rooms.

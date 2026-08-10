@@ -6,10 +6,10 @@
   /* THRESHOLD of Luna's Room — the doorway you arrive at from the Grand Hall.
      A cinematic arrival: fade from black, a slow push-in toward the door, the light
      breathing, dust drifting, the lantern flickering. The doorway itself is the
-     interaction (the room is still being built). Part of the House architecture, not a loading screen. */
+     interaction — click it (or press Enter) to cross into the room. Part of the House architecture, not a loading screen. */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;background:#050403;overflow:hidden;}
-  body{cursor:default;--g:150,180,235;}
+  body{cursor:pointer;--g:201,166,236;}
   .scene{position:fixed;inset:0;display:block;overflow:hidden;background:#050403;text-decoration:none;color:transparent;outline:none;}
   .bg{position:absolute;inset:-6%;background:url('/assets/lunas-full.png') center/cover no-repeat;filter:blur(38px) brightness(.36) saturate(.9);transform:scale(1.08);}
   .bg-veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(122% 104% at 50% 46%, transparent 36%, rgba(5,4,3,.56) 80%, rgba(5,4,3,.86) 100%);}
@@ -20,9 +20,9 @@
   .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
   .fx{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;}
   .fx>span{position:absolute;transform:translate(-50%,-50%);transition:opacity .5s ease, transform .5s ease, filter .5s ease;}
-  .flame{left:51%;top:11%;width:24%;height:15%;background:radial-gradient(circle at 50% 50%, rgba(150,180,235,.6) 0%, rgba(150,180,235,.28) 34%, rgba(150,180,235,.09) 58%, transparent 76%);filter:brightness(calc(1 + .2*var(--w,0)));}
-  .spill{left:58%;top:60%;width:46%;height:62%;background:radial-gradient(44% 58% at 50% 40%, rgba(150,180,235,.4) 0%, rgba(150,180,235,.19) 42%, transparent 80%);opacity:calc(.66 + .6*var(--w,0));transform:translate(-50%,-50%) scale(calc(1 + .08*var(--w,0)));animation:breathe 6.5s ease-in-out infinite;}
-  .pool{left:53%;top:90%;width:58%;height:20%;background:radial-gradient(50% 100% at 50% 0%, rgba(150,180,235,.42) 0%, transparent 78%);opacity:calc(.64 + .5*var(--w,0));animation:breathe 7.5s ease-in-out infinite;}
+  .flame{left:51%;top:11%;width:24%;height:15%;background:radial-gradient(circle at 50% 50%, rgba(201,166,236,.6) 0%, rgba(201,166,236,.28) 34%, rgba(201,166,236,.09) 58%, transparent 76%);filter:brightness(calc(1 + .2*var(--w,0)));}
+  .spill{left:58%;top:60%;width:46%;height:62%;background:radial-gradient(44% 58% at 50% 40%, rgba(201,166,236,.4) 0%, rgba(201,166,236,.19) 42%, transparent 80%);opacity:calc(.66 + .6*var(--w,0));transform:translate(-50%,-50%) scale(calc(1 + .08*var(--w,0)));animation:breathe 6.5s ease-in-out infinite;}
+  .pool{left:53%;top:90%;width:58%;height:20%;background:radial-gradient(50% 100% at 50% 0%, rgba(201,166,236,.42) 0%, transparent 78%);opacity:calc(.64 + .5*var(--w,0));animation:breathe 7.5s ease-in-out infinite;}
   .dust{left:0;top:0;transform:none;width:100%;height:100%;}
   .mote{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle, rgba(255,236,200,.85), rgba(255,236,200,0));mix-blend-mode:screen;}
   @keyframes rise{0%{transform:translateY(0);opacity:0;}12%{opacity:.8;}80%{opacity:.5;}100%{transform:translateY(-140px) translateX(var(--dx,4px));opacity:0;}}
@@ -32,27 +32,27 @@
   /* return to the Hall — elegant gold text, no button */
   .return{position:fixed;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,3.4vw,2rem);z-index:6;font-family:var(--font-architect,'Cormorant Garamond',serif);font-variant:small-caps;letter-spacing:.12em;font-size:clamp(.82rem,1.5vw,1.05rem);color:rgba(226,196,130,.82);text-decoration:none;text-shadow:0 1px 5px rgba(0,0,0,.9);transition:color .3s;}
   .return:hover{color:#F2DCA4;}
-  .enter-cue{position:fixed;left:0;right:0;bottom:clamp(1.1rem,4vh,2.2rem);text-align:center;z-index:5;pointer-events:none;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,224,196,.5);opacity:0;animation:cueIn 1.4s ease 3s forwards;text-shadow:0 0 12px rgba(150,180,235,.55);}
+  .enter-cue{position:fixed;left:0;right:0;bottom:clamp(1.1rem,4vh,2.2rem);text-align:center;z-index:5;pointer-events:none;font-family:var(--font-machine,monospace);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,224,196,.5);opacity:0;animation:cueIn 1.4s ease 3s forwards;text-shadow:0 0 12px rgba(201,166,236,.55);}
   @keyframes cueIn{to{opacity:1;}}
   /* fade from black on arrival */
   .fade{position:fixed;inset:0;z-index:30;background:#000;pointer-events:none;animation:fadeout 1.7s ease .1s both;}
   @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
   .scene:focus-visible{box-shadow:inset 0 0 0 3px rgba(227,163,74,.55), inset 0 0 60px rgba(227,163,74,.25);}
 </style></head><body>
-  <div class="scene"  aria-label="Luna's Room — being built" id="scene">
+  <a class="scene" href="/luna.html" aria-label="Enter Luna's Room" id="scene">
     <div class="bg" aria-hidden="true"></div><div class="bg-veil" aria-hidden="true"></div>
     <div class="art" id="art">
       <img src="/assets/lunas-full.png" alt="Threshold of Luna's Room — an ancient arched wooden door in stone, a lantern above, light within"/>
       <span class="fx"><span class="spill"></span><span class="pool"></span><span class="flame"></span><span class="dust" id="dust"></span></span>
     </div>
-    <span class="enter-cue">Still being built</span>
-  </div>
+    <span class="enter-cue">Click the door to enter</span>
+  </a>
   <a class="return" href="/">&larr; The Grand Hall</a>
   <div class="fade" aria-hidden="true"></div>
 <script>
   var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var art=document.getElementById('art'), dust=document.getElementById('dust'), scene=document.getElementById('scene');
-  
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&scene){ e.preventDefault(); window.location.href=scene.getAttribute('href'); } });
   var zones=[{x:60,y:58,s:20},{x:51,y:14,s:9}];
   for(var i=0;i<(still?6:22);i++){var z=zones[i%2],m=document.createElement('span');m.className='mote';
     m.style.left=(z.x+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';m.style.top=(z.y+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';

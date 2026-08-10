@@ -6,10 +6,10 @@
   /* THRESHOLD of Your Room — the doorway you arrive at from the Grand Hall.
      A cinematic arrival: fade from black, a slow push-in toward the door, the light
      breathing, dust drifting, the lantern flickering. The doorway itself is the
-     interaction (the room is still being built). Part of the House architecture, not a loading screen. */
+     interaction — click it (or press Enter) to cross into the room. Part of the House architecture, not a loading screen. */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;background:#050403;overflow:hidden;}
-  body{cursor:default;--g:232,182,120;}
+  body{cursor:pointer;--g:232,182,120;}
   .scene{position:fixed;inset:0;display:block;overflow:hidden;background:#050403;text-decoration:none;color:transparent;outline:none;}
   .bg{position:absolute;inset:-6%;background:url('/assets/your-full.png') center/cover no-repeat;filter:blur(38px) brightness(.36) saturate(.9);transform:scale(1.08);}
   .bg-veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(122% 104% at 50% 46%, transparent 36%, rgba(5,4,3,.56) 80%, rgba(5,4,3,.86) 100%);}
@@ -39,20 +39,20 @@
   @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
   .scene:focus-visible{box-shadow:inset 0 0 0 3px rgba(227,163,74,.55), inset 0 0 60px rgba(227,163,74,.25);}
 </style></head><body>
-  <div class="scene"  aria-label="Your Room — being built" id="scene">
+  <a class="scene" href="/you.html" aria-label="Enter Your Room" id="scene">
     <div class="bg" aria-hidden="true"></div><div class="bg-veil" aria-hidden="true"></div>
     <div class="art" id="art">
       <img src="/assets/your-full.png" alt="Threshold of Your Room — an ancient arched wooden door in stone, a lantern above, light within"/>
       <span class="fx"><span class="spill"></span><span class="pool"></span><span class="flame"></span><span class="dust" id="dust"></span></span>
     </div>
-    <span class="enter-cue">Still being built</span>
-  </div>
+    <span class="enter-cue">Click the door to enter</span>
+  </a>
   <a class="return" href="/">&larr; The Grand Hall</a>
   <div class="fade" aria-hidden="true"></div>
 <script>
   var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var art=document.getElementById('art'), dust=document.getElementById('dust'), scene=document.getElementById('scene');
-  
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&scene){ e.preventDefault(); window.location.href=scene.getAttribute('href'); } });
   var zones=[{x:60,y:58,s:20},{x:51,y:14,s:9}];
   for(var i=0;i<(still?6:22);i++){var z=zones[i%2],m=document.createElement('span');m.className='mote';
     m.style.left=(z.x+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';m.style.top=(z.y+(Math.random()*z.s-z.s/2)).toFixed(1)+'%';
