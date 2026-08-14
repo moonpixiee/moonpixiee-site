@@ -1,23 +1,379 @@
-<!DOCTYPE html>
+import fs from 'fs';
+
+// ============================================================================
+// LIBRARY ZONE ENGINE v2 — invisible-at-rest interaction layer (House of Luna).
+// North star: with nothing hovered, a screenshot of any room looks like untouched
+// concept art. Objects only catch light when you look. Whispers are placards that
+// materialise from shadow. Every object is one of: nav | artifact | ambient | lore
+// | rare | passage | cat(Astro). Astro and "sit" react in-world — never a modal.
+// ============================================================================
+
+// hit-region default size (% of the plane); big objects override with w/h.
+const ZONES = [
+  { id:'bookshelves', title:'The Bookshelves', asset:'/assets/bookshelves-env.png', aw:1672, ah:941,
+    alt:'The Bookshelves — a towering candlelit aisle, a rolling ladder, a black cat, a rose window',
+    hotspots:[
+      {id:'rare-books', cat:'artifact', kind:'Rare Book', name:'A Rare Volume', line:'Bound in red, spine cracked with use.', verb:'Open', x:5, y:42,
+        title:'A volume kept apart', body:'Not every book is meant to be lent. This one has been read to pieces and mended twice.\n\nThe margin notes aren’t mine. I’ve never found out whose they are.'},
+      {id:'open-book', cat:'artifact', kind:'Journal', name:'An Open Book', line:'Left open on the reading stand.', verb:'Read', x:9, y:70,
+        title:'Left open to a pressed flower', body:'Someone marked this page and never came back for it. The flower is long dry.\n\nWhatever they were reading, they meant to remember it.'},
+      {id:'lost-page', cat:'artifact', kind:'Luna Note', name:'A Loose Page', line:'Sticking halfway out of the shelf.', verb:'Take', x:17, y:58,
+        title:'A page that slipped its book', body:'It doesn’t belong to anything on these shelves. It just turns up — a little further along each time I look.\n\nKeep it. Pages like to be carried.'},
+      {id:'globe', cat:'lore', kind:'Curio', name:'A Brass Globe', line:'The oceans worn smooth by hands.', verb:'Spin it', x:22, y:52,
+        title:'The globe is wrong on purpose', body:'There’s a country on it that never existed. I keep it because someone I loved swore they’d been there.\n\nI’ve stopped correcting them, even in memory.'},
+      {id:'ladder', cat:'nav', name:'The Secret Ladder', line:'The shelves keep climbing into the dark.', verb:'Climb', x:30, y:52, route:'/upstairs.html'},
+      {id:'candle-1', cat:'ambient', name:'A Candle', line:'Burned low, still holding.', verb:'', x:12, y:64, react:'The flame leans, steadies, holds.'},
+      {id:'sketch', cat:'lore', kind:'Framed Sketch', name:'A Framed Sketch', line:'A face, half-finished.', verb:'Look closer', x:88, y:50,
+        title:'The unfinished portrait', body:'I never finished it. Not because I couldn’t — because finishing it would have meant deciding who it was.\n\nSome faces are truer left as a question.'},
+      {id:'astrolabe', cat:'lore', kind:'Instrument', name:'An Astrolabe', line:'Set to a sky that isn’t tonight’s.', verb:'Turn it', x:78, y:60,
+        title:'Fixed on a borrowed sky', body:'It reads the stars of a night I keep going back to. The Observatory would call that sentimental. It would be right.'},
+      {id:'drawer', cat:'ambient', name:'A Tiny Drawer', line:'Set into the shelf’s end.', verb:'Pull', x:97, y:66, react:'It slides an inch — then stops, as if thought better of.'},
+      {id:'lever', cat:'rare', kind:'Rare Find', name:'A Hidden Lever', line:'A gap behind this row of books.', verb:'Pull', x:91, y:40, rare:true, rarity:'legendary',
+        title:'A small brass key', body:'No door it fits. Not yet. The House keeps a few of these — promises it hasn’t made good on.\n\nKeep it. A shelf you’ve walked past a hundred times may finally open.',
+        closed:'The gap is only shadow tonight. Nothing gives.'},
+      {id:'stacks', cat:'ambient', name:'Stacks on the Floor', line:'Waiting to be shelved.', verb:'', x:39, y:88, react:'The top book slides, settles, does not fall.'},
+      {id:'window', cat:'lore', kind:'The Glass', name:'The Rose Window', line:'Moonlight in the coloured glass.', verb:'Look up', x:50, y:26, w:12, h:20,
+        title:'The window keeps the moon', body:'Whatever the moon is doing tonight, the glass has already caught a version of it. The Observatory watches the real one; the Library keeps the memory.'},
+      {id:'astro', cat:'cat', name:'Astro', line:'He was here before you.', verb:'', x:61, y:80,
+        reacts:['He blinks, slowly.','His tail curls once, and settles.','He looks at you, then decides you’re allowed.','His collar catches the candlelight — ASTRO.']},
+      {id:'floorlamp', cat:'ambient', name:'A Candle in Glass', line:'Under a bell jar, steady.', verb:'', x:93, y:60, react:'The flame brightens, as if it heard you.'}
+    ]},
+
+  { id:'fireplace', title:'The Fireplace', asset:'/assets/fireplace-env.png', aw:1672, ah:941,
+    alt:'The Fireplace — a stone hearth with a living fire, a worn leather armchair, an open book',
+    hotspots:[
+      {id:'sit', cat:'passage', name:'The Chair', line:'The fire has been waiting.', verb:'Sit', x:66, y:56,
+        narration:'You sit. The leather is warm. The fire moves, and for a moment nothing in the House needs anything from you.'},
+      {id:'fire', cat:'ambient', name:'The Fire', line:'Low and alive.', verb:'', x:33, y:52, w:9, h:14, react:'A log shifts. Sparks climb, and are gone.'},
+      {id:'tea', cat:'artifact', kind:'Luna Note', name:'The Tea', line:'Still warm — someone was just here.', verb:'Take the note', x:83, y:70,
+        title:'A note left with the cup', body:'Made two. Habit. Take the second — and the note under it.\n\n“Stay as long as you like. The fire keeps its own hours.”'},
+      {id:'journal', cat:'artifact', kind:'Journal', name:'The Journal', line:'Left face-open on the table.', verb:'Read', x:50, y:83,
+        title:'Tonight’s page', body:'I write here when I don’t want the desk. The fire makes me honest in a way the screen never does.\n\nWhatever’s open tonight, it was true when I set it down.'},
+      {id:'clock', cat:'ambient', name:'The Mantel Clock', line:'Keeping its own time.', verb:'Listen', x:38, y:22, react:'The ticking swells — louder, closer — then folds back into the quiet.'},
+      {id:'candlestick', cat:'ambient', name:'A Candlestick', line:'Wax pooled at its foot.', verb:'', x:8, y:44, react:'The flame gutters, throws the room’s shadows, recovers.'},
+      {id:'mantel', cat:'lore', kind:'Mantel Curio', name:'A Small Figure', line:'Something kept on the mantel.', verb:'Look closer', x:44, y:24,
+        title:'The thing on the mantel', body:'A carved bird, one wing chipped. It was my grandmother’s. It has watched three of my houses burn down to nothing and be rebuilt.\n\nIt is not for sale. Nothing on this mantel is.'},
+      {id:'blanket', cat:'ambient', name:'The Throw', line:'Folded over the arm.', verb:'', x:74, y:66, react:'It’s warm, and folded the way you’d fold it. The House was expecting you.'},
+      {id:'books-stack', cat:'artifact', kind:'Quote', name:'A Stack of Books', line:'Read, and re-read.', verb:'Read a spine', x:16, y:82,
+        title:'“The ones you return to.”', body:'“A person’s real library isn’t the books they own. It’s the four or five they’ve read to pieces. These are mine.”'},
+      {id:'photo', cat:'lore', kind:'A Photograph', name:'A Photograph', line:'Propped where the light finds it.', verb:'Look closer', x:90, y:44,
+        title:'Someone, out of frame', body:'The photo is of a room, not a person. But you can tell someone had just stood up from that chair. Some absences are more present than a face.'},
+      {id:'window-fp', cat:'lore', kind:'The Glass', name:'The Window', line:'The moon, through the ivy.', verb:'Look up', x:88, y:22, w:9, h:20,
+        title:'The same moon, always', body:'Inside it’s stained glass; out there it’s the real thing. The Observatory has been watching it all night. Up here it just keeps you company.'},
+      {id:'ember', cat:'rare', kind:'Rare Find', name:'An Ember', line:'Something glows in the grate.', verb:'Look closer', x:33, y:63, rare:true,
+        title:'A line, written in the ash', body:'Some nights the fire leaves a sentence in the embers. Tonight it left one for you.\n\nKeep it before it goes cold.',
+        closed:'Only ash tonight. The fire is keeping its counsel.'},
+      {id:'rug', cat:'ambient', name:'The Rug', line:'Worn soft down the middle.', verb:'', x:50, y:95, react:'A path is worn into it, hearth to door. You’re not the first to pace here.'},
+      {id:'astro-fp', cat:'cat', name:'Astro', line:'Curled where the warmth is.', verb:'', x:22, y:74,
+        reacts:['He half-opens one eye, and forgives you.','He stretches, reconsiders, curls tighter.','He purrs — barely — and pretends he didn’t.']}
+    ]},
+
+  { id:'maintable', title:'The Main Table', asset:'/assets/maintable-env.png', aw:1672, ah:941,
+    alt:'The Main Table — a great round table strewn with open books, charts and candles',
+    hotspots:[
+      {id:'manuscript', cat:'artifact', kind:'Journal', name:'An Open Manuscript', line:'Mid-sentence, the ink still wet.', verb:'Read', x:30, y:62,
+        title:'Whatever I’m working on tonight', body:'This is the table where the House thinks out loud. What’s open here changes with me.\n\nCome back tomorrow and it won’t say the same thing.'},
+      {id:'chart', cat:'artifact', kind:'Quote', name:'A Chart', line:'A map of somewhere not quite real.', verb:'Look', x:42, y:59,
+        title:'“Every map is a wish.”', body:'“I draw the places I mean to get to. Then I forget they weren’t real, and go looking.”'},
+      {id:'armillary', cat:'lore', kind:'Instrument', name:'The Armillary', line:'Brass rings, set to a far sky.', verb:'Turn it', x:64, y:56,
+        title:'Set for the Observatory', body:'The rings line up on nothing in this room. They’re set for the old wing — past the Machine Room, under the real stars.'},
+      {id:'letter-mt', cat:'artifact', kind:'Letter', name:'A Sealed Letter', line:'The wax not yet broken.', verb:'Break the seal', x:52, y:66, rarity:'uncommon',
+        title:'A letter I left for whoever sat here', body:'If you’re reading this, you stayed long enough to be curious. That’s rarer than you’d think.\n\nKeep it. It was always addressed to you.'},
+      {id:'candles-mt', cat:'ambient', name:'The Candles', line:'A ring of low flames.', verb:'', x:50, y:44, react:'The flames bow together, as if a door opened somewhere.'},
+      {id:'vase', cat:'ambient', name:'Dried Flowers', line:'Long past blooming.', verb:'', x:50, y:40, react:'A petal lets go, turns once, lands without a sound.'},
+      {id:'inkwell', cat:'ambient', name:'The Inkwell', line:'A quill left standing in it.', verb:'', x:47, y:65, react:'The quill trembles — as if a hand almost took it up.'},
+      {id:'chair-mt', cat:'passage', name:'A Chair', line:'Pulled out, just so.', verb:'Sit', x:24, y:78,
+        narration:'You take the seat. From here the whole table is yours — every open book angled toward you, as if it had been waiting for a reader.'},
+      {id:'stack-mt', cat:'lore', kind:'Bound Volumes', name:'A Tower of Books', line:'Stacked higher than is wise.', verb:'Look closer', x:57, y:50,
+        title:'The unread tower', body:'Every one is a thing I meant to get to. I keep the tower where I’ll see it — not to shame myself, but to remember there is always more House than there is night.'},
+      {id:'astro-mt', cat:'cat', name:'Astro', line:'A tail, just at the table’s edge.', verb:'', x:18, y:74,
+        reacts:['He has walked across every page here. He considers the table his.','He knocks a quill an inch, watches it, loses interest.','He blinks at you from among the books, unbothered.']}
+    ]},
+
+  { id:'hiddendesk', title:'The Hidden Desk', asset:'/assets/hiddendesk-env.png', aw:1672, ah:941,
+    alt:'The Hidden Desk — a writing nook behind a shelf, ledgers, candles, a lantern, a cat on the sill',
+    hotspots:[
+      {id:'letters', cat:'artifact', kind:'Letter', name:'The Letters', line:'Pinned where they can be seen.', verb:'Break the seal', x:30, y:26,
+        title:'Letters I never sent', body:'Some of these are to people. Some are to versions of myself I didn’t become.\n\nI pin them up so I remember I meant them.'},
+      {id:'ledger', cat:'artifact', kind:'Journal', name:'The Open Ledger', line:'Someone stopped writing mid-line.', verb:'Read', x:48, y:58,
+        title:'The sentence breaks off here', body:'“—and if it works, then everything after this is going to be—”\n\nThat’s where I stopped. I don’t remember why. I never finished it.'},
+      {id:'seal-wax', cat:'artifact', kind:'Quote', name:'A Wax Seal', line:'A sigil pressed in deep red.', verb:'Take it', x:40, y:66,
+        title:'The House’s mark', body:'Not a logo. A promise, pressed into wax: what’s made here is made carefully, or not at all.'},
+      {id:'drawer-hd', cat:'rare', kind:'Rare Find', name:'The Drawer', line:'Locked, most days.', verb:'Open', x:72, y:82, rare:true, rarity:'legendary',
+        title:'The drawer gives', body:'It doesn’t open when you want it to. It opens when it’s ready — and today it was.\n\nInside: something small, and clearly kept for a reason. Keep it.',
+        closed:'Locked, still. The drawer keeps its own hours, and today is not the day.'},
+      {id:'lantern-hd', cat:'ambient', name:'The Lantern', line:'Turned low against the dark.', verb:'', x:74, y:42, react:'You turn it up a little. The nook leans in around the light.'},
+      {id:'quill-hd', cat:'ambient', name:'The Quill', line:'Nib still wet.', verb:'', x:66, y:52, react:'A drop of ink gathers at the nib, and does not fall.'},
+      {id:'pinned', cat:'lore', kind:'Pinned Notes', name:'Pinned Diagrams', line:'A wall of half-plans.', verb:'Look closer', x:30, y:20,
+        title:'The wall of maybe', body:'Ideas I pinned up so they’d stop following me around. Half are nonsense. One or two are the whole reason this House exists. I won’t tell you which.'},
+      {id:'candles-hd', cat:'ambient', name:'The Candles', line:'Three, burning together.', verb:'', x:42, y:44, react:'The three flames sway as one. Someone opened a door, far off.'},
+      {id:'chair-hd', cat:'passage', name:'The Chair', line:'Worn to the shape of long nights.', verb:'Sit', x:40, y:82,
+        narration:'You sit where the writing happens. The room narrows to a lamp, a page, and the sound of your own thinking. This is where the House is most itself.'},
+      {id:'astro-hd', cat:'cat', name:'Astro', line:'Asleep on the windowsill.', verb:'', x:60, y:33,
+        reacts:['He stirs, resettles, guards the desk in his sleep.','One ear turns toward you. The rest of him declines.','He yawns enormously, and returns to duty.']},
+      {id:'window-hd', cat:'lore', kind:'The Glass', name:'The Window', line:'Ivy and moonlight beyond.', verb:'Look up', x:60, y:22, w:9, h:16,
+        title:'The night keeps watch too', body:'The ivy has half-taken the glass. I let it. Some things should be a little overgrown, a little hidden. That’s the whole point of a nook.'}
+    ]},
+
+  { id:'terminal', title:'The Terminal', asset:'/assets/terminal-env.png', aw:1672, ah:941,
+    alt:'The Terminal — a lone glowing monitor in a dark alcove, a star-chart on the screen, a cat on the sill',
+    hotspots:[
+      {id:'threads', cat:'nav', name:'Threads', line:'The feed, still scrolling in the dark.', verb:'Open', x:44, y:40, route:''},
+      {id:'substack', cat:'artifact', kind:'Journal', name:'Substack', line:'The last essay, printed and pinned.', verb:'Read', x:84, y:42,
+        title:'The long-form shelf', body:'The things too big for a post end up here — the essays, the letters that go out to the ones who stayed.\n\n(The archive links in soon.)'},
+      {id:'logs', cat:'lore', kind:'Observatory Log', name:'Observatory Logs', line:'A star-chart, annotated by hand.', verb:'Read', x:82, y:24,
+        title:'“Logged from the far wing.”', body:'Readings the Observatory sends down the line. I don’t always understand them. I keep them anyway.'},
+      {id:'screen', cat:'ambient', name:'The Screen', line:'The cursor blinks, patient.', verb:'', x:44, y:40, w:12, h:16, react:'The cursor blinks twice, and a line of green text scrolls up from nowhere, then clears.'},
+      {id:'egg', cat:'rare', kind:'Rare Find', name:'The Keyboard', line:'Worn where the hands go.', verb:'Type', x:40, y:62, rare:true,
+        title:'> the House answers', body:'You typed nothing, and it answered anyway. Some nights the Terminal is in a mood to talk.\n\nKeep what it said. It won’t say it twice.',
+        closed:'You press a key. Nothing. The Terminal is only listening tonight.'},
+      {id:'mug', cat:'ambient', name:'A Cold Mug', line:'A ring dried at the bottom.', verb:'', x:60, y:58, react:'Long cold. Whoever sat here left in a hurry, or forgot the hour. Both happen, here.'},
+      {id:'lantern-t', cat:'ambient', name:'The Lamp', line:'Warm, beside the cold glow.', verb:'', x:74, y:58, react:'You turn it up. Warm light and cold light meet on the desk, and neither wins.'},
+      {id:'chair-t', cat:'passage', name:'The Chair', line:'Angled to the screen.', verb:'Sit', x:18, y:70,
+        narration:'You sit. The monitor-glow finds your face, cold and blue. For a moment you’re where the House touches the loud world — and it’s quiet here, still.'},
+      {id:'papers-t', cat:'lore', kind:'Printouts', name:'A Stack of Printouts', line:'Draft after draft.', verb:'Look closer', x:86, y:60,
+        title:'The paper trail', body:'Everything the screen has ever said, printed and kept. I trust paper more than pixels. Paper doesn’t update itself while you sleep.'},
+      {id:'astro-t', cat:'cat', name:'Astro', line:'Watching the screen, unblinking.', verb:'', x:12, y:44,
+        reacts:['He stares at the cursor like it owes him something. Maybe it does.','His eyes track a line of text no one typed.','He sits in the coldest light in the House, content.']}
+    ]},
+
+  { id:'upstairs', title:'Upstairs', asset:'/assets/upstairs-env.png', aw:1536, ah:1024,
+    alt:'Upstairs — the Library’s upper gallery, a balustrade over the floor below, a reading chair, a door to the night',
+    hotspots:[
+      {id:'balcony', cat:'passage', name:'The Balcony', line:'The whole Library, below you.', verb:'Look down', x:30, y:58,
+        narration:'You lean on the rail. The round table, the hearth, the aisle you came in by — all of it smaller from up here. Rooms usually are, once you’ve climbed above them.'},
+      {id:'reading-chair', cat:'artifact', kind:'Journal', name:'The Reading Chair', line:'A book left open under the lantern.', verb:'Read', x:64, y:84,
+        title:'Someone reads up here', body:'The best chair in the House isn’t by the fire — it’s up here, where you can hear the whole Library breathing below and no one comes looking.\n\nThe book is open. Read where they left off.'},
+      {id:'alcove', cat:'lore', kind:'A Reading Alcove', name:'A Reading Alcove', line:'A lamp kept lit for one.', verb:'Look closer', x:84, y:50,
+        title:'“Made for exactly one.”', body:'A seat, a lamp, a shelf you can reach without standing. Some of my favourite hours were spent in a space this size.'},
+      {id:'patio', cat:'nav', name:'A Way Outside', line:'The night is still reading.', verb:'Step out', x:72, y:32, route:'/secretpatio.html'},
+      {id:'lantern-up', cat:'ambient', name:'A Hanging Lantern', line:'Swaying, barely.', verb:'', x:47, y:22, react:'It sways once, throws the balcony’s shadows long, and stills.'},
+      {id:'candles-up', cat:'ambient', name:'Candles on the Rail', line:'A row along the balustrade.', verb:'', x:20, y:66, react:'The row of flames leans inward together, as if the House exhaled.'},
+      {id:'window-up', cat:'lore', kind:'The Glass', name:'The Tall Windows', line:'The moon caught in the panes.', verb:'Look up', x:14, y:30, w:12, h:24,
+        title:'A wall of night', body:'Two storeys of glass, and the moon in every pane. From down on the floor you only get a slice of it. This is the room that keeps the whole sky.'},
+      {id:'astro-up', cat:'cat', name:'Astro', line:'On the balustrade, watching below.', verb:'', x:16, y:51,
+        reacts:['He watches the candles move on the floor below like they’re fish.','He does not acknowledge your climb. But he’s glad.','His tail hangs over the drop, twitching at nothing.']}
+    ]},
+
+  { id:'loosepages', title:'Loose Pages', asset:'/assets/loosepages-env.png', aw:1672, ah:941,
+    alt:'Loose Pages — a long table and floor scattered with drifting handwritten pages in candlelight',
+    hotspots:[
+      {id:'page-floor', cat:'artifact', kind:'Luna Note', name:'A Page Underfoot', line:'It drifted here from somewhere.', verb:'Take', x:40, y:60,
+        title:'A page with no book', body:'This whole room is made of things that got away from me — half-thoughts, first drafts, lines that never found a home.\n\nTake one. It’s more yours than mine now.'},
+      {id:'page-air', cat:'artifact', kind:'Quote', name:'A Page in the Draft', line:'Caught mid-air, refusing to land.', verb:'Catch', x:56, y:30,
+        title:'“The good ones never settle.”', body:'“Some pages won’t lie flat. Those are usually the ones worth reading twice.”'},
+      {id:'torn', cat:'rare', kind:'Rare Find', name:'A Torn Page', line:'Half of something. The rest is near.', verb:'Piece it together', x:72, y:62, rare:true,
+        title:'Two halves, finally matched', body:'You’ve been finding pieces of this one for a while without knowing. Today the halves meet.\n\nKeep it whole. You earned it in fragments.',
+        closed:'The other half isn’t here tonight. Come back — it moves around.'},
+      {id:'draft-air', cat:'ambient', name:'The Draught', line:'Something stirs the pages.', verb:'', x:50, y:20, react:'A breath of air crosses the room. Every page lifts an inch, and sighs back down.'},
+      {id:'candle-lp', cat:'ambient', name:'A Candle', line:'Guarding the nearest page.', verb:'', x:12, y:52, react:'The flame bends toward a page as if reading it, then straightens.'},
+      {id:'pile', cat:'lore', kind:'The Heap', name:'A Heap of Pages', line:'Years of them.', verb:'Look closer', x:30, y:78,
+        title:'The floor of everything unfinished', body:'People think a writer’s room is the finished shelf. It isn’t. It’s this — the floor, the drift, the thousand starts. The shelf is just the survivors.'},
+      {id:'table-lp', cat:'ambient', name:'The Long Table', line:'Buried in paper.', verb:'', x:60, y:52, react:'You touch the edge. A page slides off, turns twice on the way down, and joins the rest.'},
+      {id:'window-lp', cat:'lore', kind:'The Glass', name:'The Window', line:'Night pressing at the pane.', verb:'Look up', x:86, y:26, w:9, h:18,
+        title:'What the night is for', body:'The pages don’t drift by day. Only now, when the House is quiet and the window is dark, do they get restless. The best thoughts keep late hours. So do I.'},
+      {id:'astro-lp', cat:'cat', name:'Astro', line:'Batting a page across the floor.', verb:'', x:82, y:72,
+        reacts:['He pins a page under one paw, deeply proud.','He chases a drifting sheet, misses, pretends he meant to.','He sits on the exact page you wanted. Of course he does.']}
+    ]},
+
+  { id:'mirror', title:'The Mirror', asset:'/assets/mirror-env.png', aw:1402, ah:1122,
+    alt:'The Mirror — a tall antique mirror in a candlelit hall of glass, reflecting a room subtly not the same',
+    hotspots:[
+      {id:'reflection', cat:'artifact', kind:'Quote', art:'mirror', name:'Your Reflection', line:'Almost right. Almost.', verb:'Look', x:50, y:40,
+        title:'“It shows you a version of the room.”', body:'“Not quite this one. A little colder. One candle where there shouldn’t be. The Mirror keeps its own draft of the House.”'},
+      {id:'behind', cat:'rare', kind:'Rare Find', art:'mirror', name:'Something in the Glass', line:'Movement — but you’re alone.', verb:'Turn', x:62, y:34, rare:true,
+        title:'Someone walking, far back', body:'You turn. There’s no one. You look again — still walking, and no closer.\n\nSome nights the Mirror remembers company the room has forgotten. Keep what you saw.',
+        closed:'The glass is only glass tonight. Whatever walks there is keeping still.'},
+      {id:'inscription', cat:'lore', kind:'The Frame', name:'The Inscription', line:'Cut into the frame’s gilt.', verb:'Trace it', x:88, y:40,
+        title:'“The truth isn’t found. It’s remembered.”', body:'I didn’t write it. It was already on the frame when the Mirror came to the House. I’ve never argued with it.'},
+      {id:'candles-mr', cat:'ambient', name:'The Candles', line:'Doubled in every glass.', verb:'', x:24, y:56, react:'The flames double, and double again, down a hall of mirrors that goes further than the room should allow.'},
+      {id:'flowers-mr', cat:'ambient', name:'Dark Roses', line:'Almost black in this light.', verb:'', x:14, y:44, react:'In the glass, the roses are a deeper red than the ones in your hand. The Mirror prefers them so.'},
+      {id:'ottoman', cat:'passage', name:'The Ottoman', line:'Set square before the glass.', verb:'Sit', x:50, y:74,
+        narration:'You sit before the mirror. The reflection sits too — a half-second late. You decide not to notice. The House appreciates the tact.'},
+      {id:'hall', cat:'lore', kind:'The Hall', name:'The Long Reflection', line:'A corridor that isn’t here.', verb:'Look closer', x:70, y:44,
+        title:'The room the Mirror keeps', body:'Every mirror in the House opens onto the same long hall. I’ve counted the doors in it. There is always one more than there should be. I have stopped counting.'}
+    ]},
+
+  { id:'secretpatio', title:'The Secret Patio', asset:'/assets/secretpatio-env.png', aw:1402, ah:1122,
+    alt:'The Secret Patio — a hidden moonlit terrace of ivy and lanterns beyond the Library, a great moon above',
+    hotspots:[
+      {id:'sky', cat:'lore', kind:'The Sky', name:'The Night Sky', line:'The same stars the Observatory keeps.', verb:'Look up', x:72, y:16, w:16, h:16,
+        title:'Under the open moon', body:'Inside, the sky is stained glass. Out here it’s the real thing — the same moon the Observatory has watched all along. This is the only room in the Library with no ceiling.'},
+      {id:'table-sp', cat:'artifact', kind:'Journal', name:'The Little Table', line:'A book, a candle, a cup gone cold.', verb:'Read', x:60, y:70,
+        title:'Someone reads out here', body:'Whoever it was left the book open and the tea to go cold. That’s how you know the reading was good.'},
+      {id:'ledge', cat:'rare', kind:'Rare Find', name:'Left on the Ledge', line:'Something waited out here for you.', verb:'Take', x:38, y:56, rare:true,
+        title:'Set on the stone, deliberately', body:'Not dropped. Placed. Out here where almost no one comes, for exactly the kind of person who’d come this far.\n\nThat’s you. Keep it.',
+        closed:'The ledge is bare tonight. Whatever waits here isn’t waiting for you yet.'},
+      {id:'plaque', cat:'lore', kind:'The Plaque', name:'The Plaque', line:'“Take only what awakens you.”', verb:'Read', x:14, y:44,
+        title:'The rule of the House', body:'“You can keep whatever you like in here. But keep only what wakes something up. Leave the rest for the next wanderer.”'},
+      {id:'lanterns-sp', cat:'ambient', name:'The Lanterns', line:'Strung along the balustrade.', verb:'', x:88, y:52, react:'The line of lanterns flickers in sequence, one to the next, like something passing by.'},
+      {id:'roses-sp', cat:'ambient', name:'Climbing Roses', line:'Heavy with the dark.', verb:'', x:90, y:70, react:'A rose lets go a petal. It falls a long way, into a garden you can’t quite see.'},
+      {id:'chair-sp', cat:'passage', name:'The Chair', line:'Turned to face the moon.', verb:'Sit', x:66, y:78,
+        narration:'You sit out in the cool air. The Library’s warmth is at your back; the whole night is in front of you. This is the furthest edge of the House anyone has found. For now.'},
+      {id:'ivy-sp', cat:'ambient', name:'The Ivy', line:'Taking the old stone slowly.', verb:'', x:20, y:60, react:'The ivy has been at this wall for a hundred years and is in no hurry. There’s a lesson in it. You leave it there.'},
+      {id:'moon-sp', cat:'lore', kind:'The Moon', name:'The Moon', line:'Vast, and close tonight.', verb:'Look up', x:78, y:14, w:12, h:14,
+        title:'The Observatory’s moon, up close', body:'Down the far wing they study it through brass and glass. Out here you just look at it, the way people have since before there were Houses at all. Both are right.'}
+    ]},
+
+  { id:'luna', title:"Luna's Room", asset:'/assets/lunas-room-env.png', aw:1402, ah:1122, return:'/', returnLabel:'The Grand Hall', accent:'#C9A6EC', wake:'rgba(200,150,240,.5)',
+    alt:"Luna's Room — a dark violet gothic sanctuary: a canopy bed, candlelit shelves, a computer glowing LUNA, a city view",
+    hotspots:[
+      {id:'luna-pc', cat:'network', name:'The Computer', line:'The screen just says LUNA.', verb:'Boot MoonNet', x:18, y:50},
+      {id:'luna-mood', cat:'lore', kind:'Moodboard', name:'The Moodboard', line:'A wall of pinned images.', verb:'Look closer', x:10, y:28,
+        title:'The wall she thinks against', body:'Everything Luna is chasing, pinned where she has to see it. Half of the House started as something on this wall.'},
+      {id:'luna-city', cat:'lore', kind:'The Glass', name:'The City View', line:'A city glittering in the rain.', verb:'Look out', x:33, y:30, w:11, h:18,
+        title:'The city she watches from', body:'The House sits above a city that never quite sleeps. She likes the lights on and the sound off — the world at a distance she can choose.'},
+      {id:'luna-bed', cat:'passage', name:'The Canopy Bed', line:'Velvet and shadow.', verb:'Rest', x:60, y:56,
+        narration:'You sink into the velvet. The candles keep their small vigil, the city glows far below, and the whole House goes quiet around you. This is where Luna comes to disappear for a while.'},
+      {id:'luna-altar', cat:'artifact', kind:'The Altar', name:'The Altar', line:'Amethyst, catching the candlelight.', verb:'Set an intention', x:66, y:90, rarity:'uncommon',
+        title:'The intention stone', body:'Luna keeps a stone here for whatever she’s trying to call in. Take one with you — hold whatever you’re hoping for while you do.\n\nKeep it. Intentions travel better with something to carry them.'},
+      {id:'luna-shelf', cat:'lore', kind:'Curios', name:'The Shelves', line:'Bottles, candles, small kept things.', verb:'Look closer', x:82, y:38,
+        title:'A life in small objects', body:'Nothing here is expensive. Everything here is chosen. That’s the whole difference between a room and a sanctuary.'},
+      // Luna's Collection — her published books, shelved like an author's own library.
+      // Pull a spine and it opens: preview, then "Take this with you."
+      {id:'luna-collection', cat:'collection-shelf', name:'Luna’s Collection', line:'A shelf of her own books.', verb:'Browse the shelf', x:95, y:56, w:6, h:16},
+      {id:'luna-neon', cat:'ambient', name:'The Neon', line:'“Dark Soft Energy.”', verb:'', x:87, y:13, react:'The neon hums, pink against the dark. It’s a promise she made to herself. It’s holding.'},
+      {id:'luna-vinyl', cat:'ambient', name:'The Records', line:'Something is always playing.', verb:'', x:82, y:40, react:'A record turns somewhere in the dark. The room fills with something slow, and Luna-shaped.'},
+      {id:'luna-candles', cat:'ambient', name:'The Candles', line:'A hundred small flames.', verb:'', x:8, y:60, react:'She lights them one at a time, most nights. The room breathes a little warmer.'},
+      {id:'luna-book', cat:'artifact', kind:'Journal', name:'A Spellbook', line:'Left open by the chaise.', verb:'Read', x:74, y:94,
+        title:'Not a spellbook, really', body:'She calls it that. It’s a journal with ambitions — half diary, half instructions to a future version of herself.\n\nThe latest page is about you, a little. About whoever finally wandered all the way in here.'}
+    ]},
+
+  { id:'you', title:'Your Room', asset:'/assets/your-room-env.png', aw:1402, ah:1122, return:'/', returnLabel:'The Grand Hall', accent:'#E3B968', intro:true, network:true,
+    alt:'Your Room — a warm gothic sanctuary where everything you have kept is displayed: shelves of memorabilia, a computer, a soft bed',
+    hotspots:[
+      {id:'you-pc', cat:'network', name:'The House Network', line:'The whole House, from one screen.', verb:'Log on', x:14, y:44, w:13, h:15, title:'The House Network'},
+      {id:'you-neon', cat:'lore', kind:'The Sign', name:'The Neon', line:'“The House Remembers.”', verb:'Read', x:13, y:11,
+        title:'The House Remembers', body:'Not a slogan. A fact. Every page you read, every thing you kept, every night you came back — the House kept all of it. This room is the proof.'},
+      {id:'you-frame', cat:'collection', name:'A Framed Line', line:'“Everything you’ve kept lives here.”', verb:'Open', x:87, y:44, title:'Everything You’ve Kept'},
+      {id:'you-shelves', cat:'lore', kind:'Displays', name:'The Shelves', line:'Filling, slowly, with what you love.', verb:'Look closer', x:46, y:32, w:16, h:24,
+        title:'Your displays', body:'Right now some of these shelves are bare. That’s on purpose. They fill as you wander — every rare find, every letter, every page you couldn’t leave behind ends up here, arranged like it always belonged.'},
+      {id:'you-mirror', cat:'lore', kind:'The Glass', name:'The Mirror', line:'Fairy-lights around the frame.', verb:'Look', x:60, y:30,
+        title:'Your reflection, warmer', body:'The Library’s mirror shows you a colder House. This one just shows you — in a room that’s slowly becoming yours. It’s a kinder glass.'},
+      {id:'you-seat', cat:'passage', name:'The Window Seat', line:'Cushions, and a city of lights.', verb:'Sit', x:70, y:42,
+        narration:'You curl into the window seat. Fairy-lights, a soft blanket, the whole House humming quietly behind you and the night ahead. You could stay here a long time. People do.'},
+      {id:'you-letters', cat:'lore', kind:'Kept Letters', name:'Letters & Notes', line:'A basket of what was written to you.', verb:'Look closer', x:10, y:74,
+        title:'Letters & Notes', body:'Every letter you chose to keep ends up in this basket, and the ones you keep enough times get bound into something you’ll find on a shelf one day. The House is patient like that.'},
+      {id:'you-journal', cat:'artifact', kind:'Journal', name:'Your Journal', line:'Open on the bed, in your hand.', verb:'Read', x:62, y:74,
+        title:'The page you left open', body:'This one’s yours to write. For now the House keeps it warm — a place to come back to, and a habit worth keeping.'},
+      // The nightstand book — quiet flavour, not for sale. (Luna's published books
+      // live on the shelf as "Luna's Collection"; the bed holds only the journal.)
+      {id:'you-book', cat:'lore', kind:'The Book', name:'Memories · Stories · Soul', line:'A heavy book on the side table.', verb:'Read the spine', x:87, y:88,
+        title:'Memories · Stories · Soul', body:'Three words on a spine. It’s the whole point of the House, really — a place that keeps the memories, tells the stories, and looks after the soft parts. Yours included.'},
+      {id:'you-cloche', cat:'ambient', name:'A Cloche', line:'A single rose under glass.', verb:'', x:38, y:42, react:'A rose, kept under glass, kept from time. Some things you hold onto just because you can’t bear not to.'}
+    ]}
+];
+
+// Astro as a transparent sprite layer (roam rooms only — rooms with a painted
+// cat keep it until a cat-free background is generated). Seed picks pose+spot+
+// presence; click = in-world reaction, never a modal.
+const ASTRO = {
+  bookshelves:{ w:10, line:'He was here before you.', reacts:['He blinks, slowly.','His tail curls once, and settles.','He looks at you, then decides you’re allowed.','He was here before you. He’ll be here after.'], absent:true,
+    spots:[{x:61,y:90,pose:'sit'},{x:22,y:90,pose:'loaf'},{x:82,y:88,pose:'curl'}] },
+  hiddendesk:{ w:8, line:'Keeping the desk company.', reacts:['He guards the desk, even in his sleep.','One ear turns toward you. The rest of him declines.','He yawns enormously, and returns to duty.'], absent:true,
+    spots:[{x:40,y:89,pose:'sit'},{x:70,y:91,pose:'curl'}] },
+  terminal:{ w:9, line:'Watching the screen, unblinking.', reacts:['He stares at the cursor like it owes him something.','He sits in the coldest light in the House, content.','His eyes track a line of text no one typed.'], absent:true,
+    spots:[{x:12,y:72,pose:'sit'},{x:82,y:72,pose:'loaf'}] },
+  fireplace:{ w:12, line:'Curled where the warmth is.', reacts:['He half-opens one eye, and forgives you.','He stretches, then watches you.','A soft purr fills the room.'], absent:true,
+    spots:[{x:24,y:86,pose:'bed'},{x:67,y:72,pose:'loaf'},{x:41,y:93,pose:'sit'}] },
+  maintable:{ w:9, line:'A tail, just at the table’s edge.', reacts:['He considers the whole table his.','He knocks a quill an inch, watches it, loses interest.','He blinks at you from among the books.'], absent:true,
+    spots:[{x:40,y:57,pose:'loaf'},{x:18,y:86,pose:'sit'},{x:76,y:88,pose:'curl'}] },
+  upstairs:{ w:9, line:'On the balustrade, watching below.', reacts:['He watches the candles move below like they’re fish.','He does not acknowledge your climb. But he’s glad.','He has decided you may stay.'], absent:true,
+    spots:[{x:16,y:57,pose:'sit'},{x:80,y:92,pose:'loaf'}] },
+  loosepages:{ w:9, line:'Batting a page across the floor.', reacts:['He pins a page under one paw, deeply proud.','He sits on the exact page you wanted. Of course he does.','He chases a drifting sheet, and pretends he meant to miss.'], absent:true,
+    spots:[{x:82,y:82,pose:'sit'},{x:40,y:64,pose:'loaf'},{x:30,y:86,pose:'curl'}] },
+  mirror:{ w:9, line:'He came to see who else is in the glass.', reacts:['He stares past you, into the mirror, and will not say what he sees.','He appears only some nights. Tonight, he chose to.'], absent:true, rareVisit:true,
+    spots:[{x:50,y:82,pose:'sit'}] },
+  secretpatio:{ w:9, line:'Out in the night air with you.', reacts:['He watches the moon like he’s counting something.','He found the edge of the House long before you did.','A soft purr, out under the stars.'], absent:true,
+    spots:[{x:66,y:86,pose:'loaf'},{x:20,y:66,pose:'sit'}] },
+  luna:{ w:11, line:'He guards Luna’s sanctuary.', reacts:['He has claimed the warmest corner, as is his right.','He blinks at you, slow, from the velvet.','A soft purr — you passed some test you didn’t know about.'], absent:true,
+    spots:[{x:66,y:80,pose:'loaf'},{x:40,y:93,pose:'sit'},{x:90,y:82,pose:'curl'}] },
+  // Your Room is the resident's own room — Astro lives here, always, on the bed.
+  you:{ w:11, line:'Asleep on your bed, where he always is.', reacts:['He decided this room was his the moment you did.','He’s curled on the velvet like he’s always lived here. Maybe he has.','A soft purr from the foot of the bed — he’s glad you keep coming back.'], absent:false,
+    spots:[{x:63,y:92,pose:'curl'},{x:85,y:75,pose:'loaf'}] }
+};
+
+// ============================================================================
+// LUNA'S COLLECTION — the published books. They are NOT the journal.
+//   • The bedside book on the bed is the resident's personal JOURNAL — it never
+//     changes and is not for sale (see the `you-journal` hotspot / the tome viewer).
+//   • Luna's published books live on a SHELF, like an author's library. Pull a spine
+//     off the shelf → it opens → preview → "Take this with you." (see openShelf/openBook)
+//   • LAUNCH exception: when a new release is launching, ONE promo copy rests BESIDE
+//     the journal on the bed, wrapped in a ribbon — "like Luna left it for you." It
+//     does not replace the journal. After launch it quietly returns to the shelf.
+// To feature/stock a different book, edit BOOKS + LAUNCH only — nothing else.
+//   coverImg : optional cutout PNG; until it exists a CSS cover (foil title) stands in.
+//   href     : the shop link (Gumroad / etc). null = "shop opens soon", no link yet.
+// ============================================================================
+const BOOKS = [
+  { slug:'dark-feminine-energy', title:'Dark Feminine Energy', author:'Luna',
+    cover:'#241019', spine:'#3a1a2e', foil:'#e3b968',
+    coverImg:'/assets/books/dark-feminine-energy.png',
+    tagline:'The newest release', blurb:'A season of shadow, softness, and coming home to yourself.',
+    spread:[
+      { l:'<span class="fb-dedication">for the ones who were<br>told they felt<br>too&nbsp;deeply</span>',
+        r:'<span class="fb-half">Dark Feminine<br>Energy</span><span class="fb-by">Luna</span>' },
+      { l:'<span class="fb-pull">“She was never too&nbsp;much.<br>The world was simply<br>too&nbsp;small.”</span>',
+        r:'<span class="fb-toc-h">Inside</span><span class="fb-toc">i.&nbsp;&nbsp;The Return<br>ii.&nbsp;&nbsp;The Shadow<br>iii.&nbsp;&nbsp;The Becoming<br>iv.&nbsp;&nbsp;The Altar<br>v.&nbsp;&nbsp;The House</span>' },
+      { l:'<span class="fb-first">The first thing the dark teaches you is that it was never the enemy. It was the room you were afraid to sit in alone…</span>',
+        r:'<span class="fb-first fb-muted">…and the moment you do, you find it was furnished all along. A chair. A candle. A version of you that had been waiting.</span>' }
+    ],
+    take:'Take this with you', href:null,
+    soon:'The shop opens in a breath — Luna’s still stocking the shelf. It’ll be yours to take home soon.',
+    returned:'The House remembers what you brought home. It’s on your shelf now.' },
+  { slug:'becoming', title:'Becoming', author:'Luna',
+    cover:'#182430', spine:'#0f1a24', foil:'#c6b28a', coverImg:'/assets/books/becoming.png',
+    tagline:'', blurb:'On unbecoming everything you were told to be, and building someone truer in the ruins.',
+    spread:[
+      { l:'<span class="fb-dedication">to whoever<br>you are<br>on the other&nbsp;side</span>',
+        r:'<span class="fb-half">Becoming</span><span class="fb-by">Luna</span>' },
+      { l:'<span class="fb-pull">“You don’t find yourself.<br>You build her, brick<br>by honest brick.”</span>',
+        r:'<span class="fb-first fb-muted">A slow book. Read it the way you’d rebuild a house — one room, one true thing, at a time.</span>' }
+    ],
+    take:'Take this with you', href:null,
+    soon:'The shop opens soon. Becoming will be yours to take home shortly.',
+    returned:'The House remembers what you brought home. It’s on your shelf now.' },
+  { slug:'house-of-luna', title:'House of Luna', author:'Luna',
+    cover:'#2a1a10', spine:'#180f08', foil:'#e3b968', coverImg:'/assets/books/house-of-luna.png',
+    tagline:'', blurb:'The book of the House itself — every room, every ritual, every thing worth keeping.',
+    spread:[
+      { l:'<span class="fb-dedication">for the ones<br>who wandered<br>all the way&nbsp;in</span>',
+        r:'<span class="fb-half">House<br>of Luna</span><span class="fb-by">Luna</span>' },
+      { l:'<span class="fb-pull">“A place you visit,<br>not a tool<br>you use.”</span>',
+        r:'<span class="fb-first fb-muted">The rooms, the residents, and the rule of the House: keep only what wakes something up.</span>' }
+    ],
+    take:'Take this with you', href:null,
+    soon:'The shop opens soon. House of Luna will be yours to take home shortly.',
+    returned:'The House remembers what you brought home. It’s on your shelf now.' }
+];
+const LAUNCH = { active:true, slug:'dark-feminine-energy',  // launch week → promo rests beside the journal
+  x:81, y:86, w:5.5, whisper:'Luna left this beside your journal.', verb:'Open it' };
+const COLLECTION_LABEL = "Luna’s Collection";
+
+function page(z){
+  const cfg = JSON.stringify({ id:z.id, title:z.title, asset:z.asset, hotspots:z.hotspots, astro:ASTRO[z.id]||null, intro:z.intro||false, network:z.network||false,
+    books:(z.id==='you'||z.id==='luna')?BOOKS:null, launch:(z.id==='you')?LAUNCH:null, collectionLabel:COLLECTION_LABEL });
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Your Room · The Library · House of Luna</title>
+<title>${z.title} · The Library · House of Luna</title>
 <link rel="stylesheet" href="/styles/tokens.css"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Allura&family=Lora:ital@0;1&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   /* LIBRARY ZONE ENGINE v2 — invisible at rest; objects catch light when you look.
-     One config, one photoreal room. This file: Your Room. */
+     One config, one photoreal room. This file: ${z.title}. */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  :root{ --gold:#E3B968; --paper:#EFE7D8; --ink:#2a2118; --ease:cubic-bezier(.22,1,.36,1); --wake:rgba(255,214,140,.5);
+  :root{ --gold:${z.accent||'#E3B968'}; --paper:#EFE7D8; --ink:#2a2118; --ease:cubic-bezier(.22,1,.36,1); --wake:${z.wake||'rgba(255,214,140,.5)'};
     /* the mockup's typography — Playfair headings, Cormorant body, Allura script accents */
     --font-display:'Playfair Display','Cormorant Garamond',Georgia,serif; --font-book:'Cormorant Garamond','Lora',Georgia,serif; --font-script:'Allura','Snell Roundhand','Segoe Script',cursive; }
   html,body{height:100%;background:#0a0806;overflow:hidden;font-family:var(--font-narrator,Georgia,serif);color:var(--paper);}
   .zone{position:fixed;inset:0;overflow:hidden;background:#0a0806;}
-  .env{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:104vw;aspect-ratio:1402/1122;will-change:transform;transition:transform .6s var(--ease);
+  .env{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:104vw;aspect-ratio:${z.aw}/${z.ah};will-change:transform;transition:transform .6s var(--ease);
     background:radial-gradient(80% 60% at 32% 44%, rgba(120,86,42,.5) 0%, transparent 60%), radial-gradient(70% 60% at 76% 58%, rgba(70,52,28,.5) 0%, transparent 62%), linear-gradient(180deg,#1b130c 0%,#0e0a06 100%);}
   @media (max-aspect-ratio:1/1){ .env{width:auto;height:104vh;} }
   .env img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
@@ -247,7 +603,7 @@
   .art.letter{width:min(88vw,440px);max-height:84vh;overflow:auto;padding:clamp(1.6rem,4vw,2.4rem) clamp(1.5rem,4vw,2.4rem) clamp(1.4rem,3vw,2rem);border-radius:2px;position:relative;}
   .av.open .art.letter{animation:floatUp .8s var(--ease) both;}
   .seal{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;cursor:pointer;z-index:3;background:radial-gradient(circle at 38% 34%,#a33b46,#6a2130 68%,#4a1622);box-shadow:0 8px 20px -6px rgba(0,0,0,.7), inset 0 2px 6px rgba(255,180,180,.3);display:grid;place-items:center;color:rgba(255,220,220,.85);font-size:1.4rem;transition:transform .5s var(--ease),opacity .5s;}
-  .seal::after{content:"\2766";}
+  .seal::after{content:"\\2766";}
   .letter .fold{max-height:0;overflow:hidden;opacity:0;transition:max-height .8s var(--ease),opacity .6s;}
   .letter .prompt{text-align:center;font-style:italic;color:#6a5326;margin-top:1.2rem;}
   .letter.open-seal .seal{animation:sealcrack .6s ease forwards;}
@@ -355,13 +711,13 @@
 </head>
 <body>
   <div class="zone" id="zone">
-    <div class="env" id="env"><img id="envimg" alt="Your Room — a warm gothic sanctuary where everything you have kept is displayed: shelves of memorabilia, a computer, a soft bed"/></div>
+    <div class="env" id="env"><img id="envimg" alt="${z.alt}"/></div>
     <div class="vignette"></div>
     <div class="dust" id="dust"></div>
     <div class="dwell-dim" id="dwelldim"></div>
   </div>
-  <a class="return" href="/" id="return">&larr; The Grand Hall</a>
-  <span class="place" id="place">Your Room</span>
+  <a class="return" href="${z.return||'/library'}" id="return">&larr; ${z.returnLabel||'The Library'}</a>
+  <span class="place" id="place">${z.title}</span>
   <p class="collection">Collected&nbsp; <b id="ccount">0</b></p>
   <p class="living" id="living"></p>
   <p class="hint">Nothing here asks to be clicked. Look, and things wake.</p>
@@ -372,7 +728,7 @@
   <div class="fade" aria-hidden="true"></div>
 <script>
 (function(){
-  var ZONE = {"id":"you","title":"Your Room","asset":"/assets/your-room-env.png","hotspots":[{"id":"you-pc","cat":"network","name":"The House Network","line":"The whole House, from one screen.","verb":"Log on","x":14,"y":44,"w":13,"h":15,"title":"The House Network"},{"id":"you-neon","cat":"lore","kind":"The Sign","name":"The Neon","line":"“The House Remembers.”","verb":"Read","x":13,"y":11,"title":"The House Remembers","body":"Not a slogan. A fact. Every page you read, every thing you kept, every night you came back — the House kept all of it. This room is the proof."},{"id":"you-frame","cat":"collection","name":"A Framed Line","line":"“Everything you’ve kept lives here.”","verb":"Open","x":87,"y":44,"title":"Everything You’ve Kept"},{"id":"you-shelves","cat":"lore","kind":"Displays","name":"The Shelves","line":"Filling, slowly, with what you love.","verb":"Look closer","x":46,"y":32,"w":16,"h":24,"title":"Your displays","body":"Right now some of these shelves are bare. That’s on purpose. They fill as you wander — every rare find, every letter, every page you couldn’t leave behind ends up here, arranged like it always belonged."},{"id":"you-mirror","cat":"lore","kind":"The Glass","name":"The Mirror","line":"Fairy-lights around the frame.","verb":"Look","x":60,"y":30,"title":"Your reflection, warmer","body":"The Library’s mirror shows you a colder House. This one just shows you — in a room that’s slowly becoming yours. It’s a kinder glass."},{"id":"you-seat","cat":"passage","name":"The Window Seat","line":"Cushions, and a city of lights.","verb":"Sit","x":70,"y":42,"narration":"You curl into the window seat. Fairy-lights, a soft blanket, the whole House humming quietly behind you and the night ahead. You could stay here a long time. People do."},{"id":"you-letters","cat":"lore","kind":"Kept Letters","name":"Letters & Notes","line":"A basket of what was written to you.","verb":"Look closer","x":10,"y":74,"title":"Letters & Notes","body":"Every letter you chose to keep ends up in this basket, and the ones you keep enough times get bound into something you’ll find on a shelf one day. The House is patient like that."},{"id":"you-journal","cat":"artifact","kind":"Journal","name":"Your Journal","line":"Open on the bed, in your hand.","verb":"Read","x":62,"y":74,"title":"The page you left open","body":"This one’s yours to write. For now the House keeps it warm — a place to come back to, and a habit worth keeping."},{"id":"you-book","cat":"lore","kind":"The Book","name":"Memories · Stories · Soul","line":"A heavy book on the side table.","verb":"Read the spine","x":87,"y":88,"title":"Memories · Stories · Soul","body":"Three words on a spine. It’s the whole point of the House, really — a place that keeps the memories, tells the stories, and looks after the soft parts. Yours included."},{"id":"you-cloche","cat":"ambient","name":"A Cloche","line":"A single rose under glass.","verb":"","x":38,"y":42,"react":"A rose, kept under glass, kept from time. Some things you hold onto just because you can’t bear not to."}],"astro":{"w":11,"line":"Asleep on your bed, where he always is.","reacts":["He decided this room was his the moment you did.","He’s curled on the velvet like he’s always lived here. Maybe he has.","A soft purr from the foot of the bed — he’s glad you keep coming back."],"absent":false,"spots":[{"x":63,"y":92,"pose":"curl"},{"x":85,"y":75,"pose":"loaf"}]},"intro":true,"network":true,"books":[{"slug":"dark-feminine-energy","title":"Dark Feminine Energy","author":"Luna","cover":"#241019","spine":"#3a1a2e","foil":"#e3b968","coverImg":"/assets/books/dark-feminine-energy.png","tagline":"The newest release","blurb":"A season of shadow, softness, and coming home to yourself.","spread":[{"l":"<span class=\"fb-dedication\">for the ones who were<br>told they felt<br>too&nbsp;deeply</span>","r":"<span class=\"fb-half\">Dark Feminine<br>Energy</span><span class=\"fb-by\">Luna</span>"},{"l":"<span class=\"fb-pull\">“She was never too&nbsp;much.<br>The world was simply<br>too&nbsp;small.”</span>","r":"<span class=\"fb-toc-h\">Inside</span><span class=\"fb-toc\">i.&nbsp;&nbsp;The Return<br>ii.&nbsp;&nbsp;The Shadow<br>iii.&nbsp;&nbsp;The Becoming<br>iv.&nbsp;&nbsp;The Altar<br>v.&nbsp;&nbsp;The House</span>"},{"l":"<span class=\"fb-first\">The first thing the dark teaches you is that it was never the enemy. It was the room you were afraid to sit in alone…</span>","r":"<span class=\"fb-first fb-muted\">…and the moment you do, you find it was furnished all along. A chair. A candle. A version of you that had been waiting.</span>"}],"take":"Take this with you","href":null,"soon":"The shop opens in a breath — Luna’s still stocking the shelf. It’ll be yours to take home soon.","returned":"The House remembers what you brought home. It’s on your shelf now."},{"slug":"becoming","title":"Becoming","author":"Luna","cover":"#182430","spine":"#0f1a24","foil":"#c6b28a","coverImg":"/assets/books/becoming.png","tagline":"","blurb":"On unbecoming everything you were told to be, and building someone truer in the ruins.","spread":[{"l":"<span class=\"fb-dedication\">to whoever<br>you are<br>on the other&nbsp;side</span>","r":"<span class=\"fb-half\">Becoming</span><span class=\"fb-by\">Luna</span>"},{"l":"<span class=\"fb-pull\">“You don’t find yourself.<br>You build her, brick<br>by honest brick.”</span>","r":"<span class=\"fb-first fb-muted\">A slow book. Read it the way you’d rebuild a house — one room, one true thing, at a time.</span>"}],"take":"Take this with you","href":null,"soon":"The shop opens soon. Becoming will be yours to take home shortly.","returned":"The House remembers what you brought home. It’s on your shelf now."},{"slug":"house-of-luna","title":"House of Luna","author":"Luna","cover":"#2a1a10","spine":"#180f08","foil":"#e3b968","coverImg":"/assets/books/house-of-luna.png","tagline":"","blurb":"The book of the House itself — every room, every ritual, every thing worth keeping.","spread":[{"l":"<span class=\"fb-dedication\">for the ones<br>who wandered<br>all the way&nbsp;in</span>","r":"<span class=\"fb-half\">House<br>of Luna</span><span class=\"fb-by\">Luna</span>"},{"l":"<span class=\"fb-pull\">“A place you visit,<br>not a tool<br>you use.”</span>","r":"<span class=\"fb-first fb-muted\">The rooms, the residents, and the rule of the House: keep only what wakes something up.</span>"}],"take":"Take this with you","href":null,"soon":"The shop opens soon. House of Luna will be yours to take home shortly.","returned":"The House remembers what you brought home. It’s on your shelf now."}],"launch":{"active":true,"slug":"dark-feminine-energy","x":81,"y":86,"w":5.5,"whisper":"Luna left this beside your journal.","verb":"Open it"},"collectionLabel":"Luna’s Collection"};
+  var ZONE = ${cfg};
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var touch = matchMedia('(hover: none)').matches;
   var env=document.getElementById('env'), img=document.getElementById('envimg');
@@ -418,7 +774,7 @@
     var s=document.createElement('div'); s.className='spot'+(h.cat==='cat'?' astro':''); s.tabIndex=0; s.setAttribute('role','button'); s.setAttribute('aria-label',h.name+' — '+h.line);
     s.style.left=h.x+'%'; s.style.top=h.y+'%';
     if(h.w) s.style.setProperty('--sw',h.w+'%'); if(h.h) s.style.setProperty('--sh',h.h+'%');
-    var verb = h.verb ? '<span class="wn">'+h.verb+' \u2192</span>' : '';
+    var verb = h.verb ? '<span class="wn">'+h.verb+' \\u2192</span>' : '';
     s.innerHTML='<span class="wake"></span><span class="whisper"><span class="wl">'+h.line+'</span>'+verb+'</span>';
     s.addEventListener('click',function(e){ tap(h,s,e); });
     s.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(h,s); } });
@@ -457,7 +813,7 @@
       b.style.left=LB.x+'%'; b.style.top=LB.y+'%'; b.style.width=LB.w+'%';
       b.style.setProperty('--fb-cover',item.cover); b.style.setProperty('--fb-foil',item.foil);
       var pcov = item.coverImg ? '<img class="bcov" src="'+item.coverImg+'" alt="'+item.title+'"/><span class="bfoil" style="display:none">'+item.title+'</span>' : '<span class="bfoil">'+item.title+'</span>';
-      b.innerHTML='<span class="bshadow"></span><span class="bglow"></span><div class="bcover">'+pcov+'</div><span class="ribbon-band"></span><span class="whisper"><span class="wl">'+LB.whisper+'</span><span class="wn">'+LB.verb+' \u2192</span></span>';
+      b.innerHTML='<span class="bshadow"></span><span class="bglow"></span><div class="bcover">'+pcov+'</div><span class="ribbon-band"></span><span class="whisper"><span class="wl">'+LB.whisper+'</span><span class="wn">'+LB.verb+' \\u2192</span></span>';
       env.appendChild(b); promoBook=b;
       var pc=b.querySelector('.bcov'); if(pc){ pc.onerror=function(){ pc.remove(); var f=b.querySelector('.bfoil'); if(f) f.style.display='block'; }; }
       (function(it){ b.addEventListener('click',function(){ if(suppressClick) return; if(touch){ if(!b.classList.contains('awake')){ disarm(); b.classList.add('awake'); armed=b; return; } disarm(); } openBook(it, promoBook); });
@@ -534,7 +890,7 @@
   function kindTag(h,rar){ return '<span class="art-kind">'+h.kind+((rar==='rare'||rar==='legendary')?'<span class="rare-tag">'+rar+'</span>':'')+'</span>'; }
   function actBtns(o){ var s='';
     if(o.read) s+='<button class="art-act" data-read>'+o.read+'</button>';
-    if(o.keep) s+='<button class="art-act keep'+(o.kept?' kept':'')+'" data-keep>'+(o.kept?'Kept \u2713':o.keep)+'</button>';
+    if(o.keep) s+='<button class="art-act keep'+(o.kept?' kept':'')+'" data-keep>'+(o.kept?'Kept \\u2713':o.keep)+'</button>';
     s+='<button class="art-act" data-close>'+o.close+'</button>';
     return '<div class="art-acts">'+s+'</div>'; }
   function openLore(h){
@@ -558,13 +914,13 @@
   var SB_KEY='sb_publishable_TKJjv10k4Gg6lzDrwpopkQ_-Vf3yO_x';
   var sb=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SB_URL,SB_KEY):null;
   var MN_FALLBACK=[
-    {slug:'continue-creating',title:'Continue Creating',icon:'\u2726',kind:'external',href:null,soon_note:'The Studio is warming up. Velvet runs on MoonNet soon.'},
-    {slug:'your-room',title:'Your Room',icon:'\u2726',kind:'internal',href:'/you.html'},
-    {slug:'hallways',title:'Hallways',icon:'\u2726',kind:'view'},
-    {slug:'conversations',title:'Conversations',icon:'\u2726',kind:'view'},
-    {slug:'letters',title:'Letters',icon:'\u2726',kind:'external',href:null,soon_note:'Your Letters (long-form) arrive on MoonNet soon.'},
-    {slug:'observatory',title:'Observatory',icon:'\u2726',kind:'view',soon_note:'The Observatory opens soon.'},
-    {slug:'settings',title:'Settings',icon:'\u2726',kind:'view',soon_note:'Room settings open soon.'}
+    {slug:'continue-creating',title:'Continue Creating',icon:'\\u2726',kind:'external',href:null,soon_note:'The Studio is warming up. Velvet runs on MoonNet soon.'},
+    {slug:'your-room',title:'Your Room',icon:'\\u2726',kind:'internal',href:'/you.html'},
+    {slug:'hallways',title:'Hallways',icon:'\\u2726',kind:'view'},
+    {slug:'conversations',title:'Conversations',icon:'\\u2726',kind:'view'},
+    {slug:'letters',title:'Letters',icon:'\\u2726',kind:'external',href:null,soon_note:'Your Letters (long-form) arrive on MoonNet soon.'},
+    {slug:'observatory',title:'Observatory',icon:'\\u2726',kind:'view',soon_note:'The Observatory opens soon.'},
+    {slug:'settings',title:'Settings',icon:'\\u2726',kind:'view',soon_note:'Room settings open soon.'}
   ];
   var MN_DEST=null;
   function mnFetchDest(cb){
@@ -588,18 +944,18 @@
     av.className='av open r-common';
     avhold.innerHTML='<div class="lorewrap"><div class="hnet" id="moonnet"><div class="mn-screen" id="mnscreen"></div></div></div>';
     if(reduce){ mnDesktop(); return; }
-    var boot=['MOONNET','','Connecting\u2026','','\u2726 The House remembers.','','\u2713 Velvet','\u2713 Letters','\u2713 Conversations','\u2713 Hallways','\u2713 Observatory','','Connected.'];
+    var boot=['MOONNET','','Connecting\\u2026','','\\u2726 The House remembers.','','\\u2713 Velvet','\\u2713 Letters','\\u2713 Conversations','\\u2713 Hallways','\\u2713 Observatory','','Connected.'];
     document.getElementById('mnscreen').innerHTML='<pre class="mn-boot" id="mnboot"></pre>';
     var pre=document.getElementById('mnboot'), i=0;
-    (function tick(){ if(!pre.isConnected) return; if(i<boot.length){ pre.textContent+=(i?'\n':'')+boot[i]; i++; setTimeout(tick, i<3?320:170); } else { setTimeout(mnDesktop, 700); } })();
+    (function tick(){ if(!pre.isConnected) return; if(i<boot.length){ pre.textContent+=(i?'\\n':'')+boot[i]; i++; setTimeout(tick, i<3?320:170); } else { setTimeout(mnDesktop, 700); } })();
   }
   function mnScreen(){ return document.getElementById('mnscreen'); }
   function mnDesktop(){
     var s=mnScreen(); if(!s) return;
-    s.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connecting to The House\u2026</span></div>';
+    s.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connecting to The House\\u2026</span></div>';
     mnFetchDest(function(dest){ var s2=mnScreen(); if(!s2) return;
       s2.innerHTML='<div class="mn-bar"><span class="mn-title">MOONNET</span><span class="mn-sub">Connected to The House</span></div><div class="mn-list">'+
-        dest.map(function(it,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-star">'+(it.icon||'\u2726')+'</span>'+it.title+'</button>';}).join('')+
+        dest.map(function(it,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-star">'+(it.icon||'\\u2726')+'</span>'+it.title+'</button>';}).join('')+
         '</div><div class="hn-foot"><button class="art-act" data-close>Disconnect</button></div>';
       s2.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ mnGo(dest[+b.getAttribute('data-i')]); }; });
       s2.querySelector('[data-close]').onclick=close;
@@ -609,8 +965,8 @@
     var s=mnScreen(); if(!s) return;
     var doors=[{n:"Luna's Room", href:'/luna.html'},{n:'A Botanical Conservatory'},{n:"A Witch's Study"},{n:"A Poet's Apartment"},{n:'A Cyberpunk Loft'},{n:'A Cottage Kitchen'}];
     s.innerHTML='<div class="mn-bar"><span class="mn-title">HALLWAYS</span><span class="mn-sub">Doors are waiting tonight.</span></div><div class="mn-list">'+
-      doors.map(function(d,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-door">\u25CB</span>'+d.n+'</button>';}).join('')+
-      '</div><div class="hn-foot"><button class="art-act" data-back>\u2190 MoonNet</button></div>';
+      doors.map(function(d,i){return '<button class="mn-item" data-i="'+i+'"><span class="mn-door">\\u25CB</span>'+d.n+'</button>';}).join('')+
+      '</div><div class="hn-foot"><button class="art-act" data-back>\\u2190 MoonNet</button></div>';
     s.querySelectorAll('.mn-item').forEach(function(b){ b.onclick=function(){ var d=doors[+b.getAttribute('data-i')]; if(d.href){ location.href=d.href; } else { toast('That door is still locked. The Hallways fill as rooms are claimed.'); } }; });
     s.querySelector('[data-back]').onclick=mnDesktop;
   }
@@ -618,8 +974,8 @@
     var s=mnScreen(); if(!s) return;
     var notes=[{who:'Luna', txt:'the moon remembers every version of you.', h:247},{who:'Luna', txt:'built another door tonight. i think someone will find it.', h:88},{who:'The House', txt:'a candle was lit in a room no one has visited in a while.', h:33}];
     s.innerHTML='<div class="mn-bar"><span class="mn-title">CONVERSATIONS</span><span class="mn-sub">Notes pinned around the House.</span></div><div class="mn-notes">'+
-      notes.map(function(n){return '<div class="mn-note"><p class="mn-who">'+n.who+' left a thought.</p><p class="mn-txt">\u201C'+n.txt+'\u201D</p><p class="mn-heart">\u2661 '+n.h+'</p></div>';}).join('')+
-      '<button class="mn-leave">Leave your own note\u2026</button></div><div class="hn-foot"><button class="art-act" data-back>\u2190 MoonNet</button></div>';
+      notes.map(function(n){return '<div class="mn-note"><p class="mn-who">'+n.who+' left a thought.</p><p class="mn-txt">\\u201C'+n.txt+'\\u201D</p><p class="mn-heart">\\u2661 '+n.h+'</p></div>';}).join('')+
+      '<button class="mn-leave">Leave your own note\\u2026</button></div><div class="hn-foot"><button class="art-act" data-back>\\u2190 MoonNet</button></div>';
     s.querySelector('.mn-leave').onclick=function(){ toast('Your notes join the House soon.'); };
     s.querySelector('[data-back]').onclick=mnDesktop;
   }
@@ -677,7 +1033,7 @@
     return 'The House hesitated. Try again in a moment.'; }
   function unlockStep(ov, signin){
     try{ localStorage.setItem('hol_room', JSON.stringify({received:true})); }catch(e){}
-    ov.querySelector('.kr-inner').innerHTML='<div class="kr-unlock"><span class="kr-key">\uD83D\uDDDD</span><p class="kr-line show2">Unlocking\u2026</p><p class="kr-line show2 d1">The House remembers you.</p><span class="kr-door">\uD83D\uDEAA</span><p class="kr-line show2 d2">'+(signin?'Welcome home.':'Your room is ready. Welcome home.')+'</p></div>';
+    ov.querySelector('.kr-inner').innerHTML='<div class="kr-unlock"><span class="kr-key">\\uD83D\\uDDDD</span><p class="kr-line show2">Unlocking\\u2026</p><p class="kr-line show2 d1">The House remembers you.</p><span class="kr-door">\\uD83D\\uDEAA</span><p class="kr-line show2 d2">'+(signin?'Welcome home.':'Your room is ready. Welcome home.')+'</p></div>';
     setTimeout(function(){ ov.classList.add('gone'); setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); },1400); }, 3200);
   }
   function openArtifact(h){
@@ -695,7 +1051,7 @@
           '<p class="jr-lines">A quiet afternoon.<br>'+kw+'.<br>'+(astroHere?'Astro followed you home.':'The candles kept their vigil.')+'</p>';
         rightHTML='<span class="art-kind">Journal Entry</span><h2 class="art-title">The Page You Left Open</h2>'+
           '<p class="jr-warm">The House kept this one warm.</p>'+
-          '<div class="art-body">A page you wanted to return to.\nA thought you weren\u2019t finished with.\nA conversation still echoing through the halls.</div>'+
+          '<div class="art-body">A page you wanted to return to.\\nA thought you weren\\u2019t finished with.\\nA conversation still echoing through the halls.</div>'+
           '<p class="jr-cont">Continue where you left off.</p>';
         extra='<span class="pressed-stem"></span><span class="pressed-flower"></span>';
         foot=actBtns({read:'Continue Reading',keep:'Keep in My Room',close:'Return to Shelf',kept:kept});
@@ -704,7 +1060,7 @@
         rightHTML='<div class="art-body">'+h.body+'</div>';
         foot=actBtns({read:'Read',keep:'Keep in My Room',close:'Return to Shelf',kept:kept});
       }
-      html='<div class="art book">'+ribbons+'<button class="tome-x" data-close aria-label="Close">\u00D7</button>'+
+      html='<div class="art book">'+ribbons+'<button class="tome-x" data-close aria-label="Close">\\u00D7</button>'+
         '<div class="book-spread">'+corners+
           '<div class="book-page left">'+leftHTML+'</div>'+
           '<div class="book-page right">'+rightHTML+extra+'</div>'+
@@ -731,7 +1087,7 @@
     avhold.innerHTML=html; spawnParticles(rar); if(rar==='legendary') houseReacts();
     var seal=document.getElementById('artseal'); if(seal) seal.onclick=function(){ document.getElementById('artletter').classList.add('open-seal'); };
     var rd=avhold.querySelector('[data-read]'); if(rd) rd.onclick=function(){ toast('You read it, slowly.'); };
-    var kp=avhold.querySelector('[data-keep]'); if(kp&&!kept) kp.onclick=function(){ keep(h); kp.textContent='Kept \u2713'; kp.classList.add('kept'); toast('Placed in Your Room.'); };
+    var kp=avhold.querySelector('[data-keep]'); if(kp&&!kept) kp.onclick=function(){ keep(h); kp.textContent='Kept \\u2713'; kp.classList.add('kept'); toast('Placed in Your Room.'); };
     avhold.querySelectorAll('[data-close]').forEach(function(el){ el.onclick=close; });
   }
   function close(){ av.className='av'; avhold.innerHTML=''; avp.innerHTML=''; if(promoBook) promoBook.classList.remove('lift'); }
@@ -751,21 +1107,21 @@
     av.className='av open r-uncommon';
     av.style.setProperty('--fb-cover',item.cover); av.style.setProperty('--fb-foil',item.foil);
     var FB=item, kept=inColl('book-'+FB.slug);
-    var coverHTML = FB.coverImg ? '<img id="fbcimg" src="'+FB.coverImg+'" alt="'+FB.title+'"/>' : '<span class="fb-crescent">\u263D</span><div><span class="fb-title">'+FB.title+'</span><span class="fb-by">'+FB.author+'</span></div>';
+    var coverHTML = FB.coverImg ? '<img id="fbcimg" src="'+FB.coverImg+'" alt="'+FB.title+'"/>' : '<span class="fb-crescent">\\u263D</span><div><span class="fb-title">'+FB.title+'</span><span class="fb-by">'+FB.author+'</span></div>';
     avhold.innerHTML='<div class="lorewrap"><div class="art fbook">'+
       '<div class="tome-ribbons"><span class="ribbon r1"></span><span class="ribbon r2"></span><span class="ribbon r3"></span></div>'+
-      '<button class="tome-x" id="fbx" aria-label="Close">\u00D7</button>'+
+      '<button class="tome-x" id="fbx" aria-label="Close">\\u00D7</button>'+
       '<div class="fb-stage">'+
         '<div class="fb-cover-card" id="fbcover">'+coverHTML+'<span class="fb-tag">'+FB.tagline+'</span></div>'+
         '<div class="fb-spread" id="fbspread"><span class="gold-corner tl"></span><span class="gold-corner tr"></span><span class="gold-corner bl"></span><span class="gold-corner br"></span><span class="fb-gutter"></span>'+
           '<div class="fb-pg left" id="fbL"></div><div class="fb-pg right" id="fbR"></div>'+
-          '<button class="fb-nav prev" id="fbprev" aria-label="Previous page">\u2039</button>'+
-          '<button class="fb-nav next" id="fbnext" aria-label="Next page">\u203A</button>'+
+          '<button class="fb-nav prev" id="fbprev" aria-label="Previous page">\\u2039</button>'+
+          '<button class="fb-nav next" id="fbnext" aria-label="Next page">\\u203A</button>'+
           '<span class="fb-pager" id="fbpager"></span>'+
         '</div>'+
       '</div>'+
       '<div class="fb-foot"><p class="fb-blurb">'+FB.blurb+'</p>'+
-        '<div class="fb-acts tome"><button class="fb-take'+(kept?' kept':'')+'" id="fbtake">'+(kept?'On your shelf \u2713':FB.take)+'</button>'+
+        '<div class="fb-acts tome"><button class="fb-take'+(kept?' kept':'')+'" id="fbtake">'+(kept?'On your shelf \\u2713':FB.take)+'</button>'+
         '<button class="fb-leave" id="fbleave">Leave it for now</button></div></div>'+
       '</div></div>';
     spawnParticles('uncommon');
@@ -786,7 +1142,7 @@
     if(!item.href){ toast(item.soon); return; }
     try{ window.open(item.href,'_blank'); }catch(e){}
     keep({id:'book-'+item.slug, title:item.title, kind:'Book', zone:'Luna’s shelves'}); // returns to the buyer's own shelf
-    if(btn){ btn.textContent='On your shelf \u2713'; btn.classList.add('kept'); btn.onclick=null; }
+    if(btn){ btn.textContent='On your shelf \\u2713'; btn.classList.add('kept'); btn.onclick=null; }
     houseReacts(); toast(item.returned);
     setTimeout(function(){ close(); if(srcEl){ srcEl.classList.add('gone'); setTimeout(function(){ srcEl.classList.remove('gone'); },1500); } }, 1500);
   }
@@ -821,4 +1177,12 @@
 })();
 </script>
 </body>
-</html>
+</html>`;
+}
+
+let out='';
+for(const z of ZONES){
+  fs.writeFileSync('/tmp/velvet-build/'+z.id+'.html', page(z));
+  out += '  '+z.id+'.html  ('+z.hotspots.length+' objects)\n';
+}
+console.log('Wrote '+ZONES.length+' zones:\n'+out);
