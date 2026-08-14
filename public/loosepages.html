@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Loose Pages · The Library · House of Luna</title>
 <link rel="stylesheet" href="/styles/tokens.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   /* LIBRARY ZONE ENGINE v2 — invisible at rest; objects catch light when you look.
      One config, one photoreal room. This file: Loose Pages. */
@@ -249,12 +250,28 @@
   document.getElementById('living').innerHTML='The House · '+phase+'<br>'+(rand(9)>0.5?'It is quiet tonight.':'You hear a page settle.');
 
   // collection
-  var KEY='hol_collection';
+  var KEY='hol_collection', holRoomId=null;
   function getColl(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+  function setColl(c){ try{localStorage.setItem(KEY,JSON.stringify(c));}catch(e){} }
   function inColl(id){ return getColl().some(function(x){return x.id===id;}); }
-  function keep(item){ var c=getColl(); if(!c.some(function(x){return x.id===item.id;})){ c.push({id:item.id,title:item.title,kind:item.kind,zone:ZONE.id}); try{localStorage.setItem(KEY,JSON.stringify(c));}catch(e){} } render(); }
-  function render(){ document.getElementById('ccount').textContent=getColl().length; }
+  function keep(item){ var c=getColl(); if(!c.some(function(x){return x.id===item.id;})){ c.push({id:item.id,title:item.title,kind:item.kind,zone:ZONE.id}); setColl(c); } render();
+    if(sb && holRoomId){ try{ sb.from('room_items').upsert({room_id:holRoomId,item_id:item.id,item_type:item.kind,title:item.title,source:ZONE.id},{onConflict:'room_id,item_id'}).then(function(){},function(){}); }catch(e){} } }
+  function render(){ var el=document.getElementById('ccount'); if(el) el.textContent=getColl().length; }
   render();
+  // the House Remembers: on load, if signed in, sync keeps with this resident's room (both ways)
+  function houseSync(){ if(!(sb&&sb.auth&&sb.auth.getUser)) return;
+    sb.auth.getUser().then(function(r){ var u=r&&r.data&&r.data.user; if(!u) return;
+      sb.from('rooms').select('id').eq('user_id',u.id).limit(1).then(function(rr){ var room=rr&&rr.data&&rr.data[0]; if(!room) return; holRoomId=room.id;
+        sb.from('room_items').select('item_id,item_type,title,source').eq('room_id',room.id).then(function(ri){ if(!(ri&&ri.data)) return;
+          var c=getColl(), seen={}; c.forEach(function(x){seen[x.id]=1;}); var have={}; var changed=false;
+          ri.data.forEach(function(it){ have[it.item_id]=1; if(!seen[it.item_id]){ c.push({id:it.item_id,title:it.title,kind:it.item_type,zone:it.source}); changed=true; } });
+          if(changed) setColl(c); render();
+          var up=c.filter(function(x){return !have[x.id];}).map(function(x){return {room_id:room.id,item_id:x.id,item_type:x.kind,title:x.title,source:x.zone};});
+          if(up.length){ try{ sb.from('room_items').upsert(up,{onConflict:'room_id,item_id'}).then(function(){},function(){}); }catch(e){} }
+        });
+      });
+    }).catch(function(){});
+  }
 
   // build invisible hit regions
   var spots=[];
@@ -558,6 +575,7 @@
     zn.addEventListener('touchmove',function(e){ if(e.touches.length!==1||moving||dwelling||av.classList.contains('open')) return; var dx=e.touches[0].clientX-sx; if(Math.abs(dx)>8) drag=true; if(drag){ var mp=maxPan(); panX=Math.max(-mp,Math.min(mp,spn+dx)); env.style.transition='none'; env.style.transform='translate(calc(-50% + '+panX.toFixed(0)+'px),-50%)'; } },{passive:true});
     zn.addEventListener('touchend',function(){ if(drag){ suppressClick=true; setTimeout(function(){ suppressClick=false; },350); } },{passive:true});
   }
+  houseSync();
   if(ZONE.intro){ buildIntro(); }
 })();
 </script>
