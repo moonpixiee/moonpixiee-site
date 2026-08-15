@@ -533,7 +533,14 @@
   // the House Remembers: on load, if signed in, sync keeps with this resident's room (both ways)
   function houseSync(){ if(!(sb&&sb.auth&&sb.auth.getUser)) return;
     sb.auth.getUser().then(function(r){ var u=r&&r.data&&r.data.user; if(!u) return;
-      sb.from('rooms').select('id').eq('user_id',u.id).limit(1).then(function(rr){ var room=rr&&rr.data&&rr.data[0]; if(!room) return; holRoomId=room.id;
+      sb.from('rooms').select('id,shell').eq('user_id',u.id).limit(1).then(function(rr){ var room=rr&&rr.data&&rr.data[0]; if(!room) return; holRoomId=room.id;
+        // Adopt the First Night: if this resident chose a shell/name in the Shell Ceremony
+        // before forging their key, carry that choice into their new room, once.
+        try{ var fnRaw=localStorage.getItem('hol_firstnight'); if(fnRaw){ var fn=JSON.parse(fnRaw)||{};
+          if(fn.shell && !room.shell){ try{ sb.from('rooms').update({shell:fn.shell}).eq('id',room.id).then(function(){},function(){}); }catch(e){} }
+          if(fn.name){ try{ sb.from('profiles').update({display_name:fn.name}).eq('id',u.id).then(function(){},function(){}); }catch(e){} }
+          localStorage.removeItem('hol_firstnight');
+        } }catch(e){}
         sb.from('room_items').select('item_id,item_type,title,source').eq('room_id',room.id).then(function(ri){ if(!(ri&&ri.data)) return;
           var c=getColl(), seen={}; c.forEach(function(x){seen[x.id]=1;}); var have={}; var changed=false;
           ri.data.forEach(function(it){ have[it.item_id]=1; if(!seen[it.item_id]){ c.push({id:it.item_id,title:it.title,kind:it.item_type,zone:it.source}); changed=true; } });

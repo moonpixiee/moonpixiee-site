@@ -596,6 +596,43 @@ const SB_KEY='sb_publishable_TKJjv10k4Gg6lzDrwpopkQ_-Vf3yO_x';
 const sb=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SB_URL,SB_KEY):null;
 let houseRoomId=null;
 
+// Per-shell look — walls / floor / ambient / default window (shared with the First Night),
+// so a resident's chosen shell is visible the moment they walk in.
+const SHELL_LOOK={
+  'library-loft':{wa:'#2a2016',wb:'#150e07',fa:'#3a2a1a',fb:'#1c130a',win:'rainy-city',name:'Library Loft'},
+  'botanical':{wa:'#15241c',wb:'#0b140f',fa:'#23301f',fb:'#111a12',win:'forest',name:'Botanical Room'},
+  'penthouse-studio':{wa:'#1a1626',wb:'#0c0914',fa:'#241d2e',fb:'#120d18',win:'rainy-city',name:'Penthouse Studio'},
+  'gothic-chamber':{wa:'#20141c',wb:'#0e080d',fa:'#2a1a20',fb:'#150b10',win:'space',name:'Gothic Chamber'},
+  'minimal':{wa:'#2b2c30',wb:'#1a1b1f',fa:'#33342f',fb:'#1e1f1b',win:'snow',name:'Minimal Apartment'},
+  'coastal':{wa:'#16282e',wb:'#0b1418',fa:'#20302f',fb:'#101a19',win:'ocean',name:'Coastal Room'},
+  'cabin':{wa:'#241a12',wb:'#120b06',fa:'#2e2015',fb:'#160e07',win:'snow',name:'Mountain Cabin'},
+  'blank':{wa:'#131118',wb:'#08070c',fa:'#191720',fb:'#0d0b12',win:'space',name:'Blank Canvas'}
+};
+// A resident's base room — shell-agnostic furniture with warm, neutral whispers
+// (not Moonpixiee's personal ones). Their kept things get appended on top.
+const BASE_PLACED=[
+  {id:'bed',   cat:'furniture', glyph:'🛏️', name:'The Bed',   x:20, y:72, whisper:['Where you rest','Unmade, warm, a book face-down on the pillow. A room forgives you for the bed.']},
+  {id:'desk',  cat:'furniture', glyph:'🖥️', name:'The Desk',  x:45, y:75, whisper:['Where it happens','The surface you keep returning to. Whatever you are making, you make it here.']},
+  {id:'shelf', cat:'furniture', glyph:'📚', name:'The Shelf',  x:12, y:42, whisper:['Filling, slowly','Bare in places, on purpose. It fills with what you carry home from the House.']},
+  {id:'chair', cat:'furniture', glyph:'🪑', name:'The Chair',  x:33, y:80, whisper:['Turned to the window','A blanket over one arm. This is where the long evenings go.']},
+  {id:'candle',cat:'lighting',  glyph:'🕯️', name:'Candle',     x:8,  y:64, whisper:['Burning low','The Keeper lights this one whenever someone returns after a long absence.']},
+  {id:'plant', cat:'nature',    glyph:'🪴', name:'The Plant',  x:74, y:60, whisper:['Growing','It leans toward the window a little more each week. Rooms like something alive in them.']},
+  {id:'wall',  cat:'decor',     glyph:'🖼️', name:'The Wall',   x:33, y:26, whisper:['Yours to fill','Right now it holds almost nothing. Pin what matters; the House will keep it.']}
+];
+function itemGlyph(it){ var k=((it.item_type||it.kind||'')+'').toLowerCase();
+  if(k.indexOf('book')>=0) return '📕'; if(k.indexOf('letter')>=0) return '✉️';
+  if(k.indexOf('flower')>=0||k.indexOf('botan')>=0||k.indexOf('herb')>=0) return '🌸';
+  if(k.indexOf('journal')>=0||k.indexOf('page')>=0||k.indexOf('note')>=0) return '📜';
+  if(k.indexOf('key')>=0) return '🗝️'; if(k.indexOf('vinyl')>=0||k.indexOf('record')>=0) return '🎵';
+  if(k.indexOf('photo')>=0||k.indexOf('polaroid')>=0) return '📷'; if(k.indexOf('rare')>=0) return '✨';
+  return '🪶'; }
+function applyShellLook(shell){ const L=SHELL_LOOK[shell]; if(!L) return;
+  const r=document.documentElement.style;
+  r.setProperty('--wall-a',L.wa); r.setProperty('--wall-b',L.wb);
+  r.setProperty('--floor-a',L.fa); r.setProperty('--floor-b',L.fb);
+  if(L.win && WORLDS[L.win]) ROOM.window=L.win; // shell default; a saved window overrides after
+}
+
 async function houseUser(){
   if(!sb||!sb.auth) return null;
   try{ const {data}=await sb.auth.getUser(); return (data&&data.user)||null; }catch(e){ return null; }
@@ -603,9 +640,31 @@ async function houseUser(){
 async function loadRoom(){
   const u=await houseUser(); if(!u) return false;
   try{
+    // who lives here
+    let houseName=null;
+    try{ const {data:prof}=await sb.from('profiles').select('display_name,username').eq('id',u.id).limit(1);
+      const pr=prof&&prof[0]; if(pr) houseName=pr.display_name||pr.username||null; }catch(e){}
     const {data:rooms}=await sb.from('rooms').select('id,shell').eq('user_id',u.id).limit(1);
     const room=rooms&&rooms[0]; if(!room) return false;
     houseRoomId=room.id; if(room.shell) ROOM.shell=room.shell;
+
+    // build THEIR room: the base furniture, then everything they've kept in the House
+    const placed = BASE_PLACED.map(o=>Object.assign({}, o, {whisper:o.whisper.slice()}));
+    try{
+      const {data:items}=await sb.from('room_items').select('item_id,item_type,title,source,position').eq('room_id',room.id);
+      if(items && items.length){
+        const gx=[58,66,50,72,44,60], gy=[48,52,40,56,60,66];
+        items.forEach((it,n)=>{ placed.push({
+          id:'item-'+(it.item_id||n), cat:'collections', glyph:itemGlyph(it), name:it.title||'A Kept Thing',
+          x:(it.position&&typeof it.position.x==='number')?it.position.x:gx[n%6],
+          y:(it.position&&typeof it.position.y==='number')?it.position.y:gy[n%6],
+          whisper:[it.title||'Kept', 'Kept'+(it.source?(' from '+it.source):'')+'. It found its way onto your shelf.'] }); });
+      }
+    }catch(e){}
+    ROOM.placed = placed;
+    applyShellLook(ROOM.shell); // shell palette + default window (saved window overrides below)
+
+    // their saved arrangement + atmosphere
     const {data:cust}=await sb.from('room_customizations').select('window_view,music,weather,lighting,furniture').eq('room_id',room.id).limit(1);
     const c=cust&&cust[0];
     if(c){
@@ -618,6 +677,11 @@ async function loadRoom(){
         ROOM.placed.forEach(o=>{ const p=byId[o.id]; if(p){ if(typeof p.x==='number')o.x=p.x; if(typeof p.y==='number')o.y=p.y; } });
       }
     }
+
+    // their name over the door
+    const t=document.querySelector('#nameplate .t'), s=document.querySelector('#nameplate .s');
+    if(t) t.textContent=(houseName?houseName+'’s Room':'Your Room');
+    if(s) s.textContent=(SHELL_LOOK[ROOM.shell]?SHELL_LOOK[ROOM.shell].name.toLowerCase():'your room, taking shape');
     return true;
   }catch(e){ return false; }
 }
