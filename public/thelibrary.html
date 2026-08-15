@@ -77,6 +77,32 @@
   .card .c-sub{font-family:var(--font-book);font-style:italic;font-size:.96rem;color:rgba(233,224,208,.58);margin-top:.3rem;line-height:1.4;}
   .shelf-note{font-family:var(--font-book);font-style:italic;font-size:.92rem;color:rgba(233,224,208,.42);margin-top:1rem;}
   footer{padding:3rem 0 4rem;text-align:center;font-family:var(--font-display);font-variant:small-caps;letter-spacing:.24em;color:rgba(233,224,208,.4);}
+  /* doorways — physical passages deeper into the House (not a nav bar) */
+  .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:1.4rem;}
+  .door{position:relative;height:min(44vh,310px);border-radius:130px 130px 8px 8px;cursor:pointer;overflow:hidden;border:1px solid rgba(198,160,90,.2);
+    background:linear-gradient(180deg,rgba(22,15,10,.92),rgba(10,7,5,.96));display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:1.5rem 1.2rem;text-align:center;transition:transform .4s var(--ease),border-color .4s;}
+  .door::before{content:"";position:absolute;left:50%;bottom:-14%;transform:translateX(-50%);width:130%;height:76%;border-radius:50%;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(var(--dg),.5),rgba(var(--dg),.12) 55%,transparent 76%);opacity:.42;filter:blur(5px);transition:opacity .5s;}
+  .door::after{content:"";position:absolute;inset:0;border-radius:130px 130px 8px 8px;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(var(--dg),.14), inset 0 -40px 60px -30px rgba(var(--dg),.3);}
+  .door:hover,.door:focus-visible{transform:translateY(-6px);border-color:rgba(var(--dg),.55);outline:none;}
+  .door:hover::before,.door:focus-visible::before{opacity:1;}
+  .door .d-icon{position:relative;font-size:1.5rem;color:rgba(var(--dg),.92);margin-bottom:auto;margin-top:1.4rem;text-shadow:0 0 18px rgba(var(--dg),.6);}
+  .door .d-name{position:relative;font-family:var(--font-display);font-size:1.32rem;color:#f0e2bd;}
+  .door .d-sub{position:relative;font-family:var(--font-book);font-style:italic;font-size:.95rem;color:rgba(233,224,208,.62);margin-top:.35rem;line-height:1.35;}
+  .door .d-step{position:relative;margin-top:.75rem;font-family:var(--font-machine);font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(var(--dg),.92);opacity:0;transition:opacity .3s;}
+  .door:hover .d-step,.door:focus-visible .d-step{opacity:1;}
+  .door.soon{opacity:.6;}
+  .roomfade{position:fixed;inset:0;z-index:60;background:#000;pointer-events:none;opacity:0;transition:opacity .6s ease;}
+  .roomfade.on{opacity:1;}
+  /* the Library's own rooms — a directory of smaller archways (walk deeper in) */
+  .libdoors{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:.9rem;margin-top:1.4rem;}
+  .subdoor{position:relative;height:min(30vh,196px);border-radius:80px 80px 6px 6px;cursor:pointer;overflow:hidden;border:1px solid rgba(198,160,90,.18);
+    background:linear-gradient(180deg,rgba(22,15,10,.9),rgba(10,7,5,.95));display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:1rem .8rem;text-align:center;transition:transform .35s var(--ease),border-color .35s;}
+  .subdoor::before{content:"";position:absolute;left:50%;bottom:-16%;transform:translateX(-50%);width:130%;height:64%;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(var(--dg),.42),rgba(var(--dg),.1) 55%,transparent 76%);opacity:.4;filter:blur(5px);transition:opacity .45s;}
+  .subdoor:hover,.subdoor:focus-visible{transform:translateY(-5px);border-color:rgba(var(--dg),.5);outline:none;}
+  .subdoor:hover::before,.subdoor:focus-visible::before{opacity:.95;}
+  .subdoor .sd-name{position:relative;font-family:var(--font-display);font-size:1.06rem;color:#f0e2bd;line-height:1.1;}
+  .subdoor .sd-sub{position:relative;font-family:var(--font-book);font-style:italic;font-size:.82rem;color:rgba(233,224,208,.56);margin-top:.3rem;line-height:1.3;}
 
   .toast{position:fixed;left:50%;bottom:clamp(2rem,7vh,4rem);transform:translateX(-50%) translateY(10px);z-index:40;font-family:var(--font-display);font-variant:small-caps;letter-spacing:.06em;color:var(--gold);background:rgba(12,8,6,.8);border:1px solid rgba(198,160,90,.35);border-radius:4px;padding:.6rem 1.3rem;text-shadow:0 1px 12px #000;opacity:0;transition:opacity .4s,transform .4s;backdrop-filter:blur(4px);}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -219,9 +245,22 @@
       <p class="shelf-note">Not books she wrote — books she’d hand you. Curated by a real person.</p>
     </section>
 
+    <section id="wander">
+      <p class="eyebrow">Wander the Library</p><h2 class="shelf-title">This room has many rooms</h2><div class="shelf-hr"></div>
+      <div class="libdoors" id="libDoorGrid"></div>
+      <p class="shelf-note">You don’t arrive at the fireplace. You enter the lobby, then wander. Step into a room and the world fills with things to touch.</p>
+    </section>
+
+    <section id="passages">
+      <p class="eyebrow">Ways on</p><h2 class="shelf-title">The House, beyond these shelves</h2><div class="shelf-hr"></div>
+      <div class="doors" id="doorGrid"></div>
+      <p class="shelf-note">Every door leads somewhere. Wander — the whole House is connected.</p>
+    </section>
+
     <footer>House of Luna</footer>
   </div>
 
+  <div class="roomfade" id="roomfade"></div>
   <div class="toast" id="toast"></div>
   <div class="av" id="av"><div class="av-veil"></div><div class="particles" id="avp"></div><div class="av-hold" id="avhold"></div></div>
 
@@ -305,6 +344,42 @@
     cards('listCards',READINGLISTS,'These Reading Lists are being gathered.');
   }
   renderShelves();
+
+  // fade-through navigation, shared by all doors
+  function stepThrough(href, soon){ if(!href){ toast(soon||'Not open yet.'); return; } var rf=document.getElementById('roomfade'); if(rf){ rf.classList.add('on'); setTimeout(function(){ location.href=href; },600); } else { location.href=href; } }
+
+  // The Library's OWN rooms — the photoreal spaces folded into one Library.
+  // (Each still exists as its zone; now you reach them by walking, not by URL.)
+  var LIBRARY_ROOMS=[
+    {n:'The Bookshelves', s:'Some books remember who opened them.', href:'/bookshelves.html', glow:'227,185,104'},
+    {n:'The Fireplace', s:'The fire has been waiting.', href:'/fireplace.html', glow:'201,113,60'},
+    {n:'The Main Table', s:'The House, thinking out loud.', href:'/maintable.html', glow:'227,185,104'},
+    {n:'The Hidden Desk', s:'Someone stopped writing.', href:'/hiddendesk.html', glow:'198,160,90'},
+    {n:'The Terminal', s:'The House is awake.', href:'/terminal.html', glow:'130,185,165'},
+    {n:'Loose Pages', s:'One page escaped.', href:'/loosepages.html', glow:'220,210,180'},
+    {n:'The Mirror', s:'Look again.', href:'/mirror.html', glow:'150,170,220'},
+    {n:'Upstairs Gallery', s:'Higher.', href:'/upstairs.html', glow:'227,185,104'},
+    {n:'The Secret Patio', s:'The night is still reading.', href:'/secretpatio.html', glow:'150,170,220'}
+  ];
+  (function(){ var g=document.getElementById('libDoorGrid'); if(!g) return;
+    LIBRARY_ROOMS.forEach(function(d){ var el=document.createElement('button'); el.className='subdoor'; el.style.setProperty('--dg',d.glow); el.setAttribute('aria-label',d.n);
+      el.innerHTML='<span class="sd-name">'+d.n+'</span><span class="sd-sub">'+d.s+'</span>';
+      el.onclick=function(){ stepThrough(d.href); }; g.appendChild(el); });
+  })();
+
+  // doorways deeper into the House — the Library is a crossroads, not a dead end
+  var DOORS=[
+    {n:'The Conservatory', s:'Something green grows through the far door.', href:'/conservatory.html', glow:'160,182,120', icon:'\u2767'},
+    {n:'The Listening Room', s:'Upstairs, a record is playing.', href:'', glow:'201,113,60', icon:'\u266A', soon:'The Listening Room opens soon.'},
+    {n:'Luna\u2019s Room', s:'Knock, if the light is on.', href:'/luna.html', glow:'201,166,236', icon:'\u263E'},
+    {n:'Your Room', s:'Where you come home.', href:'/you.html', glow:'227,185,104', icon:'\u2726'}
+  ];
+  (function(){ var g=document.getElementById('doorGrid'); if(!g) return;
+    DOORS.forEach(function(d){ var el=document.createElement('button'); el.className='door'+(d.href?'':' soon'); el.style.setProperty('--dg',d.glow); el.setAttribute('aria-label',d.n);
+      el.innerHTML='<span class="d-icon">'+d.icon+'</span><span class="d-name">'+d.n+'</span><span class="d-sub">'+d.s+'</span><span class="d-step">'+(d.href?'Step through \u2192':'Not open yet')+'</span>';
+      el.onclick=function(){ stepThrough(d.href, d.soon); };
+      g.appendChild(el); });
+  })();
 
   // the Keeper's note — quiet, personalised (never a chatbot)
   function keeperNote(){

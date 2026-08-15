@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>House of Luna — The Floor Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600&family=Allura&display=swap" rel="stylesheet"/>
+<style>
+  html,body{margin:0;background:#0a0806;color:#efe7d8;font-family:'Cormorant Garamond',Georgia,serif;}
+  .frame{max-width:1240px;margin:0 auto;padding:8px;}
+  svg{display:block;width:100%;height:auto;}
+  .t-title{font-family:'Playfair Display',serif;fill:#f0e2bd;font-weight:600;letter-spacing:.14em;}
+  .t-sub{font-family:'Cormorant Garamond',serif;font-style:italic;fill:rgba(233,224,208,.66);}
+  .floor-tag{font-family:ui-monospace,monospace;fill:rgba(227,185,104,.8);letter-spacing:.22em;}
+  .r-name{font-family:'Playfair Display',serif;fill:#f0e2bd;font-weight:500;}
+  .r-sub{font-family:'Cormorant Garamond',serif;font-style:italic;}
+  .tiny{font-family:ui-monospace,monospace;letter-spacing:.14em;}
+  .note{font-family:'Cormorant Garamond',serif;font-style:italic;fill:rgba(233,224,208,.6);}
+  .leg-h{font-family:ui-monospace,monospace;letter-spacing:.28em;fill:rgba(227,185,104,.85);}
+</style>
+</head>
+<body>
+<div class="frame">
+<svg id="plan" viewBox="0 0 1240 1780" role="img" aria-label="Architectural cross-section of the House of Luna"></svg>
+</div>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg', svg=document.getElementById('plan');
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;}
+  function text(x,y,s,cls,size,extra){var a={x:x,y:y,'class':cls,'font-size':size};if(extra)for(var k in extra)a[k]=extra[k];var e=el('text',a);e.textContent=s;return e;}
+  var WING={quiet:'#b98a3c',gold:'#e3b968',personal:'#c9a6ec',creative:'#7aa0e0',neon:'#e26fae',living:'#a7c48a',hidden:'#9a7a7a'};
+
+  // backdrop
+  var defs=el('defs',{});
+  defs.innerHTML='<radialGradient id="sky" cx="50%" cy="26%" r="80%"><stop offset="0" stop-color="#171008"/><stop offset="60%" stop-color="#0e0a06"/><stop offset="100%" stop-color="#080604"/></radialGradient>'+
+    '<linearGradient id="glass" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a3550" stop-opacity=".5"/><stop offset="1" stop-color="#0d1120" stop-opacity=".5"/></linearGradient>';
+  el('rect',{x:0,y:0,width:1240,height:1780,fill:'url(#sky)'});
+
+  // stars / dust
+  for(var i=0;i<70;i++){ el('circle',{cx:(20+ (i*53)%1200),cy:(60+ (i*97)%520),r:(i%7===0?1.4:0.7),fill:'#ffe9b8','fill-opacity':(0.05+ (i%5)*0.03)}); }
+
+  // ---- title ----
+  text(620,66,'HOUSE OF LUNA','t-title',34,{'text-anchor':'middle'});
+  text(620,100,'The Building — a cross-section','t-sub',20,{'text-anchor':'middle'});
+  el('line',{x1:470,y1:118,x2:770,y2:118,stroke:'#e3b968','stroke-opacity':.4,'stroke-width':1});
+  text(620,138,'you don’t arrive at a menu — you arrive at a place, and wander','t-sub',15,{'text-anchor':'middle','fill':'rgba(233,224,208,.5)'});
+
+  var LX=270, RX=930, W=RX-LX; // main house interior span
+
+  // ===== room helper =====
+  function room(x,y,w,h,name,sub,wing,opt){
+    opt=opt||{};
+    el('rect',{x:x,y:y,width:w,height:h,rx:7,fill:WING[wing],'fill-opacity':opt.fill||0.09,stroke:WING[wing],'stroke-opacity':opt.stroke||0.5,'stroke-width':opt.sw||1.4});
+    var cx=x+w/2;
+    text(cx,y+(opt.ny||30),name,'r-name',opt.ns||17,{'text-anchor':'middle','letter-spacing':'.04em','fill':opt.nameColor||'#f0e2bd'});
+    if(sub) text(cx,y+(opt.sy||50),sub,'r-sub',opt.ss||12.5,{'text-anchor':'middle','fill':opt.subColor||'rgba(233,224,208,.6)'});
+    return {x:x,y:y,w:w,h:h,cx:cx};
+  }
+  function floorTag(y,s){ text(1188,y,s,'floor-tag',13,{'text-anchor':'end'}); }
+
+  // ===================== TOP FLOOR · CREATE =====================
+  // Observatory dome (rooftop cupola)
+  var domeCx=600;
+  el('path',{d:'M'+(domeCx-120)+' 262 A120 120 0 0 1 '+(domeCx+120)+' 262 Z',fill:WING.creative,'fill-opacity':.1,stroke:WING.creative,'stroke-opacity':.5,'stroke-width':1.4});
+  for(var d=-90;d<=90;d+=30){ var rad=d*Math.PI/180; el('line',{x1:domeCx,y1:262,x2:domeCx+118*Math.sin(rad),y2:262-118*Math.cos(rad),stroke:WING.creative,'stroke-opacity':.22,'stroke-width':.8}); }
+  el('circle',{cx:domeCx,cy:172,r:5,fill:'#cfe0ff','fill-opacity':.7}); // scope glint
+  text(domeCx,232,'THE OBSERVATORY','r-name',15,{'text-anchor':'middle','fill':'#cdd8f5'});
+  text(domeCx,250,'stars · moon phases · discover','r-sub',11.5,{'text-anchor':'middle','fill':'rgba(180,200,240,.7)'});
+
+  // Penthouse (glass, neon, city below)
+  var pent=room(LX,270,W,158,'','','creative',{fill:.06});
+  el('rect',{x:LX+8,y:278,width:W-16,height:96,rx:3,fill:'url(#glass)'});
+  for(var mx=LX+40;mx<RX-20;mx+=52){ el('line',{x1:mx,y1:280,x2:mx,y2:372,stroke:'#8fa8d8','stroke-opacity':.18,'stroke-width':1}); }
+  // city skyline dots inside the glass
+  for(var c=0;c<46;c++){ el('rect',{x:LX+20+c*13.6,y:340+ (c%5)*4, width:3, height:30-(c%5)*4, fill:'#e8b3d8','fill-opacity':.25}); }
+  text(600,300,'THE PENTHOUSE','r-name',18,{'text-anchor':'middle','fill':'#f2dff0'});
+  text(600,320,'Velvet · write · design · make — the whole studio','r-sub',12.5,{'text-anchor':'middle','fill':'rgba(230,200,240,.8)'});
+  text(600,408,'floor-to-ceiling rain-glass · neon · the city below — where creators work','note',12,{'text-anchor':'middle'});
+  floorTag(348,'TOP');
+  floorTag(366,'CREATE');
+
+  // ===================== MIDDLE FLOOR · BELONG =====================
+  room(LX,470,214,150,'YOUR ROOM','home · journal · keeps','personal');
+  room(LX+228,470,206,150,'LUNA’S ROOM','AI Luna · MoonNet · knock','personal');
+  room(LX+448,470,212,150,'MIRROR CHAMBER','reflection · shadow work','personal');
+  // Hallways corridor
+  el('rect',{x:LX,y:626,width:W,height:26,rx:4,fill:WING.personal,'fill-opacity':.06,stroke:WING.personal,'stroke-opacity':.35,'stroke-width':1});
+  for(var hd=LX+40;hd<RX-20;hd+=70){ el('rect',{x:hd,y:630,width:16,height:18,rx:2,fill:'none',stroke:WING.personal,'stroke-opacity':.4,'stroke-width':1}); }
+  text(600,644,'THE HALLWAYS — rooms not profiles · doors not usernames · visiting not following','tiny',11,{'text-anchor':'middle','fill':'rgba(201,166,236,.7)'});
+  floorTag(548,'MIDDLE');
+  floorTag(566,'BELONG');
+
+  // ===================== GROUND FLOOR · DISCOVER =====================
+  // The Library (with its many rooms)
+  var lib=room(LX,676,286,264,'','','quiet',{fill:.05});
+  text(LX+143,704,'THE LIBRARY','r-name',17,{'text-anchor':'middle'});
+  text(LX+143,722,'reading · the Keeper','r-sub',11.5,{'text-anchor':'middle'});
+  var cells=[['Bookshelves','Fireplace'],['Reading Table','Hidden Desk'],['Terminal','Loose Pages']];
+  for(var r=0;r<3;r++){ for(var cc=0;cc<2;cc++){ var cxx=LX+14+cc*138, cyy=734+r*66;
+    el('rect',{x:cxx,y:cyy,width:126,height:56,rx:4,fill:WING.quiet,'fill-opacity':.07,stroke:WING.quiet,'stroke-opacity':.4,'stroke-width':1});
+    text(cxx+63,cyy+33,cells[r][cc],'r-sub',12.5,{'text-anchor':'middle','fill':'#ecdcb6','font-style':'normal'}); } }
+  text(LX+143,932,'↑ up the ladder: Upstairs Gallery · out the door: Secret Patio','note',10.5,{'text-anchor':'middle'});
+
+  // The Great Hall (entrance) with front door
+  room(LX+300,676,150,264,'THE GREAT HALL','arrive · featured','gold',{fill:.07,ny:30});
+  // front door arch at base
+  el('path',{d:'M'+(LX+345)+' 940 L'+(LX+345)+' 890 A30 30 0 0 1 '+(LX+405)+' 890 L'+(LX+405)+' 940 Z',fill:'#1a1206',stroke:WING.gold,'stroke-opacity':.7,'stroke-width':1.6});
+  text(LX+375,958,'the Front Door','tiny',10,{'text-anchor':'middle','fill':'rgba(227,185,104,.8)'});
+
+  // Listening Room + Café (right of hall)
+  room(LX+464,676,196,120,'LISTENING ROOM','vinyl · rain · sound','quiet');
+  room(LX+464,802,196,138,'THE CAFÉ','sit together · read together','living',{sy:52});
+  // little chairs in the café
+  for(var ch=0;ch<5;ch++){ el('circle',{cx:LX+486+ch*38,cy:900,r:6,fill:'none',stroke:WING.living,'stroke-opacity':.5,'stroke-width':1.2}); }
+  text(LX+562,922,'▸ windows onto the Garden','note',9.5,{'text-anchor':'middle','fill':'rgba(180,200,150,.6)'});
+  // the flow: Library → Café → Garden (along the ground, above the basement)
+  text(LX+430,968,'Library  →  Café  →  Garden','note',10,{'text-anchor':'middle','fill':'rgba(180,200,150,.55)'});
+
+  floorTag(760,'GROUND');
+  floorTag(778,'DISCOVER');
+
+  // ===================== THE CONSERVATORY (glass lean-to, far left) =====================
+  var CVX=120, CVY=752, CVW=142, CVH=188;
+  // pitched glass roof
+  el('path',{d:'M'+CVX+' '+CVY+' L'+(CVX+CVW/2)+' '+(CVY-46)+' L'+(CVX+CVW)+' '+CVY+' Z',fill:WING.living,'fill-opacity':.08,stroke:WING.living,'stroke-opacity':.5,'stroke-width':1.2});
+  el('rect',{x:CVX,y:CVY,width:CVW,height:CVH,rx:5,fill:WING.living,'fill-opacity':.08,stroke:WING.living,'stroke-opacity':.5,'stroke-width':1.3});
+  for(var gx=CVX+18;gx<CVX+CVW;gx+=24){ el('line',{x1:gx,y1:CVY,x2:gx,y2:CVY+CVH,stroke:WING.living,'stroke-opacity':.18,'stroke-width':.8}); }
+  text(CVX+CVW/2,CVY+42,'THE','r-sub',11,{'text-anchor':'middle','fill':'#cbe0b0','font-style':'normal'});
+  text(CVX+CVW/2,CVY+62,'CONSERVATORY','r-name',13.5,{'text-anchor':'middle','fill':'#dcefc7'});
+  text(CVX+CVW/2,CVY+80,'slow living · tea','r-sub',10.5,{'text-anchor':'middle','fill':'rgba(200,220,170,.7)'});
+  text(CVX+CVW/2,CVY+150,'plants · rain','r-sub',10,{'text-anchor':'middle','fill':'rgba(200,220,170,.55)'});
+  text(CVX+CVW/2,CVY+166,'on the glass','r-sub',10,{'text-anchor':'middle','fill':'rgba(200,220,170,.55)'});
+  // a quiet wing off the Library — found past the stacks, NOT off the entrance
+  el('line',{x1:CVX+CVW,y1:840,x2:LX,y2:840,stroke:WING.living,'stroke-opacity':.4,'stroke-width':1,'stroke-dasharray':'3 4'});
+  text((CVX+CVW+LX)/2,832,'found past the stacks','note',9.5,{'text-anchor':'middle','fill':'rgba(200,220,170,.55)'});
+
+  // ===================== ELEVATOR (right shaft) =====================
+  var EX=946, EW=64;
+  el('rect',{x:EX,y:270,width:EW,height:852,rx:5,fill:'#0d1018','fill-opacity':.7,stroke:'#8fa8d8','stroke-opacity':.4,'stroke-width':1.3});
+  el('line',{x1:EX+EW/2,y1:280,x2:EX+EW/2,y2:1112,stroke:'#8fa8d8','stroke-opacity':.25,'stroke-width':1,'stroke-dasharray':'2 6'});
+  // car
+  el('rect',{x:EX+8,y:560,width:EW-16,height:70,rx:3,fill:WING.creative,'fill-opacity':.16,stroke:'#8fa8d8','stroke-opacity':.6,'stroke-width':1.2});
+  text(EX+EW/2,588,'▲','tiny',13,{'text-anchor':'middle','fill':'#cdd8f5'});
+  text(EX+EW/2,612,'▼','tiny',13,{'text-anchor':'middle','fill':'#cdd8f5'});
+  var elift=text(EX+EW/2,700,'','tiny',11,{'text-anchor':'middle','fill':'rgba(180,200,240,.8)','transform':'rotate(90 '+(EX+EW/2)+' 700)'});
+  elift.textContent='THE ELEVATOR  ·  Penthouse ↕ Library';
+
+  // ===================== GROUND LINE / EARTH =====================
+  el('line',{x1:20,y1:948,x2:1076,y2:948,stroke:WING.gold,'stroke-opacity':.4,'stroke-width':1.4});
+  for(var e=20;e<1076;e+=16){ el('line',{x1:e,y1:948,x2:e-8,y2:960,stroke:'#5a4326','stroke-opacity':.4,'stroke-width':1}); }
+
+  // ===================== THE GARDEN (exterior, right) =====================
+  text(1000,986,'→ THE GARDEN','r-name',13,{'text-anchor':'middle','fill':'#bcd39a'});
+  text(1000,1004,'seasons · events','r-sub',10.5,{'text-anchor':'middle','fill':'rgba(180,200,150,.7)'});
+  for(var pl=0;pl<7;pl++){ var px=940+pl*24; el('line',{x1:px,y1:948,x2:px,y2:930,stroke:WING.living,'stroke-opacity':.5,'stroke-width':1.2}); el('circle',{cx:px,cy:928,r:4,fill:WING.living,'fill-opacity':.4}); }
+
+  // ===================== BASEMENT · HIDDEN =====================
+  el('rect',{x:LX,y:986,width:W,height:120,rx:6,fill:WING.hidden,'fill-opacity':.08,stroke:WING.hidden,'stroke-opacity':.45,'stroke-width':1.3,'stroke-dasharray':'6 5'});
+  text(600,1022,'THE HIDDEN WING','r-name',16,{'text-anchor':'middle','fill':'#d8c4c4'});
+  text(600,1044,'the Archive · the Basement · secret rooms','r-sub',12,{'text-anchor':'middle','fill':'rgba(200,170,170,.7)'});
+  // padlock
+  el('rect',{x:592,y:1060,width:16,height:13,rx:2,fill:'none',stroke:WING.hidden,'stroke-opacity':.7,'stroke-width':1.4});
+  el('path',{d:'M595 1060 v-4 a5 5 0 0 1 10 0 v4',fill:'none',stroke:WING.hidden,'stroke-opacity':.7,'stroke-width':1.4});
+  text(600,1094,'locked — for years','note',11,{'text-anchor':'middle'});
+  floorTag(1038,'BELOW');
+  floorTag(1056,'HIDDEN');
+  // The Machine Room — invisible infrastructure beneath the House (Velvet's engine)
+  el('rect',{x:LX,y:1116,width:W,height:30,rx:4,fill:'#0c0c12','fill-opacity':.8,stroke:'#8fa8d8','stroke-opacity':.3,'stroke-width':1,'stroke-dasharray':'2 5'});
+  text(600,1136,'THE MACHINE ROOM — the engine · the AI · behind the walls · Velvet runs here','tiny',10.5,{'text-anchor':'middle','fill':'rgba(150,170,220,.6)'});
+
+  // ===================== CLOCK TOWER (far left) =====================
+  var TX=52, TW=52;
+  el('rect',{x:TX,y:392,width:TW,height:556,rx:3,fill:WING.gold,'fill-opacity':.05,stroke:WING.gold,'stroke-opacity':.4,'stroke-width':1.2});
+  el('path',{d:'M'+TX+' 392 L'+(TX+TW/2)+' 356 L'+(TX+TW)+' 392 Z',fill:WING.gold,'fill-opacity':.1,stroke:WING.gold,'stroke-opacity':.4,'stroke-width':1.1});
+  el('circle',{cx:TX+TW/2,cy:430,r:16,fill:'none',stroke:WING.gold,'stroke-opacity':.6,'stroke-width':1.3});
+  el('line',{x1:TX+TW/2,y1:430,x2:TX+TW/2,y2:420,stroke:WING.gold,'stroke-opacity':.7,'stroke-width':1.3});
+  el('line',{x1:TX+TW/2,y1:430,x2:TX+TW/2+8,y2:434,stroke:WING.gold,'stroke-opacity':.7,'stroke-width':1.3});
+  var ct=text(TX+TW/2,560,'','tiny',10.5,{'text-anchor':'middle','fill':'rgba(227,185,104,.75)','transform':'rotate(90 '+(TX+TW/2)+' 560)'});
+  ct.textContent='CLOCK TOWER · letters to your future self';
+
+  // ===================== LEGEND =====================
+  var ly=1180;
+  el('line',{x1:60,y1:ly-24,x2:1180,y2:ly-24,stroke:'#e3b968','stroke-opacity':.3,'stroke-width':1});
+  text(60,ly,'THE WINGS','leg-h',15);
+  var wings=[
+    ['quiet','The Quiet Wing','the Library & its rooms · the Conservatory · the Listening Room'],
+    ['personal','The Personal Wing','Your Room · Luna’s Room · Mirror Chamber · the Hallways (residents)'],
+    ['creative','The Creative Wing','the Penthouse (Velvet) · the Observatory · the Machine Room (engine)'],
+    ['living','The Living Wing','the Garden · the Café · Ritual Room · Apothecary'],
+    ['hidden','The Hidden Wing','the Archive · the Basement · secret rooms']
+  ];
+  wings.forEach(function(w,i){ var yy=ly+34+i*46;
+    el('rect',{x:60,y:yy-16,width:22,height:22,rx:4,fill:WING[w[0]],'fill-opacity':.2,stroke:WING[w[0]],'stroke-opacity':.7,'stroke-width':1.3});
+    text(96,yy,w[1],'r-name',16,{'fill':'#f0e2bd'});
+    text(340,yy,w[2],'r-sub',14,{'fill':'rgba(233,224,208,.62)'});
+  });
+
+  // floors → needs
+  text(720,ly,'THE FLOORS','leg-h',15);
+  var floors=[['Top','Create','— build, publish, Velvet'],['Middle','Belong','— home, friends, rooms'],['Ground','Discover','— read, rest, heal']];
+  floors.forEach(function(f,i){ var yy=ly+34+i*46;
+    text(720,yy,f[0].toUpperCase(),'tiny',13,{'fill':'rgba(227,185,104,.85)'});
+    text(830,yy,f[1],'r-name',16,{'fill':'#f0e2bd'});
+    text(980,yy,f[2],'r-sub',13.5,{'fill':'rgba(233,224,208,.55)'});
+  });
+  text(720,ly+34+3*46+6,'You absorb, then reflect, then create. The climb is the story.','note',13.5);
+
+  // tagline
+  text(620,ly+286,'Build few. But every idea now has a room.','t-sub',18,{'text-anchor':'middle','fill':'rgba(240,226,189,.85)'});
+  text(620,ly+312,'— the only question a new idea must answer: which room does this belong in?','note',13.5,{'text-anchor':'middle'});
+  el('line',{x1:500,y1:ly+338,x2:740,y2:ly+338,stroke:'#c9a6ec','stroke-opacity':.3,'stroke-width':1});
+  text(620,ly+366,'The House rewards presence, not performance.','t-title',18,{'text-anchor':'middle','fill':'#e9d7f4','font-weight':'500','letter-spacing':'.06em'});
+  text(620,ly+390,'not a feed — a place. it isn’t finished; it’s inhabited.','t-sub',14,{'text-anchor':'middle','fill':'rgba(201,166,236,.7)'});
+})();
+</script>
+</body>
+</html>

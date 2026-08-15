@@ -895,7 +895,7 @@ function page(z){
     <div class="dust" id="dust"></div>
     <div class="dwell-dim" id="dwelldim"></div>
   </div>
-  <a class="return" href="${z.return||'/library'}" id="return">&larr; ${z.returnLabel||'The Library'}</a>
+  <a class="return" href="${z.return||'/thelibrary'}" id="return">&larr; ${z.returnLabel||'The Library'}</a>
   <span class="place" id="place">${z.title}</span>
   <p class="collection">Collected&nbsp; <b id="ccount">0</b></p>
   <p class="living" id="living"></p>
