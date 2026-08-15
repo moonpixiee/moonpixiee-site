@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moonpixiee's Room · House of Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Allura&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --ink:#efe7d8; --ink-soft:#c9bda6; --ink-dim:#8c8371;
+  --brass:#c9b47a; --brass-deep:#9c8850; --brass-glow:#e6cf94;
+  --violet:#7d6ba8; --candle:#e8b06a; --ember:#c96a3a;
+  --wall-a:#211b26; --wall-b:#171219; --floor-a:#3a2a22; --floor-b:#211711;
+  --glass:#0b1220;
+  --panel:#16121d; --panel-line:rgba(201,180,122,.18);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --title:'Cinzel',Georgia,serif;
+  --hand:'Allura',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#08060b; color:var(--ink); font-family:var(--serif);
+  overflow:hidden; -webkit-font-smoothing:antialiased;
+  user-select:none;
+}
+#stage-wrap{position:fixed; inset:0; display:grid; place-items:center; background:radial-gradient(140% 100% at 50% 0%,#120d16 0%,#08060b 70%)}
+
+/* ============ THE ROOM ============ */
+#room{
+  position:relative; width:min(96vw,1180px); aspect-ratio:16/9;
+  border-radius:14px; overflow:hidden;
+  box-shadow:0 40px 120px -30px #000, 0 0 0 1px rgba(201,180,122,.08) inset;
+  transition:filter 1.1s ease, transform 1.1s ease;
+}
+/* walls + floor */
+.surface{position:absolute; inset:0}
+.wall{position:absolute; left:0; right:0; top:0; height:64%;
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(125,107,168,.10), transparent 60%),
+    linear-gradient(180deg,var(--wall-a),var(--wall-b));
+}
+.wall::after{content:""; position:absolute; inset:0; opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:4px 4px; mix-blend-mode:overlay}
+.floor{position:absolute; left:0; right:0; bottom:0; height:38%;
+  background:linear-gradient(180deg,var(--floor-a),var(--floor-b));
+  box-shadow:0 -1px 0 rgba(0,0,0,.5);
+  transform-origin:top;
+}
+.floor::before{content:""; position:absolute; inset:0; opacity:.35;
+  background:repeating-linear-gradient(90deg,rgba(0,0,0,.28) 0 2px,transparent 2px 68px);
+}
+.baseboard{position:absolute; left:0; right:0; bottom:38%; height:1.4%;
+  background:linear-gradient(180deg,#2c2118,#160f0a); box-shadow:0 2px 6px rgba(0,0,0,.5)}
+/* ambient lighting layer (atmosphere) */
+#ambient{position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen;
+  background:radial-gradient(60% 55% at 26% 66%, rgba(232,176,106,.16), transparent 62%);
+  transition:opacity 1.2s ease, background 1.2s ease}
+#vignette{position:absolute; inset:0; pointer-events:none;
+  box-shadow:0 0 220px 40px rgba(0,0,0,.55) inset}
+
+/* ============ THE WINDOW ============ */
+#window{position:absolute; left:60%; top:8%; width:30%; height:40%;
+  border-radius:6px 6px 3px 3px; overflow:hidden;
+  box-shadow:0 0 0 8px #1c140d, 0 0 0 10px #2c2016, 0 20px 40px -12px #000,
+             0 0 60px -10px rgba(232,176,106,.25);
+}
+#window .world{position:absolute; inset:0; transition:opacity 1.1s ease}
+#window .mullion-v{position:absolute; left:50%; top:0; bottom:0; width:5px; transform:translateX(-50%);
+  background:linear-gradient(180deg,#241a11,#160f09)}
+#window .mullion-h{position:absolute; top:50%; left:0; right:0; height:5px; transform:translateY(-50%);
+  background:linear-gradient(90deg,#241a11,#160f09)}
+#window .sill{position:absolute; left:-6%; right:-6%; bottom:-8px; height:12px; border-radius:3px;
+  background:linear-gradient(180deg,#31241a,#1a120c); box-shadow:0 6px 14px rgba(0,0,0,.5)}
+#window .glassglow{position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.05),transparent 45%)}
+
+/* ============ OBJECTS ============ */
+.obj{position:absolute; transform:translate(-50%,-50%); cursor:pointer;
+  display:grid; place-items:center; touch-action:none;
+  transition:filter .35s ease}
+.obj .glyph{font-size:clamp(20px,3.4vw,42px); line-height:1;
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,.6));
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), filter .4s ease}
+/* soft warm presence disc behind each object at rest */
+.obj .halo{position:absolute; width:150%; height:150%; border-radius:50%;
+  background:radial-gradient(circle, rgba(232,176,106,.0) 40%, rgba(232,176,106,.0) 70%);
+  transition:background .4s ease; pointer-events:none}
+.obj:hover .halo{background:radial-gradient(circle, rgba(232,176,106,.22) 20%, rgba(232,176,106,0) 68%)}
+.obj:hover .glyph{transform:translateY(-3px) scale(1.05)}
+/* the small whisper name on hover (rest mode) */
+.obj .tag{position:absolute; top:112%; left:50%; transform:translateX(-50%) translateY(4px);
+  font-family:var(--title); font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--brass); white-space:nowrap; opacity:0; pointer-events:none;
+  transition:opacity .35s ease, transform .35s ease}
+.obj:hover .tag{opacity:.85; transform:translateX(-50%) translateY(0)}
+.obj.tagL .tag{left:auto; right:112%; top:50%; transform:translateY(-50%) translateX(4px)}
+.obj.tagL:hover .tag{transform:translateY(-50%) translateX(0)}
+
+/* ============ EDIT MODE ============ */
+body.editing #room{filter:saturate(.62) brightness(.9)}
+body.editing #ambient{opacity:.4}
+.obj .frame{position:absolute; inset:-14px; border:1.5px dashed rgba(201,180,122,0);
+  border-radius:10px; transition:border-color .4s ease; pointer-events:none}
+body.editing .obj{cursor:grab}
+body.editing .obj .frame{border-color:rgba(201,180,122,.6)}
+body.editing .obj:hover .frame{border-color:var(--brass-glow)}
+body.editing .obj .tag{opacity:.9; transform:translateX(-50%) translateY(0)}
+body.editing .obj.tagL .tag{transform:translateY(-50%) translateX(0)}
+.obj.grabbing{cursor:grabbing; z-index:50}
+.obj.grabbing .glyph{transform:scale(1.14)}
+.obj.grabbing .frame{border-style:solid; border-color:var(--brass-glow);
+  box-shadow:0 0 24px rgba(230,207,148,.4)}
+
+/* ============ KEEPER VOICE ============ */
+#keeper{position:fixed; left:0; right:0; bottom:13%; text-align:center; pointer-events:none; z-index:60}
+#keeper span{display:inline-block; font-family:var(--serif); font-style:italic;
+  font-size:clamp(17px,2.1vw,23px); color:var(--ink-soft);
+  padding:10px 26px; letter-spacing:.02em;
+  background:linear-gradient(180deg,rgba(10,8,14,.0),rgba(10,8,14,.55));
+  text-shadow:0 2px 20px #000;
+  opacity:0; transform:translateY(10px); transition:opacity .9s ease, transform .9s ease}
+#keeper.show span{opacity:1; transform:translateY(0)}
+
+/* whisper card (click a thing at rest) */
+#whisper{position:fixed; left:50%; bottom:19%; transform:translateX(-50%) translateY(14px);
+  max-width:min(86vw,520px); z-index:70; opacity:0; pointer-events:none;
+  transition:opacity .6s ease, transform .6s ease}
+#whisper.show{opacity:1; transform:translateX(-50%) translateY(0)}
+#whisper .card{position:relative; padding:20px 26px 22px; border-radius:12px;
+  background:linear-gradient(180deg,rgba(24,18,14,.94),rgba(16,12,9,.96));
+  border:1px solid var(--panel-line);
+  box-shadow:0 24px 60px -20px #000, 0 0 0 1px rgba(0,0,0,.4) inset}
+#whisper .wn{font-family:var(--title); font-size:11px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--brass); margin-bottom:8px}
+#whisper .wt{font-family:var(--serif); font-size:clamp(17px,2vw,21px); font-style:italic;
+  line-height:1.5; color:var(--ink)}
+
+/* ============ TOOLBAR (rest) ============ */
+#toolbar{position:fixed; right:22px; bottom:22px; z-index:80; display:flex; gap:12px; align-items:center}
+.btn{font-family:var(--title); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ink); background:linear-gradient(180deg,rgba(31,24,17,.9),rgba(18,13,9,.94));
+  border:1px solid var(--panel-line); border-radius:40px; padding:13px 22px; cursor:pointer;
+  box-shadow:0 14px 34px -14px #000; transition:all .3s ease; backdrop-filter:blur(4px)}
+.btn:hover{border-color:var(--brass); color:var(--brass-glow); transform:translateY(-2px)}
+.btn.primary{background:linear-gradient(180deg,#3a2c18,#241a0e); border-color:var(--brass-deep)}
+.btn .spark{margin-right:8px}
+
+/* ============ EDIT PANELS ============ */
+#editbar{position:fixed; left:0; right:0; bottom:0; z-index:85;
+  transform:translateY(120%); transition:transform .7s cubic-bezier(.2,.8,.2,1); pointer-events:none}
+body.editing #editbar{transform:translateY(0); pointer-events:auto}
+.dock{margin:0 auto 18px; width:min(96vw,1180px);
+  background:linear-gradient(180deg,rgba(20,15,26,.92),rgba(12,9,15,.96));
+  border:1px solid var(--panel-line); border-radius:16px; backdrop-filter:blur(10px);
+  box-shadow:0 -10px 50px -20px #000; overflow:hidden}
+.dock-head{display:flex; align-items:center; gap:16px; padding:12px 18px; border-bottom:1px solid rgba(201,180,122,.1)}
+.cats{display:flex; gap:6px; flex-wrap:wrap; flex:1}
+.cat{font-family:var(--title); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-dim); padding:8px 14px; border-radius:30px; cursor:pointer;
+  border:1px solid transparent; transition:all .25s ease; white-space:nowrap}
+.cat:hover{color:var(--ink-soft)}
+.cat.on{color:var(--brass-glow); border-color:var(--brass-deep); background:rgba(201,180,122,.08)}
+.dock-body{padding:16px 18px 18px; min-height:104px}
+.panel{display:none} .panel.on{display:block; animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+.chip{font-family:var(--serif); font-size:16px; color:var(--ink-soft);
+  padding:9px 15px; border-radius:10px; cursor:pointer;
+  background:rgba(255,255,255,.02); border:1px solid rgba(201,180,122,.14);
+  transition:all .25s ease; display:flex; gap:8px; align-items:center}
+.chip:hover{border-color:var(--brass); color:var(--ink)}
+.chip.on{background:rgba(201,180,122,.12); border-color:var(--brass); color:var(--brass-glow)}
+.chip .e{font-size:18px}
+.hint{font-family:var(--serif); font-style:italic; color:var(--ink-dim); font-size:15px; margin-bottom:12px}
+.sub{font-family:var(--title); font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--brass-deep); margin:2px 0 10px}
+.dock-foot{display:flex; justify-content:space-between; align-items:center;
+  padding:12px 18px; border-top:1px solid rgba(201,180,122,.1)}
+.foot-note{font-family:var(--serif); font-style:italic; color:var(--ink-dim); font-size:14px}
+.slider{-webkit-appearance:none; appearance:none; height:3px; width:160px; border-radius:3px;
+  background:linear-gradient(90deg,var(--brass-deep),var(--brass)); outline:none}
+.slider::-webkit-slider-thumb{-webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+  background:var(--brass-glow); cursor:pointer; box-shadow:0 0 10px rgba(230,207,148,.6)}
+
+/* room-data peek */
+#peek{position:fixed; inset:0; z-index:120; background:rgba(6,4,9,.82); backdrop-filter:blur(6px);
+  display:none; place-items:center}
+#peek.show{display:grid}
+#peek .sheet{width:min(92vw,560px); max-height:80vh; overflow:auto; border-radius:14px;
+  background:linear-gradient(180deg,#14100c,#0d0a08); border:1px solid var(--panel-line); padding:26px 28px}
+#peek h3{font-family:var(--title); font-weight:500; letter-spacing:.06em; color:var(--brass-glow); margin-bottom:6px}
+#peek p{font-family:var(--serif); font-style:italic; color:var(--ink-dim); margin-bottom:16px}
+#peek pre{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; line-height:1.6; color:var(--ink-soft);
+  white-space:pre-wrap; background:rgba(0,0,0,.35); border:1px solid rgba(201,180,122,.12);
+  border-radius:10px; padding:16px}
+
+/* intro nameplate */
+#nameplate{position:fixed; left:50%; top:22px; transform:translateX(-50%); z-index:75; text-align:center;
+  transition:opacity 1s ease}
+#nameplate .t{font-family:var(--title); font-size:clamp(15px,2vw,20px); letter-spacing:.32em;
+  color:var(--ink); text-transform:uppercase}
+#nameplate .s{font-family:var(--serif); font-style:italic; color:var(--brass); font-size:14px; letter-spacing:.06em; margin-top:3px}
+
+/* weather overlays */
+#rain{position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity 1s ease;
+  background-image:repeating-linear-gradient(101deg,rgba(255,255,255,.05) 0 1px,transparent 1px 7px);
+  background-size:auto; animation:rainfall .5s linear infinite; mix-blend-mode:screen}
+#rain.on{opacity:.5}
+@keyframes rainfall{from{background-position:0 0}to{background-position:14px 60px}}
+
+#returnHouse{position:fixed; left:22px; top:20px; z-index:78;
+  font-family:var(--title); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-soft); background:linear-gradient(180deg,rgba(24,18,26,.72),rgba(14,10,16,.8));
+  border:1px solid var(--panel-line); border-radius:40px; padding:10px 18px; cursor:pointer;
+  backdrop-filter:blur(6px); transition:all .3s ease; opacity:.8}
+#returnHouse:hover{border-color:var(--brass); color:var(--brass-glow); opacity:1; transform:translateX(-2px)}
+body.editing #returnHouse{opacity:0; pointer-events:none}
+#housefade{position:fixed; inset:0; z-index:200; background:#000; opacity:0; pointer-events:none;
+  transition:opacity .7s ease}
+#housefade.on{opacity:1}
+.tiny{font-family:var(--serif); font-size:13px; color:var(--ink-dim); font-style:italic}
+@media (max-width:640px){
+  #toolbar{right:12px; bottom:12px} .btn{padding:11px 16px}
+  #keeper{bottom:auto; top:64px}
+}
+</style>
+</head>
+<body>
+
+<div id="stage-wrap">
+  <div id="room">
+    <div class="surface wall"></div>
+    <div class="baseboard"></div>
+    <div class="surface floor"></div>
+
+    <!-- THE WINDOW -->
+    <div id="window">
+      <div class="world" id="world"></div>
+      <div class="glassglow"></div>
+      <div class="mullion-v"></div><div class="mullion-h"></div>
+      <div class="sill"></div>
+    </div>
+
+    <div id="rain"></div>
+    <div id="ambient"></div>
+    <div id="vignette"></div>
+    <!-- objects injected here -->
+  </div>
+</div>
+
+<div id="nameplate">
+  <div class="t">Moonpixiee's Room</div>
+  <div class="s">creative goth · lived-in, not perfect</div>
+</div>
+
+<button id="returnHouse" title="Back into the House">⟵&nbsp; Back into the House</button>
+<div id="housefade"></div>
+
+<div id="keeper"><span id="keeper-line"></span></div>
+
+<div id="whisper"><div class="card">
+  <div class="wn" id="w-name"></div>
+  <div class="wt" id="w-text"></div>
+</div></div>
+
+<!-- REST TOOLBAR -->
+<div id="toolbar">
+  <button class="btn" id="peekBtn">The room, as data</button>
+  <button class="btn primary" id="editBtn"><span class="spark">✨</span>Rearrange Room</button>
+</div>
+
+<!-- EDIT DOCK -->
+<div id="editbar"><div class="dock">
+  <div class="dock-head">
+    <div class="cats" id="cats"></div>
+  </div>
+  <div class="dock-body" id="dockBody"></div>
+  <div class="dock-foot">
+    <div class="foot-note" id="footNote">Drag anything with a brass outline. Move a plant, light a candle, change what's outside the window.</div>
+    <button class="btn primary" id="saveBtn">Save the room</button>
+  </div>
+</div></div>
+
+<!-- ROOM DATA PEEK -->
+<div id="peek"><div class="sheet">
+  <h3>The room is data, not a picture</h3>
+  <p>This is what saves when you rearrange — so a visitor sees your actual room, never a screenshot. It lives beside the memory loop and follows you everywhere.</p>
+  <pre id="peekJson"></pre>
+  <div style="text-align:right;margin-top:16px"><button class="btn" id="peekClose">Close</button></div>
+</div></div>
+
+<script>
+/* =========================================================
+   HOUSE OF LUNA · THE ROOM DESIGNER — prototype
+   Blueprint 003. Moonpixiee's Room is the demonstration.
+   Room saves as STRUCTURED DATA (see ROOM below), never a
+   flattened image. No JS is ever accepted from residents —
+   Advanced "Room Source" is CSS+safe-HTML only (not in this
+   prototype). Everything here is the interaction layer;
+   final rooms composite photoreal art beneath it.
+   ========================================================= */
+
+/* ---------- THE ROOM (structured data) ---------- */
+const ROOM = {
+  resident:'moonpixiee',
+  shell:'penthouse-studio',            // architecture layer (chosen once)
+  theme:'creative-goth',
+  wallpaper:'charcoal-plaster', floor:'dark-walnut',
+  window:'rainy-city',                 // atmosphere — edited independently
+  music:'midnight-study',
+  weather:'rain',
+  lighting:{ mode:'candle', intensity:0.7 },
+  // furniture + decor + collections share one placed[] with x/y % + layer
+  placed:[
+    {id:'bed',      cat:'furniture', glyph:'🛏️', name:'The Bed',        x:20, y:70, whisper:['Unmade','Half-folded blanket, three books she fell asleep reading. She never makes it — the mess is honest.']},
+    {id:'desk',     cat:'furniture', glyph:'🖥️', name:'The Desk',        x:44, y:74, whisper:['The heart of the room','Everything happens here. Moodboards, cold coffee, a sketchbook open to a page she keeps almost finishing.']},
+    {id:'shelf',    cat:'furniture', glyph:'📚', name:'The Bookshelf',   x:12, y:40, whisper:['Her favourites','House Books, dog-eared novels, a tiny skull, and one book turned face-out that she recommends to everyone.']},
+    {id:'chair',    cat:'furniture', glyph:'🪑', name:'The Chair',       x:34, y:80, whisper:['Well-worn','A blanket permanently over one arm. This is where the late nights happen.']},
+    {id:'coffee',   cat:'collections', glyph:'☕', name:'Coffee',        x:50, y:66, whisper:['Still warm','The fifth cup today. She swears tomorrow she’ll slow down.']},
+    {id:'camera',   cat:'collections', glyph:'📷', name:'The Camera',    x:39, y:66, whisper:['Her photography','Rolls she hasn’t developed yet. She photographs rooms the way other people photograph people.']},
+    {id:'notebook', cat:'collections', glyph:'📓', name:'The Notebook',  x:56, y:74, whisper:['Tiny sketches','Margins full of little drawings — doors, windows, staircases. Always architecture. Always a house.']},
+    {id:'phones',   cat:'collections', glyph:'🎧', name:'Headphones',    x:48, y:78, whisper:['Her playlist','Whatever she’s playing right now is playing here too. Music is how the room breathes.']},
+    {id:'skull',    cat:'decor',     glyph:'💀', name:'The Skull',       x:16, y:33, whisper:['A small gift','Ceramic, not real. A friend made it. It’s watched every project she’s ever started.']},
+    {id:'candle',   cat:'lighting',  glyph:'🕯️', name:'Candle',          x:8,  y:64, whisper:['Burning low','The Keeper lights this one whenever someone returns after a long absence.']},
+    {id:'plant',    cat:'nature',    glyph:'🪴', name:'The Fern',        x:74, y:60, whisper:['Growing','She talks to it when a piece isn’t working. It has heard some things.']},
+    {id:'vinyl',    cat:'collections', glyph:'🎵', name:'The Records',   x:26, y:52, whisper:['A small collection','Mostly rain, mostly night music. She plays vinyl when she wants the room to feel older than it is.']},
+    {id:'polaroids',cat:'decor',     glyph:'🖼️', name:'The Wall',        x:33, y:26, whisper:['Pinned ideas','Polaroids, quotes, torn magazine corners. The wall is the moodboard she never takes down.']},
+    {id:'moon',     cat:'decor',     glyph:'🌙', name:'Moon Charm',      x:88, y:22, whisper:['Always somewhere','A little moon hangs in every room she’s ever had. It’s how you know it’s hers.']}
+  ],
+  public_sections:['bookshelf','desk','window','music'],
+  custom_css:null   // sandboxed Room Source — off in the prototype
+};
+
+/* ---------- THE WINDOW — same room, different world ---------- */
+const WORLDS = {
+  'rainy-city':{ name:'Rainy City', e:'🌙', css:
+    "background:linear-gradient(180deg,#0b1524 0%,#132133 55%,#1c2b40 100%);"+
+    "box-shadow:inset 0 0 60px rgba(80,120,180,.25)",
+    extra:'<div style="position:absolute;inset:0;background:repeating-linear-gradient(100deg,rgba(180,200,230,.10) 0 1px,transparent 1px 8px);animation:rainfall .5s linear infinite"></div>'+
+          '<div style="position:absolute;bottom:0;left:0;right:0;height:52%;background:linear-gradient(180deg,transparent,#060a12);"></div>'+
+          buildings('#0e1a2c','#1a2c44',[24,50,38,64,30,58])+
+          '<div style="position:absolute;top:14%;left:22%;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#f3ead2,#c9b47a);box-shadow:0 0 30px rgba(232,220,180,.6)"></div>' },
+  'forest':{ name:'Forest', e:'🌲', css:
+    "background:linear-gradient(180deg,#12241c 0%,#1c3327 60%,#0e1a13 100%)",
+    extra:'<div style="position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 20%,rgba(160,200,150,.14),transparent 70%)"></div>'+
+          trees()+'<div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(200,220,190,.06),transparent 40%)"></div>' },
+  'ocean':{ name:'Ocean', e:'🌊', css:
+    "background:linear-gradient(180deg,#0d2836 0%,#12455a 55%,#0a2f40 100%)",
+    extra:'<div style="position:absolute;top:0;left:0;right:0;height:46%;background:linear-gradient(180deg,#173a4d,#1e5a72)"></div>'+
+          '<div style="position:absolute;top:44%;left:0;right:0;height:3px;background:rgba(220,240,245,.25)"></div>'+
+          '<div style="position:absolute;bottom:0;left:0;right:0;height:56%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.05) 0 2px,transparent 2px 12px)"></div>'+
+          '<div style="position:absolute;top:12%;right:20%;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,#ffe9c2,#e8b06a);box-shadow:0 0 26px rgba(232,176,106,.55)"></div>' },
+  'cherry':{ name:'Cherry Blossoms', e:'🌸', css:
+    "background:linear-gradient(180deg,#2a1622 0%,#40202f 50%,#2a1622 100%)",
+    extra:'<div style="position:absolute;inset:0;background:radial-gradient(50% 40% at 60% 30%,rgba(255,190,214,.20),transparent 70%)"></div>'+petals() },
+  'mountains':{ name:'Mountains', e:'🏔️', css:
+    "background:linear-gradient(180deg,#191426 0%,#2a2340 55%,#141020 100%)",
+    extra:'<div style="position:absolute;top:10%;left:30%;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#f0e8d0,#b9a878);box-shadow:0 0 22px rgba(220,210,180,.5)"></div>'+
+          peaks() },
+  'space':{ name:'Space', e:'🌌', css:
+    "background:radial-gradient(120% 100% at 30% 20%,#1a1636,#0a0714 70%)",
+    extra:stars()+'<div style="position:absolute;top:16%;right:16%;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 38% 38%,#f4eeda,#b9ac86 70%,#6d6350);box-shadow:0 0 40px rgba(220,210,180,.35)"></div>' },
+  'cyber':{ name:'Cyber City', e:'🏙️', css:
+    "background:linear-gradient(180deg,#180a24 0%,#2a0f38 55%,#0d0518 100%)",
+    extra:'<div style="position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 60%,rgba(255,60,180,.16),transparent 70%)"></div>'+
+          buildings('#1a0a2a','#3a1250',[30,58,44,70,36,62],true)+
+          '<div style="position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(180deg,transparent,#0a0414)"></div>' },
+  'snow':{ name:'Snow', e:'❄️', css:
+    "background:linear-gradient(180deg,#20222e 0%,#2c2f3c 55%,#1a1c26 100%)",
+    extra:'<div style="position:absolute;inset:0;background:linear-gradient(180deg,#2b2f3d,#3a3f50 60%,#20232e)"></div>'+snow()+
+          '<div style="position:absolute;bottom:0;left:0;right:0;height:30%;background:linear-gradient(180deg,transparent,rgba(230,236,245,.14))"></div>' }
+};
+function buildings(a,b,hs,neon){let s='';const xs=[2,18,34,50,66,82];hs.forEach((h,i)=>{s+=`<div style="position:absolute;bottom:0;left:${xs[i]}%;width:14%;height:${h}%;background:linear-gradient(180deg,${b},${a})"></div>`;if(neon){s+=`<div style="position:absolute;bottom:${h-4}%;left:${xs[i]+4}%;width:5%;height:2px;background:${i%2?'#ff4fb0':'#4fd0ff'};box-shadow:0 0 8px ${i%2?'#ff4fb0':'#4fd0ff'}"></div>`}else{s+=`<div style="position:absolute;bottom:${(h*.5)}%;left:${xs[i]+5}%;width:3%;height:3px;background:rgba(232,200,120,.7);box-shadow:0 0 6px rgba(232,200,120,.6)"></div>`}});return s}
+function trees(){let s='';[6,22,40,58,74,88].forEach((x,i)=>{const h=44+((i*13)%26);s+=`<div style="position:absolute;bottom:0;left:${x}%;width:12%;height:${h}%;background:linear-gradient(180deg,#20402c,#0e1c14);clip-path:polygon(50% 0,100% 100%,0 100%)"></div>`});return s}
+function peaks(){let s='';[[-4,60],[18,80],[46,66],[70,84],[90,58]].forEach(([x,h])=>{s+=`<div style="position:absolute;bottom:0;left:${x}%;width:34%;height:${h}%;background:linear-gradient(180deg,#3a3552,#171326);clip-path:polygon(50% 0,100% 100%,0 100%)"></div>`});s+='<div style="position:absolute;bottom:38%;left:16%;width:6%;height:14%;background:#d9d4e6;clip-path:polygon(50% 0,100% 100%,0 100%);opacity:.7"></div>';return s}
+function stars(){let s='';for(let i=0;i<60;i++){const x=(i*37)%100,y=(i*53)%70,sz=(i%3)?1:2,o=.3+((i%5)/6);s+=`<div style="position:absolute;left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;border-radius:50%;background:#fff;opacity:${o}"></div>`}return s}
+function petals(){let s='';for(let i=0;i<16;i++){const x=(i*61)%100;s+=`<div style="position:absolute;left:${x}%;top:-6%;width:7px;height:7px;border-radius:60% 0 60% 0;background:rgba(255,190,214,.75);animation:rainfall ${3+i%4}s linear ${i*.3}s infinite"></div>`}return s}
+function snow(){let s='';for(let i=0;i<40;i++){const x=(i*47)%100;s+=`<div style="position:absolute;left:${x}%;top:-4%;width:4px;height:4px;border-radius:50%;background:rgba(240,245,255,.9);animation:rainfall ${4+i%5}s linear ${i*.2}s infinite"></div>`}return s}
+
+/* ---------- MENUS ---------- */
+const MUSIC={ 'midnight-study':['Midnight Study','🎵'],'rain-on-glass':['Rain on Glass','🌧️'],'old-vinyl':['Old Vinyl','💿'],'cafe':['Café Murmur','☕'],'forest-tape':['Forest Field Tape','🌲'],'silence':['Silence','∅'] };
+const WEATHER={ 'rain':['Rain','🌧️'],'thunder':['Thunder','⛈️'],'clear':['Clear','✨'] };
+const LIGHTMODE={ 'candle':['Candlelight','🕯️'],'warm':['Warm Lamp','💡'],'fairy':['Fairy Lights','✨'],'neon':['Neon','🌆'] };
+const SHELLS={ 'penthouse-studio':'Penthouse Studio','library-loft':'Library Loft','botanical':'Botanical Room','gothic-chamber':'Gothic Chamber','minimal':'Minimal Apartment','coastal':'Coastal Room','cabin':'Mountain Cabin','blank':'Blank Canvas' };
+
+const CATS=[
+  ['furniture','🛏 Furniture'],['lighting','🕯 Lighting'],['nature','🌿 Nature'],
+  ['collections','📚 Collections'],['atmosphere','🎵 Atmosphere'],['decor','🖼 Decor'],['window','🪟 Window']
+];
+
+/* ---------- RENDER ---------- */
+const room=document.getElementById('room');
+const worldEl=document.getElementById('world');
+function paintWorld(){const w=WORLDS[ROOM.window]||WORLDS['rainy-city']; worldEl.style.cssText=w.css; worldEl.innerHTML=w.extra||'';}
+function applyAtmosphere(){
+  // window
+  paintWorld();
+  // weather (room rain)
+  document.getElementById('rain').classList.toggle('on', ROOM.weather!=='clear');
+  // lighting
+  const amb=document.getElementById('ambient'); const inten=ROOM.lighting.intensity;
+  const tint = ROOM.lighting.mode==='neon' ? 'rgba(150,90,220,'+(0.10+inten*0.16)+')'
+    : ROOM.lighting.mode==='fairy' ? 'rgba(232,200,120,'+(0.10+inten*0.14)+')'
+    : ROOM.lighting.mode==='warm' ? 'rgba(240,190,120,'+(0.10+inten*0.20)+')'
+    : 'rgba(232,176,106,'+(0.10+inten*0.22)+')';
+  amb.style.background='radial-gradient(60% 55% at 26% 66%,'+tint+', transparent 62%)';
+  document.body.style.setProperty('--candle', ROOM.lighting.mode==='neon'?'#b06ae8':'#e8b06a');
+}
+function renderObjects(){
+  document.querySelectorAll('.obj').forEach(n=>n.remove());
+  ROOM.placed.forEach(o=>{
+    const el=document.createElement('div');
+    el.className='obj'+(o.x>62?' tagL':''); el.dataset.id=o.id;
+    el.style.left=o.x+'%'; el.style.top=o.y+'%';
+    el.innerHTML=`<div class="frame"></div><div class="halo"></div>
+      <div class="glyph">${o.glyph}</div><div class="tag">${o.name}</div>`;
+    room.appendChild(el);
+    bindObject(el,o);
+  });
+}
+
+/* ---------- WHISPERS (rest) ---------- */
+const whisper=document.getElementById('whisper');
+let whisperT;
+function showWhisper(o){
+  document.getElementById('w-name').textContent=o.whisper[0];
+  document.getElementById('w-text').textContent=o.whisper[1];
+  whisper.classList.add('show');
+  clearTimeout(whisperT); whisperT=setTimeout(()=>whisper.classList.remove('show'),4600);
+}
+
+/* ---------- KEEPER VOICE ---------- */
+const keeper=document.getElementById('keeper'), keeperLine=document.getElementById('keeper-line');
+let keeperT;
+function keeperSay(text,hold=3400){
+  keeperLine.textContent=text; keeper.classList.add('show');
+  clearTimeout(keeperT); keeperT=setTimeout(()=>keeper.classList.remove('show'),hold);
+}
+
+/* ---------- DRAG + CLICK ---------- */
+function bindObject(el,o){
+  let dragging=false, moved=false, sx=0, sy=0;
+  el.addEventListener('pointerdown',e=>{
+    if(!document.body.classList.contains('editing')) return;
+    dragging=true; moved=false; el.classList.add('grabbing'); el.setPointerCapture(e.pointerId);
+    sx=e.clientX; sy=e.clientY;
+  });
+  el.addEventListener('pointermove',e=>{
+    if(!dragging) return;
+    if(Math.abs(e.clientX-sx)>3||Math.abs(e.clientY-sy)>3) moved=true;
+    const r=room.getBoundingClientRect();
+    let x=((e.clientX-r.left)/r.width)*100, y=((e.clientY-r.top)/r.height)*100;
+    x=Math.max(3,Math.min(97,x)); y=Math.max(10,Math.min(94,y));
+    o.x=+x.toFixed(1); o.y=+y.toFixed(1);
+    el.style.left=o.x+'%'; el.style.top=o.y+'%';
+    el.classList.toggle('tagL', o.x>62);
+  });
+  el.addEventListener('pointerup',e=>{
+    if(!dragging){ // rest click → whisper
+      if(!document.body.classList.contains('editing')) showWhisper(o);
+      return;
+    }
+    dragging=false; el.classList.remove('grabbing');
+    if(moved){ dirty=true; document.getElementById('footNote').textContent='Moved '+o.name+'. It stays exactly where you left it.'; }
+    else if(!document.body.classList.contains('editing')) showWhisper(o);
+  });
+  el.addEventListener('click',()=>{
+    if(!document.body.classList.contains('editing')) showWhisper(o);
+  });
+}
+
+/* ---------- EDIT MODE ---------- */
+let dirty=false;
+const editBtn=document.getElementById('editBtn');
+const nameplate=document.getElementById('nameplate');
+editBtn.addEventListener('click',()=>{
+  const on=document.body.classList.toggle('editing');
+  if(on){
+    document.getElementById('toolbar').style.display='none';
+    nameplate.style.opacity='0';
+    keeperSay('Would you like to rearrange a little?',4200);
+    buildCats(); selectCat('furniture');
+  }
+});
+document.getElementById('saveBtn').addEventListener('click',async ()=>{
+  document.body.classList.remove('editing');
+  document.getElementById('toolbar').style.display='flex';
+  nameplate.style.opacity='1';
+  const wasDirty=dirty; dirty=false;
+  if(!wasDirty){ keeperSay('Just as you left it.',3400); return; }
+  keeperSay('Settling the room…',2000);
+  const res=await saveRoom();
+  if(res.ok) keeperSay('There. The House will keep it this way.',4200);
+  else if(res.reason==='no-session') keeperSay('It looks like you — though the House only keeps your place once you have a key.',4600);
+  else keeperSay('There. It looks like you.',3600);
+});
+
+/* ---------- EDIT PANELS ---------- */
+const catsEl=document.getElementById('cats'), dockBody=document.getElementById('dockBody');
+function buildCats(){
+  catsEl.innerHTML='';
+  CATS.forEach(([k,label])=>{
+    const c=document.createElement('div'); c.className='cat'; c.dataset.k=k; c.textContent=label;
+    c.onclick=()=>selectCat(k); catsEl.appendChild(c);
+  });
+}
+function selectCat(k){
+  document.querySelectorAll('.cat').forEach(c=>c.classList.toggle('on',c.dataset.k===k));
+  dockBody.innerHTML=panelFor(k);
+  wirePanel(k);
+}
+function panelFor(k){
+  if(k==='window'){
+    return `<div class="sub">The window · same room, different world</div>
+      <div class="hint">You don't change the wallpaper. You change what's outside.</div>
+      <div class="row">${Object.entries(WORLDS).map(([id,w])=>
+        `<div class="chip ${ROOM.window===id?'on':''}" data-world="${id}"><span class="e">${w.e}</span>${w.name}</div>`).join('')}</div>`;
+  }
+  if(k==='atmosphere'){
+    return `<div class="sub">Atmosphere · edited on its own, without moving a thing</div>
+      <div class="hint" style="margin-bottom:8px">Music</div>
+      <div class="row">${Object.entries(MUSIC).map(([id,[n,e]])=>
+        `<div class="chip ${ROOM.music===id?'on':''}" data-music="${id}"><span class="e">${e}</span>${n}</div>`).join('')}</div>
+      <div class="hint" style="margin:16px 0 8px">Weather</div>
+      <div class="row">${Object.entries(WEATHER).map(([id,[n,e]])=>
+        `<div class="chip ${ROOM.weather===id?'on':''}" data-weather="${id}"><span class="e">${e}</span>${n}</div>`).join('')}</div>`;
+  }
+  if(k==='lighting'){
+    return `<div class="sub">Lighting</div>
+      <div class="row">${Object.entries(LIGHTMODE).map(([id,[n,e]])=>
+        `<div class="chip ${ROOM.lighting.mode===id?'on':''}" data-light="${id}"><span class="e">${e}</span>${n}</div>`).join('')}</div>
+      <div class="row" style="margin-top:16px;gap:14px;align-items:center">
+        <span class="tiny">dim</span>
+        <input class="slider" id="lint" type="range" min="0" max="100" value="${Math.round(ROOM.lighting.intensity*100)}">
+        <span class="tiny">warm & bright</span></div>
+      <div style="margin-top:10px" class="row">${objChips('lighting')}</div>`;
+  }
+  // object-category panels: list the movable pieces (a nudge to drag them)
+  const label={furniture:'Furniture',nature:'Nature',collections:'Collections',decor:'Decor'}[k];
+  return `<div class="sub">${label} · drag them in the room</div>
+     <div class="hint">Everything here has a brass outline in the room — grab it and place it where it feels right. Collected objects from the House land here automatically.</div>
+     <div class="row">${objChips(k)}</div>`;
+}
+function objChips(k){
+  const items=ROOM.placed.filter(o=>o.cat===k);
+  if(!items.length) return `<span class="tiny">Nothing here yet — objects you keep while exploring the House appear in this drawer.</span>`;
+  return items.map(o=>`<div class="chip" data-focus="${o.id}"><span class="e">${o.glyph}</span>${o.name}</div>`).join('');
+}
+function wirePanel(k){
+  dockBody.querySelectorAll('[data-world]').forEach(c=>c.onclick=()=>{
+    ROOM.window=c.dataset.world; dirty=true; applyAtmosphere(); selectCat('window');
+    keeperSay('Outside, it is '+WORLDS[ROOM.window].name.toLowerCase()+' now.',2600);
+  });
+  dockBody.querySelectorAll('[data-music]').forEach(c=>c.onclick=()=>{ROOM.music=c.dataset.music;dirty=true;selectCat('atmosphere');});
+  dockBody.querySelectorAll('[data-weather]').forEach(c=>c.onclick=()=>{ROOM.weather=c.dataset.weather;dirty=true;applyAtmosphere();selectCat('atmosphere');});
+  dockBody.querySelectorAll('[data-light]').forEach(c=>c.onclick=()=>{ROOM.lighting.mode=c.dataset.light;dirty=true;applyAtmosphere();selectCat('lighting');});
+  const lint=dockBody.querySelector('#lint');
+  if(lint) lint.oninput=()=>{ROOM.lighting.intensity=+lint.value/100;dirty=true;applyAtmosphere();};
+  dockBody.querySelectorAll('[data-focus]').forEach(c=>c.onclick=()=>{
+    const el=document.querySelector(`.obj[data-id="${c.dataset.focus}"]`);
+    if(el){el.classList.add('grabbing'); setTimeout(()=>el.classList.remove('grabbing'),700);
+      const o=ROOM.placed.find(p=>p.id===c.dataset.focus); document.getElementById('footNote').textContent='Grab '+o.name+' in the room to move it.';}
+  });
+}
+
+/* ---------- ROOM-AS-DATA PEEK ---------- */
+const peek=document.getElementById('peek');
+document.getElementById('peekBtn').onclick=()=>{
+  const view={
+    resident:ROOM.resident, shell:ROOM.shell, theme:ROOM.theme,
+    window:ROOM.window, music:ROOM.music, weather:ROOM.weather, lighting:ROOM.lighting,
+    placed:ROOM.placed.map(o=>({id:o.id,cat:o.cat,x:o.x,y:o.y})),
+    public_sections:ROOM.public_sections, custom_css:ROOM.custom_css
+  };
+  document.getElementById('peekJson').textContent=JSON.stringify(view,null,2);
+  peek.classList.add('show');
+};
+document.getElementById('peekClose').onclick=()=>peek.classList.remove('show');
+peek.addEventListener('click',e=>{if(e.target===peek)peek.classList.remove('show')});
+
+/* =========================================================
+   THE HOUSE REMEMBERS — Supabase persistence
+   Loads this resident's saved arrangement on arrival and
+   writes it back on Save. Everything is guarded: with no
+   session (e.g. opened as a standalone artifact) it stays
+   purely in-memory and never throws. The publishable key is
+   safe client-side; owner-scoped RLS governs every row.
+   ========================================================= */
+const SB_URL='https://pcgzhlxjcjdeweygdzci.supabase.co';
+const SB_KEY='sb_publishable_TKJjv10k4Gg6lzDrwpopkQ_-Vf3yO_x';
+const sb=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SB_URL,SB_KEY):null;
+let houseRoomId=null;
+
+async function houseUser(){
+  if(!sb||!sb.auth) return null;
+  try{ const {data}=await sb.auth.getUser(); return (data&&data.user)||null; }catch(e){ return null; }
+}
+async function loadRoom(){
+  const u=await houseUser(); if(!u) return false;
+  try{
+    const {data:rooms}=await sb.from('rooms').select('id,shell').eq('user_id',u.id).limit(1);
+    const room=rooms&&rooms[0]; if(!room) return false;
+    houseRoomId=room.id; if(room.shell) ROOM.shell=room.shell;
+    const {data:cust}=await sb.from('room_customizations').select('window_view,music,weather,lighting,furniture').eq('room_id',room.id).limit(1);
+    const c=cust&&cust[0];
+    if(c){
+      if(c.window_view && WORLDS[c.window_view]) ROOM.window=c.window_view;
+      if(c.music && MUSIC[c.music]) ROOM.music=c.music;
+      if(c.weather && WEATHER[c.weather]) ROOM.weather=c.weather;
+      if(c.lighting && c.lighting.mode) ROOM.lighting={mode:c.lighting.mode, intensity:(typeof c.lighting.intensity==='number'?c.lighting.intensity:0.7)};
+      if(c.furniture && Array.isArray(c.furniture.placed)){
+        const byId={}; c.furniture.placed.forEach(p=>{ if(p&&p.id) byId[p.id]=p; });
+        ROOM.placed.forEach(o=>{ const p=byId[o.id]; if(p){ if(typeof p.x==='number')o.x=p.x; if(typeof p.y==='number')o.y=p.y; } });
+      }
+    }
+    return true;
+  }catch(e){ return false; }
+}
+async function saveRoom(){
+  const u=await houseUser(); if(!u||!houseRoomId) return {ok:false, reason:'no-session'};
+  try{
+    const stamp=new Date().toISOString();
+    if(ROOM.shell) await sb.from('rooms').update({shell:ROOM.shell, updated_at:stamp}).eq('id',houseRoomId);
+    const payload={ room_id:houseRoomId, window_view:ROOM.window, music:ROOM.music, weather:ROOM.weather,
+      lighting:ROOM.lighting, furniture:{ placed: ROOM.placed.map(o=>({id:o.id,x:o.x,y:o.y})) }, updated_at:stamp };
+    const {error}=await sb.from('room_customizations').upsert(payload,{onConflict:'room_id'});
+    return error ? {ok:false, reason:'error'} : {ok:true};
+  }catch(e){ return {ok:false, reason:'error'}; }
+}
+
+/* ---------- BACK INTO THE HOUSE (walk out the way you came) ---------- */
+document.getElementById('returnHouse').addEventListener('click',()=>{
+  keeperSay('The room keeps your place.',1600);
+  const fade=document.getElementById('housefade'); fade.classList.add('on');
+  const cameFromHouse = document.referrer && /(you|luna|thelibrary|conservatory)\.html|\/$/.test(document.referrer);
+  setTimeout(()=>{ if(cameFromHouse && history.length>1){ history.back(); } else { location.href='/you.html'; } },720);
+});
+
+/* ---------- BOOT ---------- */
+applyAtmosphere();
+renderObjects();
+// If the House remembers this resident, quietly restore their arrangement.
+(async ()=>{
+  const loaded=await loadRoom();
+  if(loaded){ applyAtmosphere(); renderObjects(); keeperSay('I kept your place.',3600); }
+})();
+setTimeout(()=>{ if(!houseRoomId) keeperSay('The rain returned tonight.',4200); },1400);
+setTimeout(()=>{ if(nameplate) nameplate.style.opacity='.0'; }, 6000);
+setTimeout(()=>{ if(!document.body.classList.contains('editing')) nameplate.style.opacity='1'; }, 6600);
+</script>
+</body>
+</html>

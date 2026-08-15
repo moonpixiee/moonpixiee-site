@@ -1,5 +1,5 @@
 # 🌙 The MoonNet Constitution
-### Version 1.0 · House of Luna
+### Version 1.1 · House of Luna
 
 > **MoonNet is not social media. It is the neighbourhood inside the House.**
 > Its purpose is not to maximise attention. Its purpose is to help people **quietly discover one another** through creativity, honesty, and shared curiosity.
@@ -98,3 +98,55 @@ The point is the language it produces. When someone shares their room, they don'
 > ### "Come visit my room sometime."
 
 That one shift changes everything. **You're not building a network. You're inviting someone over.** We're not optimising for engagement — we're optimising for **home.** 🖤🌙
+
+---
+---
+
+# 🌙 Addendum · Version 1.1 — *What MoonNet Actually Is*
+
+*Everything above still stands. This addendum answers the plainest question — "what is this thing?" — so no one on the team (human or AI) ever has to guess. It is written to be read aloud.*
+
+## The five pillars
+
+MoonNet stands on five pillars. Every feature we ever build must serve at least one — and break none.
+
+1. 🏡 **Home** — you have a *place*, not a page. A room you slowly build over months and years. The room is the profile.
+2. 📚 **Collections** — you are known by what you *treasure*, not what you post. Books, letters, plants, artifacts, playlists, pressed flowers.
+3. 🕯 **Connection** — you meet people by *visiting*, not by broadcasting. You knock; you don't follow. Neighbourhoods form from shared curiosity.
+4. 🎨 **Expression** — you *make the space yours*. Decorate, theme, write, publish. Customisation is a creative ritual, not a settings page. *(See Blueprint 003 — The Room Designer.)*
+5. 🌱 **Growth** — you *become* someone here. The House remembers your history and the room fills from it; presence compounds into a life, not a score.
+
+## What we keep from the internet we miss
+
+The old internet got some things *right*. We keep exactly those things — and rebuild them without the exhaustion.
+
+- **MySpace** — your own room, your own CSS, your own song playing when someone arrives. *(Kept: the room, Room Source, room music.)*
+- **Tumblr** — Keep / reblog-as-care, publishable & sellable themes, the Ask Box. *(Kept: Keep → Place on Shelf, sellable themes, the Ask Box.)*
+- **Old Facebook** — a small, real neighbourhood of people you actually know. *(Kept: Hallways as a feed of *people*, not content.)*
+- **The Sims** — the joy of *decorating a space* for its own sake. *(Kept: the whole edit ritual.)*
+- **Forums** — gathering around a shared thing, then drifting apart gracefully. *(Kept: reading circles that dissolve.)*
+- **Favourite Rooms, not Top Friends** — you save *places you love*, and no one is ranked. *(Kept: no Top 8, ever.)*
+- **The creative economy** — you can sell your books on your shelf and your themes from your room. Making a living from creativity is part of living here. *(Kept: the Desk, the Bookshelf, the shop-that-isn't-a-shop.)*
+
+## The features we will never build *(anxiety features)*
+
+These made the modern internet exhausting. They are **forbidden** — not "later," never.
+
+- ❌ **Friend counts** — no number decides your worth.
+- ❌ **Top 8 / ranked friends** — the House refuses to rank people.
+- ❌ **Pokes / nudges** — no manufactured obligation to respond.
+- ❌ **Infinite status feeds** — no bottomless scroll of performance.
+- ❌ **Seen receipts** — a letter is thoughtful, not surveilled.
+- ❌ **Typing indicators** — presence is human, not monitored.
+
+*(These formalise "MoonNet refuses" above: relationships matter, numbers do not.)*
+
+---
+
+## The sentence
+
+If MoonNet is ever explained in one breath, this is it:
+
+> ### House of Luna is what happens when you take the best memories of the early internet, remove everything that made it exhausting, and place what remains inside a living house where creativity, books, and honest connection are part of everyday life.
+
+🖤🌙

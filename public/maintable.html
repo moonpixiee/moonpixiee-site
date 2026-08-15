@@ -493,7 +493,7 @@
     <div class="dust" id="dust"></div>
     <div class="dwell-dim" id="dwelldim"></div>
   </div>
-  <a class="return" href="/thelibrary" id="return">&larr; The Library</a>
+  <a class="return" href="/thelibrary.html" id="return">&larr; The Library</a>
   <span class="place" id="place">The Main Table</span>
   <p class="collection">Collected&nbsp; <b id="ccount">0</b></p>
   <p class="living" id="living"></p>
@@ -663,6 +663,26 @@
     roomfade.classList.add('on');
     setTimeout(function(){ location.href=h.route; },1150);
   }
+
+  // Leaving is a walk, too — the room recedes as you step back through the door
+  // in the corner. Same threshold feeling as walking in, so no exit is ever a
+  // browser "back button." (Baked rooms hide the arrow and use their painted nav.)
+  (function(){
+    var ret=document.getElementById('return'); if(!ret) return;
+    ret.addEventListener('click', function(e){
+      var href=ret.getAttribute('href'); if(!href) return;
+      e.preventDefault(); if(moving) return; moving=true;
+      if(reduce){ location.href=href; return; }
+      parallaxOff=true;
+      if(!ZONE.baked){
+        env.style.transition='transform .95s cubic-bezier(.5,0,.72,0)';
+        env.style.transformOrigin='6% 8%';
+        env.style.transform='translate(-50%,-50%) scale(.82)';
+      }
+      roomfade.classList.add('on');
+      setTimeout(function(){ location.href=href; }, ZONE.baked?600:900);
+    });
+  })();
 
   // ===== ARTIFACT VIEWER =====
   var toastEl=document.getElementById('toast');
