@@ -261,6 +261,53 @@ const ZONES = [
       {id:'you-book', cat:'lore', kind:'The Book', name:'Memories · Stories · Soul', line:'A heavy book on the side table.', verb:'Read the spine', x:87, y:88,
         title:'Memories · Stories · Soul', body:'Three words on a spine. It’s the whole point of the House, really — a place that keeps the memories, tells the stories, and looks after the soft parts. Yours included.'},
       {id:'you-cloche', cat:'ambient', name:'A Cloche', line:'A single rose under glass.', verb:'', x:38, y:42, react:'A rose, kept under glass, kept from time. Some things you hold onto just because you can’t bear not to.'}
+    ]},
+
+  // THE CONSERVATORY — a botanical greenhouse off the Library. Editorial, not a shop:
+  // everything is collectible, nothing is sold (Moss & Moon blooms here later). Luna's
+  // render already carries the title + a painted room-nav, so this plate is shown whole
+  // (fit:contain, baked) and the nav labels get invisible link hotspots over them.
+  { id:'conservatory', title:'The Conservatory', asset:'/assets/conservatory-env.png', aw:1329, ah:1183, fit:'contain', baked:true,
+    return:'/thelibrary.html', returnLabel:'The Library', accent:'#b9c6a0', wake:'rgba(190,214,150,.45)',
+    alt:'The Conservatory — a candlelit gothic greenhouse: rain on the glass roof, ivy walls, apothecary shelves, a table of tea, roses and an open botanical book',
+    hotspots:[
+      // — the painted bottom nav, made real (walk to another room) —
+      {id:'nav-books', cat:'nav', name:'House Books', line:'The shelf of House Books.', verb:'Go', x:8.5, y:96, w:9, h:5, route:'/thelibrary.html'},
+      {id:'nav-letters', cat:'nav', name:'Letters', line:'Read one by the fire.', verb:'Go', x:21, y:96, w:7, h:5, route:'/thelibrary.html'},
+      {id:'nav-moon', cat:'nav', name:'Moon Notes', line:'Tiny thoughts, kept.', verb:'Go', x:33, y:96, w:8, h:5, route:'/thelibrary.html'},
+      {id:'nav-listen', cat:'nav', name:'Listening Room', line:'Upstairs, a record is playing.', verb:'', x:62, y:96, w:9, h:5, route:''},
+      {id:'nav-luna', cat:'nav', name:"Luna's Room", line:'Knock, if the light is on.', verb:'Go', x:78, y:96, w:8, h:5, route:'/luna.html'},
+      {id:'nav-you', cat:'nav', name:'Your Room', line:'Where you come home.', verb:'Go', x:91, y:96, w:8, h:5, route:'/you.html'},
+      // — the room —
+      {id:'c-fern', cat:'artifact', kind:'Botanical', name:'A Botanical Plate', line:'A framed illustration on the wall.', verb:'Look closer', x:93, y:37, rarity:'uncommon',
+        title:'Maidenhair Fern', body:'Found in the Conservatory.\n\n☾ A reminder that delicate things can still thrive — in the low light, in the damp, in the places nothing was supposed to grow.\n\nKeep it. Press it flat and it keeps its colour for years.'},
+      {id:'c-book', cat:'artifact', kind:'Journal', name:'The Open Book', line:'Open on the table, mid-page.', verb:'Read', x:55, y:83,
+        title:'The Language of Plants', body:'Someone was reading here and left it open. The page is on the flowers that only speak after dark.\n\nEvery plant in this room means something. The whole book is learning to listen.'},
+      {id:'c-roses', cat:'rare', kind:'Rare Find', name:'White Roses', line:'Cut tonight, still holding the cold.', verb:'Take one', x:62, y:63, rare:true,
+        title:'A white rose from the table', body:'There are always more than anyone counts. Take one — the Conservatory grows them faster than it can keep them.\n\nKeep it. It won’t wilt in here.',
+        closed:'The roses are just out of reach tonight. Come back — there are always more.'},
+      {id:'c-moss', cat:'lore', kind:'The Jar', name:'Moss & Moon', line:'A dark jar, labelled in gold.', verb:'Look closer', x:49, y:62,
+        title:'Moss & Moon', body:'Not for sale. Not yet.\n\nOne day, Moss & Moon will bloom right here — teas, pressed things, small green objects, chosen the way everything in the House is chosen. For now, it just sits on the table and waits, like the rest of us.'},
+      {id:'c-lavender', cat:'artifact', kind:'Herb', name:'Dried Lavender', line:'Hung to dry above the shelf.', verb:'Take a sprig', x:86, y:33,
+        title:'A sprig of lavender', body:'For the nights the mind won’t quiet. Crush it between your fingers, breathe, and begin again.\n\nKeep it. It’ll scent whatever it travels with.'},
+      {id:'c-sage', cat:'lore', kind:'Herb', name:'The Potted Herbs', line:'Sage, rosemary, something silver.', verb:'Look closer', x:53, y:64,
+        title:'Sage, growing', body:'Not to erase the past — smoke doesn’t do that. To make a little room for what’s coming. That’s all any ritual is: a way of clearing space.'},
+      {id:'c-tea', cat:'lore', kind:'The Tea', name:'The Teapot', line:'Glass, and still warm.', verb:'Look closer', x:44, y:72,
+        title:'The tea is still warm', body:'Steep it slow. Nobody hurries in the Conservatory — the whole point of the room is that nothing here is in a rush, least of all you.'},
+      {id:'c-moonflower', cat:'artifact', kind:'Botanical', name:'Moonflower', line:'White, half-open, low to the ground.', verb:'Take it', x:27, y:66,
+        title:'A moonflower', body:'It only opens at night. Some beauty isn’t for the crowd or the daylight — it’s just for the ones who stayed up, who came all the way in here.\n\nKeep it. It knows how to wait.'},
+      {id:'c-candle', cat:'ambient', name:'The Candle', line:'A flame in a jar, steaming faintly.', verb:'', x:49, y:72, react:'The flame leans toward the steam, steadies, and goes on burning. The rain keeps time on the glass above.'},
+      {id:'c-lantern', cat:'ambient', name:'The Lantern', line:'Hung from the glass peak.', verb:'', x:53, y:15, react:'It sways once, throwing the whole greenhouse into soft motion, then stills. Somewhere outside, a bird resettles.'},
+      {id:'c-apoth', cat:'lore', kind:'The Shelf', name:'The Apothecary Shelf', line:'Bottles, tinctures, small labelled things.', verb:'Look closer', x:82, y:47,
+        title:'The apothecary shelf', body:'Half of these are remedies. Half are just pretty. I’ve stopped labelling which is which — sometimes the pretty ones do the most healing.'},
+      {id:'c-window', cat:'lore', kind:'The Glass', name:'The Night Garden', line:'Rain on the glass, dark trees beyond.', verb:'Look out', x:50, y:30, w:12, h:16,
+        title:'Rain on the glass', body:'The garden past the glass never stops growing, even in the dark, even in the rain. Especially in the rain. There’s a lesson in that, if you want one. If not, just listen to it fall.'},
+      {id:'c-chair', cat:'passage', name:'The Chair', line:'A throw left over the back.', verb:'Sit a while', x:18, y:82,
+        narration:'You sink into the chair and pull the throw over you. Rain on the glass. The lantern breathing. The green smell of a room that’s alive. Nothing in the House needs anything from you here. Stay as long as the tea is warm.'},
+      {id:'c-door', cat:'lore', kind:'The Door', name:'The Garden Door', line:'Ivy-framed, half-lost in the dark.', verb:'Try it', x:50, y:52,
+        title:'The garden door won’t open yet', body:'Beyond it, the House hasn’t finished dreaming. There’s a whole garden out there — and further still, rooms that don’t exist tonight.\n\nCome back. Doors in this House open when what’s behind them is ready, not before.'},
+      {id:'c-cabinet', cat:'lore', kind:'The Cabinet', name:'The Locked Cabinet', line:'Dark wood, a small brass lock.', verb:'Try the lock', x:5, y:52,
+        title:'Locked, for now', body:'Every House keeps one door it hasn’t opened. This one holds a room that isn’t built yet — something quieter, something further in.\n\nThe key turns up eventually. It always does.'}
     ]}
 ];
 
@@ -288,9 +335,12 @@ const ASTRO = {
     spots:[{x:66,y:86,pose:'loaf'},{x:20,y:66,pose:'sit'}] },
   luna:{ w:11, line:'He guards Luna’s sanctuary.', reacts:['He has claimed the warmest corner, as is his right.','He blinks at you, slow, from the velvet.','A soft purr — you passed some test you didn’t know about.'], absent:true,
     spots:[{x:66,y:80,pose:'loaf'},{x:40,y:93,pose:'sit'},{x:90,y:82,pose:'curl'}] },
-  // Your Room is the resident's own room — Astro lives here, always, on the bed.
-  you:{ w:11, line:'Asleep on your bed, where he always is.', reacts:['He decided this room was his the moment you did.','He’s curled on the velvet like he’s always lived here. Maybe he has.','A soft purr from the foot of the bed — he’s glad you keep coming back.'], absent:false,
-    spots:[{x:63,y:92,pose:'curl'},{x:85,y:75,pose:'loaf'}] }
+  // Your Room is the resident's own room. Astro is a ROAMING SPRITE (no baked cat in
+  // the plate — verified), so he's here most nights, on the bed, but not every night.
+  you:{ w:11, line:'Curled on your bed tonight.', reacts:['He decided this room was his the moment you did.','He’s curled on the velvet like he’s always lived here. Maybe he has.','A soft purr from the foot of the bed — he’s glad you keep coming back.'], absent:true,
+    spots:[{x:63,y:92,pose:'curl'},{x:85,y:75,pose:'loaf'}] },
+  conservatory:{ w:8, line:'He found the greenhouse before you did.', reacts:['He watches the rain on the glass like it’s telling him something.','He’s asleep among the ferns, entirely at home.','A slow blink from the shadows — he approves of this room.'], absent:true, rareVisit:true,
+    spots:[{x:20,y:80,pose:'sit'},{x:36,y:91,pose:'loaf'},{x:30,y:88,pose:'curl'}] }
 };
 
 // ============================================================================
@@ -307,53 +357,49 @@ const ASTRO = {
 //   href     : the shop link (Gumroad / etc). null = "shop opens soon", no link yet.
 // ============================================================================
 const BOOKS = [
-  { slug:'dark-feminine-energy', title:'Dark Feminine Energy', author:'Luna',
-    cover:'#241019', spine:'#3a1a2e', foil:'#e3b968',
-    coverImg:'/assets/books/dark-feminine-energy.png',
-    tagline:'The newest release', blurb:'A season of shadow, softness, and coming home to yourself.',
+  // Luna's real book. A published book has its OWN identity — its real cover art, its
+  // own dark "edition" interior (near-black pages, cream/pink type), distinct from the
+  // House's warm parchment journal. Preview text is Luna's actual words.
+  { slug:'dark-feminine-energy', title:'Mastering Your Dark Feminine Energy', short:'Dark Feminine Energy',
+    author:'Luna Lee', pen:'writing as Moonpixiee', skin:'dark',
+    cover:'#0d0a12', spine:'#0d0a12', foil:'#e9b7c7',
+    coverImg:'/assets/books/dark-feminine-energy.png', spineImg:'/assets/books/dfe-spine.png',
+    tagline:'The power you were never taught to claim',
+    blurb:'Your initiation into the most magnetic, confident, and untouchable version of you — reclaim your power, set unshakable boundaries, and stop seeking permission to take up space.',
     spread:[
-      { l:'<span class="fb-dedication">for the ones who were<br>told they felt<br>too&nbsp;deeply</span>',
-        r:'<span class="fb-half">Dark Feminine<br>Energy</span><span class="fb-by">Luna</span>' },
-      { l:'<span class="fb-pull">“She was never too&nbsp;much.<br>The world was simply<br>too&nbsp;small.”</span>',
-        r:'<span class="fb-toc-h">Inside</span><span class="fb-toc">i.&nbsp;&nbsp;The Return<br>ii.&nbsp;&nbsp;The Shadow<br>iii.&nbsp;&nbsp;The Becoming<br>iv.&nbsp;&nbsp;The Altar<br>v.&nbsp;&nbsp;The House</span>' },
-      { l:'<span class="fb-first">The first thing the dark teaches you is that it was never the enemy. It was the room you were afraid to sit in alone…</span>',
-        r:'<span class="fb-first fb-muted">…and the moment you do, you find it was furnished all along. A chair. A candle. A version of you that had been waiting.</span>' }
+      { l:'<span class="fb-epi">“The most powerful woman in the room is the one who needs nothing from it.”</span><span class="fb-epi-by">— Robert Greene, <em>The Art of Seduction</em></span>',
+        r:'<span class="fb-chh">Introduction</span><span class="fb-cht">Understanding Dark Feminine Energy</span><span class="fb-chs">The power you were never taught to claim</span>' },
+      { l:'<span class="fb-sec">A Letter to the Woman Who Lost Herself</span><span class="fb-body">She was the perfect one. Always agreeable. Always available. She bent herself into every shape someone else needed and called it kindness.<br><br>But deep down — in the quiet place she never let anyone see — she was exhausted. And she was empty.<br><br>That woman was me.</span>',
+        r:'<span class="fb-pull2">“She wasn’t broken. She was unfinished. And the moment she stopped apologizing for that — she became dangerous.”</span>' },
+      { l:'<span class="fb-chh">Inside you’ll discover</span><span class="fb-disc">The truth about dark feminine energy — and why it’s your greatest power.<br><br>How to stop people-pleasing and start choosing yourself.<br><br>The art of boundaries, mystery, and self-possession.<br><br>Daily practices to embody your most powerful self.</span>',
+        r:'<span class="fb-close">You are not too much.<br>You are not difficult.<br>You are awakening.</span><span class="fb-close2">Now become unforgettable.</span>' }
     ],
-    take:'Take this with you', href:null,
-    soon:'The shop opens in a breath — Luna’s still stocking the shelf. It’ll be yours to take home soon.',
-    returned:'The House remembers what you brought home. It’s on your shelf now.' },
-  { slug:'becoming', title:'Becoming', author:'Luna',
-    cover:'#182430', spine:'#0f1a24', foil:'#c6b28a', coverImg:'/assets/books/becoming.png',
-    tagline:'', blurb:'On unbecoming everything you were told to be, and building someone truer in the ruins.',
-    spread:[
-      { l:'<span class="fb-dedication">to whoever<br>you are<br>on the other&nbsp;side</span>',
-        r:'<span class="fb-half">Becoming</span><span class="fb-by">Luna</span>' },
-      { l:'<span class="fb-pull">“You don’t find yourself.<br>You build her, brick<br>by honest brick.”</span>',
-        r:'<span class="fb-first fb-muted">A slow book. Read it the way you’d rebuild a house — one room, one true thing, at a time.</span>' }
-    ],
-    take:'Take this with you', href:null,
-    soon:'The shop opens soon. Becoming will be yours to take home shortly.',
-    returned:'The House remembers what you brought home. It’s on your shelf now.' },
-  { slug:'house-of-luna', title:'House of Luna', author:'Luna',
-    cover:'#2a1a10', spine:'#180f08', foil:'#e3b968', coverImg:'/assets/books/house-of-luna.png',
-    tagline:'', blurb:'The book of the House itself — every room, every ritual, every thing worth keeping.',
-    spread:[
-      { l:'<span class="fb-dedication">for the ones<br>who wandered<br>all the way&nbsp;in</span>',
-        r:'<span class="fb-half">House<br>of Luna</span><span class="fb-by">Luna</span>' },
-      { l:'<span class="fb-pull">“A place you visit,<br>not a tool<br>you use.”</span>',
-        r:'<span class="fb-first fb-muted">The rooms, the residents, and the rule of the House: keep only what wakes something up.</span>' }
-    ],
-    take:'Take this with you', href:null,
-    soon:'The shop opens soon. House of Luna will be yours to take home shortly.',
-    returned:'The House remembers what you brought home. It’s on your shelf now.' }
+    price:'9.99', href:'https://housesofluna.myshopify.com/products/mastering-your-dark-feminine-energy',
+    returned:'The House remembers what you brought home. It’s yours now.' },
+  // Forthcoming titles Luna named — placeholders on the shelf until they exist.
+  { slug:'becoming', title:'Becoming', short:'Becoming', author:'Luna Lee', skin:'dark', soonTitle:true,
+    cover:'#141a24', spine:'#0e141c', foil:'#c6b2d0', coverImg:'/assets/books/becoming.png',
+    tagline:'Coming soon', blurb:'On unbecoming everything you were told to be, and building someone truer in the ruins.',
+    spread:[ { l:'<span class="fb-soon">This one isn’t finished yet.</span>', r:'<span class="fb-soon fb-muted">Luna’s still writing it. When it’s ready, it’ll appear on this shelf.</span>' } ],
+    take:'Notify me when it’s here', href:null,
+    soon:'Not out yet — the House will let you know when Becoming arrives.',
+    returned:'' },
+  { slug:'house-of-luna', title:'House of Luna', short:'House of Luna', author:'Luna Lee', skin:'dark', soonTitle:true,
+    cover:'#1c1410', spine:'#120c08', foil:'#e3b968', coverImg:'/assets/books/house-of-luna.png',
+    tagline:'Coming soon', blurb:'The book of the House itself — every room, every ritual, every thing worth keeping.',
+    spread:[ { l:'<span class="fb-soon">This one isn’t finished yet.</span>', r:'<span class="fb-soon fb-muted">The House is still being written. Its book will come last.</span>' } ],
+    take:'Notify me when it’s here', href:null,
+    soon:'Not out yet — the House will let you know when House of Luna arrives.',
+    returned:'' }
 ];
 const LAUNCH = { active:true, slug:'dark-feminine-energy',  // launch week → promo rests beside the journal
-  x:81, y:86, w:5.5, whisper:'Luna left this beside your journal.', verb:'Open it' };
+  x:81, y:85, w:5, whisper:'Luna left this beside your journal.', verb:'Open it' };
 const COLLECTION_LABEL = "Luna’s Collection";
 
 function page(z){
   const cfg = JSON.stringify({ id:z.id, title:z.title, asset:z.asset, hotspots:z.hotspots, astro:ASTRO[z.id]||null, intro:z.intro||false, network:z.network||false,
-    books:(z.id==='you'||z.id==='luna')?BOOKS:null, launch:(z.id==='you')?LAUNCH:null, collectionLabel:COLLECTION_LABEL });
+    books:(z.id==='you'||z.id==='luna')?BOOKS:null, launch:(z.id==='you')?LAUNCH:null, collectionLabel:COLLECTION_LABEL,
+    fit:z.fit||'cover', baked:z.baked||false });
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -377,6 +423,11 @@ function page(z){
     background:radial-gradient(80% 60% at 32% 44%, rgba(120,86,42,.5) 0%, transparent 60%), radial-gradient(70% 60% at 76% 58%, rgba(70,52,28,.5) 0%, transparent 62%), linear-gradient(180deg,#1b130c 0%,#0e0a06 100%);}
   @media (max-aspect-ratio:1/1){ .env{width:auto;height:104vh;} }
   .env img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  /* a plate whose whole composition must stay visible (baked-in title/nav): fit inside */
+  .env.contain{width:auto!important;height:100vh!important;max-width:100vw;}
+  .env.contain img{object-fit:contain;}
+  @media (max-aspect-ratio:1123/1000){ .env.contain{width:100vw!important;height:auto!important;} }
+  body.baked .place,body.baked .collection,body.baked .living,body.baked .hint,body.baked .return{display:none;}
   .vignette{position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(122% 100% at 50% 46%, transparent 40%, rgba(6,4,3,.42) 84%, rgba(6,4,3,.72) 100%);}
   .dust{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2;}
   .mote{position:absolute;width:2px;height:2px;border-radius:50%;background:radial-gradient(circle, rgba(255,224,160,.8), rgba(255,224,160,0));mix-blend-mode:screen;}
@@ -706,6 +757,134 @@ function page(z){
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .fade{position:fixed;inset:0;z-index:30;background:#000;pointer-events:none;animation:fadeout 1.5s ease .1s both;}
   @keyframes fadeout{from{opacity:1;}to{opacity:0;}}
+  /* ===== PHYSICAL TOME — leather cover, page thickness, ribbons from the pages ===== */
+  .art.tome-book{position:relative;display:flex;flex-direction:column;align-items:center;width:min(94vw,760px);max-width:760px;}
+  .tome-wrap{position:relative;width:100%;padding:15px 17px 13px;border-radius:5px 9px 9px 5px;
+    background:linear-gradient(135deg,#2b1b12,#180d09 55%,#231610);
+    box-shadow:0 46px 120px -30px rgba(0,0,0,.92), inset 0 0 0 1px rgba(120,80,40,.45), inset 0 2px 24px rgba(0,0,0,.5);}
+  .tome-wrap::before{content:"";position:absolute;inset:7px;border-radius:3px 7px 7px 3px;pointer-events:none;
+    box-shadow:inset 0 0 0 1px rgba(160,116,64,.28);
+    background:repeating-linear-gradient(93deg, rgba(255,235,200,.014) 0 2px, transparent 2px 6px), repeating-linear-gradient(3deg, rgba(0,0,0,.05) 0 3px, transparent 3px 7px);}
+  .tome-book .book-spread{position:relative;z-index:1;height:min(62vh,452px);border-radius:2px;
+    box-shadow:3px 0 0 #dccca6,5px 0 0 #d0bf95,7px 0 0 #c4b088,9px 0 1px -1px rgba(0,0,0,.45),
+      -3px 0 0 #dccca6,-5px 0 0 #d0bf95,-7px 0 0 #c4b088,-9px 0 1px -1px rgba(0,0,0,.45),
+      0 30px 60px -28px rgba(0,0,0,.7), inset 0 0 60px rgba(150,116,54,.14);}
+  .tome-book .book-spread::after{content:"";position:absolute;left:2px;right:2px;bottom:-4px;height:6px;pointer-events:none;
+    background:repeating-linear-gradient(90deg,#d5c69f 0 3px, #c2b085 3px 6px);opacity:.55;border-radius:0 0 3px 3px;}
+  .tome-book .book-page.left,.tome-book .book-page.right{display:flex;flex-direction:column;}
+  /* ribbons emerge from the top, from between the pages, and hang down over them */
+  .tome-book .tome-ribbons{top:1px;right:24px;gap:7px;z-index:6;}
+  .tome-book .ribbon{margin-top:0;}
+  .tome-book .ribbon.r1{height:120px;} .tome-book .ribbon.r2{height:98px;} .tome-book .ribbon.r3{height:136px;}
+  /* a small brass clasp closes the book */
+  .tome-clasp{position:absolute;top:50%;right:-13px;transform:translateY(-50%);z-index:8;width:24px;height:56px;border:none;cursor:pointer;border-radius:3px;
+    background:linear-gradient(90deg,#7a5a24,#e8c979 46%,#6f5220);box-shadow:0 5px 12px -3px rgba(0,0,0,.75), inset 0 1px 2px rgba(255,240,205,.6), inset 0 -2px 3px rgba(0,0,0,.4);transition:filter .3s;}
+  .tome-clasp span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#3a2a12,#160f06);box-shadow:0 0 0 2px rgba(255,235,190,.35);}
+  .tome-clasp:hover{filter:brightness(1.14);}
+  /* actions pressed into the book's lower cover — bookmark tabs, part of the leather */
+  .tome-actions{position:relative;z-index:1;width:min(94vw,760px);max-width:760px;margin-top:-3px;padding:11px 20px 15px;border-radius:0 0 9px 5px;
+    background:linear-gradient(135deg,#241610,#150c07);box-shadow:0 30px 66px -30px rgba(0,0,0,.82), inset 0 0 0 1px rgba(120,80,40,.4), inset 0 3px 10px rgba(0,0,0,.5);}
+  .tome-actions .art-acts{margin:0;padding:0;border-top:none;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.5rem;}
+  .tome-actions .art-act{position:relative;font-family:var(--font-book);font-weight:600;letter-spacing:.03em;font-size:.98rem;
+    padding:.5rem 1.15rem .62rem;border-radius:2px 2px 3px 3px;border:none;cursor:pointer;color:#f1e2c6;background-image:none;
+    clip-path:polygon(0 0,100% 0,100% 74%,50% 100%,0 74%);box-shadow:0 6px 12px -6px rgba(0,0,0,.6), inset 0 1px 1px rgba(255,255,255,.12);transition:transform .2s,filter .3s;}
+  .tome-actions .art-act:nth-child(1){background:#7a2740;} .tome-actions .art-act:nth-child(2){background:#8a6a2e;} .tome-actions .art-act:nth-child(3){background:#3a2716;color:#d9c69a;}
+  .tome-actions .art-act.keep{background:#8a6a2e;} .tome-actions .art-act.kept{background:#3f6b3a;color:#eafbe4;}
+  .tome-actions .art-act:hover{transform:translateY(-2px);filter:brightness(1.09);}
+  /* journal dead-space fill: moon phase + page number, tucked to the page foot */
+  .jr-flourish{margin-top:auto;padding-top:1.3rem;display:flex;flex-direction:column;gap:.3rem;align-items:flex-start;}
+  .jr-moon{font-family:var(--font-book);font-size:.96rem;color:#7a5a2e;letter-spacing:.03em;}
+  .jr-pageno{font-family:var(--font-script);font-size:1.2rem;color:#8a6a3a;}
+  .pressed-flower{background:
+     radial-gradient(circle at 50% 20%, #ad9ac2 0 8px, transparent 9px),
+     radial-gradient(circle at 76% 42%, #ad9ac2 0 8px, transparent 9px),
+     radial-gradient(circle at 65% 78%, #ad9ac2 0 8px, transparent 9px),
+     radial-gradient(circle at 35% 78%, #ad9ac2 0 8px, transparent 9px),
+     radial-gradient(circle at 24% 42%, #ad9ac2 0 8px, transparent 9px),
+     radial-gradient(circle at 50% 50%, #8a7a52 0 5px, transparent 6px);
+     -webkit-mask:none;mask:none;width:52px;height:52px;filter:saturate(.6) brightness(.94);border-radius:0;}
+  /* ===== PUBLISHED BOOK — its own dark "edition" identity (Luna's real book) ===== */
+  .fb-cover-card img{object-fit:contain!important;background:#0a0710;}
+  .fbook.fb-dark .fb-cover-card{background:#0a0710;}
+  .fbook.fb-dark .fb-pg{background:linear-gradient(120deg,#171019,#0e0a12);color:#e6dbe4;}
+  .fbook.fb-dark .fb-pg.right{background:linear-gradient(240deg,#171019,#0e0a12);}
+  .fbook.fb-dark .fb-gutter{background:rgba(233,183,199,.22);}
+  .fbook.fb-dark .fb-nav{color:#c99fb2;}
+  .fb-epi{display:block;font-family:var(--font-display);font-style:italic;font-size:clamp(1.15rem,2.7vw,1.55rem);line-height:1.42;color:#efe3ea;}
+  .fb-epi-by{display:block;margin-top:1.1rem;font-family:var(--font-book);font-size:.92rem;color:#c99fb2;}
+  .fb-chh{display:block;font-family:var(--font-machine);font-size:.56rem;letter-spacing:.32em;text-transform:uppercase;color:#c99fb2;margin-bottom:.7rem;}
+  .fb-cht{display:block;font-family:var(--font-display);font-weight:600;font-size:clamp(1.35rem,3.2vw,1.95rem);line-height:1.08;color:#f3e9ef;}
+  .fb-chs{display:block;margin-top:.7rem;font-family:var(--font-book);font-style:italic;font-size:1rem;color:#caa6b8;}
+  .fb-sec{display:block;font-family:var(--font-display);font-weight:600;font-size:1.14rem;color:#e9b7c7;margin-bottom:.85rem;}
+  .fb-body{display:block;font-family:var(--font-book);font-size:1.03rem;line-height:1.58;color:#dccfe0;text-align:left;}
+  .fb-pull2{font-family:var(--font-display);font-style:italic;font-size:clamp(1.2rem,3vw,1.65rem);line-height:1.4;color:#f0dbe6;}
+  .fb-disc{display:block;font-family:var(--font-book);font-size:1rem;line-height:1.5;color:#dccfe0;text-align:left;}
+  .fb-close{display:block;font-family:var(--font-display);font-size:clamp(1.3rem,3.1vw,1.75rem);line-height:1.34;color:#f3e9ef;}
+  .fb-close2{display:block;margin-top:1.1rem;font-family:var(--font-script);font-size:1.7rem;color:#e9b7c7;}
+  .fb-soon{display:block;font-family:var(--font-book);font-style:italic;font-size:1.1rem;color:#caa6b8;} .fb-soon.fb-muted{color:#8a7a86;}
+  .shelf-spine.soon{opacity:.62;} .shelf-spine.soon .sp-title{color:rgba(233,224,208,.6);}
+  /* ===== edge-aware whispers — never clip off the right/left of the room ===== */
+  .spot.wR .whisper,.astro.wR .whisper,.bookobj.wR .whisper{left:auto;right:-6px;transform:translateX(0) translateY(8px);text-align:right;}
+  .spot.wR:hover .whisper,.spot.wR:focus-visible .whisper,.spot.wR.awake .whisper,.astro.wR:hover .whisper,.astro.wR:focus-visible .whisper,.astro.wR.awake .whisper,.bookobj.wR:hover .whisper,.bookobj.wR:focus-visible .whisper,.bookobj.wR.awake .whisper{transform:translateX(0) translateY(0);}
+  .spot.wL .whisper,.astro.wL .whisper,.bookobj.wL .whisper{left:-6px;right:auto;transform:translateX(0) translateY(8px);text-align:left;}
+  .spot.wL:hover .whisper,.spot.wL:focus-visible .whisper,.spot.wL.awake .whisper,.astro.wL:hover .whisper,.astro.wL:focus-visible .whisper,.astro.wL.awake .whisper,.bookobj.wL:hover .whisper,.bookobj.wL:focus-visible .whisper,.bookobj.wL.awake .whisper{transform:translateX(0) translateY(0);}
+  /* ===== the Mirror answers in-world — a shimmer over the glass, no modal ===== */
+  .mirror-ripple{position:absolute;width:24%;height:32%;transform:translate(-50%,-50%);z-index:5;pointer-events:none;border-radius:50%;
+    background:radial-gradient(closest-side, rgba(190,205,240,.36), rgba(150,170,220,.08) 55%, transparent 74%);mix-blend-mode:screen;animation:mripple 2.4s ease forwards;}
+  @keyframes mripple{0%{opacity:0;transform:translate(-50%,-50%) scale(.55);}30%{opacity:1;}100%{opacity:0;transform:translate(-50%,-50%) scale(1.6);}}
+  .mirror-keep{position:absolute;transform:translate(-50%,-50%);z-index:7;}
+  .mk-btn{font-family:var(--font-book);font-variant:small-caps;letter-spacing:.06em;font-size:1.02rem;color:#dce6ff;background:rgba(18,18,30,.62);border:1px solid rgba(150,170,220,.5);border-radius:4px;padding:.5rem 1.15rem;cursor:pointer;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);box-shadow:0 6px 18px -6px rgba(0,0,0,.6);}
+  .mk-btn:hover{background:rgba(150,170,220,.22);color:#fff;}
+  /* ===== responsive — split-window & mobile ===== */
+  @media (max-width:600px){
+    .art.tome-book,.tome-actions,.art.fbook{width:96vw;max-width:96vw;}
+    .tome-book .book-spread{height:min(56vh,392px);}
+    .fb-stage{height:min(56vh,392px);}
+    .book-page,.fb-pg{padding:.9rem 1rem;}
+    .art-title,.fb-cht,.jr-h{font-size:1.28rem;}
+    .tome-book .tome-ribbons{right:34px;} .tome-book .ribbon.r1{height:90px;} .tome-book .ribbon.r2{height:74px;} .tome-book .ribbon.r3{height:102px;}
+    .keeplist{grid-template-columns:1fr 1fr;} .shelf-spine{width:clamp(38px,13vw,50px);height:clamp(140px,26vh,180px);}
+  }
+  @media (max-height:640px){ .tome-book .book-spread,.fb-stage{height:min(74vh,340px);} }
+  /* ===== A HOUSE BOOK — cinematic cover-first, then the leather-bound pages ===== */
+  .housebook{display:flex;flex-direction:column;align-items:center;}
+  .hb-cover-stage{display:flex;flex-direction:column;align-items:center;gap:1.2rem;max-height:94vh;}
+  .hb-cover{height:min(64vh,600px);max-width:88vw;position:relative;border-radius:3px 7px 7px 3px;overflow:hidden;
+    box-shadow:0 50px 120px -26px rgba(0,0,0,.92), 0 0 0 1px rgba(198,160,90,.2), -10px 0 22px -10px rgba(0,0,0,.7);background:#0a0710;}
+  .hb-cover img{height:100%;width:auto;max-width:88vw;object-fit:contain;display:block;}
+  .av.open .hb-cover{animation:hbCoverIn 1.15s var(--ease) both;}
+  @keyframes hbCoverIn{0%{opacity:0;transform:translateY(46px) rotateY(-20deg) scale(.8);}100%{opacity:1;transform:translateY(0) rotateY(0) scale(1);}}
+  .hb-cover-css{height:100%;width:min(46vh,360px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;background:linear-gradient(135deg,#241019,#0e060c);}
+  .hb-cover-css .fb-title{position:static;font-family:var(--font-display);font-size:2rem;color:var(--fb-foil,#e3b968);text-align:center;}
+  .hb-cover-css .fb-crescent{position:static;font-size:2.6rem;color:var(--fb-foil,#e3b968);}
+  .hb-cover-css .fb-by{color:color-mix(in srgb,var(--fb-foil,#e3b968) 80%,#fff);letter-spacing:.3em;font-size:.7rem;}
+  .hb-blurb{font-family:var(--font-narrator,serif);font-style:italic;font-size:.98rem;color:rgba(240,232,216,.66);text-align:center;max-width:44ch;margin:0;}
+  .hb-opts{display:flex;flex-direction:column;gap:.6rem;align-items:center;}
+  .hb-opt{font-family:var(--font-book);font-variant:small-caps;letter-spacing:.1em;font-size:1.1rem;padding:.58rem 2rem;border-radius:3px;cursor:pointer;transition:background .3s,color .3s;min-width:248px;text-align:center;}
+  .hb-opt.primary{background:transparent;border:1px solid var(--fb-foil,#e3b968);color:var(--fb-foil,#e3b968);}
+  .hb-opt.primary:hover{background:var(--fb-foil,#e3b968);color:#0a0710;}
+  .hb-opt.buy{background:transparent;border:1px solid rgba(233,183,199,.6);color:#e9b7c7;}
+  .hb-opt.buy:hover{background:#e9b7c7;color:#0a0710;}
+  .hb-opt.ghost{background:transparent;border:none;color:rgba(240,232,216,.5);font-size:.95rem;letter-spacing:.14em;min-width:0;}
+  .hb-opt.ghost:hover{color:rgba(240,232,216,.9);}
+  .housebook-read{max-width:760px;}
+  .hb-crest{display:flex;justify-content:center;align-items:center;height:100%;color:#4a3620;}
+  .crestsvg{width:min(42%,160px);height:auto;}
+  .housebook-read .book-page.right{justify-content:center;text-align:center;}
+  .hb-tp-title{display:block;font-family:var(--font-display);font-weight:600;font-size:clamp(1.4rem,3.4vw,2rem);line-height:1.06;color:#33261a;letter-spacing:.02em;}
+  .hb-tp-sub{display:block;margin-top:.7rem;font-family:var(--font-book);font-style:italic;font-size:1rem;color:#7a5a3a;}
+  .hb-tp-orn{display:block;margin:1.2rem 0;color:#9a5266;font-size:1rem;}
+  .hb-tp-kind{display:block;font-family:var(--font-book);font-size:1.1rem;color:#8a3a50;letter-spacing:.04em;}
+  .hb-tp-by{display:block;margin-top:.4rem;font-family:var(--font-book);font-style:italic;font-size:.9rem;color:#7a5a3a;}
+  .hb-tp-pen{display:block;margin-top:.3rem;font-family:var(--font-book);font-weight:600;letter-spacing:.28em;font-size:1rem;color:#33261a;}
+  /* preview text, dark and readable on the parchment pages */
+  .book-page .fb-epi{color:#3a2c1a;} .book-page .fb-epi-by{color:#7a5a2e;}
+  .book-page .fb-chh{color:#9a5266;} .book-page .fb-cht{color:#33261a;} .book-page .fb-chs{color:#7a5a3a;}
+  .book-page .fb-sec{color:#8a3a50;} .book-page .fb-body{color:#3a2c1a;}
+  .book-page .fb-pull2{color:#5a3040;} .book-page .fb-disc{color:#3a2c1a;}
+  .book-page .fb-close{color:#33261a;} .book-page .fb-close2{color:#8a3a50;} .book-page .fb-soon{color:#6a5836;}
+  .housebook-read .book-page{justify-content:center;cursor:pointer;} .housebook-read .fb-body,.housebook-read .fb-disc{text-align:left;}
+  .housebook-read .fb-nav{width:24%;opacity:0;} .housebook-read .book-spread:hover .fb-nav{opacity:.3;} .housebook-read .fb-nav:hover{opacity:.9!important;}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
 </style>
 </head>
@@ -734,6 +913,8 @@ function page(z){
   var env=document.getElementById('env'), img=document.getElementById('envimg');
   img.onerror=function(){ img.removeAttribute('src'); };
   img.src=ZONE.asset;
+  if(ZONE.fit==='contain') env.classList.add('contain');
+  if(ZONE.baked) document.body.classList.add('baked'); // hide engine chrome; the plate carries its own title/nav
   var today=new Date(); var daySeed=today.getFullYear()*1000+(today.getMonth()*31+today.getDate());
   function rand(n){ var x=Math.sin(daySeed*97.13+n*13.7)*10000; return x-Math.floor(x); }
   function hashId(s){ var n=0; for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))%99991; return n; }
@@ -773,6 +954,7 @@ function page(z){
     if(h.cat==='featured' && ZONE.featured) return; // rendered as its own book layer
     var s=document.createElement('div'); s.className='spot'+(h.cat==='cat'?' astro':''); s.tabIndex=0; s.setAttribute('role','button'); s.setAttribute('aria-label',h.name+' — '+h.line);
     s.style.left=h.x+'%'; s.style.top=h.y+'%';
+    if(h.x>=72) s.classList.add('wR'); else if(h.x<=28) s.classList.add('wL');
     if(h.w) s.style.setProperty('--sw',h.w+'%'); if(h.h) s.style.setProperty('--sh',h.h+'%');
     var verb = h.verb ? '<span class="wn">'+h.verb+' \\u2192</span>' : '';
     s.innerHTML='<span class="wake"></span><span class="whisper"><span class="wl">'+h.line+'</span>'+verb+'</span>';
@@ -789,6 +971,7 @@ function page(z){
       var sp=A.spots[Math.floor(rand(hashId(ZONE.id+'-spot'))*A.spots.length)%A.spots.length];
       var a=document.createElement('div'); a.className='astro'+(sp.flip?' flip':''); a.tabIndex=0; a.setAttribute('role','button'); a.setAttribute('aria-label','Astro — '+A.line);
       a.style.left=sp.x+'%'; a.style.top=sp.y+'%'; a.style.width=A.w+'%';
+      if(sp.x>=72) a.classList.add('wR'); else if(sp.x<=28) a.classList.add('wL');
       a.innerHTML='<span class="aground"></span><span class="aglow"></span><div class="abody"><img class="aopen" src="/assets/astro/'+sp.pose+'.png" alt="Astro"/></div><span class="whisper"><span class="wl">'+A.line+'</span></span>';
       env.appendChild(a);
       var abusy=false, an=0;
@@ -811,6 +994,7 @@ function page(z){
     if(item){
       var b=document.createElement('div'); b.className='bookobj promo'; b.tabIndex=0; b.setAttribute('role','button'); b.setAttribute('aria-label',item.title+' — '+LB.whisper);
       b.style.left=LB.x+'%'; b.style.top=LB.y+'%'; b.style.width=LB.w+'%';
+      if(LB.x>=72) b.classList.add('wR'); else if(LB.x<=28) b.classList.add('wL');
       b.style.setProperty('--fb-cover',item.cover); b.style.setProperty('--fb-foil',item.foil);
       var pcov = item.coverImg ? '<img class="bcov" src="'+item.coverImg+'" alt="'+item.title+'"/><span class="bfoil" style="display:none">'+item.title+'</span>' : '<span class="bfoil">'+item.title+'</span>';
       b.innerHTML='<span class="bshadow"></span><span class="bglow"></span><div class="bcover">'+pcov+'</div><span class="ribbon-band"></span><span class="whisper"><span class="wl">'+LB.whisper+'</span><span class="wn">'+LB.verb+' \\u2192</span></span>';
@@ -833,6 +1017,7 @@ function page(z){
 
   // dispatch by category
   function activate(h,s){
+    if(h.art==='mirror'){ openMirror(h,s); return; } // the Mirror answers in-world, never a modal
     var c=h.cat||'artifact';
     if(c==='artifact'){ openArtifact(h); }
     else if(c==='rare'){ if(rand(hashId(h.id)+1)>0.45){ openArtifact(h); } else { floatLine(h.x,h.y-5, h.closed||'Nothing gives, tonight.'); flashWake(s); } }
@@ -874,6 +1059,7 @@ function page(z){
     if(!h.route){ floatLine(h.x,h.y-5,'This way isn’t open yet.'); return; }
     if(moving) return; moving=true;
     if(reduce){ location.href=h.route; return; }
+    if(ZONE.baked){ roomfade.classList.add('on'); setTimeout(function(){ location.href=h.route; },600); return; }
     parallaxOff=true; env.style.transition='transform 1.15s cubic-bezier(.5,0,.72,0)'; env.style.transformOrigin=h.x+'% '+h.y+'%';
     env.style.transform='translate(-50%,-50%) scale(2.6)';
     roomfade.classList.add('on');
@@ -1036,6 +1222,24 @@ function page(z){
     ov.querySelector('.kr-inner').innerHTML='<div class="kr-unlock"><span class="kr-key">\\uD83D\\uDDDD</span><p class="kr-line show2">Unlocking\\u2026</p><p class="kr-line show2 d1">The House remembers you.</p><span class="kr-door">\\uD83D\\uDEAA</span><p class="kr-line show2 d2">'+(signin?'Welcome home.':'Your room is ready. Welcome home.')+'</p></div>';
     setTimeout(function(){ ov.classList.add('gone'); setTimeout(function(){ if(ov.parentNode) ov.parentNode.removeChild(ov); },1400); }, 3200);
   }
+  // The Mirror never opens a modal. The room's own glass shimmers and a line rises;
+  // if there's something to keep, a quiet in-world prompt appears over the glass.
+  function openMirror(h,s){
+    var rip=document.createElement('div'); rip.className='mirror-ripple'; rip.style.left=h.x+'%'; rip.style.top=h.y+'%';
+    env.appendChild(rip); setTimeout(function(){ if(rip.parentNode) rip.parentNode.removeChild(rip); },2500);
+    flashWake(s);
+    var line=(h.title||h.line||'The glass holds a moment longer.').replace(/^[\\u201C"]|[\\u201D"]$/g,'');
+    floatLine(h.x, Math.max(8,h.y-9), line);
+    if(h.cat==='rare' && !inColl(h.id)){
+      setTimeout(function(){
+        var k=document.createElement('div'); k.className='mirror-keep'; k.style.left=h.x+'%'; k.style.top=(h.y+7)+'%';
+        k.innerHTML='<button class="mk-btn">Keep what you saw</button>';
+        env.appendChild(k);
+        k.querySelector('.mk-btn').onclick=function(){ keep({id:h.id,title:h.title,kind:h.kind||'Reflection'}); toast('Kept what the glass showed you.'); if(k.parentNode) k.parentNode.removeChild(k); };
+        setTimeout(function(){ if(k.parentNode) k.parentNode.removeChild(k); },5200);
+      }, 850);
+    }
+  }
   function openArtifact(h){
     var t=h.art||typeOf(h.kind), rar=rarityOf(h,h.kind), kept=inColl(h.id);
     av.className='av open r-'+rar; var html='';
@@ -1060,12 +1264,16 @@ function page(z){
         rightHTML='<div class="art-body">'+h.body+'</div>';
         foot=actBtns({read:'Read',keep:'Keep in My Room',close:'Return to Shelf',kept:kept});
       }
-      html='<div class="art book">'+ribbons+'<button class="tome-x" data-close aria-label="Close">\\u00D7</button>'+
-        '<div class="book-spread">'+corners+
-          '<div class="book-page left">'+leftHTML+'</div>'+
-          '<div class="book-page right">'+rightHTML+extra+'</div>'+
-          '<span class="book-gutter"></span></div>'+
-        '<div class="book-foot">'+foot+'</div></div>';
+      if(h.id==='you-journal'){ leftHTML+='<div class="jr-flourish"><span class="jr-moon">\\u263E&nbsp; '+phase+'</span><span class="jr-pageno">page '+today.getDate()+'</span></div>'; }
+      html='<div class="art tome-book'+(h.id==='you-journal'?' journal':'')+'">'+
+        '<div class="tome-wrap">'+ribbons+
+          '<div class="book-spread">'+corners+
+            '<div class="book-page left">'+leftHTML+'</div>'+
+            '<div class="book-page right">'+rightHTML+extra+'</div>'+
+            '<span class="book-gutter"></span></div>'+
+          '<button class="tome-clasp" data-close aria-label="Close the book"><span></span></button>'+
+        '</div>'+
+        '<div class="tome-actions">'+foot+'</div></div>';
     } else if(t==='letter'){
       html='<div class="art art-paper letter" id="artletter"><div class="seal" id="artseal" title="Break the seal"></div>'+
         '<p class="prompt">The wax is unbroken. Break the seal.</p>'+
@@ -1095,56 +1303,74 @@ function page(z){
   function openShelf(){
     var books=ZONE.books||[];
     av.className='av open r-common';
-    var spines=books.map(function(it,i){ return '<button class="shelf-spine" data-i="'+i+'" style="--sp:'+it.spine+';--spf:'+it.foil+'" aria-label="'+it.title+'"><span class="sp-title">'+it.title+'</span></button>'; }).join('');
+    var spines=books.map(function(it,i){ var st=(it.spineImg?'background-image:url('+it.spineImg+');background-size:cover;background-position:center;':''); return '<button class="shelf-spine'+(it.soonTitle?' soon':'')+'" data-i="'+i+'" style="--sp:'+it.spine+';--spf:'+it.foil+';'+st+'" aria-label="'+(it.short||it.title)+'">'+(it.spineImg?'':'<span class="sp-title">'+(it.short||it.title)+'</span>')+'</button>'; }).join('');
     avhold.innerHTML='<div class="lorewrap"><div class="art art-scroll art-gold-edge collroll shelf-view"><span class="art-kind">'+(ZONE.collectionLabel||'The Collection')+'</span><h2 class="art-title">An author’s own shelf</h2><p class="shelf-sub">Pull a book down to read a little before you take it home.</p><div class="shelf-row">'+spines+'</div><div class="art-acts"><button class="art-act" data-close>Close the shelf</button></div></div></div>';
     avhold.querySelectorAll('.shelf-spine').forEach(function(bn){ bn.onclick=function(){ openBook(books[+bn.getAttribute('data-i')], null); }; });
     avhold.querySelector('[data-close]').onclick=close;
   }
   // ===== A BOOK OPENS — cover turns, spread reads, then "take this with you" =====
+  // A House Book. CINEMATIC: the hardcover lifts and fills the screen first — Apple
+  // Books meets Hogwarts — with three quiet options. Only "Read Preview" opens the
+  // leather-bound pages. "Purchase" goes to Shopify; because the House remembers what
+  // you own, it becomes "Continue Reading" forever after.
+  var CREST_SVG='<svg viewBox="0 0 120 120" class="crestsvg" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="60" cy="60" r="40" opacity=".5"/></g><path d="M72 36a30 30 0 1 0 12 40A24 24 0 1 1 72 36z" fill="currentColor"/><g stroke="currentColor" stroke-width="1" fill="none" opacity=".7"><path d="M60 14c-3 6-3 11 0 15 3-4 3-9 0-15zM60 106c-3-6-3-11 0-15 3 4 3 9 0 15zM14 60c6-3 11-3 15 0-4 3-9 3-15 0zM106 60c-6-3-11-3-15 0 4 3 9 3 15 0zM28 28c6 1 10 4 12 9-5-2-9-5-12-9zM92 92c-6-1-10-4-12-9 5 2 9 5 12 9zM92 28c-1 6-4 10-9 12 2-5 5-9 9-12zM28 92c1-6 4-10 9-12-2 5-5 9-9 12z"/></g></svg>';
   function openBook(item, srcEl){
     if(!item) return;
     if(srcEl){ srcEl.classList.remove('awake'); srcEl.classList.add('lift'); }
     av.className='av open r-uncommon';
     av.style.setProperty('--fb-cover',item.cover); av.style.setProperty('--fb-foil',item.foil);
-    var FB=item, kept=inColl('book-'+FB.slug);
-    var coverHTML = FB.coverImg ? '<img id="fbcimg" src="'+FB.coverImg+'" alt="'+FB.title+'"/>' : '<span class="fb-crescent">\\u263D</span><div><span class="fb-title">'+FB.title+'</span><span class="fb-by">'+FB.author+'</span></div>';
-    avhold.innerHTML='<div class="lorewrap"><div class="art fbook">'+
-      '<div class="tome-ribbons"><span class="ribbon r1"></span><span class="ribbon r2"></span><span class="ribbon r3"></span></div>'+
-      '<button class="tome-x" id="fbx" aria-label="Close">\\u00D7</button>'+
-      '<div class="fb-stage">'+
-        '<div class="fb-cover-card" id="fbcover">'+coverHTML+'<span class="fb-tag">'+FB.tagline+'</span></div>'+
-        '<div class="fb-spread" id="fbspread"><span class="gold-corner tl"></span><span class="gold-corner tr"></span><span class="gold-corner bl"></span><span class="gold-corner br"></span><span class="fb-gutter"></span>'+
-          '<div class="fb-pg left" id="fbL"></div><div class="fb-pg right" id="fbR"></div>'+
-          '<button class="fb-nav prev" id="fbprev" aria-label="Previous page">\\u2039</button>'+
-          '<button class="fb-nav next" id="fbnext" aria-label="Next page">\\u203A</button>'+
-          '<span class="fb-pager" id="fbpager"></span>'+
+    var owned=inColl('book-'+item.slug), buyable=!!item.href;
+    var coverInner = item.coverImg ? '<img id="hbcimg" src="'+item.coverImg+'" alt="'+item.title+'"/>' : '<div class="hb-cover-css"><span class="fb-crescent">\\u263D</span><span class="fb-title">'+item.title+'</span><span class="fb-by">'+item.author+'</span></div>';
+    var opts = owned
+      ? '<button class="hb-opt primary" id="hbread">Continue Reading</button>'
+      : '<button class="hb-opt primary" id="hbread">Read Preview</button>'+(buyable?'<button class="hb-opt buy" id="hbbuy">Purchase &middot; $'+item.price+'</button>':'');
+    opts += '<button class="hb-opt ghost" id="hbreturn">Return to the Room</button>';
+    avhold.innerHTML='<div class="lorewrap"><div class="art housebook" id="hbook">'+
+      '<div class="hb-cover-stage" id="hbcoverstage"><div class="hb-cover">'+coverInner+'</div>'+
+        '<p class="hb-blurb">'+(item.blurb||'')+'</p><div class="hb-opts">'+opts+'</div></div>'+
+      '<div class="hb-read" id="hbreadstage" style="display:none">'+
+        '<div class="art tome-book housebook-read">'+
+          '<div class="tome-wrap"><div class="tome-ribbons"><span class="ribbon r1"></span><span class="ribbon r2"></span><span class="ribbon r3"></span></div>'+
+            '<div class="book-spread"><span class="gold-corner tl"></span><span class="gold-corner tr"></span><span class="gold-corner bl"></span><span class="gold-corner br"></span>'+
+              '<div class="book-page left" id="hbL"></div><div class="book-page right" id="hbR"></div><span class="book-gutter"></span>'+
+              '<button class="fb-nav prev" id="hbprev" aria-label="Previous page">\\u2039</button>'+
+              '<button class="fb-nav next" id="hbnext" aria-label="Next page">\\u203A</button>'+
+              '<span class="fb-pager" id="hbpager"></span></div>'+
+            '<button class="tome-clasp" id="hbclose" aria-label="Close the book"><span></span></button></div>'+
+          '<div class="tome-actions">'+((owned||!buyable)?'':'<button class="art-act" id="hbbuy2">Purchase &middot; $'+item.price+'</button>')+'<button class="art-act" id="hbback">Return to the Room</button></div>'+
         '</div>'+
       '</div>'+
-      '<div class="fb-foot"><p class="fb-blurb">'+FB.blurb+'</p>'+
-        '<div class="fb-acts tome"><button class="fb-take'+(kept?' kept':'')+'" id="fbtake">'+(kept?'On your shelf \\u2713':FB.take)+'</button>'+
-        '<button class="fb-leave" id="fbleave">Leave it for now</button></div></div>'+
-      '</div></div>';
+    '</div></div>';
     spawnParticles('uncommon');
-    var fbx=document.getElementById('fbx'); if(fbx) fbx.onclick=close;
-    var ci=document.getElementById('fbcimg'); if(ci){ ci.onerror=function(){ var cc=document.getElementById('fbcover'); ci.remove(); if(cc&&!cc.querySelector('.fb-title')) cc.insertAdjacentHTML('afterbegin','<div><span class="fb-title">'+FB.title+'</span><span class="fb-by">'+FB.author+'</span></div>'); }; }
-    var pg=0, L=document.getElementById('fbL'), R=document.getElementById('fbR'), pager=document.getElementById('fbpager'),
-        spread=document.getElementById('fbspread'), cover=document.getElementById('fbcover'),
-        prev=document.getElementById('fbprev'), next=document.getElementById('fbnext');
-    function draw(){ var s=FB.spread[pg]; L.innerHTML=s.l; R.innerHTML=s.r; L.classList.remove('turning'); R.classList.remove('turning'); void L.offsetWidth; L.classList.add('turning'); R.classList.add('turning'); pager.textContent=(pg+1)+' / '+FB.spread.length; prev.style.visibility=pg?'visible':'hidden'; next.style.visibility=(pg<FB.spread.length-1)?'visible':'hidden'; }
-    var openIt=function(){ cover.style.display='none'; spread.classList.add('show'); draw(); };
-    if(reduce){ openIt(); } else { setTimeout(function(){ cover.classList.add('opening'); setTimeout(openIt,760); }, 1000); }
-    prev.onclick=function(){ if(pg>0){ pg--; draw(); } };
-    next.onclick=function(){ if(pg<FB.spread.length-1){ pg++; draw(); } };
-    var takeBtn=document.getElementById('fbtake'); if(!kept) takeBtn.onclick=function(){ takeBook(FB,takeBtn,srcEl); };
-    document.getElementById('fbleave').onclick=close;
+    var ci=document.getElementById('hbcimg'); if(ci){ ci.onerror=function(){ var c=document.querySelector('.hb-cover'); ci.remove(); if(c) c.innerHTML='<div class="hb-cover-css"><span class="fb-crescent">\\u263D</span><span class="fb-title">'+item.title+'</span><span class="fb-by">'+item.author+'</span></div>'; }; }
+    // the pages: a title page, then the preview spreads
+    var titlePage={ l:'<span class="hb-crest">'+CREST_SVG+'</span>',
+      r:'<span class="hb-tp-title">'+item.title+'</span>'+(item.tagline?'<span class="hb-tp-sub">'+item.tagline+'</span>':'')+'<span class="hb-tp-orn">\\u2726</span><span class="hb-tp-kind">A House Book</span><span class="hb-tp-by">by</span><span class="hb-tp-pen">'+((item.pen?item.pen.replace(/^writing as\\s*/i,''):item.author)||'').toUpperCase()+'</span>' };
+    var pages=[titlePage].concat(item.spread||[]);
+    var pg=0, L=document.getElementById('hbL'), R=document.getElementById('hbR'), pager=document.getElementById('hbpager'),
+        prev=document.getElementById('hbprev'), next=document.getElementById('hbnext');
+    function draw(){ var s=pages[pg]; L.innerHTML=s.l; R.innerHTML=s.r; L.classList.remove('turning'); R.classList.remove('turning'); void L.offsetWidth; L.classList.add('turning'); R.classList.add('turning'); pager.textContent=(pg+1)+' / '+pages.length; prev.style.visibility=pg?'visible':'hidden'; next.style.visibility=(pg<pages.length-1)?'visible':'hidden'; }
+    function go(d){ var n=pg+d; if(n>=0&&n<pages.length){ pg=n; draw(); } }
+    prev.onclick=function(e){ e.stopPropagation(); go(-1); }; next.onclick=function(e){ e.stopPropagation(); go(1); };
+    L.onclick=function(){ go(-1); }; R.onclick=function(){ go(1); }; // click a page to turn it, like a real book
+    function openRead(){ document.getElementById('hbcoverstage').style.display='none'; document.getElementById('hbreadstage').style.display='block'; pg=0; draw(); }
+    document.getElementById('hbread').onclick=openRead;
+    document.getElementById('hbreturn').onclick=close;
+    document.getElementById('hbclose').onclick=close;
+    document.getElementById('hbback').onclick=close;
+    var buy1=document.getElementById('hbbuy'), buy2=document.getElementById('hbbuy2');
+    function purchase(){ purchaseBook(item); }
+    if(buy1) buy1.onclick=purchase; if(buy2) buy2.onclick=purchase;
   }
-  function takeBook(item, btn, srcEl){
-    if(!item.href){ toast(item.soon); return; }
+  function purchaseBook(item){
+    if(!item.href){ toast(item.soon||'The shop opens soon.'); return; }
     try{ window.open(item.href,'_blank'); }catch(e){}
-    keep({id:'book-'+item.slug, title:item.title, kind:'Book', zone:'Luna’s shelves'}); // returns to the buyer's own shelf
-    if(btn){ btn.textContent='On your shelf \\u2713'; btn.classList.add('kept'); btn.onclick=null; }
-    houseReacts(); toast(item.returned);
-    setTimeout(function(){ close(); if(srcEl){ srcEl.classList.add('gone'); setTimeout(function(){ srcEl.classList.remove('gone'); },1500); } }, 1500);
+    // The House remembers what you own — mark it so the book simply opens next time.
+    keep({id:'book-'+item.slug, title:item.title, kind:'Book', zone:'Luna’s shelves'});
+    houseReacts(); toast(item.returned||'The House remembers what you brought home.');
+    var buy1=document.getElementById('hbbuy'); if(buy1) buy1.remove();
+    var read1=document.getElementById('hbread'); if(read1) read1.textContent='Continue Reading';
+    var buy2=document.getElementById('hbbuy2'); if(buy2) buy2.remove();
   }
   function spawnParticles(rar){ avp.innerHTML=''; var n=rar==='legendary'?30:(rar==='rare'?16:(rar==='uncommon'?8:0));
     for(var i=0;i<n;i++){ var p=document.createElement('span'); p.className='p'; p.style.left=(6+Math.random()*88).toFixed(1)+'%'; p.style.top=(30+Math.random()*60).toFixed(1)+'%'; p.style.animationDuration=(4+Math.random()*5).toFixed(1)+'s'; p.style.animationDelay=(-Math.random()*5).toFixed(1)+'s'; avp.appendChild(p); } }
@@ -1159,7 +1385,7 @@ function page(z){
     m.style.left=(4+Math.random()*92).toFixed(1)+'%'; m.style.top=(10+Math.random()*80).toFixed(1)+'%';
     if(reduce){ m.style.opacity='0.35'; } else { m.style.setProperty('--dx',(Math.random()*8-4).toFixed(0)+'px'); m.style.animation='rise '+(7+Math.random()*7).toFixed(1)+'s linear '+(-Math.random()*12).toFixed(1)+'s infinite'; } dust.appendChild(m); }
   var parallaxOff=false;
-  if(!reduce && !touch){ addEventListener('mousemove',function(e){ if(parallaxOff||dwelling||moving) return; var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transition='transform .3s var(--ease)'; env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
+  if(!reduce && !touch && !ZONE.baked){ addEventListener('mousemove',function(e){ if(parallaxOff||dwelling||moving) return; var px=(e.clientX/innerWidth-.5),py=(e.clientY/innerHeight-.5); env.style.transition='transform .3s var(--ease)'; env.style.transform='translate(calc(-50% + '+(-px*10).toFixed(1)+'px), calc(-50% + '+(-py*7).toFixed(1)+'px))'; },{passive:true}); }
   // touch: drag the camera to look around the room; a still tap reaches objects
   if(touch){
     var hintEl=document.querySelector('.hint'); if(hintEl) hintEl.textContent='Drag to look around · tap once to reveal, twice to touch';

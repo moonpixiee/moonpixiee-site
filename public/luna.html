@@ -439,6 +439,45 @@
     .keeplist{grid-template-columns:1fr 1fr;} .shelf-spine{width:clamp(38px,13vw,50px);height:clamp(140px,26vh,180px);}
   }
   @media (max-height:640px){ .tome-book .book-spread,.fb-stage{height:min(74vh,340px);} }
+  /* ===== A HOUSE BOOK — cinematic cover-first, then the leather-bound pages ===== */
+  .housebook{display:flex;flex-direction:column;align-items:center;}
+  .hb-cover-stage{display:flex;flex-direction:column;align-items:center;gap:1.2rem;max-height:94vh;}
+  .hb-cover{height:min(64vh,600px);max-width:88vw;position:relative;border-radius:3px 7px 7px 3px;overflow:hidden;
+    box-shadow:0 50px 120px -26px rgba(0,0,0,.92), 0 0 0 1px rgba(198,160,90,.2), -10px 0 22px -10px rgba(0,0,0,.7);background:#0a0710;}
+  .hb-cover img{height:100%;width:auto;max-width:88vw;object-fit:contain;display:block;}
+  .av.open .hb-cover{animation:hbCoverIn 1.15s var(--ease) both;}
+  @keyframes hbCoverIn{0%{opacity:0;transform:translateY(46px) rotateY(-20deg) scale(.8);}100%{opacity:1;transform:translateY(0) rotateY(0) scale(1);}}
+  .hb-cover-css{height:100%;width:min(46vh,360px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;background:linear-gradient(135deg,#241019,#0e060c);}
+  .hb-cover-css .fb-title{position:static;font-family:var(--font-display);font-size:2rem;color:var(--fb-foil,#e3b968);text-align:center;}
+  .hb-cover-css .fb-crescent{position:static;font-size:2.6rem;color:var(--fb-foil,#e3b968);}
+  .hb-cover-css .fb-by{color:color-mix(in srgb,var(--fb-foil,#e3b968) 80%,#fff);letter-spacing:.3em;font-size:.7rem;}
+  .hb-blurb{font-family:var(--font-narrator,serif);font-style:italic;font-size:.98rem;color:rgba(240,232,216,.66);text-align:center;max-width:44ch;margin:0;}
+  .hb-opts{display:flex;flex-direction:column;gap:.6rem;align-items:center;}
+  .hb-opt{font-family:var(--font-book);font-variant:small-caps;letter-spacing:.1em;font-size:1.1rem;padding:.58rem 2rem;border-radius:3px;cursor:pointer;transition:background .3s,color .3s;min-width:248px;text-align:center;}
+  .hb-opt.primary{background:transparent;border:1px solid var(--fb-foil,#e3b968);color:var(--fb-foil,#e3b968);}
+  .hb-opt.primary:hover{background:var(--fb-foil,#e3b968);color:#0a0710;}
+  .hb-opt.buy{background:transparent;border:1px solid rgba(233,183,199,.6);color:#e9b7c7;}
+  .hb-opt.buy:hover{background:#e9b7c7;color:#0a0710;}
+  .hb-opt.ghost{background:transparent;border:none;color:rgba(240,232,216,.5);font-size:.95rem;letter-spacing:.14em;min-width:0;}
+  .hb-opt.ghost:hover{color:rgba(240,232,216,.9);}
+  .housebook-read{max-width:760px;}
+  .hb-crest{display:flex;justify-content:center;align-items:center;height:100%;color:#4a3620;}
+  .crestsvg{width:min(42%,160px);height:auto;}
+  .housebook-read .book-page.right{justify-content:center;text-align:center;}
+  .hb-tp-title{display:block;font-family:var(--font-display);font-weight:600;font-size:clamp(1.4rem,3.4vw,2rem);line-height:1.06;color:#33261a;letter-spacing:.02em;}
+  .hb-tp-sub{display:block;margin-top:.7rem;font-family:var(--font-book);font-style:italic;font-size:1rem;color:#7a5a3a;}
+  .hb-tp-orn{display:block;margin:1.2rem 0;color:#9a5266;font-size:1rem;}
+  .hb-tp-kind{display:block;font-family:var(--font-book);font-size:1.1rem;color:#8a3a50;letter-spacing:.04em;}
+  .hb-tp-by{display:block;margin-top:.4rem;font-family:var(--font-book);font-style:italic;font-size:.9rem;color:#7a5a3a;}
+  .hb-tp-pen{display:block;margin-top:.3rem;font-family:var(--font-book);font-weight:600;letter-spacing:.28em;font-size:1rem;color:#33261a;}
+  /* preview text, dark and readable on the parchment pages */
+  .book-page .fb-epi{color:#3a2c1a;} .book-page .fb-epi-by{color:#7a5a2e;}
+  .book-page .fb-chh{color:#9a5266;} .book-page .fb-cht{color:#33261a;} .book-page .fb-chs{color:#7a5a3a;}
+  .book-page .fb-sec{color:#8a3a50;} .book-page .fb-body{color:#3a2c1a;}
+  .book-page .fb-pull2{color:#5a3040;} .book-page .fb-disc{color:#3a2c1a;}
+  .book-page .fb-close{color:#33261a;} .book-page .fb-close2{color:#8a3a50;} .book-page .fb-soon{color:#6a5836;}
+  .housebook-read .book-page{justify-content:center;cursor:pointer;} .housebook-read .fb-body,.housebook-read .fb-disc{text-align:left;}
+  .housebook-read .fb-nav{width:24%;opacity:0;} .housebook-read .book-spread:hover .fb-nav{opacity:.3;} .housebook-read .fb-nav:hover{opacity:.9!important;}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
 </style>
 </head>
@@ -461,7 +500,7 @@
   <div class="fade" aria-hidden="true"></div>
 <script>
 (function(){
-  var ZONE = {"id":"luna","title":"Luna's Room","asset":"/assets/lunas-room-env.png","hotspots":[{"id":"luna-pc","cat":"network","name":"The Computer","line":"The screen just says LUNA.","verb":"Boot MoonNet","x":18,"y":50},{"id":"luna-mood","cat":"lore","kind":"Moodboard","name":"The Moodboard","line":"A wall of pinned images.","verb":"Look closer","x":10,"y":28,"title":"The wall she thinks against","body":"Everything Luna is chasing, pinned where she has to see it. Half of the House started as something on this wall."},{"id":"luna-city","cat":"lore","kind":"The Glass","name":"The City View","line":"A city glittering in the rain.","verb":"Look out","x":33,"y":30,"w":11,"h":18,"title":"The city she watches from","body":"The House sits above a city that never quite sleeps. She likes the lights on and the sound off — the world at a distance she can choose."},{"id":"luna-bed","cat":"passage","name":"The Canopy Bed","line":"Velvet and shadow.","verb":"Rest","x":60,"y":56,"narration":"You sink into the velvet. The candles keep their small vigil, the city glows far below, and the whole House goes quiet around you. This is where Luna comes to disappear for a while."},{"id":"luna-altar","cat":"artifact","kind":"The Altar","name":"The Altar","line":"Amethyst, catching the candlelight.","verb":"Set an intention","x":66,"y":90,"rarity":"uncommon","title":"The intention stone","body":"Luna keeps a stone here for whatever she’s trying to call in. Take one with you — hold whatever you’re hoping for while you do.\n\nKeep it. Intentions travel better with something to carry them."},{"id":"luna-shelf","cat":"lore","kind":"Curios","name":"The Shelves","line":"Bottles, candles, small kept things.","verb":"Look closer","x":82,"y":38,"title":"A life in small objects","body":"Nothing here is expensive. Everything here is chosen. That’s the whole difference between a room and a sanctuary."},{"id":"luna-collection","cat":"collection-shelf","name":"Luna’s Collection","line":"A shelf of her own books.","verb":"Browse the shelf","x":95,"y":56,"w":6,"h":16},{"id":"luna-neon","cat":"ambient","name":"The Neon","line":"“Dark Soft Energy.”","verb":"","x":87,"y":13,"react":"The neon hums, pink against the dark. It’s a promise she made to herself. It’s holding."},{"id":"luna-vinyl","cat":"ambient","name":"The Records","line":"Something is always playing.","verb":"","x":82,"y":40,"react":"A record turns somewhere in the dark. The room fills with something slow, and Luna-shaped."},{"id":"luna-candles","cat":"ambient","name":"The Candles","line":"A hundred small flames.","verb":"","x":8,"y":60,"react":"She lights them one at a time, most nights. The room breathes a little warmer."},{"id":"luna-book","cat":"artifact","kind":"Journal","name":"A Spellbook","line":"Left open by the chaise.","verb":"Read","x":74,"y":94,"title":"Not a spellbook, really","body":"She calls it that. It’s a journal with ambitions — half diary, half instructions to a future version of herself.\n\nThe latest page is about you, a little. About whoever finally wandered all the way in here."}],"astro":{"w":11,"line":"He guards Luna’s sanctuary.","reacts":["He has claimed the warmest corner, as is his right.","He blinks at you, slow, from the velvet.","A soft purr — you passed some test you didn’t know about."],"absent":true,"spots":[{"x":66,"y":80,"pose":"loaf"},{"x":40,"y":93,"pose":"sit"},{"x":90,"y":82,"pose":"curl"}]},"intro":false,"network":false,"books":[{"slug":"dark-feminine-energy","title":"Mastering Your Dark Feminine Energy","short":"Dark Feminine Energy","author":"Luna Lee","pen":"writing as Moonpixiee","skin":"dark","cover":"#0d0a12","spine":"#0d0a12","foil":"#e9b7c7","coverImg":"/assets/books/dark-feminine-energy.png","spineImg":"/assets/books/dfe-spine.png","tagline":"The power you were never taught to claim","blurb":"Your initiation into the most magnetic, confident, and untouchable version of you — reclaim your power, set unshakable boundaries, and stop seeking permission to take up space.","spread":[{"l":"<span class=\"fb-epi\">“The most powerful woman in the room is the one who needs nothing from it.”</span><span class=\"fb-epi-by\">— Robert Greene, <em>The Art of Seduction</em></span>","r":"<span class=\"fb-chh\">Introduction</span><span class=\"fb-cht\">Understanding Dark Feminine Energy</span><span class=\"fb-chs\">The power you were never taught to claim</span>"},{"l":"<span class=\"fb-sec\">A Letter to the Woman Who Lost Herself</span><span class=\"fb-body\">She was the perfect one. Always agreeable. Always available. She bent herself into every shape someone else needed and called it kindness.<br><br>But deep down — in the quiet place she never let anyone see — she was exhausted. And she was empty.<br><br>That woman was me.</span>","r":"<span class=\"fb-pull2\">“She wasn’t broken. She was unfinished. And the moment she stopped apologizing for that — she became dangerous.”</span>"},{"l":"<span class=\"fb-chh\">Inside you’ll discover</span><span class=\"fb-disc\">The truth about dark feminine energy — and why it’s your greatest power.<br><br>How to stop people-pleasing and start choosing yourself.<br><br>The art of boundaries, mystery, and self-possession.<br><br>Daily practices to embody your most powerful self.</span>","r":"<span class=\"fb-close\">You are not too much.<br>You are not difficult.<br>You are awakening.</span><span class=\"fb-close2\">Now become unforgettable.</span>"}],"take":"Take this with you","href":null,"soon":"The shop opens in a breath — it’ll be yours to take home soon.","returned":"The House remembers what you brought home. It’s on your shelf now."},{"slug":"becoming","title":"Becoming","short":"Becoming","author":"Luna Lee","skin":"dark","soonTitle":true,"cover":"#141a24","spine":"#0e141c","foil":"#c6b2d0","coverImg":"/assets/books/becoming.png","tagline":"Coming soon","blurb":"On unbecoming everything you were told to be, and building someone truer in the ruins.","spread":[{"l":"<span class=\"fb-soon\">This one isn’t finished yet.</span>","r":"<span class=\"fb-soon fb-muted\">Luna’s still writing it. When it’s ready, it’ll appear on this shelf.</span>"}],"take":"Notify me when it’s here","href":null,"soon":"Not out yet — the House will let you know when Becoming arrives.","returned":""},{"slug":"house-of-luna","title":"House of Luna","short":"House of Luna","author":"Luna Lee","skin":"dark","soonTitle":true,"cover":"#1c1410","spine":"#120c08","foil":"#e3b968","coverImg":"/assets/books/house-of-luna.png","tagline":"Coming soon","blurb":"The book of the House itself — every room, every ritual, every thing worth keeping.","spread":[{"l":"<span class=\"fb-soon\">This one isn’t finished yet.</span>","r":"<span class=\"fb-soon fb-muted\">The House is still being written. Its book will come last.</span>"}],"take":"Notify me when it’s here","href":null,"soon":"Not out yet — the House will let you know when House of Luna arrives.","returned":""}],"launch":null,"collectionLabel":"Luna’s Collection"};
+  var ZONE = {"id":"luna","title":"Luna's Room","asset":"/assets/lunas-room-env.png","hotspots":[{"id":"luna-pc","cat":"network","name":"The Computer","line":"The screen just says LUNA.","verb":"Boot MoonNet","x":18,"y":50},{"id":"luna-mood","cat":"lore","kind":"Moodboard","name":"The Moodboard","line":"A wall of pinned images.","verb":"Look closer","x":10,"y":28,"title":"The wall she thinks against","body":"Everything Luna is chasing, pinned where she has to see it. Half of the House started as something on this wall."},{"id":"luna-city","cat":"lore","kind":"The Glass","name":"The City View","line":"A city glittering in the rain.","verb":"Look out","x":33,"y":30,"w":11,"h":18,"title":"The city she watches from","body":"The House sits above a city that never quite sleeps. She likes the lights on and the sound off — the world at a distance she can choose."},{"id":"luna-bed","cat":"passage","name":"The Canopy Bed","line":"Velvet and shadow.","verb":"Rest","x":60,"y":56,"narration":"You sink into the velvet. The candles keep their small vigil, the city glows far below, and the whole House goes quiet around you. This is where Luna comes to disappear for a while."},{"id":"luna-altar","cat":"artifact","kind":"The Altar","name":"The Altar","line":"Amethyst, catching the candlelight.","verb":"Set an intention","x":66,"y":90,"rarity":"uncommon","title":"The intention stone","body":"Luna keeps a stone here for whatever she’s trying to call in. Take one with you — hold whatever you’re hoping for while you do.\n\nKeep it. Intentions travel better with something to carry them."},{"id":"luna-shelf","cat":"lore","kind":"Curios","name":"The Shelves","line":"Bottles, candles, small kept things.","verb":"Look closer","x":82,"y":38,"title":"A life in small objects","body":"Nothing here is expensive. Everything here is chosen. That’s the whole difference between a room and a sanctuary."},{"id":"luna-collection","cat":"collection-shelf","name":"Luna’s Collection","line":"A shelf of her own books.","verb":"Browse the shelf","x":95,"y":56,"w":6,"h":16},{"id":"luna-neon","cat":"ambient","name":"The Neon","line":"“Dark Soft Energy.”","verb":"","x":87,"y":13,"react":"The neon hums, pink against the dark. It’s a promise she made to herself. It’s holding."},{"id":"luna-vinyl","cat":"ambient","name":"The Records","line":"Something is always playing.","verb":"","x":82,"y":40,"react":"A record turns somewhere in the dark. The room fills with something slow, and Luna-shaped."},{"id":"luna-candles","cat":"ambient","name":"The Candles","line":"A hundred small flames.","verb":"","x":8,"y":60,"react":"She lights them one at a time, most nights. The room breathes a little warmer."},{"id":"luna-book","cat":"artifact","kind":"Journal","name":"A Spellbook","line":"Left open by the chaise.","verb":"Read","x":74,"y":94,"title":"Not a spellbook, really","body":"She calls it that. It’s a journal with ambitions — half diary, half instructions to a future version of herself.\n\nThe latest page is about you, a little. About whoever finally wandered all the way in here."}],"astro":{"w":11,"line":"He guards Luna’s sanctuary.","reacts":["He has claimed the warmest corner, as is his right.","He blinks at you, slow, from the velvet.","A soft purr — you passed some test you didn’t know about."],"absent":true,"spots":[{"x":66,"y":80,"pose":"loaf"},{"x":40,"y":93,"pose":"sit"},{"x":90,"y":82,"pose":"curl"}]},"intro":false,"network":false,"books":[{"slug":"dark-feminine-energy","title":"Mastering Your Dark Feminine Energy","short":"Dark Feminine Energy","author":"Luna Lee","pen":"writing as Moonpixiee","skin":"dark","cover":"#0d0a12","spine":"#0d0a12","foil":"#e9b7c7","coverImg":"/assets/books/dark-feminine-energy.png","spineImg":"/assets/books/dfe-spine.png","tagline":"The power you were never taught to claim","blurb":"Your initiation into the most magnetic, confident, and untouchable version of you — reclaim your power, set unshakable boundaries, and stop seeking permission to take up space.","spread":[{"l":"<span class=\"fb-epi\">“The most powerful woman in the room is the one who needs nothing from it.”</span><span class=\"fb-epi-by\">— Robert Greene, <em>The Art of Seduction</em></span>","r":"<span class=\"fb-chh\">Introduction</span><span class=\"fb-cht\">Understanding Dark Feminine Energy</span><span class=\"fb-chs\">The power you were never taught to claim</span>"},{"l":"<span class=\"fb-sec\">A Letter to the Woman Who Lost Herself</span><span class=\"fb-body\">She was the perfect one. Always agreeable. Always available. She bent herself into every shape someone else needed and called it kindness.<br><br>But deep down — in the quiet place she never let anyone see — she was exhausted. And she was empty.<br><br>That woman was me.</span>","r":"<span class=\"fb-pull2\">“She wasn’t broken. She was unfinished. And the moment she stopped apologizing for that — she became dangerous.”</span>"},{"l":"<span class=\"fb-chh\">Inside you’ll discover</span><span class=\"fb-disc\">The truth about dark feminine energy — and why it’s your greatest power.<br><br>How to stop people-pleasing and start choosing yourself.<br><br>The art of boundaries, mystery, and self-possession.<br><br>Daily practices to embody your most powerful self.</span>","r":"<span class=\"fb-close\">You are not too much.<br>You are not difficult.<br>You are awakening.</span><span class=\"fb-close2\">Now become unforgettable.</span>"}],"price":"9.99","href":"https://housesofluna.myshopify.com/products/mastering-your-dark-feminine-energy","returned":"The House remembers what you brought home. It’s yours now."},{"slug":"becoming","title":"Becoming","short":"Becoming","author":"Luna Lee","skin":"dark","soonTitle":true,"cover":"#141a24","spine":"#0e141c","foil":"#c6b2d0","coverImg":"/assets/books/becoming.png","tagline":"Coming soon","blurb":"On unbecoming everything you were told to be, and building someone truer in the ruins.","spread":[{"l":"<span class=\"fb-soon\">This one isn’t finished yet.</span>","r":"<span class=\"fb-soon fb-muted\">Luna’s still writing it. When it’s ready, it’ll appear on this shelf.</span>"}],"take":"Notify me when it’s here","href":null,"soon":"Not out yet — the House will let you know when Becoming arrives.","returned":""},{"slug":"house-of-luna","title":"House of Luna","short":"House of Luna","author":"Luna Lee","skin":"dark","soonTitle":true,"cover":"#1c1410","spine":"#120c08","foil":"#e3b968","coverImg":"/assets/books/house-of-luna.png","tagline":"Coming soon","blurb":"The book of the House itself — every room, every ritual, every thing worth keeping.","spread":[{"l":"<span class=\"fb-soon\">This one isn’t finished yet.</span>","r":"<span class=\"fb-soon fb-muted\">The House is still being written. Its book will come last.</span>"}],"take":"Notify me when it’s here","href":null,"soon":"Not out yet — the House will let you know when House of Luna arrives.","returned":""}],"launch":null,"collectionLabel":"Luna’s Collection"};
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var touch = matchMedia('(hover: none)').matches;
   var env=document.getElementById('env'), img=document.getElementById('envimg');
@@ -860,50 +899,68 @@
     avhold.querySelector('[data-close]').onclick=close;
   }
   // ===== A BOOK OPENS — cover turns, spread reads, then "take this with you" =====
+  // A House Book. CINEMATIC: the hardcover lifts and fills the screen first — Apple
+  // Books meets Hogwarts — with three quiet options. Only "Read Preview" opens the
+  // leather-bound pages. "Purchase" goes to Shopify; because the House remembers what
+  // you own, it becomes "Continue Reading" forever after.
+  var CREST_SVG='<svg viewBox="0 0 120 120" class="crestsvg" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="60" cy="60" r="40" opacity=".5"/></g><path d="M72 36a30 30 0 1 0 12 40A24 24 0 1 1 72 36z" fill="currentColor"/><g stroke="currentColor" stroke-width="1" fill="none" opacity=".7"><path d="M60 14c-3 6-3 11 0 15 3-4 3-9 0-15zM60 106c-3-6-3-11 0-15 3 4 3 9 0 15zM14 60c6-3 11-3 15 0-4 3-9 3-15 0zM106 60c-6-3-11-3-15 0 4 3 9 3 15 0zM28 28c6 1 10 4 12 9-5-2-9-5-12-9zM92 92c-6-1-10-4-12-9 5 2 9 5 12 9zM92 28c-1 6-4 10-9 12 2-5 5-9 9-12zM28 92c1-6 4-10 9-12-2 5-5 9-9 12z"/></g></svg>';
   function openBook(item, srcEl){
     if(!item) return;
     if(srcEl){ srcEl.classList.remove('awake'); srcEl.classList.add('lift'); }
     av.className='av open r-uncommon';
     av.style.setProperty('--fb-cover',item.cover); av.style.setProperty('--fb-foil',item.foil);
-    var FB=item, kept=inColl('book-'+FB.slug);
-    var coverHTML = FB.coverImg ? '<img id="fbcimg" src="'+FB.coverImg+'" alt="'+FB.title+'"/>' : '<span class="fb-crescent">\u263D</span><div><span class="fb-title">'+FB.title+'</span><span class="fb-by">'+FB.author+'</span></div>';
-    var tagHTML = FB.coverImg ? '' : '<span class="fb-tag">'+(FB.tagline||'')+'</span>';
-    avhold.innerHTML='<div class="lorewrap"><div class="art fbook'+(FB.skin==='dark'?' fb-dark':'')+'">'+
-      '<button class="tome-clasp" id="fbx" aria-label="Close the book"><span></span></button>'+
-      '<div class="fb-stage">'+
-        '<div class="fb-cover-card" id="fbcover">'+coverHTML+tagHTML+'</div>'+
-        '<div class="fb-spread" id="fbspread"><span class="gold-corner tl"></span><span class="gold-corner tr"></span><span class="gold-corner bl"></span><span class="gold-corner br"></span><span class="fb-gutter"></span>'+
-          '<div class="fb-pg left" id="fbL"></div><div class="fb-pg right" id="fbR"></div>'+
-          '<button class="fb-nav prev" id="fbprev" aria-label="Previous page">\u2039</button>'+
-          '<button class="fb-nav next" id="fbnext" aria-label="Next page">\u203A</button>'+
-          '<span class="fb-pager" id="fbpager"></span>'+
+    var owned=inColl('book-'+item.slug), buyable=!!item.href;
+    var coverInner = item.coverImg ? '<img id="hbcimg" src="'+item.coverImg+'" alt="'+item.title+'"/>' : '<div class="hb-cover-css"><span class="fb-crescent">\u263D</span><span class="fb-title">'+item.title+'</span><span class="fb-by">'+item.author+'</span></div>';
+    var opts = owned
+      ? '<button class="hb-opt primary" id="hbread">Continue Reading</button>'
+      : '<button class="hb-opt primary" id="hbread">Read Preview</button>'+(buyable?'<button class="hb-opt buy" id="hbbuy">Purchase &middot; $'+item.price+'</button>':'');
+    opts += '<button class="hb-opt ghost" id="hbreturn">Return to the Room</button>';
+    avhold.innerHTML='<div class="lorewrap"><div class="art housebook" id="hbook">'+
+      '<div class="hb-cover-stage" id="hbcoverstage"><div class="hb-cover">'+coverInner+'</div>'+
+        '<p class="hb-blurb">'+(item.blurb||'')+'</p><div class="hb-opts">'+opts+'</div></div>'+
+      '<div class="hb-read" id="hbreadstage" style="display:none">'+
+        '<div class="art tome-book housebook-read">'+
+          '<div class="tome-wrap"><div class="tome-ribbons"><span class="ribbon r1"></span><span class="ribbon r2"></span><span class="ribbon r3"></span></div>'+
+            '<div class="book-spread"><span class="gold-corner tl"></span><span class="gold-corner tr"></span><span class="gold-corner bl"></span><span class="gold-corner br"></span>'+
+              '<div class="book-page left" id="hbL"></div><div class="book-page right" id="hbR"></div><span class="book-gutter"></span>'+
+              '<button class="fb-nav prev" id="hbprev" aria-label="Previous page">\u2039</button>'+
+              '<button class="fb-nav next" id="hbnext" aria-label="Next page">\u203A</button>'+
+              '<span class="fb-pager" id="hbpager"></span></div>'+
+            '<button class="tome-clasp" id="hbclose" aria-label="Close the book"><span></span></button></div>'+
+          '<div class="tome-actions">'+((owned||!buyable)?'':'<button class="art-act" id="hbbuy2">Purchase &middot; $'+item.price+'</button>')+'<button class="art-act" id="hbback">Return to the Room</button></div>'+
         '</div>'+
       '</div>'+
-      '<div class="fb-foot"><p class="fb-blurb">'+FB.blurb+'</p>'+
-        '<div class="fb-acts tome"><button class="fb-take'+(kept?' kept':'')+'" id="fbtake">'+(kept?'On your shelf \u2713':FB.take)+'</button>'+
-        '<button class="fb-leave" id="fbleave">Leave it for now</button></div></div>'+
-      '</div></div>';
+    '</div></div>';
     spawnParticles('uncommon');
-    var fbx=document.getElementById('fbx'); if(fbx) fbx.onclick=close;
-    var ci=document.getElementById('fbcimg'); if(ci){ ci.onerror=function(){ var cc=document.getElementById('fbcover'); ci.remove(); if(cc&&!cc.querySelector('.fb-title')) cc.insertAdjacentHTML('afterbegin','<div><span class="fb-title">'+FB.title+'</span><span class="fb-by">'+FB.author+'</span></div>'); }; }
-    var pg=0, L=document.getElementById('fbL'), R=document.getElementById('fbR'), pager=document.getElementById('fbpager'),
-        spread=document.getElementById('fbspread'), cover=document.getElementById('fbcover'),
-        prev=document.getElementById('fbprev'), next=document.getElementById('fbnext');
-    function draw(){ var s=FB.spread[pg]; L.innerHTML=s.l; R.innerHTML=s.r; L.classList.remove('turning'); R.classList.remove('turning'); void L.offsetWidth; L.classList.add('turning'); R.classList.add('turning'); pager.textContent=(pg+1)+' / '+FB.spread.length; prev.style.visibility=pg?'visible':'hidden'; next.style.visibility=(pg<FB.spread.length-1)?'visible':'hidden'; }
-    var openIt=function(){ cover.style.display='none'; spread.classList.add('show'); draw(); };
-    if(reduce){ openIt(); } else { setTimeout(function(){ cover.classList.add('opening'); setTimeout(openIt,760); }, 1000); }
-    prev.onclick=function(){ if(pg>0){ pg--; draw(); } };
-    next.onclick=function(){ if(pg<FB.spread.length-1){ pg++; draw(); } };
-    var takeBtn=document.getElementById('fbtake'); if(!kept) takeBtn.onclick=function(){ takeBook(FB,takeBtn,srcEl); };
-    document.getElementById('fbleave').onclick=close;
+    var ci=document.getElementById('hbcimg'); if(ci){ ci.onerror=function(){ var c=document.querySelector('.hb-cover'); ci.remove(); if(c) c.innerHTML='<div class="hb-cover-css"><span class="fb-crescent">\u263D</span><span class="fb-title">'+item.title+'</span><span class="fb-by">'+item.author+'</span></div>'; }; }
+    // the pages: a title page, then the preview spreads
+    var titlePage={ l:'<span class="hb-crest">'+CREST_SVG+'</span>',
+      r:'<span class="hb-tp-title">'+item.title+'</span>'+(item.tagline?'<span class="hb-tp-sub">'+item.tagline+'</span>':'')+'<span class="hb-tp-orn">\u2726</span><span class="hb-tp-kind">A House Book</span><span class="hb-tp-by">by</span><span class="hb-tp-pen">'+((item.pen?item.pen.replace(/^writing as\s*/i,''):item.author)||'').toUpperCase()+'</span>' };
+    var pages=[titlePage].concat(item.spread||[]);
+    var pg=0, L=document.getElementById('hbL'), R=document.getElementById('hbR'), pager=document.getElementById('hbpager'),
+        prev=document.getElementById('hbprev'), next=document.getElementById('hbnext');
+    function draw(){ var s=pages[pg]; L.innerHTML=s.l; R.innerHTML=s.r; L.classList.remove('turning'); R.classList.remove('turning'); void L.offsetWidth; L.classList.add('turning'); R.classList.add('turning'); pager.textContent=(pg+1)+' / '+pages.length; prev.style.visibility=pg?'visible':'hidden'; next.style.visibility=(pg<pages.length-1)?'visible':'hidden'; }
+    function go(d){ var n=pg+d; if(n>=0&&n<pages.length){ pg=n; draw(); } }
+    prev.onclick=function(e){ e.stopPropagation(); go(-1); }; next.onclick=function(e){ e.stopPropagation(); go(1); };
+    L.onclick=function(){ go(-1); }; R.onclick=function(){ go(1); }; // click a page to turn it, like a real book
+    function openRead(){ document.getElementById('hbcoverstage').style.display='none'; document.getElementById('hbreadstage').style.display='block'; pg=0; draw(); }
+    document.getElementById('hbread').onclick=openRead;
+    document.getElementById('hbreturn').onclick=close;
+    document.getElementById('hbclose').onclick=close;
+    document.getElementById('hbback').onclick=close;
+    var buy1=document.getElementById('hbbuy'), buy2=document.getElementById('hbbuy2');
+    function purchase(){ purchaseBook(item); }
+    if(buy1) buy1.onclick=purchase; if(buy2) buy2.onclick=purchase;
   }
-  function takeBook(item, btn, srcEl){
-    if(!item.href){ toast(item.soon); return; }
+  function purchaseBook(item){
+    if(!item.href){ toast(item.soon||'The shop opens soon.'); return; }
     try{ window.open(item.href,'_blank'); }catch(e){}
-    keep({id:'book-'+item.slug, title:item.title, kind:'Book', zone:'Luna’s shelves'}); // returns to the buyer's own shelf
-    if(btn){ btn.textContent='On your shelf \u2713'; btn.classList.add('kept'); btn.onclick=null; }
-    houseReacts(); toast(item.returned);
-    setTimeout(function(){ close(); if(srcEl){ srcEl.classList.add('gone'); setTimeout(function(){ srcEl.classList.remove('gone'); },1500); } }, 1500);
+    // The House remembers what you own — mark it so the book simply opens next time.
+    keep({id:'book-'+item.slug, title:item.title, kind:'Book', zone:'Luna’s shelves'});
+    houseReacts(); toast(item.returned||'The House remembers what you brought home.');
+    var buy1=document.getElementById('hbbuy'); if(buy1) buy1.remove();
+    var read1=document.getElementById('hbread'); if(read1) read1.textContent='Continue Reading';
+    var buy2=document.getElementById('hbbuy2'); if(buy2) buy2.remove();
   }
   function spawnParticles(rar){ avp.innerHTML=''; var n=rar==='legendary'?30:(rar==='rare'?16:(rar==='uncommon'?8:0));
     for(var i=0;i<n;i++){ var p=document.createElement('span'); p.className='p'; p.style.left=(6+Math.random()*88).toFixed(1)+'%'; p.style.top=(30+Math.random()*60).toFixed(1)+'%'; p.style.animationDuration=(4+Math.random()*5).toFixed(1)+'s'; p.style.animationDelay=(-Math.random()*5).toFixed(1)+'s'; avp.appendChild(p); } }
