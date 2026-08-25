@@ -68,6 +68,23 @@
 
   .divider{ width:1px; height:64px; margin:0 auto; background:linear-gradient(to bottom, transparent, var(--gilt), transparent); opacity:0.5; }
 
+  /* The room itself — the catalogue begins as a place, not a product grid. */
+  .atelier{position:relative;width:100%;height:min(88vh,900px);min-height:620px;overflow:hidden;background:#090607;isolation:isolate;contain:layout paint}
+  .atelier-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.76) saturate(.88);transform:scale(1.025);transition:transform 1.2s var(--ease),filter .8s}
+  .atelier::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,4,7,.65),transparent 23%,transparent 68%,rgba(8,4,7,.84)),radial-gradient(ellipse at center,transparent 42%,rgba(6,3,5,.45) 100%)}
+  .atelier-title{position:absolute;z-index:3;top:13%;left:0;right:0;margin:auto;text-align:center;width:min(90%,650px);pointer-events:none;text-shadow:0 3px 18px #000}
+  .atelier-title .page-eyebrow{margin:0 0 .55rem}.atelier-title h1{font-family:var(--fa);font-weight:500;font-size:clamp(2.15rem,4.2vw,3.8rem);line-height:1.02;color:var(--paper);text-wrap:balance}
+  .atelier-title p{margin:.8rem auto 0;max-width:38ch;font-style:italic;color:rgba(239,231,216,.76)}
+  .roomspot{position:absolute;z-index:4;transform:translate(-50%,-50%);width:var(--w,12%);height:var(--h,18%);border:0;background:transparent;cursor:pointer;color:var(--paper)}
+  .roomspot::before{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid transparent;transition:border-color .35s,box-shadow .35s,background .35s}
+  .roomspot:hover::before,.roomspot:focus-visible::before{border-color:rgba(224,190,119,.45);box-shadow:0 0 32px rgba(187,106,125,.3);background:radial-gradient(circle,rgba(201,169,110,.08),transparent 68%)}
+  .roomspot span{position:absolute;left:50%;bottom:100%;transform:translate(-50%,8px);width:max-content;max-width:190px;padding:.55rem .7rem;background:rgba(14,7,11,.84);border-bottom:1px solid var(--gilt);font-family:var(--fa);font-size:.85rem;letter-spacing:.06em;opacity:0;transition:.35s;pointer-events:none}
+  .roomspot:hover span,.roomspot:focus-visible span{opacity:1;transform:translate(-50%,0)}
+  .roomspot[data-room="wardrobe"] span,.roomspot[data-room="jewelry"] span{left:auto;right:0;transform:translate(0,8px)}.roomspot[data-room="wardrobe"]:hover span,.roomspot[data-room="wardrobe"]:focus-visible span,.roomspot[data-room="jewelry"]:hover span,.roomspot[data-room="jewelry"]:focus-visible span{transform:translate(0,0)}
+  .roomnote{position:absolute;z-index:6;left:50%;bottom:7%;transform:translate(-50%,16px);width:min(90%,560px);padding:1.3rem 1.5rem;text-align:center;background:rgba(18,9,14,.92);border:1px solid rgba(201,169,110,.38);box-shadow:0 20px 60px #000;opacity:0;pointer-events:none;transition:.45s}
+  .roomnote.open{opacity:1;transform:translate(-50%,0);pointer-events:auto}.roomnote small{display:block;color:var(--gilt);font-family:var(--fl);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase}.roomnote h2{font-family:var(--fa);font-weight:500;font-size:1.7rem;margin:.2rem 0}.roomnote p{color:var(--paper-dim);font-style:italic}.roomnote a{display:inline-block;margin-top:.8rem;color:#ead098;text-decoration:none;border-bottom:1px solid rgba(234,208,152,.5)}.roomnote button{position:absolute;right:.55rem;top:.4rem;border:0;background:none;color:var(--paper-dim);font-size:1.2rem;cursor:pointer}
+  .atelier-cue{position:absolute;z-index:3;left:50%;bottom:2.2%;transform:translateX(-50%);font-family:var(--fl);font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(239,231,216,.58)}
+
   section{ padding:clamp(3rem,7vw,5rem) 1.5rem; position:relative; z-index:2; }
   .section-inner{ max-width:1100px; margin:0 auto; }
   .category-label{ font-family:var(--fl); font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gilt); margin-bottom:0.6rem; display:block; }
@@ -117,7 +134,7 @@
   .footer-links a:hover{ color:var(--gilt); }
   .footer-copy{ font-family:var(--fl); font-size:0.7rem; color:rgba(201,169,110,0.5); width:100%; text-align:center; padding-top:1rem; }
 
-  @media (max-width:640px){ footer{ flex-direction:column; align-items:flex-start; } }
+  @media (max-width:640px){ footer{ flex-direction:column; align-items:flex-start; }.atelier{height:78vh;min-height:590px}.atelier-img{object-position:55% center}.atelier-title{top:12%}.roomspot{min-width:54px;min-height:54px}.roomspot span{font-size:.72rem}.roomnote{bottom:8%} }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
@@ -128,17 +145,20 @@
   <a href="/" class="nav-back">&larr; The Hall</a>
 </nav>
 
-<div class="page-hero">
-  <p class="page-eyebrow">The Edit</p>
-  <h1 class="page-title">What I wear,<br/><em>use & actually love.</em></h1>
-  <p class="page-sub">No fluff. Everything here is something I've tried, tested, and keep coming back to.</p>
-  <a href="/" class="back-link">&larr; Return to the Hall</a>
+<div class="atelier" id="atelier">
+  <img class="atelier-img" src="/assets/edit-atelier-v01.png" alt="The Edit — Luna's candlelit dressing room with an antique vanity, mannequin, wardrobe and jewelry cabinet"/>
+  <div class="atelier-title"><p class="page-eyebrow">The Edit</p><h1>Come into my dressing room.</h1><p>Everything here is something I wear, use, or return to. Open what catches your eye.</p></div>
+  <button class="roomspot" style="left:34%;top:53%;--w:30%;--h:42%" data-room="vanity"><span>The Vanity · Skin & Glow</span></button>
+  <button class="roomspot" style="left:73%;top:49%;--w:15%;--h:48%" data-room="mannequin"><span>The Mannequin · What I Wear</span></button>
+  <button class="roomspot" style="left:88%;top:42%;--w:18%;--h:50%" data-room="wardrobe"><span>The Wardrobe · Still growing</span></button>
+  <button class="roomspot" style="left:91%;top:70%;--w:15%;--h:25%" data-room="jewelry"><span>The Cabinet · Favorites</span></button>
+  <button class="roomspot" style="left:55%;top:81%;--w:29%;--h:24%" data-room="chaise"><span>The Chaise · This week's edit</span></button>
+  <div class="roomnote" id="roomnote"><button aria-label="Close">×</button><small id="rnkind"></small><h2 id="rntitle"></h2><p id="rnbody"></p><a id="rnlink" href="#">Open the collection →</a></div>
+  <span class="atelier-cue">Look around · the room wakes when you do</span>
 </div>
 
-<div class="divider"></div>
-
 <!-- SKIN FIRST -->
-<section>
+<section id="skin-first">
   <div class="section-inner">
     <span class="category-label">Category 01</span>
     <h2 class="category-title">Skin First</h2>
@@ -234,7 +254,7 @@
 </section>
 
 <!-- THE GLOW (Makeup) — Category 02, with Lip Combo folded in as a named sub-collection (DR-G2-3) -->
-<section class="section-alt">
+<section class="section-alt" id="the-glow">
   <div class="section-inner">
     <span class="category-label">Category 02</span>
     <h2 class="category-title">The Glow</h2>
@@ -282,7 +302,7 @@
 </section>
 
 <!-- FULL COLLECTIONS -->
-<section>
+<section id="full-edit">
   <div class="section-inner">
     <span class="category-label">The Full Edit</span>
     <h2 class="category-title">Everything else</h2>
@@ -323,6 +343,23 @@
   </div>
   <p class="footer-copy">© 2026 Moonpixiee · House of Luna · All rights reserved.</p>
 </footer>
+
+<script>
+  (function(){
+    var notes={
+      vanity:{kind:'The Vanity',title:'Skin First · The Glow',body:'The routine, the lip combination, and every little thing that earns its place beside the mirror.',href:'#skin-first',cta:'Sit at the vanity'},
+      mannequin:{kind:'The Mannequin',title:'What I’m Wearing',body:'The central look changes as the Edit grows. Dress, shoes, bag, and jewelry will each become their own discovery.',href:'https://links.moonpixiee.com/shopwhatiwear',cta:'Shop what I wear'},
+      wardrobe:{kind:'The Wardrobe',title:'There is room for what comes next',body:'A few pieces are here. The empty hangers are intentional — this wardrobe will fill as Luna finds things worth keeping.',href:'#full-edit',cta:'See what is here now'},
+      jewelry:{kind:'The Cabinet',title:'Favorites + Extras',body:'Small things, repeat purchases, gifts, and the objects that never quite fit one category.',href:'https://links.moonpixiee.com/myfaves+extras',cta:'Open the cabinet'},
+      chaise:{kind:'The Chaise',title:'This week’s edit',body:'The things currently in reach — worn, used, and returned to. Never the whole catalog. Just what is true right now.',href:'#the-glow',cta:'See the current edit'}
+    };
+    var box=document.getElementById('roomnote'),kind=document.getElementById('rnkind'),title=document.getElementById('rntitle'),body=document.getElementById('rnbody'),link=document.getElementById('rnlink');
+    document.querySelectorAll('[data-room]').forEach(function(btn){btn.addEventListener('click',function(){var n=notes[btn.dataset.room];kind.textContent=n.kind;title.textContent=n.title;body.textContent=n.body;link.textContent=n.cta+' →';link.href=n.href;if(n.href.indexOf('http')===0){link.target='_blank';link.rel='noopener';}else{link.removeAttribute('target');link.removeAttribute('rel');}box.classList.add('open');});});
+    box.querySelector('button').addEventListener('click',function(){box.classList.remove('open');});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')box.classList.remove('open');});
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){var room=document.getElementById('atelier'),pic=room.querySelector('.atelier-img');room.addEventListener('mousemove',function(e){var r=room.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;pic.style.transform='scale(1.045) translate('+(-x*8).toFixed(1)+'px,'+(-y*6).toFixed(1)+'px)';});room.addEventListener('mouseleave',function(){pic.style.transform='scale(1.025)';});}
+  })();
+</script>
 
 </body>
 </html>
