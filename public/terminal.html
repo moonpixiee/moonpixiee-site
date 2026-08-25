@@ -486,6 +486,7 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
 </style>
 <link rel="stylesheet" href="/styles/house-artifacts.css"/>
+<style>.bookobj.promo .ribbon-band{display:none}.bookobj.promo .bcover{filter:brightness(.72) saturate(.88);box-shadow:0 16px 24px -8px #000,0 0 18px rgba(115,58,152,.2)}</style>
 </head>
 <body>
   <div class="zone" id="zone">
@@ -507,6 +508,30 @@
 <script>
 (function(){
   var ZONE = {"id":"terminal","title":"The Terminal","asset":"/assets/terminal-env.png","hotspots":[{"id":"threads","cat":"nav","name":"Threads","line":"The feed, still scrolling in the dark.","verb":"Open","x":44,"y":40,"route":""},{"id":"substack","cat":"artifact","kind":"Journal","name":"Substack","line":"The last essay, printed and pinned.","verb":"Read","x":84,"y":42,"title":"The long-form shelf","body":"The things too big for a post end up here — the essays, the letters that go out to the ones who stayed.\n\n(The archive links in soon.)"},{"id":"logs","cat":"lore","kind":"Observatory Log","name":"Observatory Logs","line":"A star-chart, annotated by hand.","verb":"Read","x":82,"y":24,"title":"“Logged from the far wing.”","body":"Readings the Observatory sends down the line. I don’t always understand them. I keep them anyway."},{"id":"screen","cat":"ambient","name":"The Screen","line":"The cursor blinks, patient.","verb":"","x":44,"y":40,"w":12,"h":16,"react":"The cursor blinks twice, and a line of green text scrolls up from nowhere, then clears."},{"id":"egg","cat":"rare","kind":"Rare Find","name":"The Keyboard","line":"Worn where the hands go.","verb":"Type","x":40,"y":62,"rare":true,"title":"> the House answers","body":"You typed nothing, and it answered anyway. Some nights the Terminal is in a mood to talk.\n\nKeep what it said. It won’t say it twice.","closed":"You press a key. Nothing. The Terminal is only listening tonight."},{"id":"mug","cat":"ambient","name":"A Cold Mug","line":"A ring dried at the bottom.","verb":"","x":60,"y":58,"react":"Long cold. Whoever sat here left in a hurry, or forgot the hour. Both happen, here."},{"id":"lantern-t","cat":"ambient","name":"The Lamp","line":"Warm, beside the cold glow.","verb":"","x":74,"y":58,"react":"You turn it up. Warm light and cold light meet on the desk, and neither wins."},{"id":"chair-t","cat":"passage","name":"The Chair","line":"Angled to the screen.","verb":"Sit","x":18,"y":70,"narration":"You sit. The monitor-glow finds your face, cold and blue. For a moment you’re where the House touches the loud world — and it’s quiet here, still."},{"id":"papers-t","cat":"lore","kind":"Printouts","name":"A Stack of Printouts","line":"Draft after draft.","verb":"Look closer","x":86,"y":60,"title":"The paper trail","body":"Everything the screen has ever said, printed and kept. I trust paper more than pixels. Paper doesn’t update itself while you sleep."},{"id":"astro-t","cat":"cat","name":"Astro","line":"Watching the screen, unblinking.","verb":"","x":12,"y":44,"reacts":["He stares at the cursor like it owes him something. Maybe it does.","His eyes track a line of text no one typed.","He sits in the coldest light in the House, content."]}],"astro":{"w":9,"line":"Watching the screen, unblinking.","reacts":["He stares at the cursor like it owes him something.","He sits in the coldest light in the House, content.","His eyes track a line of text no one typed."],"absent":true,"spots":[{"x":12,"y":72,"pose":"sit"},{"x":82,"y":72,"pose":"loaf"}]},"intro":false,"network":false,"books":null,"launch":null,"collectionLabel":"Luna’s Collection","fit":"cover","baked":false};
+  // The Terminal keeps the second House Book on its desk. The other details
+  // answer in-place so the room feels inhabited instead of opening generic cards.
+  ZONE.books=[{
+    slug:'becoming', title:'Becoming', short:'Becoming', author:'Luna Lee',
+    skin:'dark', soonTitle:true, cover:'#14101a', spine:'#0e0a12', foil:'#c8a3da',
+    coverImg:'/assets/books/codex-amethyst-v01.png', tagline:'The second House Book · coming soon',
+    blurb:'On unbecoming everything you were told to be, and building someone truer in the ruins.',
+    spread:[
+      {l:'<span class="fb-epi">“Some versions of you were only built to survive the room.”</span>',r:'<span class="fb-chh">House Book II</span><span class="fb-cht">Becoming</span><span class="fb-chs">An unfinished beginning</span>'},
+      {l:'<span class="fb-sec">A note from the Terminal</span><span class="fb-body">The cursor kept blinking long after everyone left. On the desk, a book waited for the person Luna was becoming — not the person she had been asked to remain.</span>',r:'<span class="fb-pull2">“You are allowed to outgrow the life that once kept you safe.”</span>'},
+      {l:'<span class="fb-soon">This House Book is still being written.</span>',r:'<span class="fb-soon fb-muted">When it is ready, the Terminal will remember where you left off.</span>'}
+    ],
+    take:'Ask the House to remember', href:null,
+    soon:'Not out yet — the House will let you know when Becoming arrives.', returned:''
+  }];
+  ZONE.launch={active:true,slug:'becoming',x:88,y:79,w:8,whisper:'The second House Book. It was left open for you.',verb:'Lift the cover'};
+  ZONE.network=true;
+  ZONE.hotspots=ZONE.hotspots.filter(function(h){ return h.id!=='threads'; });
+  ZONE.hotspots.forEach(function(h){ if(h.id==='screen'){ h.cat='network'; h.verb='Enter'; h.line='The House is online, quietly.'; } });
+  ZONE.hotspots.push(
+    {id:'terminal-window',cat:'passage',name:'The Rain Window',line:'Moonlight caught in wet glass.',verb:'Listen',x:18,y:31,w:10,h:30,narration:'Rain traces the old glass. The screen dims itself, the candles settle, and for a moment the Terminal only listens with you.'},
+    {id:'terminal-drawer',cat:'rare',kind:'Rare Find',name:'The Locked Drawer',line:'A brass key turns halfway.',verb:'Try it',x:52,y:77,w:17,h:7,rare:true,title:'A key marked II',body:'The key is stamped with a small Roman numeral: II. It belongs to the second House Book — or to a door that has not appeared yet.\n\nKeep it. The House is fond of making the lock after the key.',closed:'The drawer catches. Whatever is inside is not ready tonight.'},
+    {id:'terminal-candle',cat:'ambient',name:'The Listening Candle',line:'Its flame leans toward the monitor.',verb:'',x:76,y:47,react:'The flame bends toward the screen. A new star appears on the chart, exactly where the cursor rests.'}
+  );
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var touch = matchMedia('(hover: none)').matches;
   var env=document.getElementById('env'), img=document.getElementById('envimg');
@@ -946,7 +971,7 @@
     av.className='av open r-uncommon';
     av.style.setProperty('--fb-cover',item.cover); av.style.setProperty('--fb-foil',item.foil);
     var owned=inColl('book-'+item.slug), buyable=!!item.href;
-    var coverInner = item.coverImg ? '<img id="hbcimg" src="'+item.coverImg+'" alt="'+item.title+'"/>' : '<div class="hb-cover-css"><span class="fb-crescent">\u263D</span><span class="fb-title">'+item.title+'</span><span class="fb-by">'+item.author+'</span></div>';
+    var coverInner = item.coverImg ? '<img id="hbcimg" src="'+item.coverImg+'" alt=""/><div class="codex-title"><span class="codex-mark">☾</span><strong>'+item.title+'</strong><small>'+item.author+'</small></div>' : '<div class="hb-cover-css"><span class="fb-crescent">\u263D</span><span class="fb-title">'+item.title+'</span><span class="fb-by">'+item.author+'</span></div>';
     var opts = owned
       ? '<button class="hb-opt primary" id="hbread">Continue Reading</button>'
       : '<button class="hb-opt primary" id="hbread">Read Preview</button>'+(buyable?'<button class="hb-opt buy" id="hbbuy">Purchase &middot; $'+item.price+'</button>':'');
