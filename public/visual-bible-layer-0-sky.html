@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Bible · Layer 0 — The Sky · House of Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{ --title:'Cinzel',Georgia,serif; --serif:'Cormorant Garamond',Georgia,serif; }
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#0a0a14}
+#sky{position:fixed; inset:0; overflow:hidden;
+  /* never pure black — midnight blue, indigo, charcoal, violet undertones */
+  background:
+    radial-gradient(120% 80% at 68% 22%, rgba(60,66,110,.30), transparent 55%),
+    radial-gradient(140% 100% at 30% 8%, rgba(40,38,74,.35), transparent 60%),
+    linear-gradient(180deg,#141a30 0%, #10152a 34%, #0d1122 62%, #0b0e1c 100%);
+}
+/* faint drifting nebula-dark so it's colour, not black */
+#tint{position:absolute; inset:-10%; opacity:.5; mix-blend-mode:screen;
+  background:radial-gradient(40% 30% at 25% 30%, rgba(80,70,130,.16), transparent 60%),
+             radial-gradient(45% 35% at 80% 60%, rgba(40,70,110,.14), transparent 60%);
+  animation:tintdrift 260s linear infinite; }
+@keyframes tintdrift{from{transform:translateX(-2%)}to{transform:translateX(2%)}}
+
+/* stars injected by JS */
+.star{position:absolute; border-radius:50%; background:#eef1ff;
+  box-shadow:0 0 4px rgba(220,228,255,.7);}
+.tw{animation:twinkle var(--tw,11s) ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:var(--o,.7)}48%{opacity:calc(var(--o,.7)*.28)}52%{opacity:calc(var(--o,.7)*.3)}}
+
+/* the moon — silver, ancient, not oversized */
+#moon{position:absolute; top:15%; left:64%; width:min(11vw,120px); aspect-ratio:1; border-radius:50%;
+  background:
+    radial-gradient(38% 38% at 38% 34%, #f4f5fb 0%, #e7e9f2 42%, #cfd3e0 70%, #b7bccb 100%);
+  box-shadow:0 0 3px rgba(255,255,255,.5), 0 0 42px 8px rgba(210,220,245,.28), 0 0 120px 30px rgba(170,190,235,.14);
+  filter:saturate(.7);}
+#moon::after{content:""; position:absolute; inset:0; border-radius:50%; opacity:.5; mix-blend-mode:multiply;
+  background:
+    radial-gradient(10% 10% at 62% 40%, rgba(140,146,166,.6), transparent 60%),
+    radial-gradient(8% 8% at 44% 62%, rgba(150,156,176,.5), transparent 60%),
+    radial-gradient(6% 6% at 70% 66%, rgba(150,156,176,.45), transparent 60%),
+    radial-gradient(5% 5% at 34% 40%, rgba(150,156,176,.4), transparent 60%);}
+#moonveil{position:absolute; inset:-40% -30%; border-radius:50%; pointer-events:none; opacity:0;
+  background:radial-gradient(closest-side, rgba(16,20,38,.0), rgba(16,20,38,.0));
+  transition:opacity 22s ease;}
+
+/* slow soft clouds */
+.cloud{position:absolute; border-radius:50%; filter:blur(30px); opacity:.16; pointer-events:none;
+  background:radial-gradient(closest-side, rgba(120,130,165,.8), rgba(90,100,140,.2) 70%, transparent);}
+
+/* scene-dim tied to a cloud crossing the moon (room gets darker) */
+#dim{position:fixed; inset:0; pointer-events:none; background:#0a0d1a; opacity:0; transition:opacity 22s ease;}
+
+/* horizon — never fully seen; only silhouettes */
+#horizon{position:absolute; left:0; right:0; bottom:0; height:26%; pointer-events:none;}
+#horizon svg{position:absolute; bottom:0; width:100%; height:100%;}
+/* warm firelight from the room, rising into the glass — "the House keeps the light" */
+#hearth{position:fixed; left:0; right:0; bottom:0; height:34%; pointer-events:none; mix-blend-mode:screen;
+  background:radial-gradient(90% 120% at 50% 130%, rgba(232,176,106,.20), rgba(201,113,60,.06) 40%, transparent 66%);}
+#vignette{position:fixed; inset:0; pointer-events:none; box-shadow:inset 0 0 240px 60px rgba(6,8,18,.7);}
+
+/* the rare shooting star */
+.shoot{position:absolute; width:120px; height:2px; border-radius:2px; pointer-events:none;
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.9) 70%, #fff);
+  filter:drop-shadow(0 0 6px rgba(220,230,255,.8)); opacity:0;}
+
+/* title, fades away (you shouldn't keep noticing the sky) */
+#plate{position:fixed; left:0; right:0; bottom:8%; text-align:center; z-index:5; pointer-events:none;
+  transition:opacity 3s ease 4s;}
+#plate .k{font-family:var(--title); letter-spacing:.34em; font-size:11px; text-transform:uppercase; color:rgba(200,210,240,.55)}
+#plate .t{font-family:var(--title); letter-spacing:.14em; font-size:clamp(15px,2.4vw,20px); color:rgba(226,232,250,.82); margin:8px 0 12px}
+#plate .q{font-family:var(--serif); font-style:italic; font-size:clamp(15px,2vw,19px); color:rgba(200,210,235,.6)}
+body.settled #plate{opacity:0}
+.hint{position:fixed; top:16px; left:0; right:0; text-align:center; z-index:5; pointer-events:none;
+  font-family:var(--serif); font-style:italic; color:rgba(180,192,225,.35); font-size:14px;
+  opacity:0; animation:hintfade 12s ease forwards;}
+@keyframes hintfade{0%{opacity:0}12%{opacity:1}80%{opacity:1}100%{opacity:0}}
+</style>
+</head>
+<body>
+<div id="sky">
+  <div id="tint"></div>
+  <!-- stars, clouds, shooting stars injected here -->
+  <div id="moon"><div id="moonveil"></div></div>
+  <div id="horizon">
+    <svg viewBox="0 0 1200 200" preserveAspectRatio="none">
+      <!-- distant mountains / rooftops / trees, mostly lost to dark -->
+      <path d="M0,200 L0,150 L120,120 L240,150 L360,110 L520,150 L700,120 L900,150 L1060,125 L1200,150 L1200,200 Z" fill="#0a0d1a"/>
+      <path d="M0,200 L0,175 L90,175 L110,150 L150,150 L170,175 L300,175 L330,145 L360,175 L1200,175 L1200,200 Z" fill="#080a15"/>
+      <g fill="#070912">
+        <path d="M420,200 L420,150 Q430,120 440,150 L440,200 Z"/>
+        <path d="M470,200 L470,140 Q482,105 494,140 L494,200 Z"/>
+        <path d="M760,200 L760,152 Q770,124 780,152 L780,200 Z"/>
+      </g>
+    </svg>
+  </div>
+</div>
+<div id="dim"></div>
+<div id="hearth"></div>
+<div id="vignette"></div>
+
+<div class="hint">the sky moves so slowly you were never meant to catch it — stay a moment</div>
+<div id="plate">
+  <div class="k">House of Luna · Visual Bible</div>
+  <div class="t">Layer 0 — The Sky</div>
+  <div class="q">"Outside, the night stretches endlessly. Inside, the House keeps the light."</div>
+</div>
+
+<script>
+(function(){
+  var sky=document.getElementById('sky');
+  var W=function(){return window.innerWidth;}, H=function(){return window.innerHeight;};
+
+  // ---- stars: sparse, only the brightest, a few twinkle ----
+  var STAR_N=34;
+  for(var i=0;i<STAR_N;i++){
+    var s=document.createElement('div'); s.className='star';
+    var size = Math.random()<0.18 ? 2.4 : (Math.random()<0.5?1.6:1.0);
+    var o = 0.35 + Math.random()*0.55;
+    // keep stars mostly in the upper 3/4, away from the horizon
+    var x = Math.random()*100, y = Math.random()*74;
+    s.style.width=size+'px'; s.style.height=size+'px';
+    s.style.left=x+'%'; s.style.top=y+'%'; s.style.opacity=o;
+    if(Math.random()<0.28){ s.classList.add('tw'); s.style.setProperty('--o',o); s.style.setProperty('--tw',(9+Math.random()*8)+'s'); }
+    sky.appendChild(s);
+  }
+
+  // ---- clouds: 3 soft wisps drifting almost imperceptibly ----
+  var clouds=[];
+  var cloudSpecs=[ {w:52,h:20,y:10,dur:280,op:.15}, {w:70,h:26,y:22,dur:340,op:.12}, {w:44,h:16,y:6,dur:240,op:.17} ];
+  cloudSpecs.forEach(function(c,idx){
+    var el=document.createElement('div'); el.className='cloud';
+    el.style.width=c.w+'vw'; el.style.height=c.h+'vh'; el.style.top=c.y+'%'; el.style.opacity=c.op;
+    el.style.left='-40vw';
+    sky.appendChild(el); clouds.push({el:el, dur:c.dur*1000, start:idx*-70000});
+  });
+  function moveClouds(t){
+    clouds.forEach(function(c){
+      var span=(W()+ W()*0.9);
+      var prog=(((t - c.start) % c.dur)/c.dur);
+      var x = -0.4*W() + prog*span;
+      c.el.style.transform='translateX('+x+'px)';
+    });
+    requestAnimationFrame(moveClouds);
+  }
+  requestAnimationFrame(moveClouds);
+
+  // ---- the moon occasionally slips behind a cloud: veil + gentle room-dim ----
+  var veil=document.getElementById('moonveil'), dim=document.getElementById('dim');
+  function moonBehindCloud(){
+    // veil the moon and slightly darken the room for a while, then clear
+    veil.style.background='radial-gradient(closest-side, rgba(16,20,38,.62), rgba(16,20,38,.0) 78%)';
+    veil.style.opacity='1'; dim.style.opacity='0.16';
+    var hold = 26000 + Math.random()*26000; // ~26–52s behind the cloud
+    setTimeout(function(){ veil.style.opacity='0'; dim.style.opacity='0'; }, hold);
+    setTimeout(scheduleMoon, hold + 60000 + Math.random()*120000);
+  }
+  function scheduleMoon(){ setTimeout(moonBehindCloud, 45000 + Math.random()*75000); }
+  scheduleMoon();
+
+  // ---- the rare shooting star: blink, gone. no sound, no reward ----
+  function shootingStar(){
+    var st=document.createElement('div'); st.className='shoot';
+    var startX = (10 + Math.random()*55); // % from left
+    var startY = (6 + Math.random()*40);  // % from top
+    var ang = 18 + Math.random()*16;      // downward-right
+    st.style.left=startX+'%'; st.style.top=startY+'%';
+    st.style.transform='rotate('+ang+'deg) translateX(0)';
+    sky.appendChild(st);
+    var dist = (18 + Math.random()*22); // vw of travel
+    var t0=null, dur=900+Math.random()*500;
+    function anim(ts){ if(!t0)t0=ts; var p=(ts-t0)/dur;
+      if(p>=1){ st.remove(); return; }
+      var e = p<.15 ? (p/.15) : (1-(p-.15)/.85); // fade in fast, out slow
+      st.style.opacity = Math.max(0, e).toFixed(3);
+      st.style.transform='rotate('+ang+'deg) translateX('+(p*dist)+'vw)';
+      requestAnimationFrame(anim);
+    }
+    requestAnimationFrame(anim);
+    // schedule the next — rare
+    setTimeout(shootingStar, 70000 + Math.random()*120000);
+  }
+  // first one comes fairly soon so it can be witnessed, then it turns rare
+  setTimeout(shootingStar, 16000 + Math.random()*14000);
+
+  // settle: let the title fade so the sky becomes something you feel, not read
+  setTimeout(function(){ document.body.classList.add('settled'); }, 9000);
+})();
+</script>
+</body>
+</html>

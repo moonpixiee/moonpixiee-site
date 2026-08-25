@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Room Manuscript №001 · The Library Fireplace · House of Luna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Allura&display=swap" rel="stylesheet">
+<style>
+:root{
+  --leather-a:#3a1c18; --leather-b:#241210; --leather-c:#160b0a;
+  --foil:#c9a24a; --foil-hi:#e9d49a; --foil-lo:#8a6a2e;
+  --parch-a:#efe5d0; --parch-b:#e5d7bd; --ink:#2c2216; --ink-soft:#5a4a35; --rule:#c9b48a;
+  --title:'Cinzel',Georgia,serif; --serif:'Cormorant Garamond',Georgia,serif; --hand:'Allura',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:radial-gradient(120% 90% at 50% 0%,#171019,#0a070c 70%); color:var(--ink);
+  font-family:var(--serif); -webkit-font-smoothing:antialiased; min-height:100%;
+  display:grid; place-items:center; padding:28px}
+
+/* ============ THE BOOK ============ */
+.book{width:min(94vw,760px); position:relative; perspective:2200px}
+
+/* front cover */
+.cover{position:relative; aspect-ratio:3/4; max-height:86vh; margin:0 auto; border-radius:6px 12px 12px 6px;
+  background:
+    radial-gradient(120% 100% at 30% 20%, rgba(255,220,160,.06), transparent 55%),
+    linear-gradient(135deg,var(--leather-a),var(--leather-b) 55%,var(--leather-c));
+  box-shadow:0 40px 100px -30px #000, 0 0 0 1px rgba(0,0,0,.6),
+    inset 0 0 0 2px rgba(201,162,74,.22), inset 0 0 60px rgba(0,0,0,.5);
+  cursor:pointer; transition:transform 1s cubic-bezier(.3,.8,.3,1), opacity 1s ease;
+  transform-origin:left center; display:grid; place-items:center; overflow:hidden}
+.cover::before{content:""; position:absolute; left:14px; top:14px; right:14px; bottom:14px; border-radius:4px;
+  border:1.5px solid rgba(201,162,74,.35); box-shadow:inset 0 0 40px rgba(0,0,0,.4)}
+.cover::after{content:""; position:absolute; left:0; top:0; bottom:0; width:26px;
+  background:linear-gradient(90deg,rgba(0,0,0,.45),transparent); border-radius:6px 0 0 6px}
+.spine-band{position:absolute; left:26px; top:0; bottom:0; width:2px; background:rgba(0,0,0,.35)}
+.cover .emboss{text-align:center; padding:8%; z-index:2; text-shadow:0 1px 0 rgba(0,0,0,.5)}
+.cover .house{font-family:var(--title); letter-spacing:.42em; font-size:clamp(10px,1.6vw,13px);
+  color:var(--foil); text-transform:uppercase; margin-bottom:26px}
+.cover .moon{font-size:clamp(38px,7vw,58px); color:var(--foil-hi);
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.6)); margin-bottom:22px}
+.cover .kind{font-family:var(--title); letter-spacing:.3em; font-size:clamp(11px,1.7vw,14px);
+  color:var(--foil-hi); text-transform:uppercase}
+.cover .no{font-family:var(--title); letter-spacing:.2em; font-size:clamp(12px,1.8vw,15px);
+  color:var(--foil); margin:10px 0 22px}
+.cover .rmtitle{font-family:var(--title); font-weight:600; font-size:clamp(24px,4.6vw,40px);
+  color:var(--foil-hi); letter-spacing:.04em; line-height:1.15;
+  background:linear-gradient(180deg,var(--foil-hi),var(--foil) 60%,var(--foil-lo));
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+.cover .ver{font-family:var(--serif); font-style:italic; color:rgba(233,212,154,.7);
+  font-size:clamp(13px,1.9vw,16px); margin-top:20px}
+.cover .open-hint{position:absolute; bottom:6%; left:0; right:0; text-align:center;
+  font-family:var(--title); font-size:10px; letter-spacing:.28em; text-transform:uppercase;
+  color:rgba(201,162,74,.7); animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.5}50%{opacity:.95}}
+.book.open .cover{position:absolute; top:0; left:0; right:0; transform:rotateY(-118deg); opacity:0; pointer-events:none}
+
+/* ============ THE PAGES ============ */
+.pages{position:absolute; inset:0; opacity:0; pointer-events:none; transition:opacity 1.1s ease .5s;
+  max-height:86vh; overflow:hidden}
+.book.open .pages{position:relative; inset:auto; opacity:1; pointer-events:auto; max-height:none}
+.leaf{position:relative; border-radius:6px 10px 10px 6px; overflow:hidden;
+  background:
+    radial-gradient(140% 60% at 50% -10%, rgba(255,255,255,.35), transparent 60%),
+    linear-gradient(180deg,var(--parch-a),var(--parch-b));
+  box-shadow:0 40px 100px -34px #000, 0 0 0 1px rgba(120,90,50,.25),
+    inset 0 0 90px rgba(150,110,60,.14);
+  padding:clamp(30px,6vw,64px) clamp(26px,7vw,80px)}
+.leaf::before{content:""; position:absolute; left:0; top:0; bottom:0; width:34px;
+  background:linear-gradient(90deg, rgba(120,80,40,.16), transparent); pointer-events:none}
+.leaf::after{content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background-image:radial-gradient(rgba(120,90,50,.05) 1px,transparent 1px); background-size:3px 3px}
+
+/* colophon / metadata */
+.colophon{font-family:ui-monospace,Menlo,monospace; font-size:12px; line-height:1.9; color:var(--ink-soft);
+  border:1px solid var(--rule); border-radius:6px; padding:16px 18px; margin:0 0 30px;
+  background:rgba(255,255,255,.14)}
+.colophon b{color:var(--ink); font-weight:600}
+
+.frontis{text-align:center; margin:6px 0 30px}
+.frontis .h{font-family:var(--title); letter-spacing:.34em; font-size:11px; text-transform:uppercase; color:var(--ink-soft)}
+.frontis .t{font-family:var(--title); font-weight:600; font-size:clamp(26px,5vw,40px); color:var(--ink); margin:12px 0 4px; letter-spacing:.02em}
+.frontis .n{font-family:var(--serif); font-style:italic; color:var(--ink-soft); font-size:16px}
+.frontis .ep{font-family:var(--serif); font-style:italic; font-size:clamp(16px,2.3vw,20px); color:var(--ink);
+  margin-top:22px; padding-top:20px; border-top:1px solid var(--rule)}
+
+h2.ch{font-family:var(--title); font-weight:500; font-size:clamp(15px,2.1vw,19px); letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink); margin:34px 0 4px; display:flex; align-items:baseline; gap:12px}
+h2.ch .rn{font-size:12px; color:var(--foil-lo); letter-spacing:.1em}
+h2.ch::after{content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--rule),transparent); margin-left:6px; align-self:center}
+h3.sub{font-family:var(--title); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--foil-lo); margin:18px 0 4px}
+.leaf p{font-size:clamp(16px,2vw,18.5px); line-height:1.66; margin:12px 0; color:var(--ink)}
+.leaf p .dropcap{float:left; font-family:var(--title); font-weight:600; font-size:3.1em; line-height:.82;
+  padding:6px 10px 0 0; color:var(--foil-lo)}
+.leaf em{color:#3a2c18}
+.small{font-size:15px !important; color:var(--ink-soft) !important; font-style:italic}
+ul.plain{list-style:none; margin:10px 0; padding:0}
+ul.plain li{font-size:16.5px; line-height:1.7; padding:2px 0 2px 20px; position:relative; color:var(--ink)}
+ul.plain li::before{content:"·"; position:absolute; left:6px; color:var(--foil-lo)}
+
+.whisper{margin:26px 0; padding:22px 26px; border-radius:8px; text-align:center;
+  background:linear-gradient(180deg,rgba(90,60,30,.10),rgba(90,60,30,.04)); border:1px solid var(--rule)}
+.whisper .q{font-family:var(--serif); font-style:italic; font-size:clamp(18px,2.6vw,23px); line-height:1.5; color:#33270f}
+
+.legacy{margin:34px 0 8px; padding:26px; border-radius:8px; text-align:center;
+  background:linear-gradient(180deg,rgba(201,162,74,.14),rgba(201,162,74,.05)); border:1px solid var(--foil)}
+.legacy .lq{font-family:var(--serif); font-style:italic; color:var(--ink-soft); font-size:16px}
+.legacy .la{font-family:var(--title); font-weight:600; font-size:clamp(19px,3vw,26px); color:#3a2c10; margin:14px 0 6px; letter-spacing:.02em}
+
+.ratify{margin-top:40px; padding-top:26px; border-top:1px solid var(--rule); text-align:center}
+.ratify .seal{font-size:30px; color:var(--foil-lo); filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.ratify .line{font-family:var(--title); font-weight:600; letter-spacing:.06em; font-size:clamp(16px,2.4vw,20px);
+  color:#3a2c10; margin:10px 0}
+.ratify .stamp{font-family:var(--serif); font-style:italic; color:var(--ink-soft); font-size:14px}
+
+.reclose{position:fixed; right:18px; top:16px; z-index:30; font-family:var(--title); font-size:10px;
+  letter-spacing:.18em; text-transform:uppercase; color:rgba(233,212,154,.7); background:rgba(20,12,10,.5);
+  border:1px solid rgba(201,162,74,.3); border-radius:30px; padding:8px 14px; cursor:pointer; opacity:0; transition:opacity .5s}
+.book.open ~ .reclose, .book.open + .reclose{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="book" id="book">
+  <!-- COVER -->
+  <div class="cover" id="cover">
+    <div class="spine-band"></div>
+    <div class="emboss">
+      <div class="house">House of Luna</div>
+      <div class="moon">☾</div>
+      <div class="kind">Room Manuscript</div>
+      <div class="no">№ 001</div>
+      <div class="rmtitle">The Library<br>Fireplace</div>
+      <div class="ver">Version 1.0 · MMXXVI</div>
+    </div>
+    <div class="open-hint">Open the manuscript</div>
+  </div>
+
+  <!-- PAGES -->
+  <div class="pages" id="pages">
+    <div class="leaf">
+
+      <div class="colophon">
+<b>Room Manuscript №001</b> — The Library Fireplace<br>
+Version: <b>v1.0</b> &nbsp;·&nbsp; Date: <b>August 15, 2026</b> &nbsp;·&nbsp; Status: <b>Canon</b><br>
+Art: Pending &nbsp;·&nbsp; Implementation: Pending<br>
+Interactive Objects: <b>9</b> &nbsp;·&nbsp; Hidden Stories: <b>4</b><br>
+Keeper Trace: Complete &nbsp;·&nbsp; Astro Placement: Complete
+      </div>
+
+      <div class="frontis">
+        <div class="h">House of Luna · Room Manuscript</div>
+        <div class="t">The Library Fireplace</div>
+        <div class="n">Room 001 · Version 1.0</div>
+        <div class="ep">"Stay a while. The House has nowhere else it needs you to be."</div>
+      </div>
+
+      <h2 class="ch"><span class="rn">I</span> The Soul of the Room</h2>
+      <p><span class="dropcap">T</span>he Fireplace is not simply a place to read. It is the <em>emotional heart of House of Luna.</em> This is where wandering becomes staying. Where curiosity becomes comfort. Where someone stops exploring the House… and realizes they don't want to leave.</p>
+      <p>If every room disappeared except one, this is the room that would still feel like <em>Home.</em></p>
+      <p>Every great house has a place where time slows. This is that place. It asks nothing. It rewards no achievements. It offers no urgency. It simply says… <em>"Stay."</em></p>
+
+      <h2 class="ch"><span class="rn">II</span> The Story</h2>
+      <p>Long before the newest wing was added — before the Conservatory, before the Hallways, before Velvet lived in the Penthouse — there was this fireplace.</p>
+      <p>The House has grown around it for centuries. Walls have changed. Rooms have moved. Residents have come and gone. <em>The fireplace has never moved.</em> It has quietly watched generations of readers become different people.</p>
+      <p>The Keeper often says: <em>"The House remembers because the fire remembers."</em> Whether that's true, no one knows.</p>
+
+      <h2 class="ch"><span class="rn">III</span> The Visitor's Journey</h2>
+      <h3 class="sub">First five seconds</h3>
+      <p>Warmth. The fire catches your attention — not dramatically, comfortably. You <em>hear</em> the fire before you fully notice the room.</p>
+      <h3 class="sub">Thirty seconds</h3>
+      <p>Your eyes wander. You notice the tea. The blanket. The raven. The rain. The room feels occupied… but empty. <em>Someone was here.</em></p>
+      <h3 class="sub">Five minutes</h3>
+      <p>You stop thinking about the interface. You choose a book. You sit. The room disappears. You simply exist inside it.</p>
+
+      <h2 class="ch"><span class="rn">IV</span> The Emotional Palette</h2>
+      <p class="small">It should never feel: staged · luxurious · perfect · intimidating · haunted.</p>
+      <p>Instead it should feel: <em>Safe. Lived in. Warm. Patient. Timeless.</em></p>
+
+      <h2 class="ch"><span class="rn">V</span> Architecture</h2>
+      <p>Victorian library architecture. Towering walnut shelves. A hand-carved mantle. A dark stone fireplace. A high ceiling disappearing into shadow. Large rain-covered windows. One staircase leading somewhere unseen.</p>
+      <p>Everything built from real materials. Nothing synthetic. Nothing glossy. <em>The room should feel as though it weighs thousands of tons.</em></p>
+
+      <h2 class="ch"><span class="rn">VI</span> Set Dressing</h2>
+      <h3 class="sub">The Fireplace</h3>
+      <p>The oldest object in the House. Dark stone. Centuries of soot. Small imperfections. The fire burns gently, never aggressively — <em>maintained</em> rather than magical. Residents believe the fire has never gone out. No one knows if that's true.</p>
+      <h3 class="sub">The Chair</h3>
+      <p>One chair. Not two — this is important. The fireplace is a personal ritual, not a waiting room. Deep, soft, well-loved; the leather wrinkled from years of readers leaning back with books. It quietly creaks when someone sits.</p>
+      <h3 class="sub">The Side Tables</h3>
+      <p><em>Left — the table of comfort.</em> A handmade teapot, a warm cup, an open book, a tiny brass spoon, a linen napkin. Clicking the teapot offers a small ritual — <em>"What would comfort you more tonight?"</em> — tea or coffee. Not because the House serves drinks. Because <em>rituals matter.</em></p>
+      <p><em>Right — the table of atmosphere.</em> Vintage headphones on a carved stand. Click them and the resident's Library playlist fades in — but the fire stays louder than the music. This is still a library. <em>The silence is respected.</em></p>
+      <h3 class="sub">The Raven</h3>
+      <p>A bronze raven upon the mantle, slightly larger than expected, aged into deep greens and blacks, its eyes catching the firelight. Nobody agrees whether it has ever moved. <em>The House never answers.</em></p>
+      <h3 class="sub">The Clock</h3>
+      <p>An antique grandfather clock. It announces only midnight. When the final bell rings, the House pauses — no animation, no event, just stillness. To be reading at that moment is to share a quiet moment with the House itself.</p>
+
+      <h2 class="ch"><span class="rn">VII</span> The Cast</h2>
+      <p><em>Keeper Trace.</em> She never appears here — only evidence. The chair pulled slightly back. Tea still warm. A candle just extinguished. A bookmark in an open book. <em>She is always one step ahead of you.</em></p>
+      <p><em>Astro.</em> Sometimes he sleeps by the fire. Sometimes he watches the rain. Sometimes he is nowhere to be found. Residents begin looking for him before doing anything else.</p>
+
+      <h2 class="ch"><span class="rn">VIII</span> Sound</h2>
+      <p>Fire crackling. Rain. The clock ticking. The faint settling of old wood. Occasionally, a distant page turning somewhere else in the Library. <em>The House is alive. Not noisy.</em></p>
+
+      <h2 class="ch"><span class="rn">IX</span> Lighting</h2>
+      <p>No overhead lights. Only the fireplace, a single reading lamp, several candles, and moonlight through rain-covered windows. Every shadow soft. No harsh contrast. No theatrical spotlighting.</p>
+
+      <h2 class="ch"><span class="rn">X</span> Discovery Map</h2>
+      <p>Every interaction is hidden. Nothing glows. Nothing announces itself. Hovering feels like <em>curiosity, not software.</em></p>
+      <ul class="plain">
+        <li>Fireplace Reading Circle</li><li>A House Book shelf</li><li>Tea Rituals</li>
+        <li>Personal Reading History</li><li>Community Reads</li><li>Keeper Recommendations</li><li>Moonlit Reading Nights</li>
+      </ul>
+
+      <h2 class="ch"><span class="rn">XI</span> Hidden Stories</h2>
+      <p>A pressed fern inside one book — no one remembers placing it. A tiny brass key behind the raven, never used. One floorboard by the chair that creaks louder than the rest. A crescent moon carved beneath the table decades ago. No explanation.</p>
+
+      <h2 class="ch"><span class="rn">XII</span> Things We Refuse To Do</h2>
+      <p class="small">No glowing hotspots. No floating labels. No visible UI. No clutter. No random decorative books. No AI-generated visual noise. <em>No object exists without a story.</em></p>
+
+      <h2 class="ch"><span class="rn">XIII</span> The Final Test</h2>
+      <p>If someone sits here for twenty minutes without clicking anything, they should <em>still feel like they experienced House of Luna.</em> The room itself is the experience. The interactions are simply invitations.</p>
+
+      <h2 class="ch"><span class="rn">XIV</span> The House Whispers</h2>
+      <div class="whisper"><div class="q">"You've been carrying enough today. Sit down. The fire has been waiting for you."</div></div>
+
+      <h2 class="ch"><span class="rn">XV</span> Scene Direction</h2>
+      <p class="small">A director's brief — not a prompt. Paint the room described in the chapters above.</p>
+      <p>We look into a Victorian library at night, from just inside the doorway, at the height of someone who has quietly stepped in. Walnut shelves climb past the frame into a ceiling lost to shadow. It is raining; the tall windows are streaked with it, the night beyond soft and blue.</p>
+      <p>The hearth is the heart of the composition, a little off-center — dark stone worn by centuries, a low fire, the warmest and oldest light in the room. Facing it, <em>one</em> deep leather chair, well-worn, slightly turned, a blanket over its arm as though someone rose a moment ago. The table of comfort with its teapot and open book; the table of atmosphere with its headphones; the bronze raven on the mantle; an antique clock; a single lamp; candles; a staircase leaving the frame toward somewhere unseen.</p>
+      <p>Light only from fire, lamp, candle, and cool moonlight through the rain — every shadow soft. The first three seconds must feel <em>safe:</em> lived-in, patient, occupied-but-empty, the tea still warm. Calm dark air around the chair, the hearth, each table, so each can be touched later without crowding. No people. No cat in the plate. No text, no labels, no UI. The room should feel as though it weighs thousands of tons and has waited a very long time for someone exactly like the visitor.</p>
+
+      <div class="legacy">
+        <div class="lq">If someone remembers only one thing about this room twenty years from now —</div>
+        <div class="la">It felt like the safest place on the internet.</div>
+        <div class="lq">Not the prettiest. Not the most impressive. The safest.</div>
+      </div>
+
+      <div class="ratify">
+        <div class="seal">☾</div>
+        <div class="line">This room now belongs to the House.</div>
+        <div class="stamp">Room Manuscript №001 · The Library Fireplace · Ratified August 15, 2026 · Canon</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<button class="reclose" id="reclose">Close the book</button>
+
+<script>
+  var book=document.getElementById('book'), cover=document.getElementById('cover'), reclose=document.getElementById('reclose');
+  cover.addEventListener('click', function(){ book.classList.add('open'); window.scrollTo({top:0,behavior:'smooth'}); });
+  reclose.addEventListener('click', function(){ book.classList.remove('open'); });
+</script>
+</body>
+</html>
