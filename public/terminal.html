@@ -511,19 +511,19 @@
   // The Terminal keeps the second House Book on its desk. The other details
   // answer in-place so the room feels inhabited instead of opening generic cards.
   ZONE.books=[{
-    slug:'becoming', title:'Becoming', short:'Becoming', author:'Luna Lee',
+    slug:'she-doesnt-live-here-anymore', title:'She Doesn’t Live Here Anymore', short:'She Doesn’t Live Here Anymore', author:'Luna Lee',
     skin:'dark', soonTitle:true, cover:'#14101a', spine:'#0e0a12', foil:'#c8a3da',
-    coverImg:'/assets/books/codex-amethyst-v01.png', tagline:'The second House Book · coming soon',
-    blurb:'On unbecoming everything you were told to be, and building someone truer in the ruins.',
+    coverImg:'/assets/books/codex-amethyst-v01.png', tagline:'House Book Two · The Art of Reinventing Yourself Without Asking Permission',
+    blurb:'You chose yourself. Now you have to survive becoming her — the woman who has outgrown her old identity but has not fully arrived inside her new one.',
     spread:[
-      {l:'<span class="fb-epi">“Some versions of you were only built to survive the room.”</span>',r:'<span class="fb-chh">House Book II</span><span class="fb-cht">Becoming</span><span class="fb-chs">An unfinished beginning</span>'},
+      {l:'<span class="fb-epi">“Some versions of you were only built to survive the room.”</span>',r:'<span class="fb-chh">House Book II</span><span class="fb-cht">She Doesn’t Live Here Anymore</span><span class="fb-chs">The Art of Reinventing Yourself Without Asking Permission</span>'},
       {l:'<span class="fb-sec">A note from the Terminal</span><span class="fb-body">The cursor kept blinking long after everyone left. On the desk, a book waited for the person Luna was becoming — not the person she had been asked to remain.</span>',r:'<span class="fb-pull2">“You are allowed to outgrow the life that once kept you safe.”</span>'},
-      {l:'<span class="fb-soon">This House Book is still being written.</span>',r:'<span class="fb-soon fb-muted">When it is ready, the Terminal will remember where you left off.</span>'}
+      {l:'<span class="fb-sec">For the woman between identities</span><span class="fb-body">You are not lost. You are in the passage between the woman who survived and the woman who finally gets to choose.</span>',r:'<span class="fb-close">She doesn’t live here anymore.</span><span class="fb-close2">You do.</span>'}
     ],
-    take:'Ask the House to remember', href:null,
-    soon:'Not out yet — the House will let you know when Becoming arrives.', returned:''
+    price:'9.99', href:'https://housesofluna.myshopify.com/products/she-doesnt-live-here-anymore',
+    returned:'The second House Book is waiting for you.'
   }];
-  ZONE.launch={active:true,slug:'becoming',x:88,y:79,w:8,whisper:'The second House Book. It was left open for you.',verb:'Lift the cover'};
+  ZONE.launch={active:true,slug:'she-doesnt-live-here-anymore',x:88,y:79,w:8,whisper:'House Book Two. It was left open for you.',verb:'Lift the cover'};
   ZONE.network=true;
   ZONE.hotspots=ZONE.hotspots.filter(function(h){ return h.id!=='threads'; });
   ZONE.hotspots.forEach(function(h){ if(h.id==='screen'){ h.cat='network'; h.verb='Enter'; h.line='The House is online, quietly.'; } });
